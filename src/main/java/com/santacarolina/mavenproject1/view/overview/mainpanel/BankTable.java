@@ -18,14 +18,12 @@ public class BankTable extends JPanel {
         DefaultTableModel tableModel = new DefaultTableModel();
 
         tableModel.addColumn("Data");
-        tableModel.addColumn("Conta");
         tableModel.addColumn("Categoria");
         tableModel.addColumn("Histórico");
         tableModel.addColumn("Valor");
 
         table = new JTable(tableModel);
-        scrollPane = new JScrollPane();
-        scrollPane.add(table);
+        scrollPane = new JScrollPane(table);
 
         setLayout(new GridLayout());
         add(scrollPane);

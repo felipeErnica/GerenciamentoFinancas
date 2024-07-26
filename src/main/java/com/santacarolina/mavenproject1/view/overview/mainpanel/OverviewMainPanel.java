@@ -14,7 +14,6 @@ public class OverviewMainPanel extends JTabbedPane {
     }
 
     private void initComponents(){
-
         futurePaymentsPanel = new FuturePaymentsPanel();
         pastPaymentsPanel = new PastPaymentsPanel();
         productsPanel = new ProductsPanel();
