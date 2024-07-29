@@ -1,5 +1,7 @@
 package com.santacarolina.mavenproject1.view.overview;
 
+import com.santacarolina.mavenproject1.view.fiscaldoc.DocDialog;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -101,18 +103,25 @@ public class OverviewMenuBar extends JMenuBar {
         }
 
         private void initComponents(){
-            setText("Documentos Fiscais");
+
             addNewDoc = new JMenuItem("Novo Documento Fiscal");
+            addNewDoc.addActionListener(this);
+
             importNfe = new JMenuItem("Importar NFE's");
             reportGenerator = new JMenuItem("Gerar Relatório");
+
+            setText("Documentos Fiscais");
             add(addNewDoc);
             add(importNfe);
             add(reportGenerator);
+
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if (e.getSource() == addNewDoc){
+                DocDialog docDialog = new DocDialog();
+            }
         }
     }
 

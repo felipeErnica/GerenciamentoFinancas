@@ -1,13 +1,16 @@
 package com.santacarolina.mavenproject1.view.overview.mainpanel;
 
 import com.santacarolina.mavenproject1.model.UserBankAccount;
-import com.santacarolina.mavenproject1.services.ImageIconConfig;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class BankingPanel extends JPanel {
+
+    private final Color MENU_BACKGROUND = new Color(66, 172, 227, 255);
+    private final Border SIDE_PANEL_BORDER = new EmptyBorder(20,2,1,20);
 
     private JPanel bankSideBar;
     private JButton importOFXButton;
@@ -27,29 +30,38 @@ public class BankingPanel extends JPanel {
         comboBox = new JComboBox<>();
         comboBox.setPreferredSize(new Dimension(230,20));
         comboBoxLabel = new JLabel("Conta Bancária:");
-        comboBox = new JComboBox<>();
-        comboBox.setPreferredSize(new Dimension(230,20));
-        comboBoxLabel = new JLabel("Conta Bancária:");
+        comboBoxLabel.setForeground(Color.WHITE);
 
         bankSideTopBar = new JPanel(new FlowLayout());
-        bankSideTopBar.setBackground(Color.MAGENTA);
+        bankSideTopBar.setBackground(MENU_BACKGROUND);
         bankSideTopBar.add(comboBoxLabel);
         bankSideTopBar.add(comboBox);
 
-        ImageIconConfig iconConfig = new ImageIconConfig("src/main/resources/icon/Swift.png");
-        importOFXButton = new JButton("Importar OFX",iconConfig.getIcon());
-        importOFXButton.setContentAreaFilled(false);
+        importOFXButton = new JButton("Importar OFX");
         importOFXButton.setBorderPainted(false);
-        importOFXButton.setOpaque(false);
+        importOFXButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         importOFXButton.setHorizontalAlignment(SwingConstants.LEADING);
-        importOFXButton.setHorizontalTextPosition(SwingConstants.TRAILING);
+        importOFXButton.setFont(new Font("Segoe UI",Font.BOLD,12));
+        importOFXButton.setForeground(Color.WHITE);
+
         newStatmentButton = new JButton("Adicionar Extratos");
+        newStatmentButton.setBorderPainted(false);
+        newStatmentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        newStatmentButton.setHorizontalAlignment(SwingConstants.LEADING);
+        newStatmentButton.setFont(new Font("Segoe UI",Font.BOLD,12));
+        newStatmentButton.setForeground(Color.WHITE);
+
         bankSideBottomBar = new JPanel(new GridLayout(6,1));
-        bankSideBottomBar.setBorder(new EmptyBorder(1,20,1,20));
+        bankSideBottomBar.setBackground(MENU_BACKGROUND);
         bankSideBottomBar.add(importOFXButton);
         bankSideBottomBar.add(newStatmentButton);
 
+        newStatmentButton.setBackground(bankSideBottomBar.getBackground());
+        importOFXButton.setBackground(bankSideBottomBar.getBackground());
+
         bankSideBar = new JPanel(new BorderLayout());
+        bankSideBar.setBorder(SIDE_PANEL_BORDER);
+        bankSideBar.setBackground(MENU_BACKGROUND);
         bankSideBar.add(bankSideTopBar,BorderLayout.NORTH);
         bankSideBar.add(bankSideBottomBar,BorderLayout.CENTER);
 
