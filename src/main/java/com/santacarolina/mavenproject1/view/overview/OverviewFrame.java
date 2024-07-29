@@ -1,5 +1,6 @@
 package com.santacarolina.mavenproject1.view.overview;
 
+import com.santacarolina.mavenproject1.services.ImageIconConfig;
 import com.santacarolina.mavenproject1.view.overview.mainpanel.OverviewMainPanel;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class OverviewFrame extends JFrame {
     }
 
     private void initComponents(){
-        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("icon/IconePrincipal.png"));
+        ImageIconConfig iconConfig = new ImageIconConfig("src/main/resources/icon/Money Transfer.png");
 
         mainPanel = new OverviewMainPanel();
         menuBar = new OverviewMenuBar();
@@ -23,7 +24,7 @@ public class OverviewFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1280,720);
         setTitle("Gerencimento de Finanças");
-        setIconImage(imageIcon.getImage());
+        setIconImage(iconConfig.getBufferedImage());
         setLayout(new BorderLayout());
         add(mainPanel,BorderLayout.CENTER);
         add(menuBar,BorderLayout.NORTH);
