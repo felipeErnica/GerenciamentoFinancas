@@ -1,6 +1,7 @@
 package com.santacarolina.mavenproject1.view.overview;
 
-import com.santacarolina.mavenproject1.view.fiscaldoc.DocDialog;
+import com.santacarolina.mavenproject1.view.dialogs.AddContactDialog;
+import com.santacarolina.mavenproject1.view.dialogs.DocDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -71,7 +72,10 @@ public class OverviewMenuBar extends JMenuBar {
             setText("Contatos");
 
             contacts = new JMenu("Contatos");
+
             addContact = new JMenuItem("Adicionar Novo Contato");
+            addContact.addActionListener(this);
+
             seeContact = new JMenuItem("Gerenciar Contatos");
             contacts.add(addContact);
             contacts.add(seeContact);
@@ -88,7 +92,9 @@ public class OverviewMenuBar extends JMenuBar {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if (e.getSource()==addContact) {
+                AddContactDialog addContactDialog = new AddContactDialog();
+            }
         }
     }
 
