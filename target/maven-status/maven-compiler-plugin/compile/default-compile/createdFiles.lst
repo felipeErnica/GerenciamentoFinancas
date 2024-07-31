@@ -1,4 +1,2 @@
-NewApplication.class
-com\santacarolina\mavenproject1\overview\OverviewPanel.class
-NewApplication$2.class
-NewApplication$1.class
+com\santacarolina\mavenproject1\view\dialogs\AddContactBankAccountDialog.class
+com\santacarolina\mavenproject1\view\dialogs\ManageContactAccountDialog.class

@@ -1,5 +1,7 @@
 package com.santacarolina.mavenproject1.view.overview;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import com.santacarolina.mavenproject1.services.ImageIconConfig;
 import com.santacarolina.mavenproject1.view.overview.mainpanel.OverviewMainPanel;
 
@@ -16,6 +18,7 @@ public class OverviewFrame extends JFrame {
     }
 
     private void initComponents(){
+
         ImageIconConfig iconConfig = new ImageIconConfig("src/main/resources/icon/Money Transfer.png");
 
         mainPanel = new OverviewMainPanel();

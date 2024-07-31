@@ -1,5 +1,7 @@
 package com.santacarolina.mavenproject1.view.dialogs;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatLightLaf;
 import com.santacarolina.mavenproject1.model.Contact;
 import com.santacarolina.mavenproject1.model.UserFolder;
 import com.santacarolina.mavenproject1.model.enums.DocType;
@@ -9,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Arrays;
 
 public class DocDialog extends JDialog {
 
@@ -45,7 +48,7 @@ public class DocDialog extends JDialog {
     private static class SidePanel extends JPanel {
 
         private DocDialog docDialog;
-        private MenuButton updateButton;
+        private JButton updateButton;
         private MenuButton deleteButton;
         private MenuButton importNFeButton;
 
@@ -106,7 +109,7 @@ public class DocDialog extends JDialog {
             private JComboBox<Contact> senderComboBox;
             private JComboBox<Contact> receiverComboBox;
             private JComboBox<UserFolder> userFolderComboBox;
-            private JComboBox<DocType> docTypeComboBox;
+            private JComboBox<String> docTypeComboBox;
 
             private JTextField emissionDate;
             private JTextField docValue;
@@ -167,7 +170,12 @@ public class DocDialog extends JDialog {
 
                 userFolderComboBox = new JComboBox<>();
                 emissionDate = new JTextField();
-                docTypeComboBox = new JComboBox<>();
+
+                docTypeComboBox = new JComboBox(Arrays.stream(DocType.values())
+                        .map(DocType::getDocType)
+                        .toArray()
+                );
+
                 docNumber = new JTextField();
                 docValue = new JTextField();
 
@@ -233,7 +241,7 @@ public class DocDialog extends JDialog {
             private void initComponents(){
 
                 DefaultTableModel tableModel = new DefaultTableModel();
-                tableModel.addColumn("Classificação Contábil");
+                tableModel.addColumn("Classificação");
                 tableModel.addColumn("Descrição");
                 tableModel.addColumn("Unidade de Venda");
                 tableModel.addColumn("Quantidade");

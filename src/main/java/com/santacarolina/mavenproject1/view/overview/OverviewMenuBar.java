@@ -1,7 +1,6 @@
 package com.santacarolina.mavenproject1.view.overview;
 
-import com.santacarolina.mavenproject1.view.dialogs.AddContactDialog;
-import com.santacarolina.mavenproject1.view.dialogs.DocDialog;
+import com.santacarolina.mavenproject1.view.dialogs.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -54,8 +53,7 @@ public class OverviewMenuBar extends JMenuBar {
         }
     }
 
-
-    private  class ContactMenu extends JMenu implements ActionListener {
+    private  class ContactMenu extends JMenu {
 
         private JMenu contacts;
         private JMenuItem addContact;
@@ -69,32 +67,31 @@ public class OverviewMenuBar extends JMenuBar {
         }
 
         private void initComponents(){
+
             setText("Contatos");
 
-            contacts = new JMenu("Contatos");
-
             addContact = new JMenuItem("Adicionar Novo Contato");
-            addContact.addActionListener(this);
+            addContact.addActionListener(e -> new AddContactDialog());
 
             seeContact = new JMenuItem("Gerenciar Contatos");
+            seeContact.addActionListener(e -> new ManageContactsDialog());
+
+            contacts = new JMenu("Contatos");
             contacts.add(addContact);
             contacts.add(seeContact);
 
-            bankingData = new JMenu("Dados Bancários");
             addBankingData = new JMenuItem("Adicionar Dado Bancário");
+            addBankingData.addActionListener(e -> new AddContactBankAccountDialog());
+
             seeBankingData = new JMenuItem("Gerenciar Dados Bancários");
+            seeBankingData.addActionListener(e -> new ManageContactAccountDialog());
+
+            bankingData = new JMenu("Dados Bancários");
             bankingData.add(addBankingData);
             bankingData.add(seeBankingData);
 
             add(contacts);
             add(bankingData);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource()==addContact) {
-                AddContactDialog addContactDialog = new AddContactDialog();
-            }
         }
     }
 

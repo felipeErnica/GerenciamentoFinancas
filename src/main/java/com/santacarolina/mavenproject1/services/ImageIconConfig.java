@@ -1,5 +1,7 @@
 package com.santacarolina.mavenproject1.services;
 
+import com.formdev.flatlaf.util.UIScale;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -36,11 +38,7 @@ public class ImageIconConfig {
 
     public  ImageIcon getIcon()  {
         Graphics2D imageGraphics = bufferedImage.createGraphics();
-        imageGraphics.setComposite(AlphaComposite.Src);
-        imageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        imageGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        imageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        imageGraphics.dispose();
+        UIScale.scaleGraphics(imageGraphics);
         return new ImageIcon(bufferedImage);
     }
 
