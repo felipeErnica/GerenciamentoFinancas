@@ -1,7 +1,6 @@
 package com.santacarolina.mavenproject1.view.dialogs;
 
 import com.santacarolina.mavenproject1.services.ImageIconConfig;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

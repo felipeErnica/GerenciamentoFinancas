@@ -12,14 +12,17 @@ public class OverviewMenuBar extends JMenuBar {
     private ContactMenu contactBar;
     private AccountabilityMenu accountabilityBar;
     private SettingsMenu settingsBar;
+    private UserFoldMenu userFoldMenu;
 
     public OverviewMenuBar() {
         initComponents();
     }
 
     private void initComponents(){
+
         docsBar = new DocMenu();
         contactBar = new ContactMenu();
+        userFoldMenu = new UserFoldMenu();
         accountabilityBar = new AccountabilityMenu();
         settingsBar = new SettingsMenu();
 
@@ -49,6 +52,31 @@ public class OverviewMenuBar extends JMenuBar {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private static class UserFoldMenu extends JMenu {
+
+        private JMenuItem addFolder;
+        private JMenuItem seeFolder;
+
+        public UserFoldMenu () {
+            initComponents();
+        }
+
+        private void initComponents(){
+
+            setText("Pasta Contábil");
+
+            addFolder = new JMenuItem("Adicionar Nova Pasta");
+            addFolder.addActionListener(e -> new AddUserFolderDialog());
+
+            seeFolder = new JMenuItem("Gerenciar Pasta Contábil");
+            seeFolder.addActionListener(e -> new ManageUserFolderDialog());
+
+            add(addFolder);
+            add(seeFolder);
 
         }
     }

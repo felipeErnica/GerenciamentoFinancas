@@ -3,6 +3,8 @@ package com.santacarolina.mavenproject1.view.dialogs;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.santacarolina.mavenproject1.model.Contact;
+import com.santacarolina.mavenproject1.model.FiscalDocument;
+import com.santacarolina.mavenproject1.model.Payment;
 import com.santacarolina.mavenproject1.model.UserFolder;
 import com.santacarolina.mavenproject1.model.enums.DocType;
 import com.santacarolina.mavenproject1.services.ImageIconConfig;
@@ -11,17 +13,29 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DocDialog extends JDialog {
 
     private static final Color MENU_BACKGROUND = new Color(82, 171, 231, 255);
 
+    protected FiscalDocument fiscalDocument;
+
     private MainPanel mainPanel;
     private SidePanel sidePanel;
 
     public DocDialog() {
         initComponents();
+    }
+    public DocDialog(FiscalDocument fiscalDocument) {
+        this.fiscalDocument = fiscalDocument;
+        initComponents();
+        insertValues();
+    }
+
+    private void insertValues() {
+        mainPanel.insertValues();
     }
 
     private void initComponents() {
@@ -45,7 +59,7 @@ public class DocDialog extends JDialog {
         setVisible(true);
     }
 
-    private static class SidePanel extends JPanel {
+    private class SidePanel extends JPanel {
 
         private DocDialog docDialog;
         private JButton updateButton;
@@ -73,7 +87,7 @@ public class DocDialog extends JDialog {
         }
     }
 
-    private static class MainPanel extends JTabbedPane {
+    private class MainPanel extends JTabbedPane {
 
         private DocDialog docDialog;
 
@@ -84,6 +98,12 @@ public class DocDialog extends JDialog {
         public MainPanel(DocDialog docDialog){
             this.docDialog = docDialog;
             initComponents();
+        }
+
+        private  void insertValues(){
+            infoPanel.insertValues();
+            productPanel.insertValues();
+            paymentPanel.insertValues();
         }
 
         private void initComponents(){
@@ -99,7 +119,7 @@ public class DocDialog extends JDialog {
             addTab("Informações de Pagamento",paymentPanel);
         }
 
-        private static class InfoPanel extends JPanel {
+        private class InfoPanel extends JPanel {
 
             private MainPanel mainPanel;
 
@@ -228,9 +248,21 @@ public class DocDialog extends JDialog {
                 add(southPanel,BorderLayout.SOUTH);
 
             }
+
+            public void insertValues() {
+                senderComboBox.setSelectedItem(fiscalDocument.getSender());
+                receiverComboBox.setSelectedItem(fiscalDocument.getReceiver());
+                docNumber.setText(fiscalDocument.getDocNumber());
+                docValue.setText(String.valueOf(fiscalDocument.getValue()));
+                docTypeComboBox.setSelectedItem(fiscalDocument.getDocType());
+                userFolderComboBox.setSelectedItem(fiscalDocument.getUserFolder());
+                emissionDate.setText(fiscalDocument.getEmissionDate().toString());
+                expenseButton.setSelected(fiscalDocument.isExpense());
+                incomeButton.setSelected(fiscalDocument.isIncome());
+            }
         }
 
-        private static class ProductPanel extends JPanel {
+        private class ProductPanel extends JPanel {
 
             private JTable productsTable;
 
@@ -255,9 +287,13 @@ public class DocDialog extends JDialog {
                 add(scrollPane);
 
             }
+
+            public void insertValues() {
+
+            }
         }
 
-        private static class PaymentPanel extends JPanel {
+        private class PaymentPanel extends JPanel {
 
             private JTable paymentTable;
 
@@ -281,6 +317,11 @@ public class DocDialog extends JDialog {
                 add(scrollPane);
 
             }
+
+            public void insertValues(){
+
+            }
+
         }
 
     }
