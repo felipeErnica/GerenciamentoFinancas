@@ -1,20 +1,28 @@
 package com.santacarolina.mavenproject1.view.dialogs;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatLightLaf;
 import com.santacarolina.mavenproject1.model.Contact;
 import com.santacarolina.mavenproject1.model.FiscalDocument;
-import com.santacarolina.mavenproject1.model.Payment;
 import com.santacarolina.mavenproject1.model.UserFolder;
 import com.santacarolina.mavenproject1.model.enums.DocType;
+import com.santacarolina.mavenproject1.services.CommonEvents;
 import com.santacarolina.mavenproject1.services.ImageIconConfig;
 import com.santacarolina.mavenproject1.view.components.MenuButton;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Formatter;
 
 public class DocDialog extends JDialog {
 
@@ -27,16 +35,19 @@ public class DocDialog extends JDialog {
 
     public DocDialog() {
         initComponents();
+        setModal(true);
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setVisible(true);
     }
-    public DocDialog(FiscalDocument fiscalDocument) {
+    public DocDialog(FiscalDocument fiscalDocument){
         this.fiscalDocument = fiscalDocument;
         initComponents();
         insertValues();
+        setModal(true);
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setVisible(true);
     }
 
-    private void insertValues() {
-        mainPanel.insertValues();
-    }
 
     private void initComponents() {
 
@@ -44,30 +55,29 @@ public class DocDialog extends JDialog {
 
         setTitle("Informações do Documento");
         setIconImage(icon.getBufferedImage());
-        setSize(1024,450);
         setLayout(new BorderLayout());
         setResizable(false);
 
-        mainPanel = new MainPanel(this);
-        sidePanel = new SidePanel(this);
+        mainPanel = new MainPanel();
+        sidePanel = new SidePanel();
 
         add(sidePanel, BorderLayout.WEST);
         add(mainPanel, BorderLayout.CENTER);
+        pack();
 
-        setModal(true);
-        setModalityType(ModalityType.APPLICATION_MODAL);
-        setVisible(true);
+    }
+
+    private void insertValues() {
+        mainPanel.insertValues();
     }
 
     private class SidePanel extends JPanel {
 
-        private DocDialog docDialog;
         private JButton updateButton;
         private MenuButton deleteButton;
         private MenuButton importNFeButton;
 
-        public SidePanel(DocDialog docDialog){
-            this.docDialog = docDialog;
+        public SidePanel(){
             initComponents();
         }
 
@@ -78,7 +88,6 @@ public class DocDialog extends JDialog {
             importNFeButton = new MenuButton("Importar NFe", MENU_BACKGROUND);
 
             setBackground(MENU_BACKGROUND);
-            setPreferredSize(new Dimension(200,docDialog.getHeight()));
             setLayout(new GridLayout(5,1));
             add(updateButton);
             add(deleteButton);
@@ -89,14 +98,11 @@ public class DocDialog extends JDialog {
 
     private class MainPanel extends JTabbedPane {
 
-        private DocDialog docDialog;
-
         private InfoPanel infoPanel;
         private ProductPanel productPanel;
         private PaymentPanel paymentPanel;
 
-        public MainPanel(DocDialog docDialog){
-            this.docDialog = docDialog;
+        public MainPanel(){
             initComponents();
         }
 
@@ -108,9 +114,7 @@ public class DocDialog extends JDialog {
 
         private void initComponents(){
 
-            setPreferredSize(new Dimension(824,docDialog.getHeight()));
-
-            infoPanel = new InfoPanel(this);
+            infoPanel = new InfoPanel();
             productPanel = new ProductPanel();
             paymentPanel = new PaymentPanel();
 
@@ -121,7 +125,7 @@ public class DocDialog extends JDialog {
 
         private class InfoPanel extends JPanel {
 
-            private MainPanel mainPanel;
+            private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
             private JRadioButton expenseButton;
             private JRadioButton incomeButton;
@@ -145,27 +149,28 @@ public class DocDialog extends JDialog {
             private JLabel docPathLabel;
             private JLabel docNumberLabel;
 
-            public InfoPanel (MainPanel mainPanel){
-                this.mainPanel = mainPanel;
+            public InfoPanel() {
                 initComponents();
             }
 
-            private void initComponents(){
+            private void initComponents() {
 
                 senderLabel = new JLabel("Emissor:");
                 receiverLabel = new JLabel("Destinatário:");
 
                 JPanel northLabelPanel = new JPanel();
-                northLabelPanel.setLayout(new GridLayout(2,1,20,20));
+                northLabelPanel.setLayout(new GridLayout(2, 1, 20, 20));
                 northLabelPanel.add(senderLabel);
                 northLabelPanel.add(receiverLabel);
 
                 senderComboBox = new JComboBox<>();
+                senderComboBox.addKeyListener(CommonEvents.nextComponentOnEnter(receiverComboBox));
                 receiverComboBox = new JComboBox<>();
+                receiverComboBox.addKeyListener(CommonEvents.nextComponentOnEnter(userFolderComboBox));
 
                 JPanel northBoxPanel = new JPanel();
-                northBoxPanel.setPreferredSize(new Dimension(500,60));
-                northBoxPanel.setLayout(new GridLayout(2,1,20,20));
+                northBoxPanel.setPreferredSize(new Dimension(500, 60));
+                northBoxPanel.setLayout(new GridLayout(2, 1, 20, 20));
                 northBoxPanel.add(senderComboBox);
                 northBoxPanel.add(receiverComboBox);
 
@@ -181,7 +186,7 @@ public class DocDialog extends JDialog {
                 docValueLabel = new JLabel("Valor do Documento:");
 
                 JPanel otherLabelPane = new JPanel();
-                otherLabelPane.setLayout(new GridLayout(5,1,20,20));
+                otherLabelPane.setLayout(new GridLayout(5, 1, 20, 20));
                 otherLabelPane.add(userFolderLabel);
                 otherLabelPane.add(emissionDateLabel);
                 otherLabelPane.add(docTypeLabel);
@@ -189,18 +194,25 @@ public class DocDialog extends JDialog {
                 otherLabelPane.add(docValueLabel);
 
                 userFolderComboBox = new JComboBox<>();
+                userFolderComboBox.addKeyListener(CommonEvents.nextComponentOnEnter(emissionDate));
+
                 emissionDate = new JTextField();
+                emissionDate.addKeyListener(CommonEvents.nextComponentOnEnter(docTypeComboBox));
+                emissionDate.addFocusListener(CommonEvents.transformDates());
 
                 docTypeComboBox = new JComboBox(Arrays.stream(DocType.values())
                         .map(DocType::getDocType)
                         .toArray()
                 );
+                docTypeComboBox.addKeyListener(CommonEvents.nextComponentOnEnter(docNumber));
 
                 docNumber = new JTextField();
+                docNumber.addKeyListener(CommonEvents.nextComponentOnEnter(docValue));
                 docValue = new JTextField();
+                docValue.addKeyListener(CommonEvents.nextComponentOnEnter(expenseButton));
 
                 JPanel otherFieldPane = new JPanel();
-                otherFieldPane.setLayout(new GridLayout(5,1,20,20));
+                otherFieldPane.setLayout(new GridLayout(5, 1, 20, 20));
                 otherFieldPane.add(userFolderComboBox);
                 otherFieldPane.add(emissionDate);
                 otherFieldPane.add(docTypeComboBox);
@@ -208,14 +220,16 @@ public class DocDialog extends JDialog {
                 otherFieldPane.add(docValue);
 
                 JPanel otherPanel = new JPanel();
-                otherPanel.setLayout(new GridLayout(1,2,20,20));
+                otherPanel.setLayout(new GridLayout(1, 2, 20, 20));
                 otherPanel.add(otherLabelPane);
                 otherPanel.add(otherFieldPane);
 
-                JRadioButton expenseButton =  new JRadioButton("Despesa");
-                expenseButton.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-                JRadioButton incomeButton = new JRadioButton("Receita");
-                incomeButton.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+                expenseButton = new JRadioButton("Despesa");
+                expenseButton.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                expenseButton.addKeyListener(CommonEvents.nextComponentOnEnter(incomeButton));
+                incomeButton = new JRadioButton("Receita");
+                incomeButton.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                incomeButton.addKeyListener(CommonEvents.nextComponentOnEnter(docPath));
 
                 ButtonGroup valueTypeGroup = new ButtonGroup();
                 valueTypeGroup.add(expenseButton);
@@ -223,42 +237,42 @@ public class DocDialog extends JDialog {
 
                 JPanel valuePanel = new JPanel();
                 valuePanel.setBorder(BorderFactory.createTitledBorder("Fluxo de Caixa"));
-                valuePanel.setLayout(new GridLayout(2,1));
+                valuePanel.setLayout(new GridLayout(2, 1));
                 valuePanel.add(expenseButton);
                 valuePanel.add(incomeButton);
 
                 JPanel centerPanel = new JPanel();
-                centerPanel.setLayout(new GridLayout(1,2,20,20));
+                centerPanel.setLayout(new GridLayout(1, 2, 20, 20));
                 centerPanel.add(otherPanel);
                 centerPanel.add(valuePanel);
 
                 docPath = new JTextField();
-                docPath.setPreferredSize(new Dimension(500,20));
+                docPath.setPreferredSize(new Dimension(500, 20));
                 docPathLabel = new JLabel("Caminho do Arquivo:");
 
                 JPanel southPanel = new JPanel();
                 southPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
-                southPanel .add(docPathLabel);
-                southPanel .add(docPath);
+                southPanel.add(docPathLabel);
+                southPanel.add(docPath);
 
-                setLayout(new BorderLayout(20,20));
-                setBorder(new EmptyBorder(20,20,20,20));
-                add(northPanel,BorderLayout.NORTH);
-                add(centerPanel,BorderLayout.CENTER);
-                add(southPanel,BorderLayout.SOUTH);
+                setLayout(new BorderLayout(20, 20));
+                setBorder(new EmptyBorder(20, 20, 20, 20));
+                add(northPanel, BorderLayout.NORTH);
+                add(centerPanel, BorderLayout.CENTER);
+                add(southPanel, BorderLayout.SOUTH);
 
             }
 
-            public void insertValues() {
+            private void insertValues() {
                 senderComboBox.setSelectedItem(fiscalDocument.getSender());
                 receiverComboBox.setSelectedItem(fiscalDocument.getReceiver());
                 docNumber.setText(fiscalDocument.getDocNumber());
                 docValue.setText(String.valueOf(fiscalDocument.getValue()));
-                docTypeComboBox.setSelectedItem(fiscalDocument.getDocType());
+                docTypeComboBox.setSelectedItem(fiscalDocument.getDocType().getDocType());
                 userFolderComboBox.setSelectedItem(fiscalDocument.getUserFolder());
-                emissionDate.setText(fiscalDocument.getEmissionDate().toString());
                 expenseButton.setSelected(fiscalDocument.isExpense());
                 incomeButton.setSelected(fiscalDocument.isIncome());
+                emissionDate.setText(fiscalDocument.getEmissionDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
         }
 
@@ -288,8 +302,7 @@ public class DocDialog extends JDialog {
 
             }
 
-            public void insertValues() {
-
+            private void insertValues() {
             }
         }
 
@@ -318,10 +331,8 @@ public class DocDialog extends JDialog {
 
             }
 
-            public void insertValues(){
-
+            private void insertValues(){
             }
-
         }
 
     }

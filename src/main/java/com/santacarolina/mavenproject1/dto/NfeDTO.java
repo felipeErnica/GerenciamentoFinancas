@@ -6,53 +6,32 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.List;
 
 @JacksonXmlRootElement(namespace = "http://www.portalfiscal.inf.br/nfe", localName = "nfeProc")
-public class NfeDTO {
+public record NfeDTO (@JacksonXmlProperty(namespace = "http://www.portalfiscal.inf.br/nfe", localName = "NFe") NFe NFe){
 
-    @JacksonXmlProperty(namespace = "http://www.portalfiscal.inf.br/nfe", localName = "NFe")
-    private NFe NFe;
-
-    public ContactDTO getSender() {return NFe.infNFe.emit;}
-    public ContactDTO getReceiver() {return NFe.infNFe.dest;}
-    public List<ProductDTO> getProductDTO() {return NFe.infNFe.det;}
-    public String getDocNumber() {return NFe.infNFe.ide.nNF;}
-    public String getEmissionDate() {return NFe.infNFe.ide.dhEmi;}
-    public double getValue() {return NFe.infNFe.total.ICMSTot.vNF;}
-    public List<PaymentDTO> getPayemntDTO() {return NFe.infNFe.cobr.dup;}
-
-    private static class NFe {
-        @JacksonXmlProperty(localName = "infNFe")
-        infNFe infNFe;
+    public record NFe(InfNFe infNFe){
     }
-
-    private static class infNFe {
-        @JacksonXmlProperty(localName = "ide")
-        private ide ide;
-        private ContactDTO emit;
-        private ContactDTO dest;
+    public record InfNFe(
+        Ide ide,
+        ContactDTO emit,
+        ContactDTO dest,
         @JacksonXmlElementWrapper(useWrapping = false)
-        private List<ProductDTO> det;
-        @JacksonXmlProperty(localName = "total")
-        private total total;
-        @JacksonXmlProperty(localName = "cobr")
-        private cobr cobr;
+        List<ProductDTO> det,
+        Total total,
+        Cobr cobr
+    ){
     }
-
-    private static class ide {
-        private String nNF;
-        private String dhEmi;
+    public record Ide(
+        String nNF,
+        String dhEmi
+    ){
     }
-
-    private static class total {
-        @JacksonXmlProperty(localName = "ICMSTot")
-        private ICMSTot ICMSTot;
+    public record Total (ICMSTot ICMSTot){
     }
-
-    private static class ICMSTot {
-        private double vNF;
+    public record ICMSTot (double vNF){
     }
-
-    private static class cobr {
+    public record Cobr(
         @JacksonXmlElementWrapper(useWrapping = false)
-        private List<PaymentDTO> dup;
+        List<PaymentDTO> dup
+    ){
     }
 }

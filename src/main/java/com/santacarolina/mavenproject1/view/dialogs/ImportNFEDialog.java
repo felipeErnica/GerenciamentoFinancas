@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 
 public class ImportNFEDialog extends JDialog{
 
@@ -30,13 +31,11 @@ public class ImportNFEDialog extends JDialog{
             XmlMapper mapper = new XmlMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
             NfeDTO nfeDTO = mapper.readValue(fileXML, NfeDTO.class);
-            System.out.println(nfeDTO.getDocNumber());
-            System.out.println(nfeDTO.getEmissionDate());
-            System.out.println(nfeDTO.getValue());
+            System.out.println(nfeDTO);
             FiscalDocument nfe = new FiscalDocument(nfeDTO);
             DocDialog docDialog = new DocDialog(nfe);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 }
