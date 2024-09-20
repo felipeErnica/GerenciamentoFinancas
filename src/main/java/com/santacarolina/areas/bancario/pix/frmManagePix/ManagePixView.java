@@ -1,0 +1,47 @@
+package com.santacarolina.areas.bancario.pix.frmManagePix;
+
+import com.santacarolina.ui.ActionSVGButton;
+import com.santacarolina.ui.ManageViewImpl;
+
+import javax.swing.*;
+import javax.swing.table.TableColumnModel;
+
+public class ManagePixView {
+
+    private JDialog dialog;
+    private ActionSVGButton deleteButton;
+    private ActionSVGButton addButton;
+    private JTable table;
+
+    public ManagePixView() {
+        ManageViewImpl view = new ManageViewImpl();
+        this.dialog = view.getDialog();
+        this.deleteButton = view.getDeleteButton();
+        this.addButton = view.getAddButton();
+        this.table = view.getTable();
+        initComponents();
+    }
+
+    private void initComponents() {
+        dialog.setTitle("Gerenciar Chaves Pix");
+        deleteButton.setText("Excluir Chave");
+        addButton.setText("Adicionar Chave");
+    }
+
+    public void formatColumns () {
+        int columnSize = table.getSize().width/17;
+        TableColumnModel model = table.getColumnModel();
+        model.getColumn(0).setPreferredWidth(6*columnSize);
+        model.getColumn(1).setPreferredWidth(2*columnSize);
+        model.getColumn(2).setPreferredWidth(2*columnSize);
+        model.getColumn(3).setPreferredWidth(4*columnSize);
+        model.getColumn(4).setPreferredWidth(columnSize);
+        model.getColumn(5).setPreferredWidth(2*columnSize);
+    }
+
+    public JDialog getDialog() { return dialog; }
+    public ActionSVGButton getDeleteButton() { return deleteButton; }
+    public JTable getTable() { return table; }
+    public ActionSVGButton getAddButton() { return addButton; }
+
+}
