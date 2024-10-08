@@ -39,6 +39,7 @@ public class ProdutoDAO {
 
     public List<ProdutoDTO> findByDocId(long id) throws FetchFailException {
         String query = MAPPING + "/documento=" + id;
+        System.out.println(query);
         return service.getListRequestDTO(query);
     }
 

@@ -40,5 +40,12 @@ public class ProdutoPlainDTO {
     public double getQuantidade() { return quantidade; }
     public double getValorUnit() { return valorUnit; }
 
+    @Override
+    public String toString() {
+        return "ProdutoPlainDTO{id=" + id + ", documentoId=" + documentoId + ", classificacaoId=" + classificacaoId
+                + ", descricao=" + descricao + ", und=" + und + ", quantidade=" + quantidade + ", valorUnit="
+                + valorUnit + "}";
+    }
+
 }
 

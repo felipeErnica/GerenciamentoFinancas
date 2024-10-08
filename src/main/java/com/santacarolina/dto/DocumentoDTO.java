@@ -91,4 +91,15 @@ public class DocumentoDTO implements FromDTO<DocumentoFiscal> {
     @Override
     public DocumentoFiscal fromDTO() { return new DocumentoFiscal(this); }
 
+    @Override
+    public String toString() {
+        String print = "DocumentoDTO{id=" + id + ", numDoc=" + numDoc + ", tipoDoc=" + tipoDoc + ", emissorId=" + emissorId
+                + ", caminhoDocumento=" + caminhoDocumento + ", pastaId=" + pastaId + ", valor=" + valor
+                + ", dataEmissao=" + dataEmissao + ", fluxoCaixa=" + fluxoCaixa + ", ";
+        StringBuffer bf = new StringBuffer(print);
+        getProdutoList().forEach(prod -> bf.append(prod));
+        getDuplicataList().forEach(dup -> bf.append(dup));
+        return bf.append("}").toString();
+    }
+
 }

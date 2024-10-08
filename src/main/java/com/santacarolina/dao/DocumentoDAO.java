@@ -1,15 +1,14 @@
 package com.santacarolina.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.DocumentoFiscal;
-import com.santacarolina.util.Service;
 import com.santacarolina.util.ServiceTest;
-
-import java.util.List;
-import java.util.Optional;
 
 public class DocumentoDAO {
 
@@ -47,6 +46,7 @@ public class DocumentoDAO {
     //}
 
     public void delete(DocumentoDTO dto) throws DeleteFailException {
+        System.out.println(dto);
         String query = MAPPING + "/delete";
         service.delete(query, dto);
     }

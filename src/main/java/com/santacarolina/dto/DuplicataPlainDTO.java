@@ -55,5 +55,12 @@ public class DuplicataPlainDTO {
     public Long getDadoId() { return dadoId; }
     public boolean isPaga() { return paga; }
 
+    @Override
+    public String toString() {
+        return "DuplicataPlainDTO{id=" + id + ", documentoId=" + documentoId + ", numDup=" + numDup
+                + ", dataVencimento=" + dataVencimento + ", tipoPagamento=" + tipoPagamento + ", valor=" + valor
+                + ", boletoCaminho=" + boletoCaminho + ", pixId=" + pixId + ", dadoId=" + dadoId + "}";
+    }
+
 }
 
