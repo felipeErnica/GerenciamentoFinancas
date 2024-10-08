@@ -40,15 +40,9 @@ public class DocumentoDAO {
 
     public void save(DocumentoFiscal documentoFiscal) throws SaveFailException { service.postRequestDTO(MAPPING, documentoFiscal); }
 
-    //public void deleteAll(List<DocumentoDTO> list) throws DeleteFailException {
-        //String query = MAPPING + "/delete-batch";
-        //service.deleteListDTO(query, list);
-    //}
-
-    public void delete(DocumentoDTO dto) throws DeleteFailException {
-        System.out.println(dto);
-        String query = MAPPING + "/delete";
-        service.delete(query, dto);
+    public void deleteAll(List<DocumentoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteAll(query, list);
     }
 
 }

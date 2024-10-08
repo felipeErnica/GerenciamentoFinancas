@@ -114,4 +114,12 @@ public class ServiceTest<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
         }
     }
 
+    public void deleteAll(String query, List<DTO> list) throws DeleteFailException {
+        try {
+            apiRequestDTO.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
+    }
+
 }

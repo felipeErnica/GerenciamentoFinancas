@@ -66,15 +66,10 @@ public class PageController implements MainPaneController<DocumentoDTO> {
 
     @Override
     public void deleteBatch(List<DocumentoDTO> list) {
-        DocumentoDAO dao = new DocumentoDAO();
-        for (DocumentoDTO dto : list) {
-            try {
-                System.out.println(dto.toString());
-                dao.delete(dto);
-            } catch (DeleteFailException e) {
-                CustomErrorThrower.throwError(e);
-                return;
-            }
+        try {
+            new DocumentoDAO().deleteAll(list);
+        } catch (DeleteFailException e) {
+            CustomErrorThrower.throwError(e);
         }
     }
 
