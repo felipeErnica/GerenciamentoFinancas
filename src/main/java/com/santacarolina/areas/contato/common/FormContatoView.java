@@ -42,10 +42,9 @@ public class FormContatoView implements PropertyChangeListener {
                 "[][]"));
 
         JPanel namePane = new JPanel();
-         namePane.setLayout(new MigLayout("",
+        namePane.setLayout(new MigLayout("",
                 "[][grow, fill]",
-                "[]30[]"
-        ));
+                "[]30[]"));
 
         nameTextField = new JTextField();
         nameLabel = new JLabel("Nome do Contato:");
@@ -54,7 +53,7 @@ public class FormContatoView implements PropertyChangeListener {
         docCheckBox = new JCheckBox("Adicionar Documentos");
 
         namePane.add(nameLabel);
-        namePane.add(nameTextField,"wrap");
+        namePane.add(nameTextField, "wrap");
         namePane.add(docCheckBox, "span");
 
         JPanel docPanel = new JPanel();
@@ -93,13 +92,33 @@ public class FormContatoView implements PropertyChangeListener {
 
     }
 
-    public JDialog getDialog() { return dialog; }
-    public JButton getAddContact() { return addContact; }
-    public JTextField getNameTextField() { return nameTextField; }
-    public JCheckBox getDocCheckBox() { return docCheckBox; }
-    public JTextField getCpfTextField() { return cpfTextField; }
-    public JTextField getCnpjTextField() { return cnpjTextField; }
-    public JTextField getIeTextField() { return ieTextField; }
+    public JDialog getDialog() {
+        return dialog;
+    }
+
+    public JButton getAddContact() {
+        return addContact;
+    }
+
+    public JTextField getNameTextField() {
+        return nameTextField;
+    }
+
+    public JCheckBox getDocCheckBox() {
+        return docCheckBox;
+    }
+
+    public JTextField getCpfTextField() {
+        return cpfTextField;
+    }
+
+    public JTextField getCnpjTextField() {
+        return cnpjTextField;
+    }
+
+    public JTextField getIeTextField() {
+        return ieTextField;
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -116,16 +135,22 @@ public class FormContatoView implements PropertyChangeListener {
             case FormContatoModel.CPF -> cpfTextField.setText((String) evt.getNewValue());
             case FormContatoModel.IE -> ieTextField.setText((String) evt.getNewValue());
             case FormContatoModel.CNPJ_INVALID -> {
-                if ((Boolean) evt.getNewValue()) cnpjTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
-                else cnpjTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
+                if ((Boolean) evt.getNewValue())
+                    cnpjTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
+                else
+                    cnpjTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
             case FormContatoModel.CPF_INVALID -> {
-                if ((Boolean) evt.getNewValue()) cpfTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
-                else cpfTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
+                if ((Boolean) evt.getNewValue())
+                    cpfTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
+                else
+                    cpfTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
             case FormContatoModel.IE_INVALID -> {
-                if ((Boolean) evt.getNewValue()) ieTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
-                else ieTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
+                if ((Boolean) evt.getNewValue())
+                    ieTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
+                else
+                    ieTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
         }
     }

@@ -11,8 +11,6 @@ import com.santacarolina.interfaces.FormListener;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -22,8 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AddUserFolderController implements Controller, FormListener {
-
-    private final Logger logger = LogManager.getLogger();
 
     private AddUserFolderView view;
     private AddUserFolderModel model;
@@ -42,7 +38,6 @@ public class AddUserFolderController implements Controller, FormListener {
         view.getAddFolder().addActionListener(e -> addFolder_onClick());
         view.getAddAccount().addActionListener(e -> addAccount_onClick());
     }
-
 
     private void addFolder_onClick() {
         EventQueue.invokeLater(() -> {
@@ -90,7 +85,7 @@ public class AddUserFolderController implements Controller, FormListener {
         switch (property) {
             case AddUserFolderModel.CAMINHO -> view.getFolderTextField().setText(model.getNomePasta());
             case AddUserFolderModel.NOME_PASTA -> view.getPathTextField().setText(model.getFolderPath());
-        }
+       }
     }
 
     @Override

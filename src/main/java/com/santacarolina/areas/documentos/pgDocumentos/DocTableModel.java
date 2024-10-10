@@ -9,7 +9,6 @@ import com.santacarolina.ui.CustomTableModelImpl;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public class DocTableModel implements CustomTableModel<DocumentoDTO> {
 

@@ -1,12 +1,10 @@
 package com.santacarolina.areas.contato.common;
 
-import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.util.ValidatorViolations;
 import org.apache.commons.lang3.StringUtils;
 
 public class ContatoValidator {
 
-    private ContatoDAO dao;
     private FormContatoModel model;
 
     public ContatoValidator(FormContatoModel model) {
@@ -24,7 +22,9 @@ public class ContatoValidator {
         } else if (model.isDocsEnabled() && model.getContato().isEmptyDocuments()) {
             ValidatorViolations.violateEmptyFields("Documentos");
             return false;
-        } else return true;
+        } else
+
+            return true;
     }
 
     private boolean validateInvalidFields() {
@@ -34,11 +34,11 @@ public class ContatoValidator {
         } else if (model.isCpfInvalidFormat()) {
             ValidatorViolations.violateInvalidFields("CPF");
             return false;
-        }
-        else if (model.isIeInvalidFormat()) {
+        } else if (model.isIeInvalidFormat()) {
             ValidatorViolations.violateInvalidFields("IE");
             return false;
-        } else return true;
+        } else
+            return true;
     }
 
 }
