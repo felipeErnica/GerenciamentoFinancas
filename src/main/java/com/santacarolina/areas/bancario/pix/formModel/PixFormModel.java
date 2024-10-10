@@ -1,19 +1,19 @@
 package com.santacarolina.areas.bancario.pix.formModel;
 
-import com.santacarolina.dao.ContatoDao;
+import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.NewFormModel;
-import com.santacarolina.model.beans.ChavePix;
-import com.santacarolina.model.beans.Contato;
-import com.santacarolina.model.beans.DadoBancario;
+import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.ChavePix;
+import com.santacarolina.model.Contato;
+import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.PropertyFirer;
 
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public class PixFormModel implements NewFormModel {
+public class PixFormModel implements ViewUpdater {
 
     public static final String CONTA_CHECKBOX = "contaCheckBox";
     public static final String CHAVE_INVALID = "invalidFormat";
@@ -48,18 +48,17 @@ public class PixFormModel implements NewFormModel {
         updateAllData();
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        ps.addPropertyChangeListener(listener);
-    }
+    public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }
 
     private void updateAllData() throws FetchFailException {
         this.contato = this.chavePix.getContato();
-        this.contaList = new ContatoDao().findContas(this.contato);
+        this.contaList = new DadoDAO().findByContato(this.contato);
         this.contaSelected = this.chavePix.getDadoBancario() != null || this.chavePix.getId() == 0;
         this.contaEnabled = this.contaSelected;
         this.dadoBancario = this.chavePix.getDadoBancario();
         this.tipoPix = this.chavePix.getTipoPix();
-        this.chave = this.chavePix.getChave();
+        this.chave = this.chavePix.toString();
+        this.invalidFormat = this.chavePix.isInvalidFormat();
         if (this.dadoBancario != null) this.banco = this.dadoBancario.getBanco().getNomeBanco();
     }
 
@@ -189,7 +188,7 @@ public class PixFormModel implements NewFormModel {
     private void triggerContato(Contato contato) throws FetchFailException {
         this.contato = contato;
         this.chavePix.setContato(contato);
-        this.contaList = new ContatoDao().findContas(contato);
+        this.contaList = new DadoDAO().findByContato(contato);
         triggerEnableConta();
     }
 

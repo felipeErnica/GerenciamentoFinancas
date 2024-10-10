@@ -2,13 +2,13 @@ package com.santacarolina.areas.pastaContabil.frmAddPastaContabil;
 
 import com.santacarolina.areas.pastaContabil.frmAddContaBancaria.AddContaForm;
 import com.santacarolina.dao.ContaDAO;
-import com.santacarolina.dao.PastaDao;
+import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.FormListener;
-import com.santacarolina.model.beans.ContaBancaria;
+import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +49,7 @@ public class AddUserFolderController implements Controller, FormListener {
             try {
                 if (model.updatingNotAllowed()) return;
                 else if (model.isNomeRepetido()) return;
-                new PastaDao().save(model.getPastaContabil());
+                new PastaDAO().save(model.getPastaContabil());
                 JOptionPane.showMessageDialog(null,
                         "Pasta salva com sucesso",
                         "Informação Salva!",

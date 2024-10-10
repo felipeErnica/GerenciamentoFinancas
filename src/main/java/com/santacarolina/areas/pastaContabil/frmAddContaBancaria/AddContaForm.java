@@ -1,7 +1,7 @@
 package com.santacarolina.areas.pastaContabil.frmAddContaBancaria;
 
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.ContaBancaria;
+import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.util.CustomErrorThrower;
 
 public class AddContaForm {

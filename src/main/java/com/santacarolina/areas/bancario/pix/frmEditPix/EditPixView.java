@@ -1,11 +1,13 @@
 package com.santacarolina.areas.bancario.pix.frmEditPix;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.areas.bancario.pix.formModel.PixFormModel;
 import com.santacarolina.enums.TipoPix;
-import com.santacarolina.model.beans.Contato;
-import com.santacarolina.model.beans.DadoBancario;
+import com.santacarolina.model.Contato;
+import com.santacarolina.model.DadoBancario;
 import com.santacarolina.ui.AddView;
+import com.santacarolina.util.AppIcon;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -41,6 +43,7 @@ public class EditPixView implements PropertyChangeListener {
 
     private void initComponents() {
         dialog.setTitle("Editar Chave Pix");
+        dialog.setIconImage(AppIcon.paintIcon(new FlatSVGIcon("icon/pix_menu_icon.svg")).getImage());
         addButton.setText("Salvar Chave");
 
         JPanel centerPanel = new JPanel();

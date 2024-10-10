@@ -10,7 +10,7 @@ public class TablePanel {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private final TablePopupMenu tablePopupMenu = new TablePopupMenu();
+    private TablePopupMenu tablePopupMenu;
     private JTable table;
     private JPopupMenu popupMenu;
     private JScrollPane tableScrollPane;
@@ -22,6 +22,7 @@ public class TablePanel {
     }
 
     private void initComponents(){
+        tablePopupMenu = new TablePopupMenu();
         popupMenu = tablePopupMenu.getPopupMenu();
         table = new JTable();
         table.addMouseListener(new MouseAdapter() {
@@ -39,26 +40,31 @@ public class TablePanel {
     public JScrollPane getTableScrollPane() { return tableScrollPane; }
     public JPopupMenu getPopupMenu() { return popupMenu; }
 
+    public void setPopupMenu(JPopupMenu popupMenu) { this.popupMenu = popupMenu; }
+
     public void setDelAction(ActionListener delAction) {
         this.delAction = delAction;
         table.registerKeyboardAction(delAction, delKs, JComponent.WHEN_FOCUSED);
+        tablePopupMenu.getDeleteItem().addActionListener(delAction);
     }
 
     private class TablePopupMenu  {
 
         private JPopupMenu popupMenu;
+        private JMenuItem deleteItem;
 
         public TablePopupMenu() { initComponents(); }
 
         private void initComponents(){
             popupMenu = new JPopupMenu();
-            JMenuItem deleteItem = new JMenuItem("Excluir Linha", new FlatSVGIcon("icon/delete_icon.svg"));
+            deleteItem = new JMenuItem("Excluir Linha", new FlatSVGIcon("icon/delete_icon.svg", 0.7f));
             deleteItem.addActionListener(delAction);
             popupMenu.add(deleteItem);
             popupMenu.pack();
         }
 
         public JPopupMenu getPopupMenu() { return popupMenu; }
+        public JMenuItem getDeleteItem() { return deleteItem; }
 
     }
 

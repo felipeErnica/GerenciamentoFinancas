@@ -1,11 +1,11 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
 import com.santacarolina.areas.contato.frmEditContato.EditContatoForm;
-import com.santacarolina.dao.ContatoDao;
+import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
-import com.santacarolina.model.beans.Contato;
+import com.santacarolina.model.Contato;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
@@ -13,6 +13,7 @@ import com.santacarolina.util.OptionDialog;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class ManageContatoController implements ManageController {
@@ -24,7 +25,7 @@ public class ManageContatoController implements ManageController {
 
     public ManageContatoController(ContatoTableModel model, ManageContatoView view) {
         this.manageController = new ManageControllerImpl<>(model, view, this);
-        this.sorter = (RowSorter<ContatoTableModel>) manageController.getSorter();
+        this.sorter = manageController.getSorter();
         this.model = model;
         this.view = view;
         initComponents();
@@ -48,9 +49,7 @@ public class ManageContatoController implements ManageController {
     }
 
     @Override
-    public void addButton_onClick() {
-        new AddContatoForm();
-    }
+    public void addButton_onClick() { EventQueue.invokeLater(AddContatoForm::openNew); }
 
     @Override
     public void deleteButton_onClick() {
@@ -62,7 +61,7 @@ public class ManageContatoController implements ManageController {
                 int modelRow = sorter.convertRowIndexToModel(viewRow);
                 Contato c = model.getObject(modelRow);
                 model.removeRow(modelRow);
-                new ContatoDao().deleteById(c.getId());
+                new ContatoDAO().deleteById(c.getId());
             }
         } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);

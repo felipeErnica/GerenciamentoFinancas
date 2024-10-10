@@ -1,15 +1,15 @@
 package com.santacarolina.areas.mainFrame.mainPage;
 
+import com.santacarolina.areas.homePage.HomePage;
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
-import com.santacarolina.interfaces.NewFormModel;
+import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.util.PropertyFirer;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
-public class MainFrameModel implements NewFormModel {
+public class MainFrameModel implements ViewUpdater {
 
+    public static final String HOME_PAGE = "homePage";
     public static final String CENTER_PANEL = "centerPanel";
     public static final String DUPLICATAS = "dups";
     public static final String PRODUTOS = "prods";
@@ -27,14 +27,12 @@ public class MainFrameModel implements NewFormModel {
         ps.firePropertyChange(CENTER_PANEL, paneView);
     }
 
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        ps.addPropertyChangeListener(listener);
-    }
+    public void setHomePage() { ps.firePropertyChange(HOME_PAGE, null); }
 
     @Override
-    public void fireInitialChanges() {
+    public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }
 
-    }
+    @Override
+    public void fireInitialChanges() { ps.firePropertyChange(HOME_PAGE, null); }
 
 }

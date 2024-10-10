@@ -1,20 +1,25 @@
 package com.santacarolina.areas.bancario.banco.frmAddBanco;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.santacarolina.model.beans.Banco;
+import com.santacarolina.GerenciamentoFinancas;
+import com.santacarolina.areas.bancario.banco.common.BancoController;
+import com.santacarolina.areas.bancario.banco.common.BancoModel;
+import com.santacarolina.areas.bancario.banco.common.BancoView;
+import com.santacarolina.model.Banco;
 
 public class AddBancoForm {
 
     public static void main(String[] args) {
-        FlatDarkLaf.setup();
-        new AddBancoForm();
+        GerenciamentoFinancas.setStyle();
+        open();
     }
 
-    public AddBancoForm() {
-        AddBancoModel model = new AddBancoModel(new Banco());
-        AddBancoView view = new AddBancoView();
-        AddBancoController controller = new AddBancoController(view, model);
-        model.addListener(controller);
+    public static void open() {
+        BancoModel model = new BancoModel(new Banco());
+        FormView view = new FormView();
+        BancoController controller = new BancoController(view.getBaseView(), model);
+        model.addPropertyChangeListener(view.getBaseView());
         controller.showView();
     }
+
 }

@@ -1,9 +1,9 @@
 package com.santacarolina.areas.bancario.pix.frmManagePix;
 
-import com.santacarolina.dao.PixDao;
+import com.santacarolina.dao.PixDAO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.ChavePix;
-import com.santacarolina.model.tablemodels.AbstractCustomModel;
+import com.santacarolina.model.ChavePix;
+import com.santacarolina.util.AbstractCustomModel;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class PixTableModel extends AbstractCustomModel<ChavePix> {
 
     @Override
     public void requeryTable() throws FetchFailException {
-        pixList = new PixDao().findAll();
+        pixList = new PixDAO().findAll();
         fireTableDataChanged();
     }
 

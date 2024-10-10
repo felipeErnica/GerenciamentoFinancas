@@ -1,8 +1,10 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.interfaces.ManageView;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.ManageViewImpl;
+import com.santacarolina.util.AppIcon;
 
 import javax.swing.*;
 
@@ -26,8 +28,11 @@ public class ManageContatoView implements ManageView {
 
     private void initComponents() {
         dialog.setTitle("Gerenciar Contatos");
+        dialog.setIconImage(AppIcon.paintIcon(new FlatSVGIcon("icon/contato_menu_icon.svg")).getImage());
         addButton.setText("Adicionar Contato");
+        addButton.setIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/contato_add_icon.svg")));
         deleteButton.setText("Excluir Contatos");
+        deleteButton.setIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/delete_icon.svg")));
     }
 
     public JTable getTable() { return table; }

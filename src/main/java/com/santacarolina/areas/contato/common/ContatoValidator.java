@@ -1,16 +1,12 @@
 package com.santacarolina.areas.contato.common;
 
-import com.santacarolina.dao.ContatoDao;
-import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.Contato;
+import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.util.ValidatorViolations;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Optional;
-
 public class ContatoValidator {
 
-    private ContatoDao dao;
+    private ContatoDAO dao;
     private FormContatoModel model;
 
     public ContatoValidator(FormContatoModel model) {

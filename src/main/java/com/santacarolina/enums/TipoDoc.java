@@ -22,9 +22,7 @@ public enum TipoDoc {
     TipoDoc(String docType) {
         this.tipoDoc = docType;
     }
-    public String getTipoDoc() {
-        return tipoDoc;
-    }
+    public String getValue() { return tipoDoc; }
 
     @Override
     public String toString() {

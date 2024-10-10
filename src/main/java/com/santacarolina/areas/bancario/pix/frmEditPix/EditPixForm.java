@@ -2,7 +2,7 @@ package com.santacarolina.areas.bancario.pix.frmEditPix;
 
 import com.santacarolina.areas.bancario.pix.formModel.PixFormModel;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.ChavePix;
+import com.santacarolina.model.ChavePix;
 import com.santacarolina.util.CustomErrorThrower;
 
 public class EditPixForm {
@@ -12,16 +12,10 @@ public class EditPixForm {
     public EditPixForm(ChavePix pix) {
         try {
 
-            ChavePix editaPix = new ChavePix.Builder()
-                    .setId(pix.getId())
-                    .setTipoPix(pix.getTipoPix())
-                    .setChave(pix.getChave())
-                    .setContato(pix.getContato())
-                    .setDadoId(pix.getDadoId())
-                    .build();
+            ChavePix clonePix = pix.clone();
 
             EditPixView view = new EditPixView();
-            model = new PixFormModel(editaPix);
+            model = new PixFormModel(clonePix);
             EditPixController controller = new EditPixController(view, model);
             model.addPropertyChangeListener(view);
             controller.showView();

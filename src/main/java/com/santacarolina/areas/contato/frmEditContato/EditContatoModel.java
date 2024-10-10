@@ -1,12 +1,12 @@
 package com.santacarolina.areas.contato.frmEditContato;
 
 import com.santacarolina.areas.contato.common.FormContatoModel;
-import com.santacarolina.interfaces.NewFormModel;
-import com.santacarolina.model.beans.Contato;
+import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.Contato;
 
 import java.beans.PropertyChangeListener;
 
-public class EditContatoModel implements NewFormModel {
+public class EditContatoModel implements ViewUpdater {
 
     private FormContatoModel baseModel;
 

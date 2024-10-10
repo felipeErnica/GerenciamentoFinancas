@@ -1,9 +1,10 @@
 package com.santacarolina.areas.contato.common;
 
-import com.santacarolina.dao.ContatoDao;
+import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
+import com.santacarolina.model.Contato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
@@ -15,7 +16,7 @@ public class FormContatoController implements Controller {
     private final Logger logger = LogManager.getLogger();
 
     private IContatoController child;
-    private ContatoDao dao;
+    private ContatoDAO dao;
     private ContatoValidator validator;
     private FormContatoView view;
     private FormContatoModel model;
@@ -24,7 +25,7 @@ public class FormContatoController implements Controller {
         this.child = child;
         this.view = child.getView();
         this.model = child.getModel();
-        this.dao = new ContatoDao();
+        this.dao = new ContatoDAO();
         this.validator = new ContatoValidator(model);
         initComponents();
     }
@@ -49,7 +50,7 @@ public class FormContatoController implements Controller {
             if (!validator.validate()) return;
             if (child.nameExists()) return;
             if (child.docsExists()) return;
-            dao.save(model.getContato());
+            model.setContatoSaved(dao.save(model.getContato()));
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();
         } catch (SaveFailException e) {
@@ -57,7 +58,7 @@ public class FormContatoController implements Controller {
         }
     }
 
-    public ContatoDao getDao() { return dao; }
+    public ContatoDAO getDao() { return dao; }
 
     @Override
     public void showView() { ViewInvoker.showView(view.getDialog()); }

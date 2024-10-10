@@ -2,13 +2,13 @@ package com.santacarolina.areas.bancario.pix.frmManagePix;
 
 import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
 import com.santacarolina.areas.bancario.pix.frmEditPix.EditPixForm;
-import com.santacarolina.dao.PixDao;
+import com.santacarolina.dao.PixDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.interfaces.OnResize;
-import com.santacarolina.model.beans.ChavePix;
+import com.santacarolina.model.ChavePix;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
@@ -75,7 +75,7 @@ public class ManagePixController implements Controller {
                     int viewRow = rows[i];
                     int modelRow = sorter.convertRowIndexToModel(viewRow);
                     ChavePix pix = model.getObject(modelRow);
-                    new PixDao().deleteById(pix.getId());
+                    new PixDAO().deleteById(pix.getId());
                     model.removeRow(modelRow);
                 }
             } catch (DeleteFailException e) {

@@ -1,8 +1,10 @@
 package com.santacarolina.util;
 
-import jnafilechooser.api.JnaFileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +17,16 @@ public class FileManager {
     private static final Logger logger = LogManager.getLogger();
 
     public static Optional<String> getFile() {
-        JnaFileChooser fileChooser = new JnaFileChooser();
-        fileChooser.setTitle("Selecionar Arquivo");
-        fileChooser.addFilter("Arquivo PDF", "pdf");
-        fileChooser.showOpenDialog(null);
-        if (fileChooser.getSelectedFile() != null) {
-            return Optional.of(fileChooser.getSelectedFile().getAbsolutePath());
-        } else return Optional.empty();
+        Display display = new Display();
+        Shell shell = new Shell(display);
+        FileDialog fileChooser = new FileDialog(shell);
+        fileChooser.setText("Selecionar Arquivo");
+        fileChooser.setFilterNames(new String[] {"Arquivo PDF"});
+        fileChooser.setFilterExtensions(new String[] {"*.pdf"});
+        Optional<String> optional = fileChooser.openDialog();
+        shell.close();
+        display.close();
+        return optional;
     }
 
     public static void openFile(String path) {

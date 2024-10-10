@@ -1,6 +1,6 @@
 package com.santacarolina.util;
 
-import com.santacarolina.interfaces.NewFormModel;
+import com.santacarolina.interfaces.ViewUpdater;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -8,9 +8,9 @@ import java.beans.PropertyChangeSupport;
 public class PropertyFirer {
 
     private PropertyChangeSupport ps;
-    private NewFormModel model;
+    private ViewUpdater model;
 
-    public PropertyFirer(NewFormModel model) {
+    public PropertyFirer(ViewUpdater model) {
         ps = new PropertyChangeSupport(this);
         this.model = model;
     }
@@ -21,7 +21,7 @@ public class PropertyFirer {
     }
 
     public void firePropertyChange(String propertyName, Object newValue) {
-        ps.firePropertyChange(propertyName, null,newValue);
+        ps.firePropertyChange(propertyName, null, newValue);
     }
 
 }

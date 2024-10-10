@@ -1,7 +1,7 @@
 package com.santacarolina.ui;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.santacarolina.model.tablemodels.AbstractCustomModel;
+import com.santacarolina.util.AbstractCustomModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

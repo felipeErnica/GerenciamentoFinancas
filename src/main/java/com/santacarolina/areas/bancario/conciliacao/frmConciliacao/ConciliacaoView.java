@@ -1,5 +1,7 @@
 package com.santacarolina.areas.bancario.conciliacao.frmConciliacao;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.santacarolina.util.AppIcon;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -26,6 +28,7 @@ public class ConciliacaoView implements PropertyChangeListener {
     private void initComponents () {
         this.dialog = new JDialog();
         dialog.setTitle("Conciliação de Extratos");
+        dialog.setIconImage(AppIcon.paintIcon(new FlatSVGIcon("icon/conciliacao_icon.svg")).getImage());
 
         mainPane = dialog.getContentPane();
 

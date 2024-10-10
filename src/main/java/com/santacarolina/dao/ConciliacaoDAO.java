@@ -2,19 +2,15 @@ package com.santacarolina.dao;
 
 import com.santacarolina.dto.ConciliacaoDTO;
 import com.santacarolina.exceptions.SaveFailException;
-import com.santacarolina.model.beans.Conciliacao;
-import com.santacarolina.util.ApiRequest;
+import com.santacarolina.model.Conciliacao;
 import com.santacarolina.util.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 public class ConciliacaoDAO {
 
-    private final Logger logger = LogManager.getLogger();
     private final Service<Conciliacao, ConciliacaoDTO> service;
     private static final String MAPPING = "/conciliacoes";
 

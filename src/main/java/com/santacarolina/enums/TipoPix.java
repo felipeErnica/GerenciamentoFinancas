@@ -16,8 +16,8 @@ public enum TipoPix {
         this.tipoPixInt = tipoPixInt;
     }
 
-    public int getTipoPixInt() { return tipoPixInt; }
-    public String getTipoPix() { return tipoPix; }
+    public int getInt() { return tipoPixInt; }
+    public String getString() { return tipoPix; }
 
     @Override
     public String toString() { return tipoPix; }

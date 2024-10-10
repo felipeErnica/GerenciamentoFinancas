@@ -1,14 +1,13 @@
 package com.santacarolina.areas.contato.common;
 
-import com.santacarolina.interfaces.NewFormModel;
-import com.santacarolina.model.beans.Contato;
+import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.Contato;
 import com.santacarolina.util.PropertyFirer;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
 
-public class FormContatoModel implements NewFormModel {
+public class FormContatoModel implements ViewUpdater {
 
     public static final String NOME = "nome";
     public static final String CPF = "cpf";
@@ -21,6 +20,7 @@ public class FormContatoModel implements NewFormModel {
     public static final String IE_INVALID = "ieInvalid";
 
     private Contato contato;
+    private Contato contatoSaved;
     private String name;
     private boolean docsEnabled;
     private String cpf;
@@ -54,21 +54,20 @@ public class FormContatoModel implements NewFormModel {
     @Override
     public void fireInitialChanges() {
         isUpdating = true;
-        if (this.contato.getId() != 0) {
-            pf.firePropertyChange(NOME, name);
-            pf.firePropertyChange(DOC_ENABLED, docsEnabled);
-            pf.firePropertyChange(DOC_CHECKBOX, docsEnabled);
-            pf.firePropertyChange(CPF, cpf);
-            pf.firePropertyChange(CNPJ, cnpj);
-            pf.firePropertyChange(IE, ie);
-            pf.firePropertyChange(CPF_INVALID, cpfInvalidFormat);
-            pf.firePropertyChange(CNPJ_INVALID, cnpjInvalidFormat);
-            pf.firePropertyChange(IE_INVALID, ieInvalidFormat);
-        }
+        pf.firePropertyChange(NOME, name);
+        pf.firePropertyChange(DOC_ENABLED, docsEnabled);
+        pf.firePropertyChange(DOC_CHECKBOX, docsEnabled);
+        pf.firePropertyChange(CPF, cpf);
+        pf.firePropertyChange(CNPJ, cnpj);
+        pf.firePropertyChange(IE, ie);
+        pf.firePropertyChange(CPF_INVALID, cpfInvalidFormat);
+        pf.firePropertyChange(CNPJ_INVALID, cnpjInvalidFormat);
+        pf.firePropertyChange(IE_INVALID, ieInvalidFormat);
         isUpdating = false;
     }
 
     public Contato getContato() { return contato; }
+    public Contato getContatoSaved() { return contatoSaved; }
     public String getName() { return name; }
     public String getCpf() { return cpf; }
     public String getCnpj() { return cnpj; }
@@ -77,6 +76,9 @@ public class FormContatoModel implements NewFormModel {
     public boolean isIeInvalidFormat() { return ieInvalidFormat; }
     public boolean isCnpjInvalidFormat() { return cnpjInvalidFormat; }
     public boolean isCpfInvalidFormat() { return cpfInvalidFormat; }
+
+    public void setContato(Contato contato) { this.contato = contato; }
+    public void setContatoSaved(Contato contatoSaved) { this.contatoSaved = contatoSaved; }
 
     public void setName(String name) {
         if (isUpdating) return;

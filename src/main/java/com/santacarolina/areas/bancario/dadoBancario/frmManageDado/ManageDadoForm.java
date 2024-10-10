@@ -1,7 +1,7 @@
 package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.santacarolina.dao.DadoDao;
+import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.util.CustomErrorThrower;
 
@@ -16,9 +16,9 @@ public class ManageDadoForm {
 
     public ManageDadoForm() {
         try {
-            DadoTableModel model = new DadoTableModel(new DadoDao().findAll());
-            ManageDadoView view = new ManageDadoView();
-            ManageDadoController controller = new ManageDadoController(model, view);
+            TableModel model = new TableModel();
+            FormView view = new FormView();
+            FormController controller = new FormController(model, view);
             controller.showView();
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);

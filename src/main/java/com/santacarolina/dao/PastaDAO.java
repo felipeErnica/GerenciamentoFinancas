@@ -1,0 +1,37 @@
+package com.santacarolina.dao;
+
+import com.santacarolina.dto.PastaDTO;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.exceptions.SaveFailException;
+import com.santacarolina.model.PastaContabil;
+import com.santacarolina.util.ApiRequest;
+import com.santacarolina.util.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+public class PastaDAO {
+
+    private final Service<PastaContabil, PastaDTO> service = new Service<>(PastaContabil.class, PastaDTO.class);
+    private final String MAPPING = "/pastaContabil";
+
+    public List<PastaContabil> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }
+    public void save(PastaContabil pastaContabil) throws SaveFailException { service.postRequest(MAPPING, pastaContabil); }
+
+    public Optional<PastaContabil> findByNome(String nome) throws FetchFailException {
+        String query = MAPPING + "/?nome=" + nome.replace(" ","+");
+        return service.getRequest(query);
+    }
+
+    public Optional<PastaContabil> findById(long id) throws FetchFailException {
+        String query = MAPPING + "/" + id;
+        return service.getRequest(query);
+    }
+
+}

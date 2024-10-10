@@ -4,10 +4,10 @@ import com.santacarolina.areas.contato.common.FormContatoController;
 import com.santacarolina.areas.contato.common.FormContatoModel;
 import com.santacarolina.areas.contato.common.FormContatoView;
 import com.santacarolina.areas.contato.common.IContatoController;
-import com.santacarolina.dao.ContatoDao;
+import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.Contato;
+import com.santacarolina.model.Contato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class EditContatoController implements IContatoController {
 
-    private ContatoDao dao;
+    private ContatoDAO dao;
     private FormContatoController commonController;
     private EditContatoModel model;
     private EditContatoView view;

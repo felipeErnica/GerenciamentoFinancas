@@ -1,6 +1,6 @@
 package com.santacarolina.areas.mainFrame.common;
 
-import com.santacarolina.areas.mainFrame.pgDuplicatas.DupTableModel;
+import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.ui.TablePanel;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;

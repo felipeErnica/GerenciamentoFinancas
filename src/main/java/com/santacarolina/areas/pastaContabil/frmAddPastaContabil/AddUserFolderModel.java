@@ -1,9 +1,9 @@
 package com.santacarolina.areas.pastaContabil.frmAddPastaContabil;
 
-import com.santacarolina.dao.PastaDao;
+import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.ContaBancaria;
-import com.santacarolina.model.beans.PastaContabil;
+import com.santacarolina.model.ContaBancaria;
+import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.AbstractFormModel;
 import com.santacarolina.util.OptionDialog;
 
@@ -46,7 +46,7 @@ public class AddUserFolderModel extends AbstractFormModel {
     }
 
     public boolean isNomeRepetido() throws FetchFailException {
-        var nomeRepetido = new PastaDao().findByNome(this.nomePasta);
+        var nomeRepetido = new PastaDAO().findByNome(this.nomePasta);
         if (nomeRepetido.isPresent()) {
             OptionDialog.showErrorDialog(
                     "Já existe uma pastaContabil com este nome!",

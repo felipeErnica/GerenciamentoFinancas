@@ -40,7 +40,10 @@ dependencies {
     implementation("com.miglayout:miglayout-swing:11.4.2")
     implementation("org.apache.commons:commons-lang3:3.17.0")
     implementation("com.github.steos:jnafilechooser:1.1.2")
+    implementation("com.webcohesion.ofx4j:ofx4j:1.38")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
+    implementation("org.knowm.xchart:xchart:3.8.8")
+    implementation("org.knowm.xchart:xchart-parent:3.8.8")
 }
 
 tasks.test {

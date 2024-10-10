@@ -1,0 +1,47 @@
+package com.santacarolina.areas.duplicatas.common;
+
+import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.util.StringConversor;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
+import java.time.format.DateTimeFormatter;
+
+public class DuplicataRenderer implements TableCellRenderer {
+
+    private DefaultTableCellRenderer cellRenderer;
+    private DupTableModel model;
+    private Font boldFont;
+    private Font normalFont;
+
+    public DuplicataRenderer(DupTableModel model) {
+        this.cellRenderer = new DefaultTableCellRenderer();
+        this.model = model;
+        normalFont = cellRenderer.getFont();
+        boldFont = normalFont.deriveFont(Font.BOLD);
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        JLabel c = (JLabel) cellRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        DuplicataDTO dto = model.getObject(row);
+        switch (column) {
+            case 1 -> {
+                c.setHorizontalAlignment(SwingConstants.CENTER);
+                c.setText(dto.getDataVencimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            }
+            case 0, 2, 3 -> c.setHorizontalAlignment(SwingConstants.CENTER);
+            case 4 -> c.setHorizontalAlignment(SwingConstants.LEFT);
+            case 5 -> {
+                c.setText(StringConversor.getCurrency(dto.getValor()));
+                c.setHorizontalAlignment(SwingConstants.LEFT);
+            }
+        }
+        return c;
+    }
+
+    public Font getFont() { return cellRenderer.getFont(); }
+
+}

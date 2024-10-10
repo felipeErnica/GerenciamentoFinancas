@@ -1,6 +1,6 @@
 package com.santacarolina.areas.pastaContabil.frmAddContaBancaria;
 
-import com.santacarolina.model.beans.Banco;
+import com.santacarolina.model.Banco;
 import com.santacarolina.ui.AddView;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;

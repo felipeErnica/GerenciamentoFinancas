@@ -1,17 +1,17 @@
 package com.santacarolina.areas.bancario.conciliacao.frmOutrosMovimentos;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.areas.bancario.conciliacao.frmConciliacao.ConciliacaoModel;
 import com.santacarolina.enums.TipoMovimento;
+import com.santacarolina.util.AppIcon;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.combobox.EnumComboBoxModel;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 public class OutrosMovimentosView implements PropertyChangeListener {
 
@@ -28,6 +28,7 @@ public class OutrosMovimentosView implements PropertyChangeListener {
     private void initComponents () {
         this.dialog = new JDialog();
         dialog.setTitle("Conciliação de Extratos");
+        dialog.setIconImage(AppIcon.paintIcon(new FlatSVGIcon("icon/conciliacao_icon.svg")).getImage());
 
         mainPane = dialog.getContentPane();
 

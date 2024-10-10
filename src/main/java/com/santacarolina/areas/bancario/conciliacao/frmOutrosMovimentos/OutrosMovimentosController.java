@@ -1,14 +1,16 @@
 package com.santacarolina.areas.bancario.conciliacao.frmOutrosMovimentos;
 
+import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoRenderer;
+import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoTableModel;
 import com.santacarolina.dao.ConciliacaoDAO;
-import com.santacarolina.dao.ExtratoDao;
+import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.enums.TipoMovimento;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.OnResize;
-import com.santacarolina.model.beans.Conciliacao;
-import com.santacarolina.model.beans.Extrato;
+import com.santacarolina.model.Conciliacao;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.ui.CurrencyCellRenderer;
 import com.santacarolina.ui.DateCellRenderer;
 import com.santacarolina.util.CustomErrorThrower;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class OutrosMovimentosController implements Controller {
 
-    private ExtratoDao extratoDao;
+    private ExtratoDAO extratoDao;
     private ConciliacaoDAO dao;
     private OutrosMovimentosView view;
     private OutrosMovimentosModel model;
@@ -31,34 +33,25 @@ public class OutrosMovimentosController implements Controller {
     public OutrosMovimentosController(OutrosMovimentosView view, OutrosMovimentosModel model) {
         this.view = view;
         this.model = model;
-        extratoDao = new ExtratoDao();
+        extratoDao = new ExtratoDAO();
         dao = new ConciliacaoDAO();
         initComponents();
     }
 
     private void initComponents() {
         view.getExtratoTable().setModel(model.getExtratoTableModel().getBaseModel());
-
+        ExtratoConciliacaoRenderer cellRenderer = new ExtratoConciliacaoRenderer(model.getExtratoTableModel());
+        TableColumnModel extratoModel = view.getExtratoTable().getColumnModel();
+        extratoModel.getColumn(0).setCellRenderer(cellRenderer);
+        extratoModel.getColumn(1).setCellRenderer(cellRenderer);
+        extratoModel.getColumn(2).setCellRenderer(cellRenderer);
+        extratoModel.getColumn(3).setCellRenderer(cellRenderer);
+        extratoModel.getColumn(4).setCellRenderer(cellRenderer);
         List<TipoMovimento> comboList = new ArrayList<>();
         for (TipoMovimento tipo : TipoMovimento.values()) {
             if (tipo != TipoMovimento.COMUM) comboList.add(tipo);
         }
-
         view.getMovimentosComboBox().setModel(new ListComboBoxModel<>(comboList));
-
-        DateCellRenderer dateCellRenderer = new DateCellRenderer();
-        dateCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        CurrencyCellRenderer currencyCellRenderer = new CurrencyCellRenderer();
-
-        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-        cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        TableColumnModel extratoModel = view.getExtratoTable().getColumnModel();
-        extratoModel.getColumn(0).setCellRenderer(dateCellRenderer);
-        extratoModel.getColumn(1).setCellRenderer(cellRenderer);
-        extratoModel.getColumn(4).setCellRenderer(currencyCellRenderer);
-
         view.getDialog().addComponentListener((OnResize) e -> dialog_onResize());
         view.getMovimentosComboBox().addActionListener(e -> movimentosComboBox_afterUpdate());
         view.getConciliarButton().addActionListener(e -> conciliarButton_onClick());

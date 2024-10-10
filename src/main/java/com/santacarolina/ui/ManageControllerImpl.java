@@ -1,7 +1,7 @@
 package com.santacarolina.ui;
 
 import com.santacarolina.interfaces.*;
-import com.santacarolina.model.tablemodels.AbstractCustomModel;
+import com.santacarolina.util.AbstractCustomModel;
 import com.santacarolina.util.ViewInvoker;
 
 import javax.swing.*;
@@ -11,12 +11,12 @@ import java.awt.event.MouseEvent;
 
 public class ManageControllerImpl<T> implements Controller {
 
-    private AbstractCustomModel<T> model;
+    private CustomTableModel<T> model;
     private ManageView view;
     private RowSorter<? extends TableModel> sorter;
     private ManageController childController;
 
-    public ManageControllerImpl(AbstractCustomModel<T> model, ManageView view, ManageController childController) {
+    public ManageControllerImpl(CustomTableModel<T> model, ManageView view, ManageController childController) {
         this.model = model;
         this.view = view;
         this.childController = childController;
@@ -24,8 +24,8 @@ public class ManageControllerImpl<T> implements Controller {
     }
 
     private void initComponents() {
-        view.getTable().setModel(model);
-        sorter = new TableRowSorter<>(model);
+        view.getTable().setModel(model.getBaseModel());
+        sorter = new TableRowSorter<>(model.getBaseModel());
         view.getTable().setRowSorter(sorter);
         view.getDialog().addComponentListener((OnResize) e -> dialog_onResize());
         view.getDeleteButton().addActionListener(e -> deleteButton_onClick());
@@ -41,6 +41,6 @@ public class ManageControllerImpl<T> implements Controller {
     @Override
     public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
-    public RowSorter<?> getSorter() { return sorter; }
+    public RowSorter getSorter() { return sorter; }
 
 }

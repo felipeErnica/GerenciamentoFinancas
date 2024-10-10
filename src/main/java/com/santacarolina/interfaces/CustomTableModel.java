@@ -10,5 +10,6 @@ public interface CustomTableModel<T> {
         Class<?> getColumnClass(int columnIndex);
         boolean isCellEditable(int rowIndex, int columnIndex);
         Object getValueAt(int rowIndex, int columnIndex);
+        void setValueAt(Object aValue, int rowIndex, int columnIndex);
         T getObject (int rowIndex);
 }

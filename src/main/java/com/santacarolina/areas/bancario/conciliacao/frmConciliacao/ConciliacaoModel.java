@@ -1,18 +1,18 @@
 package com.santacarolina.areas.bancario.conciliacao.frmConciliacao;
 
-import com.santacarolina.areas.mainFrame.pgBanco.ExtratoTableModel;
-import com.santacarolina.areas.mainFrame.pgDuplicatas.DupTableModel;
-import com.santacarolina.dao.DuplicataDao;
-import com.santacarolina.dao.ExtratoDao;
+import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoTableModel;
+import com.santacarolina.areas.duplicatas.common.DupTableModel;
+import com.santacarolina.dao.DuplicataDAO;
+import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.NewFormModel;
-import com.santacarolina.model.beans.Duplicata;
-import com.santacarolina.model.beans.Extrato;
+import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.Duplicata;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.util.PropertyFirer;
 
 import java.beans.PropertyChangeListener;
 
-public class ConciliacaoModel implements NewFormModel {
+public class ConciliacaoModel implements ViewUpdater {
 
     public static final String TABLES = "table";
     public static final String REQUERY = "requery";
@@ -21,25 +21,25 @@ public class ConciliacaoModel implements NewFormModel {
     public static final String ONE_DUP_MANY_EXTRATO = "manyExtrato";
     public static final String ONE_EXTRATO_MANY_DUP = "manyDup";
 
-    private ExtratoDao extratoDao;
-    private DuplicataDao duplicataDao;
-    private ExtratoTableModel extratoTableModel;
+    private ExtratoDAO extratoDao;
+    private DuplicataDAO duplicataDao;
+    private ExtratoConciliacaoTableModel extratoTableModel;
     private DupTableModel dupTableModel;
     private String tableSelection;
     private PropertyFirer ps;
 
     public ConciliacaoModel() throws FetchFailException {
         ps = new PropertyFirer(this);
-        extratoDao = new ExtratoDao();
-        duplicataDao = new DuplicataDao();
-        extratoTableModel = new ExtratoTableModel(extratoDao.findByConciliacao(false));
-        dupTableModel = new DupTableModel(duplicataDao.findByPayed(false));
+        extratoDao = new ExtratoDAO();
+        duplicataDao = new DuplicataDAO();
+        extratoTableModel = new ExtratoConciliacaoTableModel(extratoDao.findByConciliacao(false));
+        dupTableModel = new DupTableModel(duplicataDao.findNaoPagas());
         tableSelection = ONE_TO_ONE;
     }
 
-    public Extrato getExtrato(int rowIndex) { return new Extrato().fromDTO(extratoTableModel.getObject(rowIndex)); }
-    public Duplicata getDuplicata(int rowIndex) { return new Duplicata().fromDTO(dupTableModel.getObject(rowIndex)); }
-    public ExtratoTableModel getExtratoTableModel() { return extratoTableModel; }
+    public Extrato getExtrato(int rowIndex) { return extratoTableModel.getObject(rowIndex).fromDTO(); }
+    public Duplicata getDuplicata(int rowIndex) { return dupTableModel.getObject(rowIndex).fromDTO(); }
+    public ExtratoConciliacaoTableModel getExtratoTableModel() { return extratoTableModel; }
     public DupTableModel getDupTableModel() { return dupTableModel; }
     public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }
 
@@ -53,7 +53,7 @@ public class ConciliacaoModel implements NewFormModel {
 
     public void requeryTables () throws FetchFailException {
         extratoTableModel.setList(extratoDao.findByConciliacao(false));
-        dupTableModel.setList(duplicataDao.findByPayed(false));
+        dupTableModel.setList(duplicataDao.findNaoPagas());
         ps.firePropertyChange(REQUERY, true);
     }
 

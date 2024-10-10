@@ -1,9 +1,9 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
-import com.santacarolina.dao.ContatoDao;
+import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.Contato;
-import com.santacarolina.model.tablemodels.AbstractCustomModel;
+import com.santacarolina.model.Contato;
+import com.santacarolina.util.AbstractCustomModel;
 import com.santacarolina.util.DocConversor;
 
 import java.util.List;
@@ -71,6 +71,6 @@ public class ContatoTableModel extends AbstractCustomModel<Contato> {
     public void removeRows(int[] rows) { for (int i = rows.length - 1; i >= 0; i--) removeRow(rows[i]); }
 
     @Override
-    public void requeryTable() throws FetchFailException { new ContatoDao().findAll(); }
+    public void requeryTable() throws FetchFailException { new ContatoDAO().findAll(); }
 
 }

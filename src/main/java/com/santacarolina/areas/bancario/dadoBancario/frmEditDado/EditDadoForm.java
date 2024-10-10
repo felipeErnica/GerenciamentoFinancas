@@ -1,26 +1,28 @@
 package com.santacarolina.areas.bancario.dadoBancario.frmEditDado;
 
+import com.santacarolina.areas.bancario.dadoBancario.common.DadoBancarioFormModel;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.DadoBancario;
+import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.CustomErrorThrower;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EditDadoForm {
 
-    private final Logger logger = LogManager.getLogger();
-
-    public EditDadoForm(DadoBancario d) {
+    public static DadoBancario open(DadoBancario d) {
         try {
-            EditDadoView view = new EditDadoView();
-            EditDadoModel model = new EditDadoModel();
-            EditDadoController controller = new EditDadoController(view, model);
-            model.addListener(controller);
-            model.setDadoBancario(d);
+            DadoBancario clone = d.clone();
+            FormView view = new FormView();
+            DadoBancarioFormModel model = new DadoBancarioFormModel(clone);
+            FormController controller = new FormController(view, model);
+            model.addPropertyChangeListener(view);
             controller.showView();
+            return model.getDadoSaved();
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
+            return null;
         }
+    }
+
+    public EditDadoForm(DadoBancario d) {
     }
 
 }

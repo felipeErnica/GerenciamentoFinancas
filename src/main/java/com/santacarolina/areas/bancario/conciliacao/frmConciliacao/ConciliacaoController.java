@@ -1,24 +1,22 @@
 package com.santacarolina.areas.bancario.conciliacao.frmConciliacao;
 
+import com.santacarolina.areas.duplicatas.common.DuplicataRenderer;
+import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoRenderer;
 import com.santacarolina.areas.bancario.conciliacao.frmOutrosMovimentos.OutrosMovimentosForm;
 import com.santacarolina.dao.ConciliacaoDAO;
-import com.santacarolina.dao.DuplicataDao;
-import com.santacarolina.dao.ExtratoDao;
+import com.santacarolina.dao.DuplicataDAO;
+import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.OnResize;
-import com.santacarolina.model.beans.Conciliacao;
-import com.santacarolina.model.beans.Duplicata;
-import com.santacarolina.model.beans.Extrato;
-import com.santacarolina.ui.CurrencyCellRenderer;
-import com.santacarolina.ui.DateCellRenderer;
+import com.santacarolina.model.Conciliacao;
+import com.santacarolina.model.Duplicata;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,45 +24,40 @@ import java.util.List;
 
 public class ConciliacaoController implements Controller {
 
-    private ExtratoDao extratoDao;
-    private DuplicataDao dupDao;
+    private ExtratoDAO extratoDao;
+    private DuplicataDAO dupDao;
     private ConciliacaoDAO dao;
+
     private ConciliacaoView view;
     private ConciliacaoModel model;
 
     public ConciliacaoController(ConciliacaoView view, ConciliacaoModel model) {
         this.view = view;
         this.model = model;
-        dupDao = new DuplicataDao();
-        extratoDao = new ExtratoDao();
+        dupDao = new DuplicataDAO();
+        extratoDao = new ExtratoDAO();
         dao = new ConciliacaoDAO();
         initComponents();
     }
 
     private void initComponents() {
         view.getExtratoTable().setModel(model.getExtratoTableModel().getBaseModel());
-        view.getDuplicatasTable().setModel(model.getDupTableModel().getBaseModel());
-
-        DateCellRenderer dateCellRenderer = new DateCellRenderer();
-        dateCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        CurrencyCellRenderer currencyCellRenderer = new CurrencyCellRenderer();
-
-        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-        cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
+        ExtratoConciliacaoRenderer extratoRenderer = new ExtratoConciliacaoRenderer(model.getExtratoTableModel());
         TableColumnModel extratoModel = view.getExtratoTable().getColumnModel();
-        extratoModel.getColumn(0).setCellRenderer(dateCellRenderer);
-        extratoModel.getColumn(1).setCellRenderer(cellRenderer);
-        extratoModel.getColumn(4).setCellRenderer(currencyCellRenderer);
-
+        extratoModel.getColumn(0).setCellRenderer(extratoRenderer);
+        extratoModel.getColumn(1).setCellRenderer(extratoRenderer);
+        extratoModel.getColumn(2).setCellRenderer(extratoRenderer);
+        extratoModel.getColumn(3).setCellRenderer(extratoRenderer);
+        extratoModel.getColumn(4).setCellRenderer(extratoRenderer);
+        view.getDuplicatasTable().setModel(model.getDupTableModel().getBaseModel());
+        DuplicataRenderer duplicataRenderer = new DuplicataRenderer(model.getDupTableModel());
         TableColumnModel dupModel = view.getDuplicatasTable().getColumnModel();
-        dupModel.getColumn(0).setCellRenderer(cellRenderer);
-        dupModel.getColumn(1).setCellRenderer(dateCellRenderer);
-        dupModel.getColumn(2).setCellRenderer(cellRenderer);
-        dupModel.getColumn(3).setCellRenderer(cellRenderer);
-        dupModel.getColumn(5).setCellRenderer(currencyCellRenderer);
-
+        dupModel.getColumn(0).setCellRenderer(duplicataRenderer);
+        dupModel.getColumn(1).setCellRenderer(duplicataRenderer);
+        dupModel.getColumn(2).setCellRenderer(duplicataRenderer);
+        dupModel.getColumn(3).setCellRenderer(duplicataRenderer);
+        dupModel.getColumn(4).setCellRenderer(duplicataRenderer);
+        dupModel.getColumn(5).setCellRenderer(duplicataRenderer);
         view.getDialog().addComponentListener((OnResize) e -> dialog_onResize());
         view.getOneDupForManyExtrato().addActionListener(e -> tableSelectionButtons_onClick(ConciliacaoModel.ONE_DUP_MANY_EXTRATO));
         view.getOneExtratoForManyDup().addActionListener(e -> tableSelectionButtons_onClick(ConciliacaoModel.ONE_EXTRATO_MANY_DUP));

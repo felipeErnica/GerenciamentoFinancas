@@ -8,7 +8,7 @@ import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.FormListener;
-import com.santacarolina.model.beans.Banco;
+import com.santacarolina.model.Banco;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;

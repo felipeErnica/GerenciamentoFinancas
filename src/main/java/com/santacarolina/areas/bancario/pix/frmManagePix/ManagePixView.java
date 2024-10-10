@@ -1,7 +1,9 @@
 package com.santacarolina.areas.bancario.pix.frmManagePix;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.ManageViewImpl;
+import com.santacarolina.util.AppIcon;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -24,6 +26,7 @@ public class ManagePixView {
 
     private void initComponents() {
         dialog.setTitle("Gerenciar Chaves Pix");
+        dialog.setIconImage(AppIcon.paintIcon(new FlatSVGIcon("icon/pix_menu_icon.svg")).getImage());
         deleteButton.setText("Excluir Chave");
         addButton.setText("Adicionar Chave");
     }

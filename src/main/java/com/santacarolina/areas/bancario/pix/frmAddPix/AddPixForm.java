@@ -2,7 +2,7 @@ package com.santacarolina.areas.bancario.pix.frmAddPix;
 
 import com.santacarolina.areas.bancario.pix.formModel.PixFormModel;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.beans.ChavePix;
+import com.santacarolina.model.ChavePix;
 import com.santacarolina.util.CustomErrorThrower;
 
 public class AddPixForm {
@@ -21,8 +21,6 @@ public class AddPixForm {
         }
     }
 
-    public boolean isUpdated() {
-        return model.isUpdated();
-    }
+    public boolean isUpdated() { return model.isUpdated(); }
 
 }

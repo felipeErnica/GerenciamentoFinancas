@@ -3,9 +3,10 @@ package com.santacarolina.areas.pastaContabil.frmAddPastaContabil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.icons.FlatFileChooserNewFolderIcon;
-import com.santacarolina.model.beans.ContaBancaria;
+import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.AddView;
+import com.santacarolina.util.AppIcon;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -31,7 +32,7 @@ public class AddUserFolderView {
 
     private void initComponents() {
 
-        FlatSVGIcon icon = new FlatSVGIcon("icon/user_folder_icon.svg");
+        FlatSVGIcon icon = AppIcon.paintIcon(new FlatSVGIcon("icon/user_folder_icon.svg"));
 
         dialog.setTitle("Adicionar Pasta Contábil");
         dialog.setIconImage(icon.getImage());

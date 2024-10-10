@@ -1,6 +1,6 @@
 package com.santacarolina.areas.contato.frmEditContato;
 
-import com.santacarolina.model.beans.Contato;
+import com.santacarolina.model.Contato;
 
 public class EditContatoForm {
 

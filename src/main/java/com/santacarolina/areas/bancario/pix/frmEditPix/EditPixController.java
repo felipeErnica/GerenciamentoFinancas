@@ -1,16 +1,16 @@
 package com.santacarolina.areas.bancario.pix.frmEditPix;
 
 import com.santacarolina.areas.bancario.pix.formModel.PixFormModel;
-import com.santacarolina.dao.ContatoDao;
-import com.santacarolina.dao.PixDao;
+import com.santacarolina.dao.ContatoDAO;
+import com.santacarolina.dao.PixDAO;
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
-import com.santacarolina.model.beans.ChavePix;
-import com.santacarolina.model.beans.Contato;
-import com.santacarolina.model.beans.DadoBancario;
+import com.santacarolina.model.ChavePix;
+import com.santacarolina.model.Contato;
+import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
@@ -37,7 +37,7 @@ public class EditPixController implements Controller {
     }
 
     private void initComponents() throws FetchFailException {
-        view.getContatoComboBox().setModel(new ListComboBoxModel<>(new ContatoDao().findAll()));
+        view.getContatoComboBox().setModel(new ListComboBoxModel<>(new ContatoDAO().findAll()));
         view.getContatoComboBox().setSelectedItem(null);
         view.getTipoPixComboBox().setModel(new EnumComboBoxModel<>(TipoPix.class));
         view.getTipoPixComboBox().setSelectedItem(null);
@@ -60,14 +60,14 @@ public class EditPixController implements Controller {
                     }
                 }
 
-                Optional<ChavePix> pixRepetido = new PixDao().getByChave(model.getChavePix().getChave());
+                Optional<ChavePix> pixRepetido = new PixDAO().getByChave(model.getChavePix().getChave());
                 if (pixRepetido.isPresent()) {
                     if (model.getChavePix().getId() != pixRepetido.get().getId()) {
                         if (!changeRepeatingPix(pixRepetido.get())) return;
                     }
                 }
 
-                new PixDao().save(model.getChavePix());
+                new PixDAO().save(model.getChavePix());
                 OptionDialog.showSuccessSaveMessage();
                 model.setUpdated(true);
                 view.getDialog().dispose();

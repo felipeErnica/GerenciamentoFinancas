@@ -21,22 +21,19 @@ public class CustomTableModelImpl<T> implements TableModel {
         this.list = list;
     }
 
-    public int getRowCount() {
-        return list.size();
-    }
-    public int getColumnCount() {
-        return childModel.getColumnCount();
-    }
-    public String getColumnName(int columnIndex) {
-        return childModel.getColumnName(columnIndex);
-    }
+    public List<T> getList() { return list; }
+    public int getRowCount() { return list.size(); }
+    public int getColumnCount() { return childModel.getColumnCount(); }
+    public String getColumnName(int columnIndex) { return childModel.getColumnName(columnIndex); }
     public Class<?> getColumnClass(int columnIndex) { return childModel.getColumnClass(columnIndex); }
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
     public boolean isCellEditable(int rowIndex, int columnIndex) { return childModel.isCellEditable(rowIndex, columnIndex); }
     public Object getValueAt(int rowIndex, int columnIndex) { return childModel.getValueAt(rowIndex, columnIndex); }
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) { childModel.setValueAt(aValue, rowIndex, columnIndex); }
     public void addTableModelListener(TableModelListener l) { model.addTableModelListener(l); }
     public void removeTableModelListener(TableModelListener l) { model.removeTableModelListener(l); }
     public T getObject(int rowIndex) { return list.get(rowIndex); }
+    public void fireTableDataChanged() { model.fireTableDataChanged(); }
+    public void fireTableCellUpdated(int row, int column) { model.fireTableCellUpdated(row, column); }
 
     public void setList(List<T> list) {
         this.list = list;

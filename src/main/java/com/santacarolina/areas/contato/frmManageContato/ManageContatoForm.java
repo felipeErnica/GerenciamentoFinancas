@@ -1,7 +1,7 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.santacarolina.dao.ContatoDao;
+import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.util.CustomErrorThrower;
 
@@ -15,7 +15,7 @@ public class ManageContatoForm  {
     public ManageContatoForm() {
         try {
             ManageContatoView view = new ManageContatoView();
-            ContatoTableModel model = new ContatoTableModel(new ContatoDao().findAll());
+            ContatoTableModel model = new ContatoTableModel(new ContatoDAO().findAll());
             ManageContatoController controller = new ManageContatoController(model, view);
             controller.showView();
         } catch (FetchFailException e) {
