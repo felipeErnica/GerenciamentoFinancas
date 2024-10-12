@@ -1,24 +1,32 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
-import com.santacarolina.dao.ContatoDAO;
-import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.Contato;
-import com.santacarolina.util.AbstractCustomModel;
-import com.santacarolina.util.DocConversor;
-
 import java.util.List;
 
-public class ContatoTableModel extends AbstractCustomModel<Contato> {
+import com.santacarolina.dao.ContatoDAO;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.model.Contato;
+import com.santacarolina.ui.CustomTableModelImpl;
+import com.santacarolina.util.DocConversor;
 
+public class ContatoTableModel implements CustomTableModel<Contato> {
+
+    private final CustomTableModelImpl<Contato> baseModel;
     private List<Contato> contatoList;
 
-    public ContatoTableModel(List<Contato> contatoList) { this.contatoList = contatoList; }
+    public ContatoTableModel(List<Contato> contatoList) {
+        this.contatoList = contatoList; 
+        baseModel = new CustomTableModelImpl<>(this, contatoList);
+    }
+
+    @Override
+    public CustomTableModelImpl<Contato> getBaseModel() { return baseModel; }
 
     @Override
     public int getRowCount() { return contatoList.size(); }
 
     @Override
-    public String getColumnName(int column) {
+    public String getColumnName(final int column) {
         return switch (column) {
             case 0 -> "Nome do Contato";
             case 1 -> "CPF";
@@ -32,11 +40,11 @@ public class ContatoTableModel extends AbstractCustomModel<Contato> {
     public int getColumnCount() { return 4; }
 
     @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
+    public boolean isCellEditable(final int rowIndex, final int columnIndex) { return false; }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Contato c = getObject(rowIndex);
+    public Object getValueAt(final int rowIndex, final int columnIndex) {
+        final Contato c = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> c.getNome();
             case 1 -> DocConversor.docFormat(c.getCpf(), DocConversor.CPF_FORMAT);
@@ -47,30 +55,21 @@ public class ContatoTableModel extends AbstractCustomModel<Contato> {
     }
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) { return String.class; }
+    public Class<?> getColumnClass(final int columnIndex) { return String.class; }
 
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
+    public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) { }
 
     @Override
-    public Contato getObject(int rowIndex) { return contatoList.get(rowIndex); }
+    public Contato getObject(final int rowIndex) { return contatoList.get(rowIndex); }
 
-    @Override
-    public void addRow(Contato contato) { }
+    public void removeRow(final int row) { baseModel.removeRow(row); }
+    public void removeRows(final int[] rows) { baseModel.removeRows(rows); }
 
-    @Override
-    public void addNewRow() { }
-
-    @Override
-    public void removeRow(int row) {
-        contatoList.remove(row);
-        fireTableRowsDeleted(row, row);
+    public void requeryTable() throws FetchFailException {
+        contatoList = new ContatoDAO().findAll();
+        baseModel.setList(contatoList);
     }
 
-    @Override
-    public void removeRows(int[] rows) { for (int i = rows.length - 1; i >= 0; i--) removeRow(rows[i]); }
-
-    @Override
-    public void requeryTable() throws FetchFailException { new ContatoDAO().findAll(); }
 
 }

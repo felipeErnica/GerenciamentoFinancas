@@ -1,7 +1,6 @@
 package com.santacarolina.ui;
 
 import com.santacarolina.interfaces.*;
-import com.santacarolina.util.AbstractCustomModel;
 import com.santacarolina.util.ViewInvoker;
 
 import javax.swing.*;

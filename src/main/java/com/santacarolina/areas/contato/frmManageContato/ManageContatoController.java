@@ -1,20 +1,23 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane;
+import javax.swing.RowSorter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
+import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
 import com.santacarolina.areas.contato.frmEditContato.EditContatoForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.ManageController;
-import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
 import com.santacarolina.model.Contato;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class ManageContatoController implements ManageController {
 

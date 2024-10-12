@@ -1,4 +1,17 @@
-package com.santacarolina.areas.pastaContabil.frmAddPastaContabil;
+package com.santacarolina.areas.pastaContabil.common;
+
+import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -7,13 +20,10 @@ import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.AddView;
 import com.santacarolina.util.AppIcon;
+
 import net.miginfocom.swing.MigLayout;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class AddUserFolderView {
+public class PastaContabilView implements PropertyChangeListener {
 
     private JDialog dialog;
     private JTextField folderTextField;
@@ -23,7 +33,7 @@ public class AddUserFolderView {
     private JButton addAccount;
     private JButton addFolder;
 
-    public AddUserFolderView() {
+    public PastaContabilView() {
         AddView view = new AddView();
         dialog = view.getDialog();
         addFolder = view.getAddButton();
@@ -34,9 +44,7 @@ public class AddUserFolderView {
 
         FlatSVGIcon icon = AppIcon.paintIcon(new FlatSVGIcon("icon/user_folder_icon.svg"));
 
-        dialog.setTitle("Adicionar Pasta Contábil");
         dialog.setIconImage(icon.getImage());
-        addFolder.setText("Adicionar Pasta");
 
         JPanel fieldPane = new JPanel();
 
@@ -81,5 +89,14 @@ public class AddUserFolderView {
     public JComboBox<ContaBancaria> getBankAccountComboBox() { return bankAccountComboBox; }
     public JButton getAddAccount() { return addAccount; }
     public JButton getAddFolder() { return addFolder; }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+            case PastaContabilModel.CAMINHO -> pathTextField.setText((String)evt.getNewValue());
+            case PastaContabilModel.NOME_PASTA -> folderTextField.setText((String) evt.getNewValue());
+            case PastaContabilModel.CONTA -> bankAccountComboBox.setSelectedItem(evt.getNewValue());
+        }
+    }
 
 }

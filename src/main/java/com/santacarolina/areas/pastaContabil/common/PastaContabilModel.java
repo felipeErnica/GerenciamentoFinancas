@@ -1,15 +1,18 @@
-package com.santacarolina.areas.pastaContabil.frmAddPastaContabil;
+package com.santacarolina.areas.pastaContabil.common;
+
+import java.beans.PropertyChangeListener;
 
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.model.PastaContabil;
-import com.santacarolina.util.AbstractFormModel;
 import com.santacarolina.util.OptionDialog;
+import com.santacarolina.util.PropertyFirer;
 
-public class AddUserFolderModel extends AbstractFormModel {
+public class PastaContabilModel implements ViewUpdater {
 
-    public static final String BANCO = "banco";
+    public static final String CONTA = "conta";
     public static final String NOME_PASTA = "nomePasta";
     public static final String CAMINHO = "caminho";
 
@@ -17,12 +20,13 @@ public class AddUserFolderModel extends AbstractFormModel {
     private String nomePasta;
     private String folderPath;
     private ContaBancaria contaBancaria;
+    private PropertyFirer pf;
 
-    public AddUserFolderModel(PastaContabil p) {
+    public PastaContabilModel(PastaContabil p) {
         this.pastaContabil = p;
+        pf = new PropertyFirer(this);
     }
 
-    @Override
     public boolean updatingNotAllowed() {
         if (this.nomePasta == null || this.nomePasta.isEmpty()) {
             OptionDialog.showErrorDialog(
@@ -64,18 +68,28 @@ public class AddUserFolderModel extends AbstractFormModel {
     public void setNomePasta(String nomePasta) {
         this.nomePasta = nomePasta.toUpperCase();
         pastaContabil.setNome(this.nomePasta);
-        fireChange(NOME_PASTA);
+        pf.firePropertyChange(NOME_PASTA, this.nomePasta);
     }
 
     public void setFolderPath(String folderPath) {
         this.folderPath = folderPath;
         pastaContabil.setCaminhoPasta(folderPath);
-        fireChange(CAMINHO);
+        pf.firePropertyChange(CAMINHO, this.folderPath);
     }
 
     public void setContaBancaria(ContaBancaria contaBancaria) {
         this.contaBancaria = contaBancaria;
         pastaContabil.setContaBancaria(contaBancaria);
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) { pf.addPropertyChangeListener(listener); }
+
+    @Override
+    public void fireInitialChanges() {
+        pf.firePropertyChange(NOME_PASTA, this.nomePasta);
+        pf.firePropertyChange(CAMINHO, this.folderPath);
+        pf.firePropertyChange(CONTA, this.contaBancaria);
     }
 
 }
