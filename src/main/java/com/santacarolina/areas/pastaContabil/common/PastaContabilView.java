@@ -33,10 +33,12 @@ public class PastaContabilView implements PropertyChangeListener {
     private JButton addAccount;
     private JButton addFolder;
 
-    public PastaContabilView() {
+    public PastaContabilView(String buttonText, String dialogText) {
         AddView view = new AddView();
         dialog = view.getDialog();
+        dialog.setTitle(dialogText);
         addFolder = view.getAddButton();
+        addFolder.setText(buttonText);
         initComponents();
     }
 

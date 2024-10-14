@@ -1,4 +1,4 @@
-package com.santacarolina.areas.pastaContabil.frmAddContaBancaria;
+package com.santacarolina.areas.bancario.contaBancaria.frmAddContaBancaria;
 
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.ContaBancaria;

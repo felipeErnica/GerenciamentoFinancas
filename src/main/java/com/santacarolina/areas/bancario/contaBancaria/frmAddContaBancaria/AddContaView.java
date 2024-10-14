@@ -1,4 +1,4 @@
-package com.santacarolina.areas.pastaContabil.frmAddContaBancaria;
+package com.santacarolina.areas.bancario.contaBancaria.frmAddContaBancaria;
 
 import com.santacarolina.model.Banco;
 import com.santacarolina.ui.AddView;
