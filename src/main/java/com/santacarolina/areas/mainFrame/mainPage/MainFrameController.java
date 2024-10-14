@@ -13,12 +13,11 @@ import com.santacarolina.areas.documentos.pgDocumentos.DocumentosPage;
 import com.santacarolina.areas.duplicatas.pgDuplicatasNaoPagas.DupNaoPagaPane;
 import com.santacarolina.areas.bancario.extrato.pgExtrato.ExtratoPane;
 import com.santacarolina.areas.duplicatas.pgDuplicatasPagas.DupPagaPane;
-import com.santacarolina.areas.pastaContabil.frmAddPastaContabil.AddUserFolderForm;
+import com.santacarolina.areas.pastaContabil.frmManagePasta.ManagePastaForm;
+import com.santacarolina.areas.pastaContabil.frmPastaContabil.PastaContabilForm;
 import com.santacarolina.areas.pgProdutos.ProdPane;
 import com.santacarolina.interfaces.Controller;
-import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.ViewInvoker;
-import jdk.jfr.Event;
 
 import java.awt.*;
 
@@ -75,8 +74,8 @@ public class MainFrameController implements Controller {
     private void manageChavePixButton_onClick() { EventQueue.invokeLater(ManagePixForm::new); }
     private void addChavePixButton_onClick() { EventQueue.invokeLater(AddPixForm::new); }
 
-    private void addPastaButton_onClick() { EventQueue.invokeLater(() -> new AddUserFolderForm(new PastaContabil())); }
-    private void managePastaButton_onClick() {}
+    private void addPastaButton_onClick() { EventQueue.invokeLater(PastaContabilForm::openNew); }
+    private void managePastaButton_onClick() { EventQueue.invokeLater(ManagePastaForm::open); }
 
     @Override
     public void showView() { ViewInvoker.showFrame(view.getFrame()); }

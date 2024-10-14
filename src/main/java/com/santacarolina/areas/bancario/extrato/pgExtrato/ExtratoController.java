@@ -11,6 +11,7 @@ import com.santacarolina.model.Extrato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OfxTransformer.OFXTransformerImpl;
 import com.santacarolina.util.ValidatorViolations;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -73,10 +74,10 @@ public class ExtratoController implements MainPaneController {
                 fileDialog.setText("Adicionar OFX");
                 fileDialog.setFilterNames(new String[]{"Arquivo OFX"});
                 fileDialog.setFilterExtensions(new String[]{"*.ofx"});
-                Optional<String> filePath = fileDialog.openDialog();
+                String filePath = fileDialog.open();
 
-                if (filePath.isPresent()) {
-                    list = ofxTransformer.getExtratoList(filePath.get());
+                if (!StringUtils.isBlank(filePath)) {
+                    list = ofxTransformer.getExtratoList(filePath);
                     new AddExtratoForm(model.getContaBancaria(), list);
                 }
 

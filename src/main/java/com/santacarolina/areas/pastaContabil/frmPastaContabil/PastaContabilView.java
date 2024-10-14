@@ -1,4 +1,4 @@
-package com.santacarolina.areas.pastaContabil.common;
+package com.santacarolina.areas.pastaContabil.frmPastaContabil;
 
 import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;

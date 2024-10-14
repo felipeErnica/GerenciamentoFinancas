@@ -14,7 +14,7 @@ public class ProdutoDAO {
     private final String MAPPING  = "/produtos";
     private Service<Produto, ProdutoDTO> service;
 
-    public ProdutoDAO() { this.service = new Service<>(Produto.class, ProdutoDTO.class); }
+    public ProdutoDAO() { this.service = new Service<>(ProdutoDTO.class); }
 
     public List<Produto> findByDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING  + "/documento=" + documentoFiscal.getId();

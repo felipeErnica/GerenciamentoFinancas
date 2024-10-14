@@ -5,14 +5,13 @@ import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.util.Service;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 import java.util.Optional;
 
 public class ContaDAO {
 
-    private final Service<ContaBancaria, ContaDTO> service = new Service<>(ContaBancaria.class, ContaDTO.class);
+    private final Service<ContaBancaria, ContaDTO> service = new Service<>(ContaDTO.class);
     private final String MAPPING = "/contasAdm";
 
     public List<ContaBancaria> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }

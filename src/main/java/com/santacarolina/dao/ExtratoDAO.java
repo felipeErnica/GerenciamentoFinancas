@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ExtratoDAO {
 
-    private final Service<Extrato, ExtratoDTO> service = new Service<>(Extrato.class, ExtratoDTO.class);
+    private final Service<Extrato, ExtratoDTO> service = new Service<>(ExtratoDTO.class);
     private final String MAPPING = "/extratos";
 
     public List<ExtratoDTO> findByConta(long contaId) throws FetchFailException {

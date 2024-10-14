@@ -6,15 +6,13 @@ import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Contato;
 import com.santacarolina.util.Service;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ContatoDAO {
 
-    private final Service<Contato, ContatoDTO> service = new Service<>(Contato.class, ContatoDTO.class);
+    private final Service<Contato, ContatoDTO> service = new Service<>(ContatoDTO.class);
     private static final String MAPPING = "/contatos";
 
     public List<Contato> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }

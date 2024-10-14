@@ -16,7 +16,7 @@ public class DuplicataDAO {
     private static final String MAPPING = "/duplicatas";
 
     public DuplicataDAO() {
-        this.service = new Service<>(Duplicata.class, DuplicataDTO.class);;
+        this.service = new Service<>(DuplicataDTO.class);;
     }
 
     public List<DuplicataDTO> findAll() throws FetchFailException { return service.getListRequestDTO(MAPPING); }

@@ -7,15 +7,13 @@ import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.Service;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 public class DadoDAO {
 
-    private Service<DadoBancario, DadoDTO> service = new Service<>(DadoBancario.class, DadoDTO.class);
+    private Service<DadoBancario, DadoDTO> service = new Service<>(DadoDTO.class);
     private static final String MAPPING = "/contas";
 
     public List<DadoDTO> findAll() throws FetchFailException { return service.getListRequestDTO(MAPPING); }

@@ -23,10 +23,10 @@ public class FileManager {
         fileChooser.setText("Selecionar Arquivo");
         fileChooser.setFilterNames(new String[] {"Arquivo PDF"});
         fileChooser.setFilterExtensions(new String[] {"*.pdf"});
-        Optional<String> optional = fileChooser.openDialog();
+        String filePath = fileChooser.open();
         shell.close();
         display.close();
-        return optional;
+        return Optional.ofNullable(filePath);
     }
 
     public static void openFile(String path) {

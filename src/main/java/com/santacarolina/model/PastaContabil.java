@@ -5,7 +5,7 @@ import com.santacarolina.dto.PastaDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ToDTO;
 
-public class PastaContabil implements ToDTO<PastaDTO> {
+public class PastaContabil implements ToDTO<PastaDTO>, Cloneable {
 
     private static final ContaDAO contaDAO = new ContaDAO();
 
@@ -31,15 +31,16 @@ public class PastaContabil implements ToDTO<PastaDTO> {
 
     public ContaBancaria getContaBancaria() {
         try {
+            System.out.println(contaId);
             if (contaBancaria == null) contaBancaria = contaDAO.findById(contaId).orElse(null);
-        } catch (FetchFailException ignored) {
-        }
+        } catch (FetchFailException ignored) {}
         return contaBancaria;
     }
 
     public void setId(long id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }
     public void setCaminhoPasta(String caminhoPasta) { this.caminhoPasta = caminhoPasta; }
+    public void setContaId(long contaId) { this.contaId = contaId; }
 
     public void setContaBancaria(ContaBancaria contaBancaria) {
         this.contaBancaria = contaBancaria;
@@ -48,6 +49,16 @@ public class PastaContabil implements ToDTO<PastaDTO> {
 
     @Override
     public String toString() { return nome; }
+
+    @Override
+    public PastaContabil clone() {
+        PastaContabil clone = new PastaContabil();
+        clone.setId(id);
+        clone.setNome(nome);
+        clone.setCaminhoPasta(caminhoPasta);
+        clone.setContaId(contaId);
+        return clone;
+    }
 
     @Override
     public PastaDTO toDTO() { return new PastaDTO(this); }

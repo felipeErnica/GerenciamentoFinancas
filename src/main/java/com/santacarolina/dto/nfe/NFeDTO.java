@@ -64,6 +64,7 @@ public class NFeDTO {
             }
         } else {
             Duplicata duplicata = new Duplicata();
+            System.out.println(nFe.getInfNFe().getPag().getvPag());
             duplicata.setValor(nFe.getInfNFe().getPag().getvPag());
             duplicata.setDataVencimento(getDataEmissao());
             duplicataList.add(duplicata);

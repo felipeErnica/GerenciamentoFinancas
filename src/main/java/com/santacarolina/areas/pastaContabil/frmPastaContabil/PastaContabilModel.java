@@ -1,4 +1,4 @@
-package com.santacarolina.areas.pastaContabil.common;
+package com.santacarolina.areas.pastaContabil.frmPastaContabil;
 
 import java.beans.PropertyChangeListener;
 
@@ -25,39 +25,14 @@ public class PastaContabilModel implements ViewUpdater {
     public PastaContabilModel(PastaContabil p) {
         this.pastaContabil = p;
         pf = new PropertyFirer(this);
+        init();
     }
 
-    public boolean updatingNotAllowed() {
-        if (this.nomePasta == null || this.nomePasta.isEmpty()) {
-            OptionDialog.showErrorDialog(
-                    "Adicione o Nome da Pasta!",
-                    "Informação Incompleta!"
-            );
-            return true;
-        } else if (this.folderPath == null || this.folderPath.isEmpty()) {
-            OptionDialog.showErrorDialog(
-                    "A pastaContabil precisa de um caminho relacionado!",
-                    "Informação Incompleta!"
-            );
-            return true;
-        } else if (this.contaBancaria == null) {
-            OptionDialog.showErrorDialog(
-                    "A pastaContabil precisa de uma conta relacionada!",
-                    "Informação Incompleta!"
-            );
-            return true;
-        } else return false;
-    }
-
-    public boolean isNomeRepetido() throws FetchFailException {
-        var nomeRepetido = new PastaDAO().findByNome(this.nomePasta);
-        if (nomeRepetido.isPresent()) {
-            OptionDialog.showErrorDialog(
-                    "Já existe uma pastaContabil com este nome!",
-                    "Nome repetido!"
-            );
-            return true;
-        } else return false;
+    private void init() {
+        nomePasta = pastaContabil.getNome();
+        folderPath = pastaContabil.getCaminhoPasta();
+        System.out.println(pastaContabil.getContaId());
+        contaBancaria = pastaContabil.getContaBancaria();
     }
 
     public PastaContabil getPastaContabil() { return pastaContabil; }

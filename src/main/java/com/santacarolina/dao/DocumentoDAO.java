@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class DocumentoDAO {
 
-    private Service<DocumentoFiscal, DocumentoDTO> service = new Service<>(DocumentoFiscal.class, DocumentoDTO.class);
+    private Service<DocumentoFiscal, DocumentoDTO> service = new Service<>(DocumentoDTO.class);
     private static final String MAPPING = "/documentos";
 
     public List<DocumentoDTO> findAll() throws FetchFailException { return service.getListRequestDTO(MAPPING); }

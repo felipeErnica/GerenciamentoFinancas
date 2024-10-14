@@ -12,11 +12,21 @@ repositories {
     }
 }
 
+val osName = System.getProperty("os.name").lowercase()
+
+val swtPlatform = when {
+    osName.contains("win") -> "win32.win32.x86_64"
+    osName.contains("mac") -> "cocoa.macosx.x86_64"
+    osName.contains("nix") || osName.contains("nux") || osName.contains("aix") -> "gtk.linux.x86_64"
+    else -> throw GradleException("Unsupported OS: $osName")
+}
+
+
 configurations.all() {
     resolutionStrategy {
         dependencySubstitution {
             substitute(module("org.eclipse.platform:org.eclipse.swt.\${osgi.platform}:3.127.0"))
-                    .using(module("org.eclipse.platform:org.eclipse.swt.win32.win32.x86_64:3.127.0"))
+                    .using(module("org.eclipse.platform:org.eclipse.swt.$swtPlatform:3.127.0"))
         }
     }
 }
@@ -36,10 +46,9 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
     implementation("org.swinglabs:swingx:1.6.1")
-    implementation("org.eclipse.platform:org.eclipse.swt.win32.win32.x86_64:3.127.0")
+    implementation("org.eclipse.platform:org.eclipse.swt.$swtPlatform:3.127.0")
     implementation("com.miglayout:miglayout-swing:11.4.2")
     implementation("org.apache.commons:commons-lang3:3.17.0")
-    implementation("com.github.steos:jnafilechooser:1.1.2")
     implementation("com.webcohesion.ofx4j:ofx4j:1.38")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
     implementation("org.knowm.xchart:xchart:3.8.8")

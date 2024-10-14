@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class PixDAO {
 
-    private final Service<ChavePix, PixDTO> service = new Service<>(ChavePix.class, PixDTO.class);
+    private final Service<ChavePix, PixDTO> service = new Service<>(PixDTO.class);
     private final String MAPPING = "/chavesPix";
 
     public List<ChavePix> findAll() throws FetchFailException {

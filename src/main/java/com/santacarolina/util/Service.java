@@ -18,12 +18,10 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private Class<T> tClass;
     private Class<DTO> dtoClass;
     private final ApiRequest<DTO> apiRequest;
 
-    public Service(Class<T> tClass, Class<DTO> dtoClass) {
-        this.tClass = tClass;
+    public Service(Class<DTO> dtoClass) {
         this.dtoClass = dtoClass;
         this.apiRequest = new ApiRequest<>(dtoClass);
     }

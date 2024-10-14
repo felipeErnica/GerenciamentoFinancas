@@ -4,8 +4,6 @@ import com.santacarolina.dto.ConciliacaoDTO;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Conciliacao;
 import com.santacarolina.util.Service;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ public class ConciliacaoDAO {
     private final Service<Conciliacao, ConciliacaoDTO> service;
     private static final String MAPPING = "/conciliacoes";
 
-    public ConciliacaoDAO() { this.service = new Service<>(Conciliacao.class, ConciliacaoDTO.class); }
+    public ConciliacaoDAO() { this.service = new Service<>(ConciliacaoDTO.class); }
 
     public void save(Conciliacao conciliacao) throws SaveFailException {
         service.postRequest(MAPPING, conciliacao);
