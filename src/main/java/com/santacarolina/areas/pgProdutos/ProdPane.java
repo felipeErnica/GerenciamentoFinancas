@@ -14,7 +14,7 @@ public class ProdPane implements MainPaneCaller {
         try {
             this.view = new ProdView();
             ProdTableModel model = new ProdTableModel(new ProdutoDAO().findAll());
-            ProdController controller = new ProdController(view, model);
+            new ProdController(view, model);
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }

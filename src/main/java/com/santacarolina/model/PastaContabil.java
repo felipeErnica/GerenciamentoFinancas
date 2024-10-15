@@ -31,7 +31,6 @@ public class PastaContabil implements ToDTO<PastaDTO>, Cloneable {
 
     public ContaBancaria getContaBancaria() {
         try {
-            System.out.println(contaId);
             if (contaBancaria == null) contaBancaria = contaDAO.findById(contaId).orElse(null);
         } catch (FetchFailException ignored) {}
         return contaBancaria;

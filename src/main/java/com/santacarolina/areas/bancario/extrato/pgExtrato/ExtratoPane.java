@@ -13,7 +13,7 @@ public class ExtratoPane {
         try {
             view = new ExtratoView();
             ExtratoTableModel model = new ExtratoTableModel(new ArrayList<>());
-            ExtratoController controller = new ExtratoController(model, view);
+            new ExtratoController(model, view);
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }

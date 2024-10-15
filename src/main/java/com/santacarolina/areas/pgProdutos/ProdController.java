@@ -20,14 +20,12 @@ public class ProdController implements MainPaneController {
     private ProdTableModel model;
 
     public ProdController(ProdView view, ProdTableModel model) {
+        new MainPaneControllerImpl(view, model);
         this.view = view;
         this.model = model;
         initComponents();
     }
 
-    /**
-     * 
-     */
     private void initComponents() {
         TableColumnModel columnModel = view.getTable().getColumnModel();
 

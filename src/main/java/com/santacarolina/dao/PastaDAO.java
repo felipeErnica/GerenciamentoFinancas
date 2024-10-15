@@ -29,7 +29,7 @@ public class PastaDAO {
     }
 
     public void deleteById(long id) throws DeleteFailException {
-       String query = MAPPING + "/" + id;
+        String query = MAPPING + "/" + id;
         service.deleteRequest(query);
     }
 

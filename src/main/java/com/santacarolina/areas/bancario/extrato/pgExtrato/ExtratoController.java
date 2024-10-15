@@ -14,6 +14,7 @@ import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
 import com.santacarolina.areas.bancario.extrato.frmAddExtrato.AddExtratoForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
+import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.ContaDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.OFXTransformerException;
@@ -33,6 +34,7 @@ public class ExtratoController implements MainPaneController {
         this.model = model;
         this.view = view;
         this.contaDao = new ContaDAO();
+        new MainPaneControllerImpl(view, model);
         initComponents();
     }
 

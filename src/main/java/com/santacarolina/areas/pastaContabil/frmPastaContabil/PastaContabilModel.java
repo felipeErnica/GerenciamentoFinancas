@@ -28,7 +28,6 @@ public class PastaContabilModel implements ViewUpdater {
     private void init() {
         nomePasta = pastaContabil.getNome();
         folderPath = pastaContabil.getCaminhoPasta();
-        System.out.println(pastaContabil.getContaId());
         contaBancaria = pastaContabil.getContaBancaria();
     }
 
