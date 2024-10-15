@@ -15,7 +15,7 @@ public class DocumentosPage implements MainPaneCaller {
             DocumentoDAO dao = new DocumentoDAO();
             view = new PageView();
             DocTableModel model = new DocTableModel(dao.findAll());
-            PageController controller = new PageController(model, view);
+            new PageController(model, view);
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }

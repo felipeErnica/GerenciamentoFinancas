@@ -15,8 +15,6 @@ public class MainView implements PropertyChangeListener {
     private Container pane;
     private JPanel centerPane;
     private SideMenu sideMenu;
-    private JButton docButton;
-    private JButton prodButton;
 
     public MainView() { initComponents(); }
 

@@ -1,14 +1,12 @@
 package com.santacarolina.areas.mainFrame.common;
 
+import javax.swing.RowSorter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.interfaces.OnPaneUpdate;
 import com.santacarolina.ui.CustomTableModelImpl;
-
-import javax.swing.*;
-import javax.swing.event.RowSorterEvent;
-import javax.swing.event.RowSorterListener;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class MainPaneControllerImpl {
 

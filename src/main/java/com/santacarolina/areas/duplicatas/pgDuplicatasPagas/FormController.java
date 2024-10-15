@@ -15,13 +15,11 @@ import java.awt.event.MouseEvent;
 
 public class FormController {
 
-    private MainPaneControllerImpl controller;
     private DupView view;
     private DupTableModel model;
-    private RowSorter<TableModel> sorter;
 
     public FormController(DupView view, DupTableModel model) {
-        controller = new MainPaneControllerImpl(view, model);
+        new MainPaneControllerImpl(view, model);
         this.view = view;
         this.model = model;
         initComponents();

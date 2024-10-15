@@ -1,25 +1,20 @@
 package com.santacarolina.areas.documentos.frmDoc.frmAddPix;
 
+import java.awt.EventQueue;
+
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
 import com.santacarolina.dao.ContatoDAO;
-import com.santacarolina.dao.PixDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.OnSelectListener;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.model.Contato;
 import com.santacarolina.util.ViewInvoker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-
-import java.awt.*;
 
 public class FormController implements Controller {
 
-    private final Logger logger = LogManager.getLogger(FormController.class);
-
-    private final PixDAO pixDAO = new PixDAO();
     private final ContatoDAO contatoDAO = new ContatoDAO();
     private FormView view;
     private FormModel model;

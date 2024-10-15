@@ -3,8 +3,6 @@ package com.santacarolina.dto.nfe;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import java.time.LocalDate;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ide {
 

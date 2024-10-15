@@ -1,30 +1,26 @@
 package com.santacarolina.areas.documentos.frmDoc.prodPanel;
 
-import com.santacarolina.areas.documentos.frmDoc.frmClassificacao.FormController;
-import com.santacarolina.areas.documentos.frmDoc.frmClassificacao.FormView;
+import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
 import com.santacarolina.areas.documentos.frmDoc.frmClassificacao.FrmClassificacao;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.interfaces.OnResize;
 import com.santacarolina.model.Produto;
-import com.santacarolina.ui.CurrencyCellRenderer;
-import com.santacarolina.util.EditTableControllerImpl;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class ProdController {
 
-    private EditTableControllerImpl editTableController;
     private ProdutoTableModel model;
     private ProdView view;
 
     public ProdController(ProdView view, ProdutoTableModel model) {
         this.view = view;
         this.model = model;
-        editTableController = new EditTableControllerImpl(view.getEditTablePanel(), model);
         init();
     }
 

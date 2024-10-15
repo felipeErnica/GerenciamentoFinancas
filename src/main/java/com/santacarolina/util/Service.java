@@ -18,12 +18,10 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private Class<DTO> dtoClass;
     private final ApiRequest<DTO> apiRequest;
 
     public Service(Class<DTO> dtoClass) {
-        this.dtoClass = dtoClass;
-        this.apiRequest = new ApiRequest<>(dtoClass);
+        this.apiRequest = new ApiRequest<>(dtoClass); 
     }
 
     public Optional<T> getRequest(String queryString) throws FetchFailException {

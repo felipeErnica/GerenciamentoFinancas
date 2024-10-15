@@ -1,16 +1,19 @@
 package com.santacarolina.areas.documentos.frmSelectNFe;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.ui.AddView;
 import com.santacarolina.util.AppIcon;
-import net.miginfocom.swing.MigLayout;
 
-import javax.swing.*;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
+import net.miginfocom.swing.MigLayout;
 
 public class FormView {
 

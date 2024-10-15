@@ -1,13 +1,17 @@
 package com.santacarolina.util;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import org.knowm.xchart.internal.ChartBuilder;
-import org.knowm.xchart.internal.chartpart.Chart;
-import org.knowm.xchart.style.Styler;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractButton;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
+import org.knowm.xchart.internal.chartpart.Chart;
+
+import com.formdev.flatlaf.FlatClientProperties;
 
 public class MenuDecorator {
 

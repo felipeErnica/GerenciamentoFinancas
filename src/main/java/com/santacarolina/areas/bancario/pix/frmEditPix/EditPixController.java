@@ -1,5 +1,13 @@
 package com.santacarolina.areas.bancario.pix.frmEditPix;
 
+import java.awt.EventQueue;
+import java.util.Optional;
+
+import javax.swing.JOptionPane;
+
+import org.jdesktop.swingx.combobox.EnumComboBoxModel;
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.areas.bancario.pix.formModel.PixFormModel;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.PixDAO;
@@ -14,18 +22,8 @@ import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.combobox.EnumComboBoxModel;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Optional;
 
 public class EditPixController implements Controller {
-
-    private final Logger logger = LogManager.getLogger();
 
     private EditPixView view;
     private PixFormModel model;

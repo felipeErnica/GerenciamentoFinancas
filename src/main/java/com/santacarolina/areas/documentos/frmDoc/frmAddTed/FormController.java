@@ -1,20 +1,16 @@
 package com.santacarolina.areas.documentos.frmDoc.frmAddTed;
 
+import java.awt.EventQueue;
+
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioForm;
 import com.santacarolina.dao.ContatoDAO;
-import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.OnSelectListener;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.ViewInvoker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
 
 public class FormController {
 

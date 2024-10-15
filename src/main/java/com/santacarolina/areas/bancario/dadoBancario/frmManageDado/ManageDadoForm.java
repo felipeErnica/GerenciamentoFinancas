@@ -1,11 +1,10 @@
 package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 
+import java.awt.EventQueue;
+
 import com.formdev.flatlaf.FlatLightLaf;
-import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.util.CustomErrorThrower;
-
-import java.awt.*;
 
 public class ManageDadoForm {
 

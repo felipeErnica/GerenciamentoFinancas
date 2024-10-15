@@ -11,7 +11,7 @@ public class HomePage {
         try {
             FormView view = new FormView();
             FormModel model = new FormModel();
-            FormController controller = new FormController(view, model);
+            new FormController(view, model);
             return view.getMainPanel();
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);

@@ -1,32 +1,29 @@
 package com.santacarolina.areas.documentos.frmDoc.dupPanel;
 
+import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
 import com.santacarolina.areas.documentos.frmDoc.frmAddPix.AddPixDup;
 import com.santacarolina.areas.documentos.frmDoc.frmAddTed.AddTedDup;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.interfaces.OnResize;
 import com.santacarolina.model.Duplicata;
-import com.santacarolina.ui.CurrencyCellRenderer;
-import com.santacarolina.ui.DateCellRenderer;
-import com.santacarolina.util.EditTableControllerImpl;
 import com.santacarolina.util.FileManager;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class DupController {
 
-    private EditTableControllerImpl editTableController;
     private DupView view;
     private DupModel model;
 
     public DupController(DupView view, DupModel model) {
         this.view = view;
         this.model = model;
-        editTableController = new EditTableControllerImpl(view.getEditTablePanel(), model.getTableModel());
         model.addPropertyChangeListener(view);
         init();
     }

@@ -1,21 +1,19 @@
 package com.santacarolina.areas.documentos.frmSelectNFe;
 
+import javax.swing.JOptionPane;
+
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
-import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;
 import com.santacarolina.util.ViewInvoker;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-
-import javax.swing.*;
 
 public class FormController implements Controller {
-
-    private ContatoDAO contatoDAO = new ContatoDAO();
 
     private FormView view;
     private FormModel model;

@@ -1,17 +1,27 @@
 package com.santacarolina.areas.homePage;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.santacarolina.util.MenuDecorator;
-import com.santacarolina.util.StringConversor;
-import net.miginfocom.swing.MigLayout;
-import org.knowm.xchart.*;
-import org.knowm.xchart.style.AxesChartStyler;
+import java.awt.Color;
+
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+
+import org.knowm.xchart.CategoryChart;
+import org.knowm.xchart.CategoryChartBuilder;
+import org.knowm.xchart.CategorySeries;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.PieChartBuilder;
+import org.knowm.xchart.PieSeries;
+import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.PieStyler;
 import org.knowm.xchart.style.Styler;
 
-import javax.swing.*;
-import java.awt.*;
+import com.santacarolina.util.MenuDecorator;
+import com.santacarolina.util.StringConversor;
+
+import net.miginfocom.swing.MigLayout;
 
 public class FormView {
 

@@ -1,15 +1,18 @@
 package com.santacarolina.areas.documentos.frmDoc;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.areas.documentos.frmDoc.docPanel.DocView;
 import com.santacarolina.areas.documentos.frmDoc.dupPanel.DupView;
 import com.santacarolina.areas.documentos.frmDoc.prodPanel.ProdView;
 import com.santacarolina.util.AppIcon;
 import com.santacarolina.util.MenuDecorator;
-import net.miginfocom.swing.MigLayout;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class MainView {
 
@@ -18,7 +21,6 @@ public class MainView {
     private DupView duplicatasPanel;
     private ProdView produtosPanel;
     private JButton updateDocButton;
-    private JButton deleteDocButton;
     private JButton importNFeButton;
 
     public MainView() { initComponents(); }

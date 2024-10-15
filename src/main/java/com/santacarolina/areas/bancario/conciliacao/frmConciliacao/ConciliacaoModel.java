@@ -25,7 +25,6 @@ public class ConciliacaoModel implements ViewUpdater {
     private DuplicataDAO duplicataDao;
     private ExtratoConciliacaoTableModel extratoTableModel;
     private DupTableModel dupTableModel;
-    private String tableSelection;
     private PropertyFirer ps;
 
     public ConciliacaoModel() throws FetchFailException {
@@ -34,7 +33,6 @@ public class ConciliacaoModel implements ViewUpdater {
         duplicataDao = new DuplicataDAO();
         extratoTableModel = new ExtratoConciliacaoTableModel(extratoDao.findByConciliacao(false));
         dupTableModel = new DupTableModel(duplicataDao.findNaoPagas());
-        tableSelection = ONE_TO_ONE;
     }
 
     public Extrato getExtrato(int rowIndex) { return extratoTableModel.getObject(rowIndex).fromDTO(); }
@@ -43,10 +41,7 @@ public class ConciliacaoModel implements ViewUpdater {
     public DupTableModel getDupTableModel() { return dupTableModel; }
     public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }
 
-    public void setTableSelection(String tableSelection) {
-        this.tableSelection = tableSelection;
-        ps.firePropertyChange(TABLES, tableSelection);
-    }
+    public void setTableSelection(String tableSelection) { ps.firePropertyChange(TABLES, tableSelection); }
 
     @Override
     public void fireInitialChanges() { ps.firePropertyChange(TABLES, ONE_TO_ONE); }

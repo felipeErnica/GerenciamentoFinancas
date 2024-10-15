@@ -1,34 +1,31 @@
 package com.santacarolina.areas.bancario.extrato.pgExtrato;
 
-import com.santacarolina.areas.bancario.extrato.frmAddExtrato.AddExtratoForm;
-import com.santacarolina.areas.mainFrame.common.MainPaneController;
-import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
-import com.santacarolina.dao.ContaDAO;
-import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.exceptions.OFXTransformerException;
-import com.santacarolina.model.ContaBancaria;
-import com.santacarolina.model.Extrato;
-import com.santacarolina.util.CustomErrorThrower;
-import com.santacarolina.util.OfxTransformer.OFXTransformerImpl;
-import com.santacarolina.util.ValidatorViolations;
+import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.TableColumnModel;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.areas.bancario.extrato.frmAddExtrato.AddExtratoForm;
+import com.santacarolina.areas.mainFrame.common.MainPaneController;
+import com.santacarolina.dao.ContaDAO;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.exceptions.OFXTransformerException;
+import com.santacarolina.model.ContaBancaria;
+import com.santacarolina.model.Extrato;
+import com.santacarolina.util.CustomErrorThrower;
+import com.santacarolina.util.ValidatorViolations;
+import com.santacarolina.util.OfxTransformer.OFXTransformerImpl;
 
 public class ExtratoController implements MainPaneController {
 
     private ContaDAO contaDao;
-    private MainPaneControllerImpl mainPaneController;
     private ExtratoView view;
     private ExtratoTableModel model;
 
@@ -36,7 +33,6 @@ public class ExtratoController implements MainPaneController {
         this.model = model;
         this.view = view;
         this.contaDao = new ContaDAO();
-        this.mainPaneController = new MainPaneControllerImpl(view, this.model);
         initComponents();
     }
 

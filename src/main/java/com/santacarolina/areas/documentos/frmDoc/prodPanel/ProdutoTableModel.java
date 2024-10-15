@@ -3,7 +3,6 @@ package com.santacarolina.areas.documentos.frmDoc.prodPanel;
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.interfaces.EditTableModel;
 import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.model.DocumentoFiscal;

@@ -16,17 +16,18 @@ import java.awt.event.MouseEvent;
 
 public class ProdController implements MainPaneController {
 
-    private MainPaneControllerImpl controller;
     private ProdView view;
     private ProdTableModel model;
 
     public ProdController(ProdView view, ProdTableModel model) {
-        this.controller = new MainPaneControllerImpl(view, model);
         this.view = view;
         this.model = model;
         initComponents();
     }
 
+    /**
+     * 
+     */
     private void initComponents() {
         TableColumnModel columnModel = view.getTable().getColumnModel();
 

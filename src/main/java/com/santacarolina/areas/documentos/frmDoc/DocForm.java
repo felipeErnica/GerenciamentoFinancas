@@ -16,7 +16,7 @@ public class DocForm {
 
     public static void open(DocumentoFiscal d) {
         DocumentoFiscal clone = d.clone();
-        generateForm(d);
+        generateForm(clone);
     }
 
     private static void generateForm(DocumentoFiscal d) {

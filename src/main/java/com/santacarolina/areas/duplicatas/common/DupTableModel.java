@@ -1,13 +1,11 @@
 package com.santacarolina.areas.duplicatas.common;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.ui.CustomTableModelImpl;
-import com.santacarolina.util.StringConversor;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class DupTableModel implements CustomTableModel<DuplicataDTO> {
 

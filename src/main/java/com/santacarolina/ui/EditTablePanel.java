@@ -1,12 +1,17 @@
 package com.santacarolina.ui;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.security.Key;
+
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.KeyStroke;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 public class EditTablePanel {
 
@@ -17,9 +22,6 @@ public class EditTablePanel {
     private final KeyStroke backspaceKs = KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0, false);
     private final KeyStroke pasteKs = KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK, false);
     private final KeyStroke cutKs = KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK, false);
-    private ActionListener backspaceAction;
-    private ActionListener pasteAction;
-    private ActionListener cutAction;
 
     public EditTablePanel() { initComponents(); }
 
@@ -33,18 +35,15 @@ public class EditTablePanel {
     }
 
     public void setCutAction(ActionListener cutAction) {
-        this.cutAction = cutAction;
         table.registerKeyboardAction(cutAction, cutKs, JComponent.WHEN_FOCUSED);
         editPopupMenu.getCutItem().addActionListener(cutAction);
     }
 
     public void setBackspaceAction(ActionListener backspaceAction) {
-        this.backspaceAction = backspaceAction;
         table.registerKeyboardAction(backspaceAction,backspaceKs,JComponent.WHEN_FOCUSED);
     }
 
     public void setPasteAction(ActionListener pasteAction) {
-        this.pasteAction = pasteAction;
         table.registerKeyboardAction(pasteAction, pasteKs, JComponent.WHEN_FOCUSED);
         editPopupMenu.getPasteItem().addActionListener(pasteAction);
     }

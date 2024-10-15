@@ -13,14 +13,10 @@ public class DuplicataRenderer implements TableCellRenderer {
 
     private DefaultTableCellRenderer cellRenderer;
     private DupTableModel model;
-    private Font boldFont;
-    private Font normalFont;
 
     public DuplicataRenderer(DupTableModel model) {
         this.cellRenderer = new DefaultTableCellRenderer();
         this.model = model;
-        normalFont = cellRenderer.getFont();
-        boldFont = normalFont.deriveFont(Font.BOLD);
     }
 
     @Override

@@ -1,5 +1,12 @@
 package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane;
+import javax.swing.RowSorter;
+import javax.swing.table.TableRowSorter;
+
 import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioForm;
 import com.santacarolina.areas.bancario.dadoBancario.frmEditDado.EditDadoForm;
 import com.santacarolina.dao.DadoDAO;
@@ -8,15 +15,9 @@ import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.DadoBancario;
-import com.santacarolina.ui.CustomTableModelImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
-
-import javax.swing.*;
-import javax.swing.table.TableRowSorter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class FormController implements Controller {
 
@@ -24,7 +25,7 @@ public class FormController implements Controller {
 
     private TableModel model;
     private FormView view;
-    private RowSorter<CustomTableModelImpl> sorter;
+    private RowSorter sorter;
 
     public FormController(TableModel model, FormView view) {
         this.model = model;

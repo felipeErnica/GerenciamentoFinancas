@@ -2,12 +2,9 @@ package com.santacarolina.areas.pastaContabil.frmPastaContabil;
 
 import java.beans.PropertyChangeListener;
 
-import com.santacarolina.dao.PastaDAO;
-import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.model.PastaContabil;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.PropertyFirer;
 
 public class PastaContabilModel implements ViewUpdater {

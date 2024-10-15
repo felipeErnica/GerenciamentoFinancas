@@ -1,7 +1,13 @@
 package com.santacarolina.areas.bancario.conciliacao.frmOutrosMovimentos;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.TableColumnModel;
+
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoRenderer;
-import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoTableModel;
 import com.santacarolina.dao.ConciliacaoDAO;
 import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.enums.TipoMovimento;
@@ -11,17 +17,9 @@ import com.santacarolina.interfaces.Controller;
 import com.santacarolina.interfaces.OnResize;
 import com.santacarolina.model.Conciliacao;
 import com.santacarolina.model.Extrato;
-import com.santacarolina.ui.CurrencyCellRenderer;
-import com.santacarolina.ui.DateCellRenderer;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OutrosMovimentosController implements Controller {
 

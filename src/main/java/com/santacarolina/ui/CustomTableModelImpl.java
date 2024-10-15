@@ -1,13 +1,13 @@
 package com.santacarolina.ui;
 
-import com.santacarolina.interfaces.CustomTableModel;
+import java.util.List;
 
-import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.util.List;
+
+import com.santacarolina.interfaces.CustomTableModel;
 
 public class CustomTableModelImpl<T> implements TableModel {
 

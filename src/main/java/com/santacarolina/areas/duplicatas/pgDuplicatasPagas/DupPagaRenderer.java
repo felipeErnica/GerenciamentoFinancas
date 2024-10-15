@@ -1,13 +1,17 @@
 package com.santacarolina.areas.duplicatas.pgDuplicatasPagas;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.table.TableCellRenderer;
+
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.areas.duplicatas.common.DuplicataRenderer;
 import com.santacarolina.dto.DuplicataDTO;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import java.awt.*;
 
 public class DupPagaRenderer implements TableCellRenderer {
 

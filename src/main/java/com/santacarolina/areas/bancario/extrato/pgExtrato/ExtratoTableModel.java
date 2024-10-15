@@ -1,17 +1,16 @@
 package com.santacarolina.areas.bancario.extrato.pgExtrato;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.swing.event.TableModelListener;
+
 import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.ui.CustomTableModelImpl;
-import com.santacarolina.util.StringConversor;
-
-import javax.swing.event.TableModelListener;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
 

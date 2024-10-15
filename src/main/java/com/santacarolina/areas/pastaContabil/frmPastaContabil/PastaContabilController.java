@@ -1,20 +1,19 @@
 package com.santacarolina.areas.pastaContabil.frmPastaContabil;
 
+import java.awt.EventQueue;
+
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.dao.ContaDAO;
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.util.CustomErrorThrower;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-
-import java.awt.*;
-import java.util.Optional;
 
 public class PastaContabilController {
 

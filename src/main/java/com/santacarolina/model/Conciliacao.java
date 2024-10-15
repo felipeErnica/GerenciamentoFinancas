@@ -51,7 +51,12 @@ public class Conciliacao implements ToDTO<ConciliacaoDTO> {
         return duplicata;
     }
 
-    public Extrato getExtrato() { return extrato; }
+    public Extrato getExtrato() {
+        try {
+            if (extrato == null) extrato = extratoDAO.findById(extratoId).orElse(null);
+        } catch (FetchFailException ignored) {}
+        return extrato; 
+    }
 
     public void setDuplicata(Duplicata duplicata) {
         this.duplicata = duplicata;

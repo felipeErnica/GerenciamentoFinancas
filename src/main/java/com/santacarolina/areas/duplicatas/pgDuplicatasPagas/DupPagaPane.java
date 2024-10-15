@@ -15,7 +15,7 @@ public class DupPagaPane {
         try {
             view = new DupView();
             DupTableModel model = new DupTableModel(new DuplicataDAO().findPagas());
-            FormController controller = new FormController(view, model);
+            new FormController(view, model);
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }

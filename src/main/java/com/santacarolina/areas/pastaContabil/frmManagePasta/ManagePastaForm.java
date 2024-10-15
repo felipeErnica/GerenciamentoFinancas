@@ -1,6 +1,5 @@
 package com.santacarolina.areas.pastaContabil.frmManagePasta;
 
-import com.santacarolina.areas.pastaContabil.frmPastaContabil.PastaContabilForm;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.util.CustomErrorThrower;
 

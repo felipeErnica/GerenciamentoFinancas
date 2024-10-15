@@ -1,5 +1,11 @@
 package com.santacarolina.areas.contato.frmAddContato;
 
+import java.util.Optional;
+
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.santacarolina.areas.contato.common.FormContatoController;
 import com.santacarolina.areas.contato.common.FormContatoModel;
 import com.santacarolina.areas.contato.common.FormContatoView;
@@ -10,15 +16,9 @@ import com.santacarolina.model.Contato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import javax.swing.*;
-import java.util.Optional;
 
 public class FormController implements IContatoController {
 
-    private final Logger logger = LogManager.getLogger();
     private ContatoDAO dao;
 
     private FormContatoController controller;

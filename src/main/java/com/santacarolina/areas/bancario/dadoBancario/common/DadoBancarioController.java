@@ -1,5 +1,8 @@
 package com.santacarolina.areas.bancario.dadoBancario.common;
 
+import org.jdesktop.swingx.combobox.EnumComboBoxModel;
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.dao.BancoDAO;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.DadoDAO;
@@ -11,11 +14,8 @@ import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.model.Banco;
 import com.santacarolina.model.Contato;
-import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
-import org.jdesktop.swingx.combobox.EnumComboBoxModel;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
 public class DadoBancarioController {
 

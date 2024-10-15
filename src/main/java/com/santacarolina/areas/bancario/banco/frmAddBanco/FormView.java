@@ -1,8 +1,6 @@
 package com.santacarolina.areas.bancario.banco.frmAddBanco;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.areas.bancario.banco.common.BancoView;
-import com.santacarolina.util.AppIcon;
 
 public class FormView {
 

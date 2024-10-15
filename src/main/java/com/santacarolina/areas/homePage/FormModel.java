@@ -1,5 +1,14 @@
 package com.santacarolina.areas.homePage;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.santacarolina.areas.homePage.graphData.ExpenseCategory;
 import com.santacarolina.areas.homePage.graphData.ExpenseIncomeSerie;
 import com.santacarolina.dao.ClassificacaoDAO;
@@ -10,16 +19,6 @@ import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.ClassificacaoContabil;
-import org.knowm.xchart.CategorySeries;
-
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class FormModel {
 
@@ -33,8 +32,6 @@ public class FormModel {
 
     private List<ExpenseCategory> pieSeriesList;
     private List<ExpenseIncomeSerie> expenseIncomeSeries;
-    private double expenseIncomeLimit;
-    private ExpenseIncomeSerie resultingLine;
 
     public FormModel() throws FetchFailException {
         produtos = produtoDAO.findAll().stream()

@@ -1,23 +1,20 @@
 package com.santacarolina.model;
 
-import com.santacarolina.dao.ContatoDAO;
-import com.santacarolina.dao.DuplicataDAO;
-import com.santacarolina.dao.PastaDAO;
-import com.santacarolina.dao.ProdutoDAO;
-import com.santacarolina.dto.DocumentoDTO;
-import com.santacarolina.dto.DuplicataDTO;
-import com.santacarolina.dto.ProdutoDTO;
-import com.santacarolina.enums.FluxoCaixa;
-import com.santacarolina.enums.TipoDoc;
-import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ToDTO;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import com.santacarolina.dao.ContatoDAO;
+import com.santacarolina.dao.DuplicataDAO;
+import com.santacarolina.dao.PastaDAO;
+import com.santacarolina.dao.ProdutoDAO;
+import com.santacarolina.dto.DocumentoDTO;
+import com.santacarolina.enums.FluxoCaixa;
+import com.santacarolina.enums.TipoDoc;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.ToDTO;
 
 public class DocumentoFiscal implements Cloneable, Serializable, ToDTO<DocumentoDTO> {
 

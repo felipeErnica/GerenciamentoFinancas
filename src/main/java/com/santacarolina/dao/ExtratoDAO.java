@@ -7,6 +7,7 @@ import com.santacarolina.model.Extrato;
 import com.santacarolina.util.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ExtratoDAO {
 
@@ -28,6 +29,11 @@ public class ExtratoDAO {
     public void saveAll(List<Extrato> list) throws SaveFailException {
         String query = MAPPING + "/batch";
         service.postListRequest(query, list);
+    }
+
+    public Optional<Extrato> findById(long id) throws FetchFailException {
+        String query = MAPPING + "/" + id;
+        return service.getRequest(query);
     }
 
 }

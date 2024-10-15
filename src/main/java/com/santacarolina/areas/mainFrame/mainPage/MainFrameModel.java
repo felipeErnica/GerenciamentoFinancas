@@ -1,11 +1,10 @@
 package com.santacarolina.areas.mainFrame.mainPage;
 
-import com.santacarolina.areas.homePage.HomePage;
+import java.beans.PropertyChangeListener;
+
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.util.PropertyFirer;
-
-import java.beans.PropertyChangeListener;
 
 public class MainFrameModel implements ViewUpdater {
 
@@ -15,18 +14,13 @@ public class MainFrameModel implements ViewUpdater {
     public static final String PRODUTOS = "prods";
     public static final String BANCARIAS = "bancarias";
 
-    private MainPaneView paneView;
     private PropertyFirer ps;
 
     public MainFrameModel() {
         this.ps = new PropertyFirer(this);
     }
 
-    public void setCenterPanel(MainPaneView paneView) {
-        this.paneView = paneView;
-        ps.firePropertyChange(CENTER_PANEL, paneView);
-    }
-
+    public void setCenterPanel(MainPaneView paneView) { ps.firePropertyChange(CENTER_PANEL, paneView); }
     public void setHomePage() { ps.firePropertyChange(HOME_PAGE, null); }
 
     @Override

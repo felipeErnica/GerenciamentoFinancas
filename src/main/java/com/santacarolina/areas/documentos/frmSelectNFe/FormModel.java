@@ -2,7 +2,6 @@ package com.santacarolina.areas.documentos.frmSelectNFe;
 
 import com.santacarolina.model.DocumentoFiscal;
 
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
 public class FormModel {

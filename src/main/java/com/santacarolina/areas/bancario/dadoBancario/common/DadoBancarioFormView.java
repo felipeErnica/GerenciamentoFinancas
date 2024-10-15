@@ -24,7 +24,6 @@ public class DadoBancarioFormView implements PropertyChangeListener {
     private JTextField agencyTextField;
     private JLabel contaLabel;
     private JTextField contaTextField;
-    private JLabel pixCheckBoxLabel;
     private JCheckBox pixCheckBox;
     private JLabel pixTypeLabel;
     private JComboBox<TipoPix> pixTypeComboBox;
@@ -40,7 +39,6 @@ public class DadoBancarioFormView implements PropertyChangeListener {
     }
 
     private void initComponents() {
-        JPanel centerPane = new JPanel();
         JPanel infoPane = new JPanel();
         JPanel pixPane = new JPanel();
 

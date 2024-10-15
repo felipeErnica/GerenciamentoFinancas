@@ -1,14 +1,10 @@
 package com.santacarolina.ui;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.event.*;
 
 public class TablePanel {
-
-    private static final Logger logger = LogManager.getLogger();
 
     private TablePopupMenu tablePopupMenu;
     private JTable table;

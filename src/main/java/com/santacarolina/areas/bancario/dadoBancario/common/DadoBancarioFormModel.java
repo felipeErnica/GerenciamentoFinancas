@@ -8,7 +8,6 @@ import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.PropertyFirer;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
 
 public class DadoBancarioFormModel implements ViewUpdater {
@@ -35,7 +34,6 @@ public class DadoBancarioFormModel implements ViewUpdater {
     private String chave;
     private boolean pixEnabled;
     private boolean pixInvalidFormat;
-    private boolean updated;
     private boolean isUpdating;
     private PropertyFirer pf;
 

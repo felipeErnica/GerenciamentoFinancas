@@ -4,16 +4,11 @@ import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
-import com.santacarolina.model.Contato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class FormContatoController implements Controller {
-
-    private final Logger logger = LogManager.getLogger();
 
     private IContatoController child;
     private ContatoDAO dao;

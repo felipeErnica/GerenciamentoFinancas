@@ -1,11 +1,12 @@
 package com.santacarolina.areas.documentos.pgDocumentos;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
+
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
 import com.santacarolina.areas.mainFrame.common.MainPaneViewImpl;
-import com.santacarolina.areas.mainFrame.mainPage.MainView;
-
-import javax.swing.*;
-import javax.swing.table.TableColumnModel;
 
 public class PageView implements MainPaneView {
 
