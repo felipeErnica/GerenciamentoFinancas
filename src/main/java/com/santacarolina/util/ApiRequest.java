@@ -19,7 +19,7 @@ public class ApiRequest<T> {
     private static final Logger logger = LogManager.getLogger(ApiRequest.class);
 
     private final ObjectMapper mapper;
-    private final String URL_BACKEND = "http://192.168.0.169:8080";
+    private final String URL_BACKEND = "http://192.168.0.169:5005";
     private final HttpClient client = HttpClient.newBuilder().build();
     private HttpResponse<String> response;
     private HttpRequest request;
