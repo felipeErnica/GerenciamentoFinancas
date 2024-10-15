@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    application
 }
 
 group = "br.com.santacarolina"
@@ -53,6 +54,10 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
     implementation("org.knowm.xchart:xchart:3.8.8")
     implementation("org.knowm.xchart:xchart-parent:3.8.8")
+}
+
+application {
+    mainClass = "com.santacarolina.GerenciamentoFinancas"
 }
 
 tasks.test {
