@@ -32,7 +32,7 @@ public class ApiRequest<T> {
     }
 
     public Optional<T> getRequest(String queryString) throws URISyntaxException, IOException, InterruptedException {
-        logger.info("Enviando query: " + queryString);
+        logger.info("Enviando query: " + URL_BACKEND + queryString);
         request = HttpRequest.newBuilder()
                 .uri(new URI(URL_BACKEND + queryString))
                 .GET()
@@ -47,6 +47,7 @@ public class ApiRequest<T> {
     }
 
     public List<T> getListRequest(String queryString) throws URISyntaxException, IOException, InterruptedException {
+        logger.info("Enviando query: " + URL_BACKEND + queryString);
         request = HttpRequest.newBuilder()
                 .uri(new URI(URL_BACKEND + queryString))
                 .GET()
@@ -68,8 +69,7 @@ public class ApiRequest<T> {
                 .POST(bodyPublisher)
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response: " + response.statusCode());
-        if (response.statusCode() != 200) throw new InterruptedException("Server Error: " + response.statusCode());
+        logger.info("Response POST: " + response.statusCode());
     }
 
     public T postRequestWithResponse(String queryString, T t) throws InterruptedException, IOException, URISyntaxException {
@@ -82,7 +82,7 @@ public class ApiRequest<T> {
                 .POST(bodyPublisher)
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response: " + response.statusCode());
+        logger.info("Response POST: " + response.statusCode());
         if (response.statusCode() != 200) throw new InterruptedException("Server Error: " + response.statusCode());
         return mapper.readValue(response.body(), tClass);
     }
@@ -97,18 +97,18 @@ public class ApiRequest<T> {
                 .POST(bodyPublisher)
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response: " + response.statusCode());
+        logger.info("Response Batch: " + response.statusCode());
         if (response.statusCode() != 200) throw new InterruptedException("Server Error: " + response.statusCode());
     }
 
     public void deleteRequest(String query) throws URISyntaxException, IOException, InterruptedException {
-        logger.info("Delete Request: " + query);
+        logger.info("Delete Request: " + URL_BACKEND + query);
         request = HttpRequest.newBuilder()
                 .uri(new URI(URL_BACKEND + query))
                 .DELETE()
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response: " + response.statusCode());
+        logger.info("Response Delete: " + response.statusCode());
         if (response.statusCode() != 200) throw new InterruptedException("Server Error: " + response.statusCode());
     }
 
