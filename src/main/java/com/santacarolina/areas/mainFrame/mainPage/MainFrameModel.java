@@ -17,6 +17,7 @@ public class MainFrameModel implements ViewUpdater {
     private PropertyFirer ps;
 
     public MainFrameModel() {
+        System.out.println("Modelo iniciado corretamente!");
         this.ps = new PropertyFirer(this);
     }
 

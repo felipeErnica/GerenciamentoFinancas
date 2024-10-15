@@ -19,6 +19,7 @@ public class MainView implements PropertyChangeListener {
     public MainView() { initComponents(); }
 
     private void initComponents() {
+        System.out.println("View iniciada corretamente!");
         frame = new JFrame("Gerenciamento de Finanças");
         frame.setIconImage(new FlatSVGIcon("icon/main_icon.svg").getImage());
         centerPane = new JPanel();

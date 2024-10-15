@@ -27,6 +27,7 @@ public class MainFrameController implements Controller {
     private MainView view;
 
     public MainFrameController(MainFrameModel model, MainView view) {
+        System.out.println("Controle iniciado corretamente!");
         this.model = model;
         this.view = view;
         initComponents();
