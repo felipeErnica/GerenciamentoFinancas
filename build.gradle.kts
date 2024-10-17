@@ -60,6 +60,12 @@ application {
     mainClass = "com.santacarolina.GerenciamentoFinancas"
 }
 
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = application.mainClass.get()
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
