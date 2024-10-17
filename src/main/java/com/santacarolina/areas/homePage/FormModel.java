@@ -22,9 +22,9 @@ import com.santacarolina.model.ClassificacaoContabil;
 
 public class FormModel {
 
-    private static final ClassificacaoDAO classificacaoDAO = new ClassificacaoDAO();
-    private static final ProdutoDAO produtoDAO = new ProdutoDAO();
-    private static final DuplicataDAO duplicataDAO = new DuplicataDAO();
+    private ClassificacaoDAO classificacaoDAO = new ClassificacaoDAO();
+    private ProdutoDAO produtoDAO = new ProdutoDAO();
+    private DuplicataDAO duplicataDAO = new DuplicataDAO();
 
     private List<ProdutoDTO> produtos;
     private List<ClassificacaoContabil> classificacaoList;
