@@ -15,14 +15,12 @@ import com.santacarolina.util.CustomErrorThrower;
 
 public class MainController implements Controller {
 
-    private DocumentoDAO dao;
     private MainView view;
     private MainModel model;
 
     public MainController(MainView view, MainModel model) throws FetchFailException {
         this.view = view;
         this.model = model;
-        dao = new DocumentoDAO();
         new DupController(view.getDuplicatasPanel(), model.getDupModel());
         new ProdController(view.getProdutosPanel(), model.getProdutoTableModel());
         new DocumentoController(model.getDocModel(), view.getInfoPanel());
@@ -34,7 +32,7 @@ public class MainController implements Controller {
     private void updateDocButton_onClick() {
         try {
             if (!DocValidator.validate(model)) return;
-            dao.save(model.getDocumentoFiscal());
+            new DocumentoDAO().save(model.getDocumentoFiscal());
             view.getDialog().dispose();
             DocForm.openNew();
         } catch (FetchFailException | SaveFailException e) {

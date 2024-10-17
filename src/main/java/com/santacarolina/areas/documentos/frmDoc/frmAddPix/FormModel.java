@@ -27,7 +27,6 @@ public class FormModel implements ViewUpdater {
     private ChavePix chave;
     private List<Duplicata> duplicataList;
 
-    private PixDAO pixDAO;
     private boolean updating;
     private Contato contato;
     private boolean chaveEnabled;
@@ -40,7 +39,6 @@ public class FormModel implements ViewUpdater {
 
     public FormModel(List<Duplicata> list) throws FetchFailException {
         this.duplicataList = list;
-        pixDAO = new PixDAO();
         pf = new PropertyFirer(this);
         if (!list.isEmpty()) {
             Duplicata dup = list.get(0);
@@ -58,7 +56,7 @@ public class FormModel implements ViewUpdater {
     private void initEmpty(Duplicata dup) throws FetchFailException {
         contato = dup.getDocumento().getEmissor();
         if (contato == null) return;
-        chaveList = pixDAO.findByContato(contato);
+        chaveList = new PixDAO().findByContato(contato);
         if (!chaveList.isEmpty()) {
             chaveEnabled = true;
             chave = chaveList.get(0);
@@ -74,8 +72,8 @@ public class FormModel implements ViewUpdater {
 
     private void init() throws FetchFailException {
         contato = chave.getContato();
-        chaveList  = pixDAO.findByContato(contato);
-        chaveEnabled = true;
+        chaveList  = new PixDAO().findByContato(contato);
+        chaveEnabled = true;    
         tipoPix = chave.getTipoPix().getString();
         if (chave.getDadoBancario() != null) {
             DadoBancario dado = chave.getDadoBancario();
@@ -122,7 +120,7 @@ public class FormModel implements ViewUpdater {
 
     public void triggerChaveList() {
         try {
-            this.chaveList = pixDAO.findByContato(contato);
+            this.chaveList = new PixDAO().findByContato(contato);
         } catch (FetchFailException e) {
             this.chaveList = null;
             CustomErrorThrower.throwError(e);

@@ -11,10 +11,6 @@ import com.santacarolina.interfaces.ToDTO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DadoBancario implements ToDTO<DadoDTO>, Cloneable {
 
-    private static final BancoDAO bancoDAO = new BancoDAO();
-    private static final ContatoDAO contatoDAO = new ContatoDAO();
-    private static final PixDAO pixDAO = new PixDAO();
-
     private long id;
     private String agencia;
     private Banco banco;
@@ -45,7 +41,7 @@ public class DadoBancario implements ToDTO<DadoDTO>, Cloneable {
 
     public ChavePix getChavePix() {
         try {
-            if (chavePix == null && pixId != null) this.chavePix = pixDAO.findById(pixId).orElse(null);
+            if (chavePix == null && pixId != null) this.chavePix = new PixDAO().findById(pixId).orElse(null);
             return chavePix;
         } catch (FetchFailException e) {
             return chavePix;
@@ -54,7 +50,7 @@ public class DadoBancario implements ToDTO<DadoDTO>, Cloneable {
 
     public Contato getContato() {
         try {
-            if (contato == null) this.contato = contatoDAO.findById(contatoId).orElse(null);
+            if (contato == null) this.contato = new ContatoDAO().findById(contatoId).orElse(null);
             return contato;
         } catch (FetchFailException e) {
             return contato;
@@ -63,7 +59,7 @@ public class DadoBancario implements ToDTO<DadoDTO>, Cloneable {
 
     public Banco getBanco() {
         try {
-            if (banco == null) this.banco = bancoDAO.findById(bancoId).orElse(null);
+            if (banco == null) this.banco = new BancoDAO().findById(bancoId).orElse(null);
             return banco;
         } catch (FetchFailException e) {
             return banco;

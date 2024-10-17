@@ -9,9 +9,6 @@ import com.santacarolina.interfaces.ToDTO;
 
 public class Conciliacao implements ToDTO<ConciliacaoDTO> {
 
-    private static final DuplicataDAO duplicataDAO = new DuplicataDAO();
-    private static final ExtratoDAO extratoDAO = new ExtratoDAO();
-
     private long id;
     private TipoMovimento tipoMovimento;
     private Long duplicataId;
@@ -46,14 +43,14 @@ public class Conciliacao implements ToDTO<ConciliacaoDTO> {
 
     public Duplicata getDuplicata() {
         try {
-            if (duplicata == null && duplicataId != null) duplicata = duplicataDAO.findById(duplicataId).orElse(null);
+            if (duplicata == null && duplicataId != null) duplicata = new DuplicataDAO().findById(duplicataId).orElse(null);
         } catch (FetchFailException ignored) {}
         return duplicata;
     }
 
     public Extrato getExtrato() {
         try {
-            if (extrato == null) extrato = extratoDAO.findById(extratoId).orElse(null);
+            if (extrato == null) extrato = new ExtratoDAO().findById(extratoId).orElse(null);
         } catch (FetchFailException ignored) {}
         return extrato; 
     }

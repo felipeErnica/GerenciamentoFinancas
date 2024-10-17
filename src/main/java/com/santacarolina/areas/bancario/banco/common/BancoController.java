@@ -18,8 +18,6 @@ import java.util.Optional;
 
 public class BancoController implements Controller {
 
-    private static final BancoDAO bancoDAO = new BancoDAO();
-
     private BancoModel model;
     private BancoView view;
 
@@ -42,7 +40,7 @@ public class BancoController implements Controller {
                 return;
             }
             if (bancoExists()) return;
-            bancoDAO.save(model.getBanco());
+            new BancoDAO().save(model.getBanco());
             OptionDialog.showSuccessSaveMessage();
         } catch (SaveFailException | FetchFailException | DeleteFailException e) {
             CustomErrorThrower.throwError(e);
@@ -50,13 +48,13 @@ public class BancoController implements Controller {
     }
 
     private boolean bancoExists() throws FetchFailException, DeleteFailException {
-        Optional<Banco> optionalEqual = bancoDAO.findByNome(model.getNomeBanco());
+        Optional<Banco> optionalEqual = new BancoDAO().findByNome(model.getNomeBanco());
         if (optionalEqual.isPresent() && optionalEqual.get().getId() != model.getBanco().getId()) {
             int result = OptionDialog.showOptionDialog(
                     "Este banco já existe. Deseja substituí-lo por este?",
                     "Banco já Existe!");
             if (result == JOptionPane.YES_OPTION) {
-                bancoDAO.deleteById(model.getBanco().getId());
+                new BancoDAO().deleteById(model.getBanco().getId());
                 Banco bancoEqual = optionalEqual.get();
                 model.getBanco().setId(bancoEqual.getId());
                 return false;

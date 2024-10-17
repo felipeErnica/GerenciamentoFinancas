@@ -15,7 +15,6 @@ import com.santacarolina.util.ViewInvoker;
 
 public class FormController implements Controller {
 
-    private final ContatoDAO contatoDAO = new ContatoDAO();
     private FormView view;
     private FormModel model;
 
@@ -26,7 +25,7 @@ public class FormController implements Controller {
     }
 
     public void initComponents() throws FetchFailException {
-        view.getContatoComboBox().setModel(new ListComboBoxModel<>(contatoDAO.findAll()));
+        view.getContatoComboBox().setModel(new ListComboBoxModel<>(new ContatoDAO().findAll()));
 
         view.getContatoComboBox().addActionListener(e -> contatoComboBox_afterUpdate());
         view.getChaveComboBox().addActionListener(e -> chaveComboBox_afterUpdate());

@@ -18,11 +18,6 @@ import com.santacarolina.interfaces.ToDTO;
 
 public class DocumentoFiscal implements Cloneable, Serializable, ToDTO<DocumentoDTO> {
 
-    private static final ContatoDAO contatoDAO = new ContatoDAO();
-    private static final PastaDAO pastaDAO = new PastaDAO();
-    private static final DuplicataDAO duplicataDAO = new DuplicataDAO();
-    private static final ProdutoDAO produtoDAO = new ProdutoDAO();
-
     private long id;
     private Long numDoc;
     private TipoDoc tipoDoc;
@@ -65,7 +60,7 @@ public class DocumentoFiscal implements Cloneable, Serializable, ToDTO<Documento
 
     public Contato getEmissor() {
         try {
-            if (emissor == null) emissor = contatoDAO.findById(emissorId).orElse(null);
+            if (emissor == null) emissor = new ContatoDAO().findById(emissorId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return emissor;
@@ -73,7 +68,7 @@ public class DocumentoFiscal implements Cloneable, Serializable, ToDTO<Documento
 
     public PastaContabil getPastaContabil() {
         try {
-            if (pastaContabil == null) pastaContabil = pastaDAO.findById(pastaId).orElse(null);
+            if (pastaContabil == null) pastaContabil = new PastaDAO().findById(pastaId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return pastaContabil;
@@ -81,7 +76,7 @@ public class DocumentoFiscal implements Cloneable, Serializable, ToDTO<Documento
 
     public List<Duplicata> getDuplicatas() {
         try {
-            if (duplicatas == null) duplicatas = duplicataDAO.findByDoc(this);
+            if (duplicatas == null) duplicatas = new DuplicataDAO().findByDoc(this);
         } catch (FetchFailException ignored) {
         }
         return duplicatas;
@@ -89,7 +84,7 @@ public class DocumentoFiscal implements Cloneable, Serializable, ToDTO<Documento
 
     public List<Produto> getProdutos() {
         try {
-            if (produtos == null) produtos = produtoDAO.findByDoc(this);
+            if (produtos == null) produtos = new ProdutoDAO().findByDoc(this);
         } catch (FetchFailException ignored) {
         }
         return produtos;

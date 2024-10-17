@@ -14,19 +14,17 @@ import com.santacarolina.util.ViewInvoker;
 
 public class FormController {
 
-    private ContatoDAO contatoDAO;
     private FormView view;
     private FormModel model;
 
     public FormController(FormView view, FormModel model) throws FetchFailException {
-        contatoDAO  = new ContatoDAO();
         this.view = view;
         this.model = model;
         init();
     }
 
     private void init() throws FetchFailException {
-        view.getContatoComboBox().setModel(new ListComboBoxModel<>(contatoDAO.findAll()));
+        view.getContatoComboBox().setModel(new ListComboBoxModel<>(new ContatoDAO().findAll()));
         view.getAgenciaTextField().addFocusListener((OnSelectListener) e -> agenciaTextField_onFocus());
         view.getBancoTextField().addFocusListener((OnSelectListener) e -> bancoTextField_onFocus());
 

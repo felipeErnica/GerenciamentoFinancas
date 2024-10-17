@@ -14,10 +14,6 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Duplicata implements ToDTO<DuplicataDTO> {
 
-    private static final DocumentoDAO documentoDAO = new DocumentoDAO();
-    private static final DadoDAO dadoDAO = new DadoDAO();
-    private static final PixDAO pixDAO = new PixDAO();
-
     private long id;
     private DocumentoFiscal documento;
     private long documentoId;
@@ -49,7 +45,7 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
 
     public DocumentoFiscal getDocumento() {
         try {
-            if (documento == null) documento = documentoDAO.findById(documentoId).orElse(null);
+            if (documento == null) documento = new DocumentoDAO().findById(documentoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return documento;
@@ -57,7 +53,7 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
 
     public DadoBancario getDadoBancario() {
         try {
-            if (dadoBancario == null && dadoId != null) dadoBancario = dadoDAO.findById(dadoId).orElse(null);
+            if (dadoBancario == null && dadoId != null) dadoBancario = new DadoDAO().findById(dadoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return dadoBancario;
@@ -65,7 +61,7 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
 
     public ChavePix getPix() {
         try {
-            if (pix == null && pixId != null) pix = pixDAO.findById(pixId).orElse(null);
+            if (pix == null && pixId != null) pix = new PixDAO().findById(pixId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return pix;

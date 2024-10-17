@@ -1,5 +1,13 @@
 package com.santacarolina.areas.documentos.frmDoc.docPanel;
 
+import java.awt.EventQueue;
+import java.text.ParseException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.PastaDAO;
@@ -11,35 +19,23 @@ import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.FileManager;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.StringConversor;
-import org.apache.commons.lang3.StringUtils;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-
-import java.awt.*;
-import java.text.ParseException;
-import java.time.DateTimeException;
-import java.time.LocalDate;
 
 public class DocumentoController {
 
-    private ContatoDAO contatoDAO;
-    private PastaDAO pastaDAO;
     private DocModel model;
     private DocView view;
 
     public DocumentoController(DocModel model, DocView view) throws FetchFailException {
         this.model = model;
         this.view = view;
-        contatoDAO = new ContatoDAO();
-        pastaDAO = new PastaDAO();
         init();
         model.addPropertyChangeListener(view);
     }
 
     private void init() throws FetchFailException {
-        view.getSenderComboBox().setModel(new ListComboBoxModel<>(contatoDAO.findAll()));
-        view.getUserFolderComboBox().setModel(new ListComboBoxModel<>(pastaDAO.findAll()));
+        view.getSenderComboBox().setModel(new ListComboBoxModel<>(new ContatoDAO().findAll()));
+        view.getUserFolderComboBox().setModel(new ListComboBoxModel<>(new PastaDAO().findAll()));
 
         view.getDocPath().addMouseListener((DoubleClickListener) e -> docPath_doubleClick());
         view.getSenderComboBox().addActionListener(e -> senderComboBox_afterUpdate());

@@ -21,8 +21,6 @@ import com.santacarolina.util.ViewInvoker;
 
 public class FormController implements Controller {
 
-    private static final DadoDAO dadoDAO = new DadoDAO();
-
     private TableModel model;
     private FormView view;
     private RowSorter sorter;
@@ -78,7 +76,7 @@ public class FormController implements Controller {
                     int viewRow = rows[i];
                     int modelRow = sorter.convertRowIndexToModel(viewRow);
                     DadoBancario dadoBancario = model.getObject(modelRow).fromDTO();
-                    dadoDAO.deleteById(dadoBancario.getId());
+                    new DadoDAO().deleteById(dadoBancario.getId());
                     model.removeRow(modelRow);
                 }
             } catch (DeleteFailException e) {

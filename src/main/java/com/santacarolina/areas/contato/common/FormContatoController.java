@@ -11,7 +11,6 @@ import com.santacarolina.util.ViewInvoker;
 public class FormContatoController implements Controller {
 
     private IContatoController child;
-    private ContatoDAO dao;
     private ContatoValidator validator;
     private FormContatoView view;
     private FormContatoModel model;
@@ -20,7 +19,6 @@ public class FormContatoController implements Controller {
         this.child = child;
         this.view = child.getView();
         this.model = child.getModel();
-        this.dao = new ContatoDAO();
         this.validator = new ContatoValidator(model);
         initComponents();
     }
@@ -45,15 +43,13 @@ public class FormContatoController implements Controller {
             if (!validator.validate()) return;
             if (child.nameExists()) return;
             if (child.docsExists()) return;
-            model.setContatoSaved(dao.save(model.getContato()));
+            model.setContatoSaved(new ContatoDAO().save(model.getContato()));
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();
         } catch (SaveFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }
-
-    public ContatoDAO getDao() { return dao; }
 
     @Override
     public void showView() { ViewInvoker.showView(view.getDialog()); }

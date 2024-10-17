@@ -25,7 +25,6 @@ public class EditContatoController implements IContatoController {
         this.view = view;
         this.model = model;
         commonController = new FormContatoController(this);
-        this.dao = commonController.getDao();
     }
 
     public FormContatoModel getModel() { return model.getBaseModel(); }

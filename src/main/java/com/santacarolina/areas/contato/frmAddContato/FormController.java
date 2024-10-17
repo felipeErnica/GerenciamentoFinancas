@@ -21,15 +21,13 @@ public class FormController implements IContatoController {
 
     private ContatoDAO dao;
 
-    private FormContatoController controller;
     private FormView view;
     private FormModel model;
 
     public FormController(FormView view, FormModel model) {
         this.view = view;
         this.model = model;
-        this.controller = new FormContatoController(this);
-        this.dao = controller.getDao();
+        new FormContatoController(this);
     }
 
     @Override

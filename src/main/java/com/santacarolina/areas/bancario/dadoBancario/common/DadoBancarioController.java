@@ -19,9 +19,6 @@ import com.santacarolina.util.OptionDialog;
 
 public class DadoBancarioController {
 
-    private static final PixDAO pixDAO = new PixDAO();
-    private static final DadoDAO dadoDAO = new DadoDAO();
-
     private DadoBancarioValidator validator;
     private DadoBancarioFormView view;
     private DadoBancarioFormModel model;
@@ -54,11 +51,11 @@ public class DadoBancarioController {
             if (validator.dadoExists()) return;
             if (validator.pixExists()) return;
             if (model.getChavePix() == null) {
-                if (model.getDadoBancario().getPixId() != null) pixDAO.deleteById(model.getDadoBancario().getPixId());
+                if (model.getDadoBancario().getPixId() != null) new PixDAO().deleteById(model.getDadoBancario().getPixId());
             } else {
                 model.getDadoBancario().addChavePix(model.getChavePix());
             }
-            model.setDadoSaved(dadoDAO.save(model.getDadoBancario()));
+            model.setDadoSaved(new DadoDAO().save(model.getDadoBancario()));
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();
         } catch (FetchFailException | SaveFailException | DeleteFailException e) {

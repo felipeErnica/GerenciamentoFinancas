@@ -13,9 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChavePix implements ToDTO<PixDTO>, Cloneable {
 
-    private static final DadoDAO dadoDAO = new DadoDAO();
-    private static final ContatoDAO contatoDAO = new ContatoDAO();
-
     private long id;
     private Long dadoId;
     private DadoBancario dadoBancario;
@@ -42,14 +39,14 @@ public class ChavePix implements ToDTO<PixDTO>, Cloneable {
 
     public Contato getContato() {
         try {
-            if (contato == null) this.contato = contatoDAO.findById(contatoId).orElse(null);
+            if (contato == null) this.contato = new ContatoDAO().findById(contatoId).orElse(null);
         } catch (FetchFailException ignored) {}
         return contato;
     }
 
     public DadoBancario getDadoBancario() {
         try {
-            if (dadoBancario == null && dadoId != null) this.dadoBancario = dadoDAO.findById(dadoId).orElse(null);
+            if (dadoBancario == null && dadoId != null) this.dadoBancario = new DadoDAO().findById(dadoId).orElse(null);
             return dadoBancario;
         } catch (FetchFailException ignored) {}
         return dadoBancario;

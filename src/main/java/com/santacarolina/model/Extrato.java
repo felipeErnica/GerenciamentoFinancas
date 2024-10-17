@@ -1,6 +1,7 @@
 package com.santacarolina.model;
 
 import com.santacarolina.dao.ContaDAO;
+import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ToDTO;
@@ -9,8 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Extrato implements ToDTO<ExtratoDTO> {
-
-    private static final ContaDAO contaDAO = new ContaDAO();
 
     private long id;
     private LocalDate dataTransacao;
@@ -45,7 +44,7 @@ public class Extrato implements ToDTO<ExtratoDTO> {
 
     public ContaBancaria getContaBancaria() {
         try {
-            if (contaBancaria == null) contaBancaria = contaDAO.findById(contaId).orElse(null);
+            if (contaBancaria == null) contaBancaria = new ContaDAO().findById(contaId).orElse(null);
             return contaBancaria;
         } catch (FetchFailException e) {
             return contaBancaria;

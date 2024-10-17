@@ -8,9 +8,6 @@ import com.santacarolina.interfaces.ToDTO;
 
 public class Produto implements ToDTO<ProdutoDTO>, Comparable<Produto> {
 
-    private static final ClassificacaoDAO classificacaoDAO = new ClassificacaoDAO();
-    private static final DocumentoDAO documentoDAO = new DocumentoDAO();
-
     private long id;
     private long documentoId;
     private DocumentoFiscal documento;
@@ -44,7 +41,7 @@ public class Produto implements ToDTO<ProdutoDTO>, Comparable<Produto> {
 
     public ClassificacaoContabil getClassificacao() {
         try {
-            if (classificacao == null) classificacao = classificacaoDAO.findById(classificacaoId).orElse(null);
+            if (classificacao == null) classificacao = new ClassificacaoDAO().findById(classificacaoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return classificacao;
@@ -52,7 +49,7 @@ public class Produto implements ToDTO<ProdutoDTO>, Comparable<Produto> {
 
     public DocumentoFiscal getDocumento() {
         try {
-            if (documento == null) documento = documentoDAO.findById(documentoId).orElse(null);
+            if (documento == null) documento = new DocumentoDAO().findById(documentoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return documento;

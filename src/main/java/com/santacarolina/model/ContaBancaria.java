@@ -7,8 +7,6 @@ import com.santacarolina.interfaces.ToDTO;
 
 public class ContaBancaria implements ToDTO<ContaDTO> {
 
-    private static final BancoDAO bancoDAO = new BancoDAO();
-
     private long id;
     private String nomeConta;
     private String agencia;
@@ -34,7 +32,7 @@ public class ContaBancaria implements ToDTO<ContaDTO> {
 
     public Banco getBanco() {
         try {
-            if (banco == null) this.banco = bancoDAO.findById(bancoId).orElse(null);
+            if (banco == null) this.banco = new BancoDAO().findById(bancoId).orElse(null);
         } catch (FetchFailException ignored) {}
         return banco;
     }

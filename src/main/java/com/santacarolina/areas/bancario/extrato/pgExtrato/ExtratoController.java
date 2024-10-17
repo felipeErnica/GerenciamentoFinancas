@@ -26,14 +26,12 @@ import com.santacarolina.util.OfxTransformer.OFXTransformerImpl;
 
 public class ExtratoController implements MainPaneController {
 
-    private ContaDAO contaDao;
     private ExtratoView view;
     private ExtratoTableModel model;
 
     public ExtratoController(ExtratoTableModel model, ExtratoView view) throws FetchFailException {
         this.model = model;
         this.view = view;
-        this.contaDao = new ContaDAO();
         new MainPaneControllerImpl(view, model);
         initComponents();
     }
@@ -49,7 +47,7 @@ public class ExtratoController implements MainPaneController {
         columnModel.getColumn(4).setCellRenderer(cellRenderer);
         columnModel.getColumn(5).setCellRenderer(cellRenderer);
 
-        view.getContaComboBox().setModel(new ListComboBoxModel<>(contaDao.findAll()));
+        view.getContaComboBox().setModel(new ListComboBoxModel<>(new ContaDAO().findAll()));
         view.getContaComboBox().setSelectedItem(null);
         view.getContaComboBox().addActionListener(e -> contaComboBox_afterUpdate());
         view.getAddExtrato().addActionListener(e -> addExtrato_onClick());
