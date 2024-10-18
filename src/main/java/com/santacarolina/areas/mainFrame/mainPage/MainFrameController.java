@@ -5,6 +5,7 @@ import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioF
 import com.santacarolina.areas.bancario.dadoBancario.frmManageDado.ManageDadoForm;
 import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
 import com.santacarolina.areas.bancario.pix.frmManagePix.ManagePixForm;
+import com.santacarolina.areas.classificacao.frmManageClassificacao.ClassificacaoForm;
 import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
 import com.santacarolina.areas.contato.frmManageContato.ManageContatoForm;
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
@@ -55,6 +56,8 @@ public class MainFrameController implements Controller {
 
         view.getAddPastaButton().addActionListener(e -> addPastaButton_onClick());
         view.getManagePastaButton().addActionListener(e -> managePastaButton_onClick());
+
+        view.getManagePastaButton().addActionListener(e -> manageClassificaoButton_onClick());
     }
 
     private void homeButton_onClick() { model.setHomePage(); }
@@ -77,6 +80,8 @@ public class MainFrameController implements Controller {
 
     private void addPastaButton_onClick() { EventQueue.invokeLater(PastaContabilForm::openNew); }
     private void managePastaButton_onClick() { EventQueue.invokeLater(ManagePastaForm::open); }
+
+    private void manageClassificaoButton_onClick() { EventQueue.invokeLater(ClassificacaoForm::open); }
 
     @Override
     public void showView() { ViewInvoker.showFrame(view.getFrame()); }

@@ -40,6 +40,7 @@ public class SideMenu {
     private JButton managePastaButton;
 
     private SubMenuImpl classificacaoSubMenu;
+    private JButton manageClassificacaoButton;
 
     public SideMenu() { init(); }
 
@@ -92,6 +93,8 @@ public class SideMenu {
 
         classificacaoSubMenu = new SubMenuImpl(this, "Classificações Contábeis");
         classificacaoSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/classificacao_menu_icon.svg")));
+        manageClassificacaoButton = new JButton("Gerenciar Classificações Contábeis", AppIcon.paintIcon(new FlatSVGIcon("icon/classificacao_menu_icon.svg")));
+        classificacaoSubMenu.addButton(manageClassificacaoButton);
 
         pane = new JPanel(new MigLayout("insets 0, gap 0, flowy",
                 "fill, grow",
@@ -133,6 +136,8 @@ public class SideMenu {
 
     public JButton getAddPastaButton() { return addPastaButton; }
     public JButton getManagePastaButton() { return managePastaButton; }
+
+    public JButton getManageClassificacaoButton() { return manageClassificacaoButton; }
 
     public void revalidate() {
         mainPane.removeAll(); scrollPane = new JScrollPane();
