@@ -63,8 +63,12 @@ application {
 tasks.jar {
     manifest {
         attributes["Main-Class"] = application.mainClass.get()
+        attributes["Multi-Release"] = true
     }
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory()) it else zipTree(it) })
+    doFirst {
+        from ( configurations.runtimeClasspath.get().filter { it.exists() }.map { if (it.isDirectory) it else zipTree(it) })
+    }
+    exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
