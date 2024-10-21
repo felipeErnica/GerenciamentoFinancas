@@ -20,6 +20,7 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO> {
     public ClassificacaoContabil (ClassificacaoDTO dto) {
         this.id = dto.getId();
         this.fluxoCaixa = dto.getFluxoCaixa();
+        this.categoriaId = dto.getCategoriaId();
         this.numeroIdentificacao = dto.getNumeroIdentificacao();
         this.nomeClassificacao = dto.getNomeClassificacao();
     }

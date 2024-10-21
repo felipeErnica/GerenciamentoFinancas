@@ -53,6 +53,8 @@ public class MainView implements PropertyChangeListener {
     public JButton getAddPastaButton() { return sideMenu.getAddPastaButton(); }
     public JButton getManagePastaButton() { return sideMenu.getManagePastaButton(); }
 
+    public JButton getManageClassificacaoButton() { return sideMenu.getManageClassificacaoButton(); }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(MainFrameModel.CENTER_PANEL)) {

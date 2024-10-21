@@ -22,12 +22,10 @@ public class PastaContabilController {
 
     private PastaContabilView view;
     private PastaContabilModel model;
-    private PastaContabilValidator validator;
 
     public PastaContabilController(PastaContabilView view, PastaContabilModel model) throws FetchFailException {
         this.view = view;
         this.model = model;
-        validator = new PastaContabilValidator(model);
         init();
     }
 
@@ -45,7 +43,7 @@ public class PastaContabilController {
     //Ação para seleção de caminho da Pasta no sistema.
     private void selectPathButton_onClick() {
         EventQueue.invokeLater(() -> {
-            Display display = new Display();
+                Display display = new Display();
             Shell shell = new Shell(display);
             DirectoryDialog directoryDialog = new DirectoryDialog(shell);
             directoryDialog.setText("Selecionar Pasta");
@@ -58,7 +56,8 @@ public class PastaContabilController {
     //Salvar Pasta no banco de dados
     private void addFolder_onClick() {
         try {
-            if (!validator.validate()) return;
+            PastaContabilValidator validator = new PastaContabilValidator();
+            if (!validator.validate(model)) return;
             pastaDAO.save(model.getPastaContabil());
         } catch (FetchFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);

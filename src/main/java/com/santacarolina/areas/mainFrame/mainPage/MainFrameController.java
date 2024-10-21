@@ -57,7 +57,7 @@ public class MainFrameController implements Controller {
         view.getAddPastaButton().addActionListener(e -> addPastaButton_onClick());
         view.getManagePastaButton().addActionListener(e -> managePastaButton_onClick());
 
-        view.getManagePastaButton().addActionListener(e -> manageClassificaoButton_onClick());
+        view.getManageClassificacaoButton().addActionListener(e -> manageClassificaoButton_onClick());
     }
 
     private void homeButton_onClick() { model.setHomePage(); }

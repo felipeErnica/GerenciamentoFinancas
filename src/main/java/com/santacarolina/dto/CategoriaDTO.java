@@ -10,7 +10,9 @@ public class CategoriaDTO implements FromDTO<CategoriaContabil>{
     private FluxoCaixa fluxoCaixa;
     private String numeroCategoria;
     private String nome;
-    
+
+    public CategoriaDTO() { }
+
     public CategoriaDTO(CategoriaContabil categoriaContabil) {
         this.id = categoriaContabil.getId();
         this.fluxoCaixa = categoriaContabil.getFluxoCaixa();

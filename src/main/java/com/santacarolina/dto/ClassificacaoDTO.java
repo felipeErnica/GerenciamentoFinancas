@@ -18,6 +18,7 @@ public class ClassificacaoDTO implements FromDTO<ClassificacaoContabil> {
     public ClassificacaoDTO (ClassificacaoContabil c) {
         this.id = c.getId();
         this.fluxoCaixa = c.getFluxoCaixa();
+        this.categoriaId = c.getCategoriaId();
         this.numeroIdentificacao = c.getNumeroIdentificacao();
         this.nomeClassificacao = c.getNomeClassificacao();
     }

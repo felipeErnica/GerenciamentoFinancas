@@ -1,21 +1,23 @@
 package com.santacarolina.areas.documentos.frmDoc.frmClassificacao;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.model.CategoriaContabil;
+import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.model.Produto;
 import com.santacarolina.ui.CustomTableModelImpl;
-import com.santacarolina.util.AbstractCustomModel;
-import com.santacarolina.model.ClassificacaoContabil;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class FormModel implements CustomTableModel<ClassificacaoContabil> {
 
     private Produto produto;
-    private String filter;
-    private ClassificacaoDAO classificacaoDAO;
+    private CategoriaContabil categoriaContabil;
+    private String searchField;
     private CustomTableModelImpl<ClassificacaoContabil> tableModel;
     private List<ClassificacaoContabil> unfilteredList;
     private List<ClassificacaoContabil> classificacaoList;
@@ -25,8 +27,7 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
     };
 
     public FormModel(Produto produto) throws FetchFailException {
-        classificacaoDAO = new ClassificacaoDAO();
-        classificacaoList = classificacaoDAO.getAll();
+        classificacaoList = new ClassificacaoDAO().getAll();
         unfilteredList = classificacaoList;
         tableModel = new CustomTableModelImpl<>(this, classificacaoList);
         this.produto = produto;
@@ -38,12 +39,31 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
     }
 
     public void setFilter(String filter) {
-        this.filter = filter;
         this.classificacaoList = unfilteredList;
-        this.classificacaoList = classificacaoList.stream()
-                .filter(c -> c.getNomeClassificacao().toUpperCase().contains(filter.toUpperCase()))
-                .collect(Collectors.toList());
+        this.searchField = filter;
+        if (!StringUtils.isBlank(searchField)) triggerSearch();
+        if (categoriaContabil != null) triggerCategoria();
         tableModel.setList(classificacaoList);
+    }
+
+    public void setCategoriaContabil(CategoriaContabil categoriaContabil) {
+        this.categoriaContabil = categoriaContabil;
+        this.classificacaoList = unfilteredList;
+        if (categoriaContabil != null) triggerCategoria();
+        if (!StringUtils.isBlank(searchField)) triggerSearch();
+        tableModel.setList(classificacaoList);
+    }
+
+    private void triggerSearch() {
+        this.classificacaoList = classificacaoList.stream()
+                .filter(c -> c.getNomeClassificacao().toUpperCase().contains(searchField.toUpperCase()))
+                .collect(Collectors.toList());
+    }
+
+    private void triggerCategoria() {
+        this.classificacaoList = classificacaoList.stream()
+            .filter(c -> c.getCategoriaId() == categoriaContabil.getId())
+            .collect(Collectors.toList());
     }
 
     public void setClassificacao(ClassificacaoContabil classificacao) { produto.setClassificacao(classificacao); }
@@ -96,5 +116,9 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
 
     public void addRow(ClassificacaoContabil classificacaoContabil) { tableModel.addRow(classificacaoContabil); }
     public void removeRows(int[] rows) { tableModel.removeRows(rows); }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
 
 }

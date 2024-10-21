@@ -11,9 +11,12 @@ public class CategoriaContabil implements ToDTO<CategoriaDTO>{
     private String numeroCategoria;
     private String nome;
 
+    public CategoriaContabil() { }
+
     public CategoriaContabil(CategoriaDTO dto) {
         this.id = dto.getId();
         this.fluxoCaixa = dto.getFluxoCaixa();
+        this.numeroCategoria = dto.getNumeroCategoria();
         this.nome = dto.getNome();
     }
 
