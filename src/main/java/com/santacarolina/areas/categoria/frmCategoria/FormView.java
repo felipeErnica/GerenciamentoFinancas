@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -25,18 +26,17 @@ public class FormView implements PropertyChangeListener {
     private JTextField numeroTextField;
     private JTextField nomeTextField;
 
-    public FormView() {
+    public FormView(String dialogText, String buttonText) {
         baseView = new AddView();
+        baseView.getDialog().setTitle(dialogText);
+        baseView.getAddButton().setText(buttonText);
         init();
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void init() {
         
-        JDialog dialog = baseView.getDialog();
-        
-        dialog.setTitle("Adicionar Nova Categoria Contábil");
-        baseView.getAddButton().setText("Adicionar Categoria");
+        JPanel centerPanel = baseView.getCenterPanel();
 
         JLabel fluxoLabel = new JLabel("Fluxo de Caixa:");
         fluxoCaixaComboBox = new JComboBox<>(new EnumComboBoxModel(FluxoCaixa.class));
@@ -51,16 +51,16 @@ public class FormView implements PropertyChangeListener {
         nomeTextField = new JTextField();
         nomeLabel.setLabelFor(nomeTextField);
 
-        dialog.setLayout(new MigLayout("insets 20",
+        centerPanel.setLayout(new MigLayout("insets 20",
             "[][grow, fill]",
             "[][][]"));
 
-        dialog.add(fluxoLabel);
-        dialog.add(fluxoCaixaComboBox, "wrap");
-        dialog.add(numeroLabel);
-        dialog.add(numeroTextField, "wrap");
-        dialog.add(nomeLabel);
-        dialog.add(nomeTextField);
+        centerPanel.add(fluxoLabel);
+        centerPanel.add(fluxoCaixaComboBox, "wrap");
+        centerPanel.add(numeroLabel);
+        centerPanel.add(numeroTextField, "wrap");
+        centerPanel.add(nomeLabel);
+        centerPanel.add(nomeTextField);
 
     }
 

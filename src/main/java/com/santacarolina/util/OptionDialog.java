@@ -26,10 +26,19 @@ public class OptionDialog {
     }
 
     public static int showDeleteDialog (int numDeletions) {
-        String message = numDeletions == 1 ? "Deseja deletar este registro?" :
-                "Deseja deletar estes " + numDeletions + " registros?";
+        String message = numDeletions == 1 ? "Deseja excluir este registro?" :
+                "Deseja excluir estes " + numDeletions + " registros?";
 
-        return OptionDialog.showOptionDialog(message,"Excluir de Registros!");
+        return OptionDialog.showOptionDialog(message,"Exclusão de Registros!");
+    }
+
+    public static int showDeleteCascadeDialog (int numDeletions) {
+        String message = numDeletions == 1 ? "Deseja excluir este registro?" :
+                "Deseja excluir estes " + numDeletions + " registros?";
+        message = message + "\n\n ATENÇÃO: Estes registros estão relacionados a outros dados no sistema! " + 
+            "Ao excluí-los este dados serão apagados também! " + 
+            "Deseja continuar mesmo assim?";
+        return OptionDialog.showOptionDialog(message,"Exclusão de Registros!");
     }
 
     public static int showOptionDialog(String message, String title) {

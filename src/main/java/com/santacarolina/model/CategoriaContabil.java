@@ -4,7 +4,7 @@ import com.santacarolina.dto.CategoriaDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.interfaces.ToDTO;
 
-public class CategoriaContabil implements ToDTO<CategoriaDTO>{
+public class CategoriaContabil implements ToDTO<CategoriaDTO>, Cloneable {
 
     private long id;
     private FluxoCaixa fluxoCaixa;
@@ -35,6 +35,16 @@ public class CategoriaContabil implements ToDTO<CategoriaDTO>{
 
     @Override
     public CategoriaDTO toDTO() { return new CategoriaDTO(this); }
+
+    @Override
+    public CategoriaContabil clone() {
+        CategoriaContabil clone = new CategoriaContabil();
+        clone.setId(id);
+        clone.setNome(nome);
+        clone.setNumeroCategoria(numeroCategoria);
+        clone.setFluxoCaixa(fluxoCaixa);
+        return clone;
+    }
 
 }
 

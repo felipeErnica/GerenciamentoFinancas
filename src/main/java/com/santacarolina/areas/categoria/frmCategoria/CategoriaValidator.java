@@ -36,6 +36,8 @@ public class CategoriaValidator implements Validator {
             return false;
         } else if (nomeExiste(model)) {
             return false;
+        } else if (numeroExiste(model)) {
+            return false;
         }
         return true;
     }
@@ -53,6 +55,22 @@ public class CategoriaValidator implements Validator {
         return false;
     }
 
-    private boolean numeroValido(FormModel model) { return model.getNumeroEtiqueta().startsWith(Integer.toString(model.getFluxoCaixa().getFluxoCaixa())); }
+    private boolean numeroExiste(FormModel model) throws FetchFailException {
+        Optional<CategoriaContabil> optional = new CategoriaDAO().findByNumero(model.getNumeroEtiqueta());
+        if (optional.isPresent() && optional.get().getId() != model.getCategoriaContabil().getId()) {
+            int result = OptionDialog.showReplaceDialog("Este número já existe e pertence a categoria " + optional.get().getNome() + "!" + 
+                "Deseja substituir os dados existentes por estes?");
+            if (result == JOptionPane.YES_OPTION) {
+                model.getCategoriaContabil().setId(optional.get().getId());
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean numeroValido(FormModel model) { 
+        return model.getNumeroEtiqueta().startsWith(Integer.toString(model.getFluxoCaixa().getValue() + 1)); 
+    }
     
 }

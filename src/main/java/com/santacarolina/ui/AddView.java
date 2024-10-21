@@ -8,6 +8,7 @@ public class AddView {
     private JDialog dialog;
     private JButton addButton;
     private JButton closeButton;
+    private JPanel centerPanel;
 
     public AddView() {
         initComponents();
@@ -34,11 +35,15 @@ public class AddView {
         buttonPane.add(addButton);
         buttonPane.add(closeButton);
 
+        centerPanel = new JPanel();
+
         dialog.setLayout(new BorderLayout());
+        dialog.add(centerPanel, BorderLayout.CENTER);
         dialog.add(buttonPane, BorderLayout.SOUTH);
     }
 
     public JDialog getDialog() { return dialog; }
     public JButton getAddButton() { return addButton; }
+    public JPanel getCenterPanel() { return centerPanel; }
 
 }

@@ -44,7 +44,13 @@ public class FormModel implements ViewUpdater {
         isUpdating = false;
     }
 
-    public CategoriaContabil getCategoriaContabil() { return categoriaContabil; }
+    public CategoriaContabil getCategoriaContabil() { 
+        if (categoriaContabil == null) categoriaContabil = new CategoriaContabil();
+        categoriaContabil.setFluxoCaixa(fluxoCaixa);
+        categoriaContabil.setNome(nomeCategoria);
+        categoriaContabil.setNumeroCategoria(numeroEtiqueta);
+        return categoriaContabil; 
+    }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
     public String getNumeroEtiqueta() { return numeroEtiqueta; }
     public String getNomeCategoria() { return nomeCategoria; }

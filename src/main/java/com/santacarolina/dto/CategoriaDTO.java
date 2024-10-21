@@ -16,6 +16,7 @@ public class CategoriaDTO implements FromDTO<CategoriaContabil>{
     public CategoriaDTO(CategoriaContabil categoriaContabil) {
         this.id = categoriaContabil.getId();
         this.fluxoCaixa = categoriaContabil.getFluxoCaixa();
+        this.numeroCategoria = categoriaContabil.getNumeroCategoria();
         this.nome = categoriaContabil.getNome();
     }
 

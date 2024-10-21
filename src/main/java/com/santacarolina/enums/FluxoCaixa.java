@@ -6,6 +6,11 @@ public enum FluxoCaixa {
 
     private int fluxoCaixa;
     FluxoCaixa(int fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
-    public int getFluxoCaixa() { return fluxoCaixa; }
+    public int getValue() { return fluxoCaixa; }
+
+    public String print() { return super.toString(); }
+
+    @Override
+    public String toString() { return (fluxoCaixa + 1) + " - " + super.toString(); }
 
 }

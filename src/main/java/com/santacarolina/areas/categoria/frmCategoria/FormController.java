@@ -1,8 +1,12 @@
 package com.santacarolina.areas.categoria.frmCategoria;
 
+import com.santacarolina.dao.CategoriaDAO;
 import com.santacarolina.enums.FluxoCaixa;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
+import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 
 public class FormController implements Controller {
@@ -23,9 +27,14 @@ public class FormController implements Controller {
         view.getAddButton().addActionListener(e -> addButton_onClick());
     }
 
-    private Object addButton_onClick() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addButton_onClick'");
+    private void addButton_onClick() {
+        try {
+            if (!new CategoriaValidator().validate(model)) return;
+            new CategoriaDAO().save(model.getCategoriaContabil());
+            view.getDialog().dispose();
+        } catch (FetchFailException | SaveFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
     }
 
     private void nomeTextField_afterUpdate() { model.setNomeCategoria(view.getNomeTextField().getText()); }
