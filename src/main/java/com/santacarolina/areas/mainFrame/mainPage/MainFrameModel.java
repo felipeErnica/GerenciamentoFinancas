@@ -16,10 +16,7 @@ public class MainFrameModel implements ViewUpdater {
 
     private PropertyFirer ps;
 
-    public MainFrameModel() {
-        System.out.println("Modelo iniciado corretamente!");
-        this.ps = new PropertyFirer(this);
-    }
+    public MainFrameModel() { this.ps = new PropertyFirer(this); }
 
     public void setCenterPanel(MainPaneView paneView) { ps.firePropertyChange(CENTER_PANEL, paneView); }
     public void setHomePage() { ps.firePropertyChange(HOME_PAGE, null); }

@@ -15,4 +15,11 @@ public class AppIcon {
         return svgIcon;
     }
 
+    public static FlatSVGIcon paintIcon (String iconPath) {
+        FlatSVGIcon svgIcon = new FlatSVGIcon(iconPath);
+        FlatSVGIcon.ColorFilter colorFilter = new FlatSVGIcon.ColorFilter().add(Color.decode("#666666"), MENU_FOREGROUND);
+        svgIcon.setColorFilter(colorFilter);
+        return svgIcon;
+    }
+
 }

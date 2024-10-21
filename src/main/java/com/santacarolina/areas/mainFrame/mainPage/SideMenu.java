@@ -40,7 +40,10 @@ public class SideMenu {
     private JButton managePastaButton;
 
     private SubMenuImpl classificacaoSubMenu;
+    private JButton addCategoriaButton;
+    private JButton manageCategoriaButton;
     private JButton manageClassificacaoButton;
+    private JButton addClassificacaoButton;
 
     public SideMenu() { init(); }
 
@@ -93,7 +96,13 @@ public class SideMenu {
 
         classificacaoSubMenu = new SubMenuImpl(this, "Classificações Contábeis");
         classificacaoSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/classificacao_menu_icon.svg")));
-        manageClassificacaoButton = new JButton("Gerenciar Classificações Contábeis", AppIcon.paintIcon(new FlatSVGIcon("icon/classificacao_menu_icon.svg")));
+        addCategoriaButton = new JButton("Nova Categoria Contábil", AppIcon.paintIcon("icon/categoria_add_icon.svg"));
+        classificacaoSubMenu.addButton(addCategoriaButton);
+        manageCategoriaButton = new JButton("Gerenciar Categoria", AppIcon.paintIcon("icon/categoria_icon.svg"));
+        classificacaoSubMenu.addButton(manageCategoriaButton);
+        addClassificacaoButton = new JButton("Nova Classificação Contábil", AppIcon.paintIcon("icon/classificacao_add_icon.svg"));
+        classificacaoSubMenu.addButton(addClassificacaoButton);
+        manageClassificacaoButton = new JButton("Gerenciar Classificações Contábeis", AppIcon.paintIcon("icon/classificacao_icon.svg"));
         classificacaoSubMenu.addButton(manageClassificacaoButton);
 
         pane = new JPanel(new MigLayout("insets 0, gap 0, flowy",
@@ -137,7 +146,10 @@ public class SideMenu {
     public JButton getAddPastaButton() { return addPastaButton; }
     public JButton getManagePastaButton() { return managePastaButton; }
 
+    public JButton getAddCategoriaButton() { return addCategoriaButton; }
     public JButton getManageClassificacaoButton() { return manageClassificacaoButton; }
+    public JButton getManageCategoriaButton() { return manageCategoriaButton; }
+    public JButton getAddClassificacaoButton() { return addClassificacaoButton; }
 
     public void revalidate() {
         mainPane.removeAll(); scrollPane = new JScrollPane();

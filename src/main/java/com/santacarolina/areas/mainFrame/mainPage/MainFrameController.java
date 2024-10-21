@@ -5,6 +5,8 @@ import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioF
 import com.santacarolina.areas.bancario.dadoBancario.frmManageDado.ManageDadoForm;
 import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
 import com.santacarolina.areas.bancario.pix.frmManagePix.ManagePixForm;
+import com.santacarolina.areas.categoria.frmCategoria.CategoriaForm;
+import com.santacarolina.areas.categoria.frmManageCategoria.ManageCategoriaForm;
 import com.santacarolina.areas.classificacao.frmManageClassificacao.ClassificacaoForm;
 import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
 import com.santacarolina.areas.contato.frmManageContato.ManageContatoForm;
@@ -28,7 +30,6 @@ public class MainFrameController implements Controller {
     private MainView view;
 
     public MainFrameController(MainFrameModel model, MainView view) {
-        System.out.println("Controle iniciado corretamente!");
         this.model = model;
         this.view = view;
         initComponents();
@@ -57,6 +58,9 @@ public class MainFrameController implements Controller {
         view.getAddPastaButton().addActionListener(e -> addPastaButton_onClick());
         view.getManagePastaButton().addActionListener(e -> managePastaButton_onClick());
 
+        view.getAddCategoriaButton().addActionListener(e -> addCategoriaButton_onClick());
+        view.getManageCategoriaButton().addActionListener(e -> manageCategoriaButton_onClick());
+        view.getAddClassificacaoButton().addActionListener(e -> addClassificacaoButton_onClick());
         view.getManageClassificacaoButton().addActionListener(e -> manageClassificaoButton_onClick());
     }
 
@@ -80,6 +84,13 @@ public class MainFrameController implements Controller {
 
     private void addPastaButton_onClick() { EventQueue.invokeLater(PastaContabilForm::openNew); }
     private void managePastaButton_onClick() { EventQueue.invokeLater(ManagePastaForm::open); }
+
+    private void addCategoriaButton_onClick() { EventQueue.invokeLater(CategoriaForm::openNew); }
+    private void manageCategoriaButton_onClick() { EventQueue.invokeLater(ManageCategoriaForm::open); }
+
+    private void addClassificacaoButton_onClick() {
+        // TODO Auto-generated method stub
+    }
 
     private void manageClassificaoButton_onClick() { EventQueue.invokeLater(ClassificacaoForm::open); }
 

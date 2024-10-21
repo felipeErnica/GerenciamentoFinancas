@@ -19,7 +19,6 @@ public class MainView implements PropertyChangeListener {
     public MainView() { initComponents(); }
 
     private void initComponents() {
-        System.out.println("View iniciada corretamente!");
         frame = new JFrame("Gerenciamento de Finanças");
         frame.setIconImage(new FlatSVGIcon("icon/main_icon.svg").getImage());
         centerPane = new JPanel();
@@ -54,6 +53,9 @@ public class MainView implements PropertyChangeListener {
     public JButton getManagePastaButton() { return sideMenu.getManagePastaButton(); }
 
     public JButton getManageClassificacaoButton() { return sideMenu.getManageClassificacaoButton(); }
+    public JButton getAddCategoriaButton() { return sideMenu.getAddCategoriaButton(); }
+    public JButton getManageCategoriaButton() { return sideMenu.getManageCategoriaButton(); }
+    public JButton getAddClassificacaoButton() { return sideMenu.getAddClassificacaoButton(); }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
