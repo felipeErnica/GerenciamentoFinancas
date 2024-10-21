@@ -57,7 +57,7 @@ dependencies {
 }
 
 application {
-    mainClass = "com.santacarolina.areas.categoria.frmManageCategoria.ManageCategoriaForm"
+    mainClass = "com.santacarolina.GerenciamentoFinancas"
 }
 
 tasks.jar {
