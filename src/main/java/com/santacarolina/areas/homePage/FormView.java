@@ -1,10 +1,14 @@
 package com.santacarolina.areas.homePage;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
 import org.knowm.xchart.CategorySeries;
@@ -18,6 +22,9 @@ import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.PieStyler;
 import org.knowm.xchart.style.Styler;
 
+import com.santacarolina.dao.PastaDAO;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.MenuDecorator;
 import com.santacarolina.util.StringConversor;
 
@@ -35,13 +42,27 @@ public class FormView {
     private static final Color EXPENSE_COLOR = UIManager.getColor("Graph.expenseColor");
 
     private JPanel mainPanel;
+
+    private JComboBox<PastaContabil> pastaComboBox;
+
     private PieChart expenseCategoryChart;
     private CategoryChart expenseIncomeChart;
     private XYChart resultsChart;
 
-    public FormView() { init(); }
+    public FormView() throws FetchFailException { init(); }
 
-    private void init() {
+    @SuppressWarnings("unchecked")
+    private void init() throws FetchFailException {
+
+        JLabel pastaLabel = new JLabel("Pasta Contábil");
+        pastaComboBox = new JComboBox<>(new ListComboBoxModel<>(new PastaDAO().findAll()));
+        pastaLabel.setLabelFor(pastaComboBox);
+
+        JPanel northPanel = new JPanel(new MigLayout("insets 20"));
+        
+        northPanel.add(pastaLabel);
+        northPanel.add(pastaComboBox, "push, grow");
+
         expenseCategoryChart = new PieChartBuilder()
                 .title("Composição das Despesas")
                 .theme(Styler.ChartTheme.XChart)
@@ -95,12 +116,17 @@ public class FormView {
                 .setSeriesColors(new Color[]{Color.ORANGE});
         MenuDecorator.paintChart(resultsChart);
         XChartPanel<XYChart> resultsPanel = new XChartPanel<>(resultsChart);
-        mainPanel = new JPanel(new MigLayout("insets 20",
+
+        JPanel centerPanel = new JPanel(new MigLayout("insets 20",
                 "[fill, shrink 50][grow, fill]",
                 ""));
-        mainPanel.add(expenseCategoryPanel);
-        mainPanel.add(resultsPanel, "wrap");
-        mainPanel.add(expenseIncomePanel, "span");
+        centerPanel.add(expenseCategoryPanel);
+        centerPanel.add(resultsPanel, "wrap");
+        centerPanel.add(expenseIncomePanel, "span");
+
+        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(northPanel, BorderLayout.NORTH);
+        mainPanel.add(centerPanel, BorderLayout.SOUTH);
     }
 
     public JPanel getMainPanel() { return mainPanel; }

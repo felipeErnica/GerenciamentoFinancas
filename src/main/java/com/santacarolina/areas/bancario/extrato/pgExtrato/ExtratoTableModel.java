@@ -1,36 +1,26 @@
 package com.santacarolina.areas.bancario.extrato.pgExtrato;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.event.TableModelListener;
 
-import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.dto.ExtratoDTO;
-import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
-import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.ui.CustomTableModelImpl;
 
 public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
 
     public static final String CONTA = "conta";
+    public static final String SALDO_TEXT = "saldo";
 
-    private ExtratoDAO dao;
-    private ContaBancaria contaBancaria;
     private List<ExtratoDTO> extratoList;
     private CustomTableModelImpl<ExtratoDTO> model;
 
-    public ExtratoTableModel(List<ExtratoDTO> extratoList) {
-        this.extratoList = extratoList;
-        this.model = new CustomTableModelImpl<>(this, extratoList);
-        this.dao = new ExtratoDAO();
-    }
-
-    public void setContaBancaria(ContaBancaria contaBancaria) throws FetchFailException {
-        this.contaBancaria = contaBancaria;
-        extratoList = dao.findByConta(contaBancaria.getId());
-        model.setList(extratoList);
+    public ExtratoTableModel() {
+        this.extratoList = new ArrayList<>();
+        this.model = new CustomTableModelImpl<>(this, extratoList); 
     }
 
     @Override
@@ -43,7 +33,6 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
     public void addTableModelListener(TableModelListener l) { model.addTableModelListener(l); }
     public void removeTableModelListener(TableModelListener l) { model.removeTableModelListener(l); }
-    public ContaBancaria getContaBancaria() { return contaBancaria; }
 
     public void setList(List<ExtratoDTO> list) {
         extratoList = list;

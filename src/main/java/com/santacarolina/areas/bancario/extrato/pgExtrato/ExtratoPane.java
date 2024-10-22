@@ -3,8 +3,6 @@ package com.santacarolina.areas.bancario.extrato.pgExtrato;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.util.CustomErrorThrower;
 
-import java.util.ArrayList;
-
 public class ExtratoPane {
 
     private ExtratoView view;
@@ -12,8 +10,9 @@ public class ExtratoPane {
     public ExtratoPane() {
         try {
             view = new ExtratoView();
-            ExtratoTableModel model = new ExtratoTableModel(new ArrayList<>());
+            ExtratoModel model = new ExtratoModel();
             new ExtratoController(model, view);
+            model.addPropertyChangeListener(view);
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }

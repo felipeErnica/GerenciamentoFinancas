@@ -27,17 +27,18 @@ import com.santacarolina.util.OfxTransformer.OFXTransformerImpl;
 public class ExtratoController implements MainPaneController {
 
     private ExtratoView view;
-    private ExtratoTableModel model;
+    private ExtratoModel model;
 
-    public ExtratoController(ExtratoTableModel model, ExtratoView view) throws FetchFailException {
+    public ExtratoController(ExtratoModel model, ExtratoView view) throws FetchFailException {
         this.model = model;
         this.view = view;
-        new MainPaneControllerImpl(view, model);
+        new MainPaneControllerImpl(view, model.getTableModel());
         initComponents();
     }
 
+    @SuppressWarnings("unchecked")
     private void initComponents() throws FetchFailException {
-        ExtratoRenderer cellRenderer = new ExtratoRenderer(model);
+        ExtratoRenderer cellRenderer = new ExtratoRenderer(model.getTableModel());
         TableColumnModel columnModel = view.getTable().getColumnModel();
 
         columnModel.getColumn(0).setCellRenderer(cellRenderer);

@@ -11,8 +11,10 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class ExtratoView implements MainPaneView {
+public class ExtratoView implements MainPaneView, PropertyChangeListener {
 
     private JButton addExtrato;
     private JButton addOFX;
@@ -20,6 +22,7 @@ public class ExtratoView implements MainPaneView {
     private JPanel mainPane;
     private JComboBox<ContaBancaria> contaComboBox;
     private JPanel upperPane;
+    private JTextField saldoTextField;
 
     public ExtratoView() {
         mainPaneView = new MainPaneViewImpl(this);
@@ -45,7 +48,17 @@ public class ExtratoView implements MainPaneView {
         upperPane.add(addOFX);
         upperPane.add(addExtrato);
 
+        JLabel saldoLabel = new JLabel("Saldo:");
+        saldoTextField = new JTextField();
+        saldoTextField.setEditable(false);
+        saldoLabel.setLabelFor(saldoTextField);
+
+        JPanel southPane = new JPanel(new MigLayout("insets 20","[grow][][300]"));
+        southPane.add(saldoLabel, "skip");
+        southPane.add(saldoTextField, "grow");
+
         mainPane.add(upperPane, BorderLayout.NORTH);
+        mainPane.add(southPane, BorderLayout.SOUTH);
         mainPane.revalidate();
     }
 
@@ -56,6 +69,7 @@ public class ExtratoView implements MainPaneView {
     public JButton getAddExtrato() { return addExtrato; }
     public JButton getAddOFX() { return addOFX; }
     public JComboBox<ContaBancaria> getContaComboBox() { return contaComboBox; }
+    public JTextField getSaldoTextField() { return saldoTextField; }
 
     public void formatColumns() {
         int width = getScrollPane().getWidth()/100;
@@ -66,6 +80,13 @@ public class ExtratoView implements MainPaneView {
         model.getColumn(3).setPreferredWidth(width*20);
         model.getColumn(4).setPreferredWidth(width*40);
         model.getColumn(5).setPreferredWidth(width*10);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+            case ExtratoModel.SALDO -> saldoTextField.setText((String) evt.getNewValue());
+        }
     }
 
 }

@@ -1,15 +1,14 @@
 package com.santacarolina.areas.bancario.extrato.frmAddExtrato;
 
+import java.text.ParseException;
+import java.time.DateTimeException;
+import java.util.List;
+
 import com.santacarolina.areas.bancario.extrato.pgExtrato.ExtratoTableModel;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.model.Extrato;
 import com.santacarolina.ui.CustomTableModelImpl;
 import com.santacarolina.util.StringConversor;
-
-import java.text.ParseException;
-import java.time.DateTimeException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddExtratoTableModel implements CustomTableModel<Extrato> {
 
@@ -20,7 +19,7 @@ public class AddExtratoTableModel implements CustomTableModel<Extrato> {
     public AddExtratoTableModel(List<Extrato> list) {
         this.list = list;
         this.tableModel = new CustomTableModelImpl<>(this, list);
-        this.extratoTableModel = new ExtratoTableModel(new ArrayList<>());
+        this.extratoTableModel = new ExtratoTableModel();
     }
 
     @Override
