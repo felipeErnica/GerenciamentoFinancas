@@ -17,14 +17,17 @@ import java.util.Optional;
 
 public class ProdutoTableModel implements EditTableModel<Produto> {
 
+    private ProdModel formModel;
+
     private CustomTableModelImpl<Produto> tableModel;
     private DocumentoFiscal documentoFiscal;
     private List<Produto> produtoList;
 
-    public ProdutoTableModel(DocumentoFiscal documentoFiscal) {
+    public ProdutoTableModel(DocumentoFiscal documentoFiscal, ProdModel formModel) {
         produtoList = documentoFiscal.getProdutos();
         this.documentoFiscal = documentoFiscal;
         tableModel = new CustomTableModelImpl<>(this, produtoList);
+        this.formModel = formModel;
     }
 
     private final String[] columns = {
@@ -90,6 +93,7 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
             case 3 -> {
                 try {
                     p.setQuantidade(StringConversor.getDoubleFromLocalFormat(value));
+                    formModel.calculateValorTotal();
                 } catch (ParseException e) {
                     p.setQuantidade(0);
                 }
@@ -99,6 +103,7 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
                     p.setValorUnit(StringConversor.getDoubleFromLocalFormat(value));
                     if (documentoFiscal.getFluxoCaixa() == FluxoCaixa.DESPESA) p.setValorUnit(Math.abs(p.getValorUnit())*-1);
                     else p.setValorUnit(Math.abs(p.getValorUnit()));
+                    formModel.calculateValorTotal();
                 } catch (ParseException e) {
                     p.setValorUnit(0);
                 }
@@ -135,12 +140,12 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
     public void removeRows(int[] rows) {
         tableModel.removeRows(rows);
         fireTableDataChanged();
+        formModel.calculateValorTotal();
     }
 
     public void fireTableDataChanged() { tableModel.fireTableDataChanged(); }
 
     @Override
     public void fireTableCellUpdated(int row, int column) { tableModel.fireTableCellUpdated(row, column); }
-
 
 }

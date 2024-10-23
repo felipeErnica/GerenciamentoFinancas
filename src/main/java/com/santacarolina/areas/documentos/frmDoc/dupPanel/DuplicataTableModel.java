@@ -1,5 +1,10 @@
 package com.santacarolina.areas.documentos.frmDoc.dupPanel;
 
+import java.text.ParseException;
+import java.time.DateTimeException;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.EditTableModel;
@@ -8,24 +13,20 @@ import com.santacarolina.model.Duplicata;
 import com.santacarolina.ui.CustomTableModelImpl;
 import com.santacarolina.util.StringConversor;
 
-import java.text.ParseException;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
 public class DuplicataTableModel implements EditTableModel<Duplicata> {
 
     private CustomTableModelImpl<Duplicata> tableModel;
     private List<Duplicata> duplicataList;
     private DocumentoFiscal documentoFiscal;
+    private DupModel formModel;
     private TipoPagamento tipoPagamento;
 
-    public DuplicataTableModel(DocumentoFiscal documentoFiscal, TipoPagamento tipoPagamento) {
+    public DuplicataTableModel(DocumentoFiscal documentoFiscal, DupModel formModel) {
         this.duplicataList = documentoFiscal.getDuplicatas();
         this.tableModel = new CustomTableModelImpl<>(this, duplicataList);
         this.documentoFiscal = documentoFiscal;
-        this.tipoPagamento = tipoPagamento;
+        this.formModel = formModel;
+        this.tipoPagamento = formModel.getTipoPagamento();
     }
 
     public void setTipoPagamento(TipoPagamento tipoPagamento) {
@@ -107,6 +108,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
                     d.setValor(StringConversor.getDoubleFromLocalFormat(value));
                     if (documentoFiscal.getFluxoCaixa() == FluxoCaixa.DESPESA) d.setValor(Math.abs(d.getValor())*-1);
                     else d.setValor(Math.abs(d.getValor()));
+                    formModel.calculateValorTotal();
                 } catch (ParseException e) {
                     d.setValor(0d);
                 }
@@ -138,6 +140,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
         tableModel.removeRows(rows);
         duplicataList.forEach(d -> d.setNumDup(duplicataList.indexOf(d) + 1));
         fireTableDataChanged();
+        formModel.calculateValorTotal();
     }
 
     public void fireTableDataChanged() { tableModel.fireTableDataChanged(); }

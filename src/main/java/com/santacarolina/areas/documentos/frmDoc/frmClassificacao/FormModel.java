@@ -27,7 +27,7 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
     };
 
     public FormModel(Produto produto) throws FetchFailException {
-        classificacaoList = new ClassificacaoDAO().getAll();
+        classificacaoList = new ClassificacaoDAO().findAll();
         unfilteredList = classificacaoList;
         tableModel = new CustomTableModelImpl<>(this, classificacaoList);
         this.produto = produto;

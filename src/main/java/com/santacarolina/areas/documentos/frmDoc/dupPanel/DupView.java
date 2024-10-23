@@ -18,6 +18,7 @@ public class DupView implements PropertyChangeListener {
     private JPanel mainPanel;
     private JTable table;
     private JComboBox<TipoPagamento> pagtoComboBox;
+    private JTextField valorTotalText;
     private JButton addDadoBancario;
     private JButton addButton;
 
@@ -27,6 +28,7 @@ public class DupView implements PropertyChangeListener {
         buildUI();
     }
 
+    @SuppressWarnings("unchecked")
     private void buildUI() {
         addButton = new ActionSVGButton("Adicionar Duplicata", new FlatSVGIcon("icon/add_icon.svg"));
         addDadoBancario = new ActionSVGButton("Adicionar Dado Bancário", new FlatSVGIcon("icon/add_info_pagto_icon.svg"));
@@ -37,17 +39,23 @@ public class DupView implements PropertyChangeListener {
         pagtoComboBox = new JComboBox<>(new EnumComboBoxModel<>(TipoPagamento.class));
         JLabel pagtoLabel = new JLabel("Método de Pagamento:");
         pagtoLabel.setLabelFor(pagtoComboBox);
+        
+        JLabel valorLabel = new JLabel("Valor Total:");
+        valorTotalText = new JTextField();
+        valorTotalText.setEditable(false);
+        valorLabel.setLabelFor(valorTotalText);
 
         mainPanel = new JPanel(new MigLayout("insets 20",
                 "[grow][]30[][][]",
-                "[]30[fill]"));
+                "[]30[fill][]"));
 
         mainPanel.add(addButton, "skip");
         mainPanel.add(pagtoLabel);
         mainPanel.add(pagtoComboBox);
         mainPanel.add(addDadoBancario, "wrap");
-        mainPanel.add(editTablePanel.getTableScrollPane(), "span, growx");
-
+        mainPanel.add(editTablePanel.getTableScrollPane(), "span, growx, wrap");
+        mainPanel.add(valorLabel, "skip 3, right");
+        mainPanel.add(valorTotalText, "grow");
     }
 
     public void formatColumns(){
@@ -77,6 +85,7 @@ public class DupView implements PropertyChangeListener {
         switch (evt.getPropertyName()) {
             case DupModel.DADO_BUTTON -> addDadoBancario.setEnabled((Boolean) evt.getNewValue());
             case DupModel.TIPO_PAGTO -> pagtoComboBox.setSelectedItem(evt.getNewValue());
+            case DupModel.TOTAL -> valorTotalText.setText((String) evt.getNewValue());
         }
     }
 

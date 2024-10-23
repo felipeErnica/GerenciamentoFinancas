@@ -12,6 +12,7 @@ public class HomePage {
             FormView view = new FormView();
             FormModel model = new FormModel();
             new FormController(view, model);
+            model.addPropertyChangeListener(view);
             return view.getMainPanel();
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);

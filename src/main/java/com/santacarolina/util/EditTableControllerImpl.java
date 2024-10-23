@@ -10,6 +10,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
+@SuppressWarnings("rawtypes")
 public class EditTableControllerImpl {
 
     private EditTablePanel view;

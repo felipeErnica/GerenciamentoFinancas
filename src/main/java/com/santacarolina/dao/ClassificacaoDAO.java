@@ -15,7 +15,7 @@ public class ClassificacaoDAO {
 
     public ClassificacaoDAO() { this.service = new Service<>(ClassificacaoDTO.class); }
 
-    public List<ClassificacaoContabil> getAll() throws FetchFailException {
+    public List<ClassificacaoContabil> findAll() throws FetchFailException {
         return service.getListRequest(MAPPING);
     }
 

@@ -1,6 +1,6 @@
 package com.santacarolina.areas.homePage;
 
-import com.santacarolina.areas.homePage.graphData.ExpenseIncomeSerie;
+import com.santacarolina.model.PastaContabil;
 
 public class FormController  {
 
@@ -14,12 +14,12 @@ public class FormController  {
     }
 
     private void init() {
-        ExpenseIncomeSerie ei = model.getResultingLine();
-        view.getResultsChart().addSeries(ei.getName(), ei.getDateList(), ei.getValueList());
-        model.getPieSeriesList().forEach(ec -> view.getExpenseCategoryChart().addSeries(ec.getClassificacao(), ec.getValor()));
-        model.getExpenseIncomeSeries().forEach(es -> view.getExpenseIncomeChart().addSeries(es.getName(),es.getDateList(),es.getValueList()));
-        view.getExpenseIncomeChart().getStyler().setYAxisMax(model.getExpenseIncomeLimit()*1.4);
+        view.getPastaComboBox().addActionListener(e -> pastaComboBox_afterUpdate());
     }
 
+    private void pastaComboBox_afterUpdate() {
+        PastaContabil pastaContabil = (PastaContabil) view.getPastaComboBox().getSelectedItem();
+        model.setPastaContabil(pastaContabil);
+    }
 
 }

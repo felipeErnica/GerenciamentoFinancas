@@ -15,7 +15,9 @@ public class ProdutoDTO implements FromDTO<Produto> {
     private double quantidade;
     private double valorUnit;
     private LocalDate dataEmissao;
+    private long pastaId;
     private String nomePasta;
+    private long emissorId;
     private String nomeContato;
     private String classificacao;
 
@@ -42,8 +44,9 @@ public class ProdutoDTO implements FromDTO<Produto> {
     public String getNomePasta() { return nomePasta; }
     public String getNomeContato() { return nomeContato; }
     public String getClassificacao() { return classificacao; }
+    public long getPastaId() { return pastaId; }
+    public long getEmissorId() { return emissorId; }
 
     public Produto fromDTO() { return new Produto(this); }
-
 
 }

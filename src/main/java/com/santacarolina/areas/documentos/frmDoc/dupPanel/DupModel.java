@@ -5,6 +5,7 @@ import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.PropertyFirer;
+import com.santacarolina.util.StringConversor;
 
 import java.beans.PropertyChangeListener;
 
@@ -12,14 +13,16 @@ public class DupModel implements ViewUpdater {
 
     public static final String DADO_BUTTON = "dadoButton";
     public static final String TIPO_PAGTO = "tipoPagamento";
+    public static final String TOTAL = "total";
 
     private TipoPagamento tipoPagamento;
     private DuplicataTableModel tableModel;
+    private String valorTotal;
     private PropertyFirer pf;
 
     public DupModel(DocumentoFiscal d) {
         if (!d.getDuplicatas().isEmpty()) tipoPagamento = d.getDuplicatas().get(0).getTipoPagamento();
-        this.tableModel = new DuplicataTableModel(d, tipoPagamento);
+        this.tableModel = new DuplicataTableModel(d, this);
         pf = new PropertyFirer(this);
     }
 
@@ -41,6 +44,14 @@ public class DupModel implements ViewUpdater {
         pf.firePropertyChange(DADO_BUTTON, tipoPagamento == TipoPagamento.PIX || tipoPagamento == TipoPagamento.TED);
     }
 
+    public void calculateValorTotal() {
+        double valorSoma = tableModel.getDuplicataList().stream()
+            .mapToDouble(d -> d.getValor())
+            .sum();
+        valorTotal = StringConversor.getCurrency(valorSoma);
+        pf.firePropertyChange(TOTAL, valorTotal);
+    }
+
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pf.addPropertyChangeListener(listener);
@@ -48,7 +59,11 @@ public class DupModel implements ViewUpdater {
     }
 
     @Override
-    public void fireInitialChanges() { pf.firePropertyChange(TIPO_PAGTO, tipoPagamento); }
+    public void fireInitialChanges() { 
+        pf.firePropertyChange(TIPO_PAGTO, tipoPagamento); 
+        calculateValorTotal();
+    }
+
     public void setValueAt(Object aValue, int row, int column) { tableModel.setValueAt(aValue, row, column); }
     public Object getValueAt(int row, int column) { return tableModel.getValueAt(row, column); }
 

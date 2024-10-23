@@ -20,7 +20,7 @@ public class DocValidator {
     public static boolean validate(MainModel model) throws FetchFailException {
         if (!validateDocInfo(model.getDocModel())) return false;
         if (!validateDup(model.getDupModel())) return false;
-        if (!validateProd(model.getProdutoTableModel())) return false;
+        if (!validateProd(model.getProdutoModel().getTableModel())) return false;
         DocumentoFiscal doc = model.getDocumentoFiscal();
         if (doc.getId() == 0) {
             DocumentoDAO dao = new DocumentoDAO();

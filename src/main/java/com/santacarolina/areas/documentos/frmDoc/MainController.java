@@ -22,7 +22,7 @@ public class MainController implements Controller {
         this.view = view;
         this.model = model;
         new DupController(view.getDuplicatasPanel(), model.getDupModel());
-        new ProdController(view.getProdutosPanel(), model.getProdutoTableModel());
+        new ProdController(view.getProdutosPanel(), model.getProdutoModel());
         new DocumentoController(model.getDocModel(), view.getInfoPanel());
         init();
     }

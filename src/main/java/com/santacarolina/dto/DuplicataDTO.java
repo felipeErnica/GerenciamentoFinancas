@@ -12,6 +12,7 @@ public class DuplicataDTO implements FromDTO<Duplicata> {
     private Long docId;
     private Long dadoId;
     private long id;
+    private long pastaId;
     private int numDup;
     private TipoPagamento tipoPagamento;
     private LocalDate dataVencimento;
@@ -51,6 +52,7 @@ public class DuplicataDTO implements FromDTO<Duplicata> {
     public String getConta() { return conta; }
     public Long getPixId() { return pixId; }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
+    public long getPastaId() { return pastaId; }
 
     public void setValor(double valor) { this.valor = valor; }
 

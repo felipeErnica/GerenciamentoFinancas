@@ -10,22 +10,26 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.documentos.frmDoc.frmClassificacao.FrmClassificacao;
 import com.santacarolina.interfaces.DoubleClickListener;
+import com.santacarolina.interfaces.EditTableController;
 import com.santacarolina.interfaces.OnResize;
 import com.santacarolina.model.Produto;
+import com.santacarolina.util.EditTableControllerImpl;
 
-public class ProdController {
+public class ProdController implements EditTableController {
 
-    private ProdutoTableModel model;
     private ProdView view;
+    private ProdutoTableModel tableModel;
 
-    public ProdController(ProdView view, ProdutoTableModel model) {
+    public ProdController(ProdView view, ProdModel model) {
         this.view = view;
-        this.model = model;
+        this.tableModel = model.getTableModel();
+        model.addPropertyChangeListener(view);
+        new EditTableControllerImpl(view.getEditTablePanel(), tableModel);
         init();
     }
 
     private void init() {
-        view.getTable().setModel(model.getBaseModel());
+        view.getTable().setModel(tableModel.getBaseModel());
         view.getMainPanel().addComponentListener((OnResize) e -> view.formatColumns());
 
         DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
@@ -38,20 +42,22 @@ public class ProdController {
 
         view.getTable().addMouseListener((DoubleClickListener) this::classificacaoContabil_doubleClick);
         view.getAddButton().addActionListener(e -> addButton_onClick());
-        if (view.getTable().getModel().getRowCount() == 0) model.addNewRow();
+        if (view.getTable().getModel().getRowCount() == 0) tableModel.addNewRow();
     }
 
-    private void addButton_onClick() { EventQueue.invokeLater(() -> model.addNewRow()); }
+    private void addButton_onClick() { EventQueue.invokeLater(() -> tableModel.addNewRow()); }
 
     private void classificacaoContabil_doubleClick(MouseEvent e) {
         Point point = e.getPoint();
         int column = view.getTable().columnAtPoint(point);
         int row = view.getTable().rowAtPoint(point);
         if (column == 0) {
-            Produto produto = model.getObject(row);
+            Produto produto = tableModel.getObject(row);
             FrmClassificacao.open(produto);
-            System.out.println(produto);
         }
     }
+
+    @Override
+    public void addNewRow() { tableModel.addNewRow(); }
 
 }

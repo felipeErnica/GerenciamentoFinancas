@@ -71,7 +71,7 @@ public class StringConversor {
         try {
             return Double.parseDouble(input);
         } catch (NumberFormatException e) {
-            NumberFormat format = NumberFormat.getNumberInstance();
+            NumberFormat format = NumberFormat.getNumberInstance(Locale.of("pt", "BR"));
             return format.parse(input).doubleValue();
         }
     }
