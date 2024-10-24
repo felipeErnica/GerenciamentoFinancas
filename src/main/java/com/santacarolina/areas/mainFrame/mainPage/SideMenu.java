@@ -25,7 +25,9 @@ public class SideMenu {
 
     private SubMenuImpl infoBancoSubMenu;
     private JButton conciliacaoButton;
-    private JButton contasButton;
+    private JButton extratosButton;
+    private JButton addContaBancariaButton;
+    private JButton manageContaBancariaButton;
 
     private SubMenuImpl contatosSubMenu;
     private JButton addContatoButton;
@@ -69,8 +71,12 @@ public class SideMenu {
         infoBancoSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/banco_menu_icon.svg")));
         conciliacaoButton = new JButton("Conciliar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/conciliacao_icon.svg")));
         infoBancoSubMenu.addButton(conciliacaoButton);
-        contasButton = new JButton("Mostrar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/extrato_icon.svg")));
-        infoBancoSubMenu.addButton(contasButton);
+        extratosButton = new JButton("Mostrar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/extrato_icon.svg")));
+        infoBancoSubMenu.addButton(extratosButton);
+        addContaBancariaButton = new JButton("Nova Conta Bancária");
+        infoBancoSubMenu.addButton(addContaBancariaButton);
+        manageContaBancariaButton = new JButton("Gerenciar Contas Bancárias");
+        infoBancoSubMenu.addButton(manageContaBancariaButton);
 
         contatosSubMenu = new SubMenuImpl(this, "Contatos");
         contatosSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/contato_menu_icon.svg")));
@@ -134,7 +140,9 @@ public class SideMenu {
     public JButton getProdButton() { return prodButton; }
 
     public JButton getConciliacaoButton() { return conciliacaoButton; }
-    public JButton getContasButton() { return contasButton; }
+    public JButton getExtratosButton() { return extratosButton; }
+    public JButton getManageContaBancariaButton() { return manageContaBancariaButton; }
+    public JButton getAddContaBancariaButton() { return addContaBancariaButton; }
 
     public JButton getAddContatoButton() { return addContatoButton; }
     public JButton getManageContatoButton() { return manageContatoButton; }

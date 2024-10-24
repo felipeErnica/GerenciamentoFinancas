@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.contaBancaria.frmAddContaBancaria;
+package com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria;
 
 import com.santacarolina.model.Banco;
 import com.santacarolina.ui.AddView;
@@ -7,8 +7,10 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class AddContaView {
+public class FormView implements PropertyChangeListener {
 
     private JDialog dialog;
 
@@ -16,18 +18,19 @@ public class AddContaView {
     private JTextField agenciaTextField;
     private JTextField numeroContaTextField;
     private JTextField apelidoContaTextField;
+    private JTextField abreviacaoText;
     private JButton addConta;
 
-    public AddContaView() {
+    public FormView(String dialogTitle, String buttonText) {
         AddView view = new AddView();
         dialog = view.getDialog();
         addConta = view.getAddButton();
+        dialog.setTitle(dialogTitle);
+        addConta.setText(buttonText);
         initComponents();
     }
 
     private void initComponents() {
-        dialog.setTitle("Adicionar Conta Bancária");
-        addConta.setText("Adicionar Conta");
 
         bancoComboBox = new JComboBox<>();
         AutoCompleteDecorator.decorate(bancoComboBox);
@@ -46,8 +49,12 @@ public class AddContaView {
         JLabel apelidoLabel = new JLabel("Apelido da Conta:");
         apelidoLabel.setLabelFor(apelidoContaTextField);
 
-        JPanel centerPane = new JPanel(new MigLayout("insets 25",
-                "[right][right][grow, fill]",
+        JLabel abreviacaoLabel = new JLabel("Abreviação da Conta:");
+        abreviacaoText = new JTextField();
+        abreviacaoLabel.setLabelFor(abreviacaoText);
+
+        JPanel centerPane = new JPanel(new MigLayout("insets 20",
+                "[][][grow, fill]",
                 "[]20[][][]"
         ));
 
@@ -58,7 +65,9 @@ public class AddContaView {
         centerPane.add(numeroLabel,"skip");
         centerPane.add(numeroContaTextField, "wrap");
         centerPane.add(apelidoLabel, "skip");
-        centerPane.add(apelidoContaTextField);
+        centerPane.add(apelidoContaTextField, "wrap");
+        centerPane.add(abreviacaoLabel, "skip");
+        centerPane.add(abreviacaoText);
 
         dialog.add(centerPane, BorderLayout.CENTER);
 
@@ -69,6 +78,21 @@ public class AddContaView {
     public JTextField getAgenciaTextField() { return agenciaTextField; }
     public JTextField getNumeroContaTextField() { return numeroContaTextField; }
     public JTextField getApelidoContaTextField() { return apelidoContaTextField; }
+    public JTextField getAbreviacaoText() { return abreviacaoText; }
     public JButton getAddConta() { return addConta; }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+            case FormModel.ABREVIACAO -> abreviacaoText.setText((String) evt.getNewValue());
+            case FormModel.APELIDO -> apelidoContaTextField.setText((String) evt.getNewValue());
+            case FormModel.BANCO -> {
+                Banco banco = (Banco) evt.getNewValue();
+                bancoComboBox.setSelectedItem(banco);
+            }
+            case FormModel.AGENCIA -> agenciaTextField.setText((String) evt.getNewValue());
+            case FormModel.NUMERO -> numeroContaTextField.setText((String) evt.getNewValue());
+        }
+    }
 
 }

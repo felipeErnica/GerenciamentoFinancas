@@ -10,6 +10,7 @@ public class ContaDTO implements FromDTO<ContaBancaria> {
     private String agencia;
     private long bancoId;
     private String numeroConta;
+    private String abreviacaoConta;
 
     public ContaDTO fromObject(ContaBancaria c) {
         this.id = c.getId();
@@ -17,6 +18,7 @@ public class ContaDTO implements FromDTO<ContaBancaria> {
         this.agencia = c.getAgencia();
         this.bancoId = c.getBancoId();
         this.numeroConta = c.getNumeroConta();
+        this.abreviacaoConta =c.getAbreviacaoConta();
         return this;
     }
 
@@ -27,6 +29,7 @@ public class ContaDTO implements FromDTO<ContaBancaria> {
     public String getAgencia() { return agencia; }
     public long getBancoId() { return bancoId; }
     public String getNumeroConta() { return numeroConta; }
+    public String getAbreviacaoConta() { return abreviacaoConta; }
 
     @Override
     public ContaBancaria fromDTO() { return new ContaBancaria(this); }

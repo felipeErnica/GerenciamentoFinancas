@@ -1,6 +1,8 @@
 package com.santacarolina.areas.mainFrame.mainPage;
 
 import com.santacarolina.areas.bancario.conciliacao.frmConciliacao.ConciliacaoForm;
+import com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria.ContaForm;
+import com.santacarolina.areas.bancario.contaBancaria.frmManageContaBancaria.ManageContaForm;
 import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioForm;
 import com.santacarolina.areas.bancario.dadoBancario.frmManageDado.ManageDadoForm;
 import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
@@ -45,8 +47,10 @@ public class MainFrameController implements Controller {
         view.getDupNaoPagaButton().addActionListener(e -> dupNaoPagaButton_onClick());
         view.getProdButton().addActionListener(e -> prodButton_onClick());
 
-        view.getContasButton().addActionListener(e -> contasButton_onClick());
+        view.getExtratosButton().addActionListener(e -> extratosButton_onClick());
         view.getConciliacaoButton().addActionListener(e -> conciliacaoButton_onClick());
+        view.getAddContaBancariaButton().addActionListener(e -> addContaBancaria_onClick());
+        view.getManageContaBancariaButton().addActionListener(e -> manageContaBancaria_onClick());
 
         view.getManageContatoButton().addActionListener(e -> manageContatoButton_onClick());
         view.getAddContatoButton().addActionListener(e -> addContatoButton_onClick());
@@ -64,6 +68,7 @@ public class MainFrameController implements Controller {
         view.getManageClassificacaoButton().addActionListener(e -> manageClassificaoButton_onClick());
     }
 
+
     private void homeButton_onClick() { model.setHomePage(); }
     private void nfeButton_onClick() { EventQueue.invokeLater(ImportNFeForm::open); }
     private void newDocButton_onClick() { EventQueue.invokeLater(DocForm::openNew); }
@@ -72,8 +77,10 @@ public class MainFrameController implements Controller {
     private void dupPagaButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DupPagaPane().getView())); }
     private void dupNaoPagaButton_onClick() { EventQueue.invokeLater(() ->model.setCenterPanel(new DupNaoPagaPane().getView())); }
 
-    private void contasButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ExtratoPane().getView())); }
+    private void extratosButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ExtratoPane().getView())); }
     private void conciliacaoButton_onClick() { EventQueue.invokeLater(ConciliacaoForm::new); }
+    private void addContaBancaria_onClick() { EventQueue.invokeLater(ContaForm::openNew); }
+    private void manageContaBancaria_onClick() { EventQueue.invokeLater(ManageContaForm::open); }
 
     private void manageContatoButton_onClick() { EventQueue.invokeLater(ManageContatoForm::new);   }
     private void addContatoButton_onClick() { EventQueue.invokeLater(AddContatoForm::openNew); }

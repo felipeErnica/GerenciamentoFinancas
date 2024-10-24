@@ -1,6 +1,7 @@
 package com.santacarolina.dao;
 
 import com.santacarolina.dto.ContaDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.ContaBancaria;
@@ -28,6 +29,11 @@ public class ContaDAO {
     public Optional<ContaBancaria> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;
         return service.getRequest(query);
+    }
+
+    public void deleteById(long id) throws DeleteFailException {
+        String query = MAPPING + "/" + id;
+        service.deleteRequest(query);
     }
 
 }

@@ -26,6 +26,9 @@ public class Banco implements ToDTO<BancoDTO>, Cloneable {
     public void setApelidoBanco(String apelidoBanco) { this.apelidoBanco = apelidoBanco; }
 
     @Override
+    public String toString() { return nomeBanco; }
+
+    @Override
     public BancoDTO toDTO() { return new BancoDTO(this); }
 
     @Override

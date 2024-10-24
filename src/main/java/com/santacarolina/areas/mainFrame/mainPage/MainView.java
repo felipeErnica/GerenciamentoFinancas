@@ -40,7 +40,9 @@ public class MainView implements PropertyChangeListener {
     public JButton getProdButton() { return sideMenu.getProdButton(); }
 
     public JButton getConciliacaoButton() { return sideMenu.getConciliacaoButton(); }
-    public JButton getContasButton() { return sideMenu.getContasButton(); }
+    public JButton getManageContaBancariaButton() { return sideMenu.getManageContaBancariaButton(); }
+    public JButton getAddContaBancariaButton() { return sideMenu.getAddContaBancariaButton(); }
+    public JButton getExtratosButton() { return sideMenu.getExtratosButton(); }
 
     public JButton getAddContatoButton() { return sideMenu.getAddContatoButton(); }
     public JButton getManageContatoButton() { return sideMenu.getManageContatoButton(); }
