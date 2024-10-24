@@ -25,14 +25,17 @@ import com.santacarolina.util.PropertyFirer;
 
 public class FormModel implements ViewUpdater {
 
+    public static final String PASTA_CONTABIL = "pasta";
+    public static final String DATA_FIM = "dataFim";
+    public static final String DATA_INICIO = "dataInicio";
     public static final String DESPESAS_GRAPH = "despesas";
     public static final String RESULTADOS_GRAPH = "resultados";
     public static final String RECEITA_DESPESA_GRAPH = "receitas";
     public static final String RECEITA_DESPESA_MAX = "valorMax";
 
-    private PastaContabil pastaContabil;
-    private LocalDate dataInicio;
-    private LocalDate dataFim;
+    private static PastaContabil pastaContabil;
+    private static LocalDate dataInicio;
+    private static LocalDate dataFim;
 
     private List<ClassificacaoContabil> classificacaoList;
 
@@ -42,7 +45,9 @@ public class FormModel implements ViewUpdater {
     private List<ExpenseCategory> pieSeriesList;
     private List<ExpenseIncomeSerie> expenseIncomeSeries;
     private ExpenseIncomeSerie resultadosSerie;
+    private double yMaxLimit;
 
+    private boolean isUpdating;
     private PropertyFirer pf;
 
     public FormModel() throws FetchFailException {
@@ -66,21 +71,26 @@ public class FormModel implements ViewUpdater {
 
     //Métodos setters: definem as variáveis de filtro, engatilham as funções de transformação das listas para vetores nos gráficos.
     public void setPastaContabil(PastaContabil pastaContabil) { 
-        this.pastaContabil = pastaContabil; 
+        if (isUpdating) return;
+        isUpdating = true;
+        FormModel.pastaContabil = pastaContabil; 
         filteredList = unfilteredList;
         buildGraphs();
+        isUpdating = false;
     }
 
     public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
+        FormModel.dataInicio = dataInicio;
         filteredList = unfilteredList;
         buildGraphs();
+        pf.firePropertyChange(DATA_INICIO, dataInicio);
     }
 
     public void setDataFim(LocalDate dataFim) {
-        this.dataFim = dataFim;
+        FormModel.dataFim = dataFim;
         filteredList = unfilteredList;
         buildGraphs();
+        pf.firePropertyChange(DATA_FIM, dataFim);
     }
 
     //Método privado para construir os vetores de dados nos gráficos. Filtra a lista de acordo com as váriaveis definidas e retorna a lista
@@ -94,8 +104,8 @@ public class FormModel implements ViewUpdater {
         buildExpenseIncomeGraph();
         pf.firePropertyChange(DESPESAS_GRAPH, pieSeriesList);
         pf.firePropertyChange(RECEITA_DESPESA_GRAPH, expenseIncomeSeries);
-        pf.firePropertyChange(RECEITA_DESPESA_MAX, getExpenseIncomeLimit());
         pf.firePropertyChange(RESULTADOS_GRAPH, resultadosSerie);
+        pf.firePropertyChange(RECEITA_DESPESA_MAX, yMaxLimit);
     }
 
     private void filterPasta() {
@@ -116,14 +126,13 @@ public class FormModel implements ViewUpdater {
             .collect(Collectors.toList());
     }
 
-
-    private double getExpenseIncomeLimit() {
-        return filteredList.stream()
-                .mapToDouble(ProdutoDuplicataDTO::getValorTotal)
-                .max().orElse(0);
+    private void buildResultingLine() {
+        filteredList.forEach(p -> {
+            if (p.getFluxoCaixa() == FluxoCaixa.RECEITA) p.setValorUnit(Math.abs(p.getValorUnit()));
+            else p.setValorUnit(Math.abs(p.getValorUnit())*-1);
+        });
+        resultadosSerie = buildExpenseIncomeSerie(filteredList, "RESULTADOS"); 
     }
-
-    private void buildResultingLine() { resultadosSerie = buildExpenseIncomeSerie(filteredList, "RESULTADOS"); }
 
     private void  buildPieSeriesList() {
         List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
@@ -131,19 +140,19 @@ public class FormModel implements ViewUpdater {
         //Soma toda as entradas de uma mesma classificacao e adiciona a uma lista que mapeia a classificacao a um valor.
         for (ClassificacaoContabil classificacao : classificacaoList) {
             double valorClassificacao = filteredList.stream()
-            .filter(p -> p.getClassificacaoId() == classificacao.getId())
-            .mapToDouble(dto -> dto.getValorTotal())
-            .sum();
+                .filter(p -> p.getClassificacaoId() == classificacao.getId())
+                .mapToDouble(dto -> dto.getValorTotal())
+                .sum();
             ExpenseCategory ec = new ExpenseCategory(classificacao.getNomeClassificacao(), Math.abs(valorClassificacao)*-1);
             expenseCategoryList.add(ec);
         }
 
         //Seleciona as 5 maiores despesas e suas classificaçoes. 
         List<ExpenseCategory> biggestExpenses = expenseCategoryList.stream()
-        .sorted(Comparator.comparingDouble(ExpenseCategory::getValor))
-        .filter(e -> e.getValor() != 0)
-        .limit(5)
-        .toList();
+            .sorted(Comparator.comparingDouble(ExpenseCategory::getValor))
+            .filter(e -> e.getValor() != 0)
+            .limit(5)
+            .toList();
 
         pieSeriesList = new ArrayList<>();
         pieSeriesList.addAll(biggestExpenses);
@@ -152,8 +161,8 @@ public class FormModel implements ViewUpdater {
         if (biggestExpenses.size() == 5) {
             expenseCategoryList.removeAll(biggestExpenses);
             double otherValues = expenseCategoryList.stream()
-            .mapToDouble(ExpenseCategory::getValor)
-            .sum();
+                .mapToDouble(ExpenseCategory::getValor)
+                .sum();
             ExpenseCategory others = new ExpenseCategory("OUTROS", otherValues);
             pieSeriesList.add(others);
         }
@@ -165,20 +174,37 @@ public class FormModel implements ViewUpdater {
 
         //Cria a séria RECEITAS, mapeia os valores a uma data.
         List<ProdutoDuplicataDTO> incomeList = filteredList.stream()
-        .filter(d -> d.getFluxoCaixa() == FluxoCaixa.RECEITA)
-        .toList();
+            .filter(d -> d.getFluxoCaixa() == FluxoCaixa.RECEITA)
+            .toList();
+        
         ExpenseIncomeSerie incomeSerie = buildExpenseIncomeSerie(incomeList, "RECEITA");
 
+        double incomeMax = 1000;
+        if (incomeSerie != null) {
+            incomeMax = incomeSerie.getValueList().stream()
+                .mapToDouble(d -> d)
+                .max().orElse(0);
+            expenseIncomeSeries.add(incomeSerie);
+        }
 
         //Cria a séria DESPESAS, mapeia os valores a uma data.
         List<ProdutoDuplicataDTO> expenseList = filteredList.stream()
-        .filter(d -> d.getFluxoCaixa() == FluxoCaixa.DESPESA)
-        .collect(Collectors.toList());
+            .filter(d -> d.getFluxoCaixa() == FluxoCaixa.DESPESA)
+            .collect(Collectors.toList());
+        
         expenseList.forEach(d -> d.setValorUnit(Math.abs(d.getValorUnit())));
         ExpenseIncomeSerie expenseSerie = buildExpenseIncomeSerie(expenseList, "DESPESA");
 
-        expenseIncomeSeries.add(incomeSerie);
-        expenseIncomeSeries.add(expenseSerie);
+        double expenseMax = 1000;
+        if (expenseSerie != null) {
+            expenseMax = expenseSerie.getValueList().stream()
+                .mapToDouble(d -> d)
+                .max().orElse(0);
+            expenseIncomeSeries.add(expenseSerie);
+        }
+
+        yMaxLimit = incomeMax >= expenseMax ? incomeMax : expenseMax;
+
     }
 
     //Método para somar entradas em uma mesmo Mês e retorna os valores mapeados
@@ -209,7 +235,8 @@ public class FormModel implements ViewUpdater {
                 listValues.add(monthValues);
             }
         }
-        return new ExpenseIncomeSerie(name, listDate, listValues);
+        if (!listValues.isEmpty() && !listDate.isEmpty()) return new ExpenseIncomeSerie(name, listDate, listValues);
+        else return null;
     }
 
     @Override
@@ -217,7 +244,12 @@ public class FormModel implements ViewUpdater {
 
     @Override
     public void fireInitialChanges() { 
+        isUpdating = true;
+        pf.firePropertyChange(PASTA_CONTABIL, pastaContabil);
+        pf.firePropertyChange(DATA_FIM, dataFim);
+        pf.firePropertyChange(DATA_INICIO, dataInicio);
         buildGraphs(); 
+        isUpdating = false;
     }
 
 }

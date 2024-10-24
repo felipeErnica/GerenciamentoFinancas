@@ -20,12 +20,14 @@ public class MenuDecorator {
     private static final Color MENU_BACKGROUND = UIManager.getColor("SideBar.backgroundColor");
     private static final Color MENU_FOREGROUND = UIManager.getColor("SideBar.foregroundColor");
 
-    public static void paintChart(Chart chart) {
+    public static void paintChart(@SuppressWarnings("rawtypes") Chart chart) {
         chart.getStyler()
                 .setPlotBackgroundColor(GRAPH_BACKGROUND)
                 .setPlotBorderVisible(false)
                 .setAnnotationTextFontColor(GRAPH_FOREGROUND)
-                .setToolTipBackgroundColor(GRAPH_FOREGROUND)
+                .setToolTipsEnabled(true)
+                .setToolTipHighlightColor(GRAPH_FOREGROUND)
+                .setToolTipBackgroundColor(GRAPH_BACKGROUND)
                 .setLegendBackgroundColor(GRAPH_BACKGROUND)
                 .setLegendBorderColor(GRAPH_BACKGROUND)
                 .setXAxisTitleColor(GRAPH_FOREGROUND)

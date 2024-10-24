@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
 import org.knowm.xchart.CategorySeries;
@@ -28,8 +31,6 @@ import org.knowm.xchart.style.Styler;
 
 import com.santacarolina.areas.homePage.graphData.ExpenseCategory;
 import com.santacarolina.areas.homePage.graphData.ExpenseIncomeSerie;
-import com.santacarolina.dao.PastaDAO;
-import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.MenuDecorator;
 import com.santacarolina.util.StringConversor;
@@ -49,8 +50,8 @@ public class FormView implements PropertyChangeListener {
 
     private JPanel mainPanel;
 
-    private JTextField dataFim;
-    private JTextField dataInicio;
+    private JTextField dataFimText;
+    private JTextField dataInicioText;
     private JComboBox<PastaContabil> pastaComboBox;
 
     private XChartPanel<PieChart> expenseCategoryPanel;
@@ -65,24 +66,36 @@ public class FormView implements PropertyChangeListener {
     private List<ExpenseIncomeSerie> expenseIncomeSeries;
     private ExpenseIncomeSerie resultingLine;
 
-    public FormView() throws FetchFailException { init(); }
+    public FormView() { init(); }
 
-    @SuppressWarnings("unchecked")
-    private void init() throws FetchFailException {
+    private void init() {
 
         JLabel pastaLabel = new JLabel("Pasta Contábil");
-        pastaComboBox = new JComboBox<>(new ListComboBoxModel<>(new PastaDAO().findAll()));
+        pastaComboBox = new JComboBox<>();
+        AutoCompleteDecorator.decorate(pastaComboBox);
         pastaLabel.setLabelFor(pastaComboBox);
 
-        JPanel northPanel = new JPanel(new MigLayout("insets 20"));
+        JLabel inicioLabel = new JLabel("Data de Início:");
+        dataInicioText = new JTextField();
+        inicioLabel.setLabelFor(dataInicioText);
+
+        JLabel fimLabel = new JLabel("Data Final:");
+        dataFimText = new JTextField();
+        fimLabel.setLabelFor(dataFimText);
+
+        JPanel northPanel = new JPanel(new MigLayout("insets 20","[][grow, fill]30[][120, fill][][120, fill]"));
 
         northPanel.add(pastaLabel);
-        northPanel.add(pastaComboBox, "push, grow");
+        northPanel.add(pastaComboBox);
+        northPanel.add(inicioLabel);
+        northPanel.add(dataInicioText);
+        northPanel.add(fimLabel);
+        northPanel.add(dataFimText);
 
         expenseCategoryChart = new PieChartBuilder()
-        .title("Composição das Despesas")
-        .theme(Styler.ChartTheme.XChart)
-        .build();
+            .title("Composição das Despesas")
+            .theme(Styler.ChartTheme.XChart)
+            .build();
         expenseCategoryChart.getStyler()
             .setLabelType(PieStyler.LabelType.NameAndPercentage)
             .setForceAllLabelsVisible(true)
@@ -91,15 +104,16 @@ public class FormView implements PropertyChangeListener {
             .setDefaultSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Pie)
             .setCircular(true)
             .setSeriesColors(PIE_CHART_COLORS);
+
         MenuDecorator.paintChart(expenseCategoryChart);
         expenseCategoryPanel = new XChartPanel<>(expenseCategoryChart);
 
         expenseIncomeChart = new CategoryChartBuilder()
-        .title("Receitas x Despesas")
-        .theme(Styler.ChartTheme.XChart)
-        .xAxisTitle("Mês")
-        .yAxisTitle("Valor (R$)")
-        .build();
+            .title("Receitas x Despesas")
+            .theme(Styler.ChartTheme.XChart)
+            .xAxisTitle("Mês")
+            .yAxisTitle("Valor (R$)")
+            .build();
         expenseIncomeChart.getStyler()
             .setLabelsVisible(true)
             .setLabelsFontColorAutomaticEnabled(false)
@@ -112,16 +126,17 @@ public class FormView implements PropertyChangeListener {
             .setXAxisTickLabelsColor(GRAPH_FOREGROUND)
             .setPlotGridLinesColor(GRAPH_FOREGROUND)
             .setDatePattern("MMM-yyyy")
+            .setLocale(Locale.of("pt","BR"))
             .setSeriesColors(new Color[]{INCOME_BLUE, EXPENSE_COLOR});
         MenuDecorator.paintChart(expenseIncomeChart);
         expenseIncomePanel = new XChartPanel<>(expenseIncomeChart);
 
         resultsChart = new XYChartBuilder()
-        .title("Balanço")
-        .xAxisTitle("Mês")
-        .yAxisTitle("Valor (R$)")
-        .theme(Styler.ChartTheme.XChart)
-        .build();
+            .title("Balanço")
+            .xAxisTitle("Mês")
+            .yAxisTitle("Valor (R$)")
+            .theme(Styler.ChartTheme.XChart)
+            .build();
         resultsChart.getStyler()
             .setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line)
             .setyAxisTickLabelsFormattingFunction(StringConversor::getCurrency)
@@ -129,6 +144,7 @@ public class FormView implements PropertyChangeListener {
             .setXAxisTickLabelsColor(GRAPH_FOREGROUND)
             .setPlotGridLinesColor(GRAPH_FOREGROUND)
             .setDatePattern("MMM-yyyy")
+            .setLocale(Locale.of("pt","BR"))
             .setSeriesColors(new Color[]{Color.ORANGE});
         MenuDecorator.paintChart(resultsChart);
         resultsPanel = new XChartPanel<>(resultsChart);
@@ -150,8 +166,8 @@ public class FormView implements PropertyChangeListener {
     public PieChart getExpenseCategoryChart() { return expenseCategoryChart; }
     public CategoryChart getExpenseIncomeChart() { return expenseIncomeChart; }
     public XYChart getResultsChart() { return resultsChart; }
-    public JTextField getDataFim() { return dataFim; }
-    public JTextField getDataInicio() { return dataInicio; }
+    public JTextField getDataFimText() { return dataFimText; }
+    public JTextField getDataInicioText() { return dataInicioText; }
     public JComboBox<PastaContabil> getPastaComboBox() { return pastaComboBox; }
 
     @SuppressWarnings("unchecked")
@@ -161,24 +177,59 @@ public class FormView implements PropertyChangeListener {
             case FormModel.DESPESAS_GRAPH -> {
                 expenseCategorieList = (List<ExpenseCategory>) evt.getNewValue();
                 expenseCategoryChart.getSeriesMap().clear();
-                expenseCategorieList.forEach(ec -> expenseCategoryChart.addSeries(ec.getClassificacao(), ec.getValor()));
+
+                if (!expenseCategorieList.isEmpty()) {
+                    expenseCategorieList.forEach(ec -> expenseCategoryChart.addSeries(ec.getClassificacao(), ec.getValor()));
+                } else {
+                    PieSeries series = expenseCategoryChart.addSeries("N/a", 1);
+                    series.setEnabled(false);
+                }
+
                 expenseCategoryPanel.repaint();
             }
             case FormModel.RECEITA_DESPESA_GRAPH -> {
                 expenseIncomeSeries = (List<ExpenseIncomeSerie>) evt.getNewValue();
                 expenseIncomeChart.getSeriesMap().clear();
-                expenseIncomeSeries.forEach(es -> expenseIncomeChart.addSeries(es.getName(),es.getDateList(),es.getValueList()));
+
+                if (!expenseIncomeSeries.isEmpty()) {
+                    expenseIncomeSeries.forEach(es -> expenseIncomeChart.addSeries(es.getName(),es.getDateList(),es.getValueList()));
+                } else {
+                    CategorySeries series = expenseIncomeChart.addSeries("A", new int[]{1}, new int[]{1});
+                    series.setEnabled(false);
+                }
+
                 expenseIncomePanel.repaint();
             }
             case FormModel.RESULTADOS_GRAPH -> {
                 resultingLine = (ExpenseIncomeSerie) evt.getNewValue();
                 resultsChart.getSeriesMap().clear();
-                resultsChart.addSeries(resultingLine.getName(), resultingLine.getDateList(), resultingLine.getValueList());
+
+                if (resultingLine != null) {
+                    resultsChart.addSeries(resultingLine.getName(), resultingLine.getDateList(), resultingLine.getValueList());
+                } else {
+                    XYSeries series = resultsChart.addSeries("a", new int[]{1});
+                    series.setEnabled(false);
+                }
+
                 resultsPanel.repaint();
             }
             case FormModel.RECEITA_DESPESA_MAX -> {
                 double valorMax = (double) evt.getNewValue();
-                expenseIncomeChart.getStyler().setYAxisMax(valorMax*1.4);
+                expenseIncomeChart.getStyler().setYAxisMax(valorMax*1.4d);
+                expenseIncomePanel.repaint();
+            }
+            case FormModel.PASTA_CONTABIL -> {
+                PastaContabil pastaContabil = (PastaContabil) evt.getNewValue();
+                System.out.println(pastaContabil);
+                pastaComboBox.setSelectedItem(pastaContabil);
+            } 
+            case FormModel.DATA_INICIO -> {
+                LocalDate dataInicio = (LocalDate) evt.getNewValue();
+                dataInicioText.setText(dataInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            }
+            case FormModel.DATA_FIM -> {
+                LocalDate dataFim = (LocalDate) evt.getNewValue();
+                dataFimText.setText(dataFim.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
         }
     }
