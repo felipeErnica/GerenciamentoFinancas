@@ -1,4 +1,7 @@
-package com.santacarolina.areas.bancario.pix.formModel;
+package com.santacarolina.areas.bancario.pix.frmPix;
+
+import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.enums.TipoPix;
@@ -10,10 +13,7 @@ import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.PropertyFirer;
 
-import java.beans.PropertyChangeListener;
-import java.util.List;
-
-public class PixFormModel implements ViewUpdater {
+public class FormModel implements ViewUpdater {
 
     public static final String CONTA_CHECKBOX = "contaCheckBox";
     public static final String CHAVE_INVALID = "invalidFormat";
@@ -38,16 +38,16 @@ public class PixFormModel implements ViewUpdater {
     private boolean contaSelected;
     private boolean contaEnabled;
     private boolean dadosEnabled;
-    private boolean isUpdated;
     private final PropertyFirer ps;
 
-    public PixFormModel(ChavePix chavePix) throws FetchFailException {
+    public FormModel(ChavePix chavePix) throws FetchFailException {
         ps = new PropertyFirer(this);
-        this.chavePix = chavePix;
         this.dadosEnabled = true;
+        this.chavePix = chavePix;
         updateAllData();
     }
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }
 
     private void updateAllData() throws FetchFailException {
@@ -62,6 +62,7 @@ public class PixFormModel implements ViewUpdater {
         if (this.dadoBancario != null) this.banco = this.dadoBancario.getBanco().getNomeBanco();
     }
 
+    @Override
     public void fireInitialChanges() {
         isUpdating = true;
         ps.firePropertyChange(CONTATO, this.contato);
@@ -72,8 +73,8 @@ public class PixFormModel implements ViewUpdater {
         ps.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
         ps.firePropertyChange(TIPO_PIX, this.tipoPix);
         ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
-        ps.firePropertyChange(CHAVE, this.chave);
-        ps.firePropertyChange(BANCO, this.banco);
+        ps.firePropertyChange(CHAVE, chave);
+        ps.firePropertyChange(BANCO, banco);
         isUpdating = false;
     }
 
@@ -115,7 +116,6 @@ public class PixFormModel implements ViewUpdater {
     public String getBanco() { return banco; }
     public List<DadoBancario> getContaList() { return contaList; }
     public ChavePix getChavePix() { return chavePix; }
-    public boolean isUpdated() { return isUpdated; }
 
     public void setContato(Contato contato) throws FetchFailException {
         if (isUpdating) return;
@@ -134,7 +134,6 @@ public class PixFormModel implements ViewUpdater {
 
     public void setContaSelected(boolean contaSelected) {
         if (isUpdating) return;
-        System.out.println("inicio");
         isUpdating = true;
         this.contaSelected = contaSelected;
         triggerEnableConta();
@@ -147,7 +146,6 @@ public class PixFormModel implements ViewUpdater {
         ps.firePropertyChange(CHAVE, this.chave);
         ps.firePropertyChange(BANCO, this.banco);
         isUpdating = false;
-        System.out.println("fim");
     }
 
     public void setDadoBancario(DadoBancario dadoBancario) {
@@ -179,10 +177,6 @@ public class PixFormModel implements ViewUpdater {
         ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
         ps.firePropertyChange(CHAVE, this.chave);
         isUpdating = false;
-    }
-
-    public void setUpdated(boolean updated) {
-        isUpdated = updated;
     }
 
     private void triggerContato(Contato contato) throws FetchFailException {

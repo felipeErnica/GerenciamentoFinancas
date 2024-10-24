@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.pix.frmEditPix;
+package com.santacarolina.areas.bancario.pix.frmPix;
 
 import java.awt.EventQueue;
 import java.util.Optional;
@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import org.jdesktop.swingx.combobox.EnumComboBoxModel;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import com.santacarolina.areas.bancario.pix.formModel.PixFormModel;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.PixDAO;
 import com.santacarolina.enums.TipoPix;
@@ -23,12 +22,13 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
-public class EditPixController implements Controller {
+@SuppressWarnings("unchecked")
+public class FormController implements Controller {
 
-    private EditPixView view;
-    private PixFormModel model;
+    private FormView view;
+    private FormModel model;
 
-    public EditPixController(EditPixView view, PixFormModel model) throws FetchFailException {
+    public FormController(FormView view, FormModel model) throws FetchFailException {
         this.view = view;
         this.model = model;
         initComponents();
@@ -36,9 +36,7 @@ public class EditPixController implements Controller {
 
     private void initComponents() throws FetchFailException {
         view.getContatoComboBox().setModel(new ListComboBoxModel<>(new ContatoDAO().findAll()));
-        view.getContatoComboBox().setSelectedItem(null);
         view.getTipoPixComboBox().setModel(new EnumComboBoxModel<>(TipoPix.class));
-        view.getTipoPixComboBox().setSelectedItem(null);
         view.getContatoComboBox().addActionListener(e -> contatoComboBox_afterUpdate());
         view.getContaComboBox().addActionListener(e -> contaComboBox_afterUpdate());
         view.getTipoPixComboBox().addActionListener(e -> tipoPix_afterUpdate());
@@ -51,23 +49,14 @@ public class EditPixController implements Controller {
         EventQueue.invokeLater(() -> {
             try {
                 if (model.updatingNotAllowed()) return;
-
-                if (model.getDadoBancario() != null) {
-                    if (model.getDadoBancario().getPixId() != model.getChavePix().getId()) {
-                        if (!replaceAccountPix()) return;
-                    }
+                if (model.getDadoBancario() != null && model.getDadoBancario().getChavePix() != null) {
+                    if (!replaceAccountPix()) return;
                 }
-
                 Optional<ChavePix> pixRepetido = new PixDAO().getByChave(model.getChavePix().getChave());
                 if (pixRepetido.isPresent()) {
-                    if (model.getChavePix().getId() != pixRepetido.get().getId()) {
-                        if (!changeRepeatingPix(pixRepetido.get())) return;
-                    }
+                    if (!changeRepeatingPix(pixRepetido.get())) return;
                 }
-
                 new PixDAO().save(model.getChavePix());
-                OptionDialog.showSuccessSaveMessage();
-                model.setUpdated(true);
                 view.getDialog().dispose();
             } catch (FetchFailException | SaveFailException e) {
                 CustomErrorThrower.throwError(e);
@@ -75,8 +64,17 @@ public class EditPixController implements Controller {
         });
     }
 
+    private boolean replaceAccountPix() {
+        int respMsg = OptionDialog.showOptionDialog(
+                "Esta conta já possui uma chave pix! Deseja substituí-la?",
+                "ATENÇÃO: Chave já existe!"
+        );
+        return respMsg == JOptionPane.YES_OPTION;
+    }
+
     private boolean changeRepeatingPix(ChavePix c) {
         String msgConta;
+
         if (c.getDadoBancario() == null) msgConta = "";
         else msgConta = " e à conta " + c.getDadoBancario().getNumeroConta();
 
@@ -91,34 +89,26 @@ public class EditPixController implements Controller {
         } return false;
     }
 
-    private boolean replaceAccountPix() {
-        int respMsg = OptionDialog.showOptionDialog(
-                "Esta conta já possui uma chave pix! Deseja substituí-la?",
-                "ATENÇÃO: Chave já existe!"
-        );
-        return respMsg == JOptionPane.YES_OPTION;
-    }
-
-    private void chaveField_afterUpdate() { model.setChave(view.getChaveTextField().getText()); }
+    private void chaveField_afterUpdate() {  model.setChave(view.getChaveTextField().getText()); }
     private void contaCheckBox_onClick() { model.setContaSelected(view.getContaCheckBox().isSelected()); }
 
     private void tipoPix_afterUpdate() {
-        TipoPix t = (TipoPix) view.getTipoPixComboBox().getSelectedItem();
-        model.setTipoPix(t);
+            TipoPix t = (TipoPix) view.getTipoPixComboBox().getSelectedItem();
+            model.setTipoPix(t);
     }
 
     private void contaComboBox_afterUpdate() {
-        DadoBancario d = (DadoBancario) view.getContaComboBox().getSelectedItem();
-        model.setDadoBancario(d);
+            DadoBancario d = (DadoBancario) view.getContaComboBox().getSelectedItem();
+            model.setDadoBancario(d);
     }
 
     private void contatoComboBox_afterUpdate() {
-        try {
-            Contato c = (Contato) view.getContatoComboBox().getSelectedItem();
-            if (c != null) model.setContato(c);
-        } catch (FetchFailException e) {
-            CustomErrorThrower.throwError(e);
-        }
+            try {
+                Contato c = (Contato) view.getContatoComboBox().getSelectedItem();
+                 model.setContato(c);
+            } catch (FetchFailException e) {
+                CustomErrorThrower.throwError(e);
+            }
     }
 
     @Override

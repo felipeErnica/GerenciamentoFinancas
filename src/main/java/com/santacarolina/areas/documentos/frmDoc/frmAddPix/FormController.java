@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
+import com.santacarolina.areas.bancario.pix.frmPix.PixForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Controller;
@@ -42,7 +42,7 @@ public class FormController implements Controller {
         view.getDialog().dispose();
     }
 
-    private void addNewPixButton_onClick() { EventQueue.invokeLater(AddPixForm::new); }
+    private void addNewPixButton_onClick() { EventQueue.invokeLater(PixForm::openNew); }
     private void bancoTextField_onFocus() { view.getBancoTextField().selectAll(); }
     private void contaTextField_onFocus() { view.getContaTextField().selectAll(); }
     private void agenciaTextField_onFocus() { view.getAgenciaTextField().selectAll(); }

@@ -3,11 +3,13 @@ package com.santacarolina.dto;
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.interfaces.FromDTO;
 import com.santacarolina.model.ChavePix;
+import com.santacarolina.util.DocConversor;
 
 public class PixDTO implements FromDTO<ChavePix> {
 
     private long id;
     private long contatoId;
+    private String nomeContato;
     private Long dadoId;
     private TipoPix tipoPix;
     private String chave;
@@ -33,8 +35,29 @@ public class PixDTO implements FromDTO<ChavePix> {
     public String getNomeBanco() { return nomeBanco; }
     public String getAgencia() { return agencia; }
     public String getNumeroConta() { return numeroConta; }
+    public String getNomeContato() { return nomeContato; }
 
     @Override
     public ChavePix fromDTO() { return new ChavePix(this); }
+
+    public String printChave() {
+        if (chave == null) return null;
+        if (!isValidFormat()) return chave;
+        return switch (tipoPix) {
+            case TELEFONE -> DocConversor.docFormat(chave, DocConversor.PHONE_FORMAT);
+            case CPF -> DocConversor.docFormat(chave, DocConversor.CPF_FORMAT);
+            case CNPJ -> DocConversor.docFormat(chave, DocConversor.CNPJ_FORMAT);
+            default -> chave;
+        };
+    }
+
+    private boolean isValidFormat() {
+        return switch (tipoPix) {
+            case TELEFONE -> DocConversor.isValidFormat(chave, DocConversor.PHONE_FORMAT);
+            case CPF -> DocConversor.isValidFormat(chave, DocConversor.CPF_FORMAT);
+            case CNPJ -> DocConversor.isValidFormat(chave, DocConversor.CNPJ_FORMAT);
+            default -> true;
+        };
+    }
 
 }

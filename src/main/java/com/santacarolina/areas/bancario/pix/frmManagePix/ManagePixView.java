@@ -1,6 +1,7 @@
 package com.santacarolina.areas.bancario.pix.frmManagePix;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.santacarolina.interfaces.ManageView;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.ManageViewImpl;
 import com.santacarolina.util.AppIcon;
@@ -8,7 +9,7 @@ import com.santacarolina.util.AppIcon;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 
-public class ManagePixView {
+public class ManagePixView implements ManageView {
 
     private JDialog dialog;
     private ActionSVGButton deleteButton;

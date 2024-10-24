@@ -16,8 +16,8 @@ public class PixDAO {
     private final Service<ChavePix, PixDTO> service = new Service<>(PixDTO.class);
     private final String MAPPING = "/chavesPix";
 
-    public List<ChavePix> findAll() throws FetchFailException {
-        return service.getListRequest(MAPPING);
+    public List<PixDTO> findAll() throws FetchFailException {
+        return service.getListRequestDTO(MAPPING);
     }
 
     public Optional<ChavePix> findById(long id) throws FetchFailException {

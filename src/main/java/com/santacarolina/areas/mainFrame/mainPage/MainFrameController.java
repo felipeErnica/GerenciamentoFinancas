@@ -5,7 +5,7 @@ import com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria.ContaForm
 import com.santacarolina.areas.bancario.contaBancaria.frmManageContaBancaria.ManageContaForm;
 import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioForm;
 import com.santacarolina.areas.bancario.dadoBancario.frmManageDado.ManageDadoForm;
-import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
+import com.santacarolina.areas.bancario.pix.frmPix.PixForm;
 import com.santacarolina.areas.bancario.pix.frmManagePix.ManagePixForm;
 import com.santacarolina.areas.categoria.frmCategoria.CategoriaForm;
 import com.santacarolina.areas.categoria.frmManageCategoria.ManageCategoriaForm;
@@ -86,8 +86,8 @@ public class MainFrameController implements Controller {
     private void addContatoButton_onClick() { EventQueue.invokeLater(AddContatoForm::openNew); }
     private void addDadoButton_onClick() { EventQueue.invokeLater(AddDadoBancarioForm::open); }
     private void manageDadoButton_onClick() { EventQueue.invokeLater(ManageDadoForm::new); }
-    private void manageChavePixButton_onClick() { EventQueue.invokeLater(ManagePixForm::new); }
-    private void addChavePixButton_onClick() { EventQueue.invokeLater(AddPixForm::new); }
+    private void manageChavePixButton_onClick() { EventQueue.invokeLater(ManagePixForm::open); }
+    private void addChavePixButton_onClick() { EventQueue.invokeLater(PixForm::openNew); }
 
     private void addPastaButton_onClick() { EventQueue.invokeLater(PastaContabilForm::openNew); }
     private void managePastaButton_onClick() { EventQueue.invokeLater(ManagePastaForm::open); }

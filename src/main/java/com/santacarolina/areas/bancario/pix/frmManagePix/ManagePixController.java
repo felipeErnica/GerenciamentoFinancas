@@ -1,54 +1,46 @@
 package com.santacarolina.areas.bancario.pix.frmManagePix;
 
-import com.santacarolina.areas.bancario.pix.frmAddPix.AddPixForm;
-import com.santacarolina.areas.bancario.pix.frmEditPix.EditPixForm;
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane;
+import javax.swing.RowSorter;
+
+import com.santacarolina.areas.bancario.pix.frmPix.PixForm;
 import com.santacarolina.dao.PixDAO;
+import com.santacarolina.dto.PixDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.Controller;
-import com.santacarolina.interfaces.DoubleClickListener;
-import com.santacarolina.interfaces.OnResize;
+import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.ChavePix;
+import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
-import javax.swing.*;
-import javax.swing.table.TableRowSorter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-
-public class ManagePixController implements Controller {
+@SuppressWarnings("unchecked")
+public class ManagePixController implements ManageController {
 
     private PixTableModel model;
     private ManagePixView view;
     private RowSorter<PixTableModel> sorter;
 
     public ManagePixController(PixTableModel model, ManagePixView view) {
+        ManageControllerImpl<PixDTO> baseController = new ManageControllerImpl<>(model, view, this);
         this.model = model;
         this.view = view;
-        initComponents();
+        sorter = baseController.getSorter();
     }
 
-    private void initComponents() {
-        view.getTable().setModel(model);
-        sorter = new TableRowSorter<>(model);
-        view.getTable().setRowSorter(sorter);
-        view.getDialog().addComponentListener((OnResize) e -> dialog_onResize());
-        view.getDeleteButton().addActionListener(e -> deleteButton_onClick());
-        view.getAddButton().addActionListener(e -> addButton_onClick());
-        view.getTable().addMouseListener((DoubleClickListener) this::table_onDoubleClick);
-    }
-
-    private void dialog_onResize() { EventQueue.invokeLater(() -> view.formatColumns()); }
-
-    private void table_onDoubleClick(MouseEvent e) {
+    @Override
+    public void table_onDoubleClick(MouseEvent e) {
         EventQueue.invokeLater(() -> {
             try {
                 int viewRow = view.getTable().rowAtPoint(e.getPoint());
                 int modelRow = sorter.convertRowIndexToModel(viewRow);
-                ChavePix chavePix = model.getObject(modelRow);
-                if (new EditPixForm(chavePix).isUpdated()) model.requeryTable();
+                ChavePix chavePix = model.getObject(modelRow).fromDTO();
+                PixForm.open(chavePix);
+                model.requeryTable();
             } catch (FetchFailException ex) {
                 CustomErrorThrower.throwError(ex);
                 view.getDialog().dispose();
@@ -56,25 +48,27 @@ public class ManagePixController implements Controller {
         });
     }
 
-    private void addButton_onClick() {
+    @Override
+    public void addButton_onClick() {
         EventQueue.invokeLater(() -> {
             try {
-                if (new AddPixForm().isUpdated()) model.requeryTable();
+                PixForm.openNew();
+                model.requeryTable();
             } catch (FetchFailException e) {
                 CustomErrorThrower.throwError(e);
             }
         });
     }
 
-    private void deleteButton_onClick() {
+    @Override
+    public void deleteButton_onClick() {
         EventQueue.invokeLater(() -> {
             try {
                 int[] rows = view.getTable().getSelectedRows();
                 if (OptionDialog.showDeleteDialog(rows.length) != JOptionPane.YES_OPTION) return;
                 for (int i = rows.length - 1; i >= 0; i--) {
-                    int viewRow = rows[i];
-                    int modelRow = sorter.convertRowIndexToModel(viewRow);
-                    ChavePix pix = model.getObject(modelRow);
+                    int modelRow = sorter.convertRowIndexToModel(rows[i]);
+                    PixDTO pix = model.getObject(modelRow);
                     new PixDAO().deleteById(pix.getId());
                     model.removeRow(modelRow);
                 }
@@ -85,8 +79,6 @@ public class ManagePixController implements Controller {
     }
 
     @Override
-    public void showView() {
-        ViewInvoker.showMaximizedView(view.getDialog());
-    }
+    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
 }

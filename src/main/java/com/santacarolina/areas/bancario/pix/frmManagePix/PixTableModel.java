@@ -1,95 +1,76 @@
 package com.santacarolina.areas.bancario.pix.frmManagePix;
 
-import com.santacarolina.dao.PixDAO;
-import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.ChavePix;
-import com.santacarolina.util.AbstractCustomModel;
-
 import java.util.List;
 
-public class PixTableModel extends AbstractCustomModel<ChavePix> {
+import com.santacarolina.dao.PixDAO;
+import com.santacarolina.dto.PixDTO;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.ui.CustomTableModelImpl;
 
-    private List<ChavePix> pixList;
+public class PixTableModel implements CustomTableModel<PixDTO> {
 
-    public PixTableModel(List<ChavePix> pixList) { this.pixList = pixList; }
+    private CustomTableModelImpl<PixDTO> baseModel;
+    private List<PixDTO> list;
 
-    @Override
-    public int getRowCount() { return pixList.size(); }
-
-    @Override
-    public String getColumnName(int column) {
-        return switch (column) {
-            case 0 -> "Nome do Contato";
-            case 1 -> "Tipo Pix";
-            case 2 -> "Chave Pix";
-            case 3 -> "Banco";
-            case 4 -> "Agência";
-            case 5 -> "Número da Conta";
-            default -> throw new IllegalStateException("Unexpected value: " + column);
-        };
+    private String[] columnNames = {
+            "Nome do Contato",
+            "Tipo Pix",
+            "Chave Pix",
+            "Banco",
+            "Agência",
+            "Número da Conta",
+    };
+   
+    public PixTableModel() throws FetchFailException {
+        this.list = new PixDAO().findAll(); 
+        baseModel = new CustomTableModelImpl<>(this, list);
     }
 
     @Override
-    public int getColumnCount() { return 6; }
+    public CustomTableModelImpl<PixDTO> getBaseModel() { return baseModel; }
+
+    @Override
+    public int getRowCount() { return list.size(); }
+
+    @Override
+    public String getColumnName(int column) { return columnNames[column]; }
+
+    @Override
+    public int getColumnCount() { return columnNames.length; }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
 
-    @Override
-    public void removeRow(int row) {
-        pixList.remove(row);
-        fireTableRowsDeleted(row, row);
-    }
+    public void removeRow(int row) { baseModel.removeRow(row); }
+    public void removeRows(int[] rows) { baseModel.removeRows(rows); }
 
-    @Override
-    public void removeRows(int[] rows) {
-        if (rows.length == 0) return;
-        for (int i = rows.length - 1; i >= 0; i--) {
-            int row = rows[i];
-            removeRow(row);
-        }
-    }
-
-    @Override
     public void requeryTable() throws FetchFailException {
-        pixList = new PixDAO().findAll();
-        fireTableDataChanged();
+        list = new PixDAO().findAll();
+        baseModel.setList(list);
     }
 
     @Override
-    public ChavePix getObject(int rowIndex) { return pixList.get(rowIndex); }
+    public PixDTO getObject(int rowIndex) { return list.get(rowIndex); }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ChavePix c = pixList.get(rowIndex);
-        if (c.getDadoBancario() != null) {
-            return switch (columnIndex) {
-                case 0 -> c.getContato() != null ? c.getContato().getNome() : null;
-                case 1 -> c.getTipoPix().toString();
-                case 2 -> c.toString();
-                case 3 -> c.getDadoBancario().getBanco() != null ? c.getDadoBancario().getBanco().getNomeBanco() : null;
-                case 4 -> c.getDadoBancario().getAgencia();
-                case 5 -> c.getDadoBancario().getNumeroConta();
-                default -> throw new IllegalStateException("Unexpected column value: " + columnIndex);
-            };
-        } else {
-            return switch (columnIndex) {
-                case 0 -> c.getContato() != null ? c.getContato().getNome() : null;
-                case 1 -> c.getTipoPix().toString();
-                case 2 -> c.toString();
-                case 3, 4, 5 -> "";
-                default -> throw new IllegalStateException("Unexpected column value: " + columnIndex);
-            };
-        }
+        PixDTO c = list.get(rowIndex);
+        return switch (columnIndex) {
+            case 0 -> c.getNomeContato();
+            case 1 -> c.getTipoPix().toString();
+            case 2 -> c.printChave();
+            case 3 -> c.getNomeBanco();
+            case 4 -> c.getAgencia();
+            case 5 -> c.getNumeroConta();
+            default -> throw new IllegalStateException("Unexpected column value: " + columnIndex);
+        };
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) { return String.class; }
+
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
-    @Override
-    public void addRow(ChavePix chavePix) { }
-    @Override
-    public void addNewRow() { }
 
 }

@@ -1,8 +1,7 @@
-package com.santacarolina.areas.bancario.pix.frmEditPix;
+package com.santacarolina.areas.bancario.pix.frmPix;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.santacarolina.areas.bancario.pix.formModel.PixFormModel;
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
@@ -15,9 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
-public class EditPixView implements PropertyChangeListener {
+public class FormView implements PropertyChangeListener {
 
     private JButton addButton;
     private JDialog dialog;
@@ -34,17 +32,17 @@ public class EditPixView implements PropertyChangeListener {
     private JLabel chaveLabel;
     private JTextField chaveTextField;
 
-    public EditPixView() {
+    public FormView(String dialogTitle, String buttonText) {
         AddView addView = new AddView();
         dialog = addView.getDialog();
         addButton = addView.getAddButton();
+        dialog.setTitle(dialogTitle);
+        addButton.setText(buttonText);
         initComponents();
     }
 
     private void initComponents() {
-        dialog.setTitle("Editar Chave Pix");
         dialog.setIconImage(AppIcon.paintIcon(new FlatSVGIcon("icon/pix_menu_icon.svg")).getImage());
-        addButton.setText("Salvar Chave");
 
         JPanel centerPanel = new JPanel();
 
@@ -109,30 +107,27 @@ public class EditPixView implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println(evt.getPropertyName());
         switch (evt.getPropertyName()) {
-            case PixFormModel.CONTATO -> contatoComboBox.setSelectedItem(evt.getNewValue());
-            case PixFormModel.CONTA_ENABLED -> contaComboBox.setEnabled((Boolean) evt.getNewValue());
-            case PixFormModel.CONTA_CHECKBOX -> contaCheckBox.setSelected((Boolean) evt.getNewValue());
-            case PixFormModel.CONTA_LIST -> {
-                List<DadoBancario> dadoBancarioList = (List<DadoBancario>) evt.getNewValue();
-                contaComboBox.removeAllItems();
-                dadoBancarioList.forEach(d -> contaComboBox.addItem(d));
-            }
-            case PixFormModel.CONTA -> contaComboBox.setSelectedItem(evt.getNewValue());
-            case PixFormModel.PIX_ENABLED -> {
+            case FormModel.CONTATO -> contatoComboBox.setSelectedItem(evt.getNewValue());
+            case FormModel.CONTA_ENABLED -> contaComboBox.setEnabled((Boolean) evt.getNewValue());
+            case FormModel.CONTA_CHECKBOX -> contaCheckBox.setSelected((Boolean) evt.getNewValue());
+            case FormModel.CONTA -> contaComboBox.setSelectedItem(evt.getNewValue());
+            case FormModel.PIX_ENABLED -> {
                 Boolean pixEnabled = (Boolean) evt.getNewValue();
                 chaveTextField.setEnabled(pixEnabled);
                 tipoPixComboBox.setEnabled(pixEnabled);
             }
-            case PixFormModel.TIPO_PIX -> tipoPixComboBox.setSelectedItem(evt.getNewValue());
-            case PixFormModel.CHAVE_INVALID -> {
+            case FormModel.TIPO_PIX -> tipoPixComboBox.setSelectedItem(evt.getNewValue());
+            case FormModel.CHAVE_INVALID -> {
                 Boolean chaveInvalid = (Boolean) evt.getNewValue();
                 if (chaveInvalid) chaveTextField.putClientProperty(FlatClientProperties.OUTLINE,"error");
                 else chaveTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
-            case PixFormModel.CHAVE -> chaveTextField.setText((String) evt.getNewValue());
-            case PixFormModel.BANCO -> bancoTextField.setText((String) evt.getNewValue());
+            case FormModel.CHAVE -> {
+                System.out.println((String) evt.getNewValue());
+                chaveTextField.setText((String) evt.getNewValue());
+            }
+            case FormModel.BANCO -> bancoTextField.setText((String) evt.getNewValue());
         }
     }
 
