@@ -22,9 +22,9 @@ public class AddExtratoForm {
     }
 
     public AddExtratoForm(ContaBancaria conta, List<Extrato> list) {
-        AddExtratoView view = new AddExtratoView();
-        AddExtratoModel model = new AddExtratoModel(conta, list);
-        AddExtratoController controller = new AddExtratoController(view, model);
+        FormView view = new FormView();
+        FormModel model = new FormModel(conta, list);
+        FormController controller = new FormController(view, model);
         controller.showView();
     }
 }

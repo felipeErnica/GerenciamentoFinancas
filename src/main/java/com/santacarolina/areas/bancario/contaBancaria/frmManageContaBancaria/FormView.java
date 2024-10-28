@@ -34,7 +34,6 @@ public class FormView implements ManageView {
     @Override
     public void formatColumns() {
         int width = baseView.getTable().getWidth()/100;
-        System.out.println(width);
         TableColumnModel columnModel = baseView.getTable().getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(width*20);
         columnModel.getColumn(1).setPreferredWidth(width*20);

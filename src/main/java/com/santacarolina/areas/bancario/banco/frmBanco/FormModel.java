@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.banco.common;
+package com.santacarolina.areas.bancario.banco.frmBanco;
 
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.Banco;
@@ -6,7 +6,7 @@ import com.santacarolina.util.PropertyFirer;
 
 import java.beans.PropertyChangeListener;
 
-public class BancoModel implements ViewUpdater {
+public class FormModel implements ViewUpdater {
 
     public static final String NOME_BANCO = "banco";
     public static final String APELIDO  = "apelidoBanco";
@@ -16,7 +16,7 @@ public class BancoModel implements ViewUpdater {
     private String nomeBanco;
     private PropertyFirer pf;
 
-    public BancoModel(Banco banco) {
+    public FormModel(Banco banco) {
         this.banco = banco;
         nomeBanco = banco.getNomeBanco();
         apelidoBanco = banco.getApelidoBanco();

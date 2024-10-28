@@ -1,6 +1,6 @@
 package com.santacarolina.areas.bancario.conciliacao.frmOutrosMovimentos;
 
-import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoTableModel;
+import com.santacarolina.areas.bancario.conciliacao.extratoConciliacao.ExtratoConciliacaoTableModel;
 import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.enums.TipoMovimento;
 import com.santacarolina.exceptions.FetchFailException;

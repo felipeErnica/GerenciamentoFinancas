@@ -1,6 +1,6 @@
 package com.santacarolina.areas.bancario.conciliacao.frmConciliacao;
 
-import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoTableModel;
+import com.santacarolina.areas.bancario.conciliacao.extratoConciliacao.ExtratoConciliacaoTableModel;
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.ExtratoDAO;

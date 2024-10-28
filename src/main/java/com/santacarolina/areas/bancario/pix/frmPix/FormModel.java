@@ -78,33 +78,6 @@ public class FormModel implements ViewUpdater {
         isUpdating = false;
     }
 
-    public boolean updatingNotAllowed() {
-        if (this.chave.isEmpty()) {
-            OptionDialog.showErrorDialog(
-                    "A chave não pode estar vazia!",
-                    "Informação vazia!"
-            );
-            return true;
-        } else if (this.tipoPix == null) {
-            OptionDialog.showErrorDialog(
-                    "Selecione o Tipo de Chave!",
-                    "Informação vazia!"
-            );
-            return true;
-        } else if (this.invalidFormat) {
-            OptionDialog.showOptionDialog(
-                    "O formato da chave é inválido!",
-                    "Formato Inválido!"
-            );
-            return true;
-        } else if (contaSelected && this.dadoBancario == null) {
-            OptionDialog.showOptionDialog(
-                    "Informe uma Conta Bancária!",
-                    "Informação Incompleta!"
-            );
-            return true;
-        }   else return false;
-    }
 
     public Contato getContato() { return contato; }
     public String getChave() { return chave; }

@@ -13,6 +13,7 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
+@SuppressWarnings("unchecked")
 public class FormController implements Controller {
 
     private FormView view;
@@ -24,7 +25,6 @@ public class FormController implements Controller {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() throws FetchFailException {
         view.getBancoComboBox().setModel(new ListComboBoxModel<>(new BancoDAO().findAll()));
         view.getBancoComboBox().addActionListener(e -> bancoComboBox_afterUpdate());
@@ -47,7 +47,7 @@ public class FormController implements Controller {
 
     private void addConta_onClick() {
         try {
-            if (!new ContaValidator().validate(model)) return;
+            if (!ContaValidator.validate(model)) return;
             new ContaDAO().save(model.getContaBancaria());
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();

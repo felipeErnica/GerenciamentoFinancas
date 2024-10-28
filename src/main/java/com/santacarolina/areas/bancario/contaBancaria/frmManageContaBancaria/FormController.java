@@ -3,6 +3,7 @@ package com.santacarolina.areas.bancario.contaBancaria.frmManageContaBancaria;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria.ContaForm;
@@ -13,6 +14,7 @@ import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
+import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("rawtypes")
@@ -35,11 +37,11 @@ public class FormController implements ManageController {
     @Override
     public void table_onDoubleClick(MouseEvent e) {
         EventQueue.invokeLater(() -> {
-            int row = view.getTable().rowAtPoint(e.getPoint());
-            int modelRow = sorter.convertRowIndexToModel(row);
-            ContaBancaria conta = tableModel.getObject(modelRow);
-            ContaForm.open(conta);
             try {
+                int row = view.getTable().rowAtPoint(e.getPoint());
+                int modelRow = sorter.convertRowIndexToModel(row);
+                ContaBancaria conta = tableModel.getObject(modelRow);
+                ContaForm.open(conta);
                 tableModel.requeryTable();
             } catch (FetchFailException ex) {
                 CustomErrorThrower.throwError(ex);
@@ -50,8 +52,8 @@ public class FormController implements ManageController {
     @Override
     public void addButton_onClick() { 
         EventQueue.invokeLater(() -> {
-            ContaForm.openNew();
             try {
+                ContaForm.openNew();
                 tableModel.requeryTable();
             } catch (FetchFailException e) {
                 CustomErrorThrower.throwError(e);
@@ -63,6 +65,7 @@ public class FormController implements ManageController {
     public void deleteButton_onClick() {
         try {
             int[] rows = view.getTable().getSelectedRows();
+            if (OptionDialog.showDeleteCascadeDialog(rows.length) != JOptionPane.YES_OPTION) return;
             for (int i = rows.length - 1; i >= 0; i--) {
                 int modelRow = sorter.convertRowIndexToModel(rows[i]);
                 ContaBancaria contaBancaria = tableModel.getObject(modelRow);

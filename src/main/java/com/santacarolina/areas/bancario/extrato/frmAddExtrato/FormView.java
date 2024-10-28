@@ -1,14 +1,17 @@
 package com.santacarolina.areas.bancario.extrato.frmAddExtrato;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.ui.EditTablePanel;
 import com.santacarolina.util.AppIcon;
+
 import net.miginfocom.swing.MigLayout;
 
-import javax.swing.*;
-import javax.swing.table.TableColumnModel;
-
-public class AddExtratoView {
+public class FormView {
 
     private JDialog dialog;
     private JButton addButton;
@@ -16,7 +19,7 @@ public class AddExtratoView {
     private JTable table;
     private JButton addExtratos;
 
-    public AddExtratoView() { initComponents(); }
+    public FormView() { initComponents(); }
 
     private void initComponents() {
         dialog = new JDialog();

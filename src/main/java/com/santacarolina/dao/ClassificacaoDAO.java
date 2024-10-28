@@ -1,7 +1,9 @@
 package com.santacarolina.dao;
 
 import com.santacarolina.dto.ClassificacaoDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.util.Service;
 
@@ -23,13 +25,27 @@ public class ClassificacaoDAO {
         return service.getListRequestDTO(MAPPING);
     }
 
-    public Optional<ClassificacaoContabil> getByNumero(String numero) throws FetchFailException {
+    public Optional<ClassificacaoContabil> findByNumero(long numero) throws FetchFailException {
         return service.getRequest(MAPPING + "/numeroIdentificacao=" + numero);
     }
 
     public Optional<ClassificacaoContabil> findById(long classificacaoId) throws FetchFailException {
         String query = MAPPING + "/" + classificacaoId;
         return service.getRequest(query);
+    }
+
+    public Optional<ClassificacaoContabil> findByNome(String nome) throws FetchFailException {
+        String query = MAPPING + "/nome=" + nome.replace(" ", "+");
+        return service.getRequest(query);
+    }
+
+    public void save(ClassificacaoContabil classificacao) throws SaveFailException { 
+        service.postRequest(MAPPING, classificacao); 
+    }
+
+    public void deleteById(long id) throws DeleteFailException {
+        String query = MAPPING + "/" + id;
+        service.deleteRequest(query);
     }
 
 }

@@ -6,7 +6,7 @@ import com.santacarolina.util.CustomErrorThrower;
 /**
  * ClassificacaoForm
  */
-public class ClassificacaoForm {
+public class ManageClassificacaoForm {
 
     public static void open() {
         try {

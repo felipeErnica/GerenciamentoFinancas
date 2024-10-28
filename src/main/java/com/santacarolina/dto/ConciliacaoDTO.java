@@ -17,6 +17,8 @@ public class ConciliacaoDTO implements FromDTO<Conciliacao> {
     private double valorDuplicata;
     private long pastaId;
     private String nomePasta;
+    private long emissorId;
+    private long nomeEmissor;
     private long contaId;
     private String contaBancaria;
     private long extratoId;
@@ -50,6 +52,8 @@ public class ConciliacaoDTO implements FromDTO<Conciliacao> {
     public String getDescExtrato() { return descExtrato; }
     public String getCategoriaExtrato() { return categoriaExtrato; }
     public double getValorExtrato() { return valorExtrato; }
+    public long getEmissorId() { return emissorId; }
+    public long getNomeEmissor() { return nomeEmissor; }
 
     @Override
     public Conciliacao fromDTO() { return new Conciliacao(this); }

@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioForm;
+import com.santacarolina.areas.bancario.dadoBancario.frmDado.DadoForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.OnSelectListener;
@@ -12,6 +12,7 @@ import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
 import com.santacarolina.util.ViewInvoker;
 
+@SuppressWarnings("unchecked")
 public class FormController {
 
     private FormView view;
@@ -39,7 +40,7 @@ public class FormController {
         view.getDialog().dispose();
     }
 
-    private void addNewAccount_onClick() { EventQueue.invokeLater(() -> new AddDadoBancarioForm()); }
+    private void addNewAccount_onClick() { EventQueue.invokeLater(DadoForm::openNew); }
     private void bancoTextField_onFocus() { view.getBancoTextField().selectAll(); }
     private void agenciaTextField_onFocus() { view.getAgenciaTextField().selectAll(); }
 

@@ -5,69 +5,62 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
-import javax.swing.table.TableRowSorter;
 
-import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioForm;
-import com.santacarolina.areas.bancario.dadoBancario.frmEditDado.EditDadoForm;
+import com.santacarolina.areas.bancario.dadoBancario.frmDado.DadoForm;
 import com.santacarolina.dao.DadoDAO;
+import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.Controller;
-import com.santacarolina.interfaces.DoubleClickListener;
+import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.DadoBancario;
+import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
-public class FormController implements Controller {
+@SuppressWarnings("unchecked")
+public class FormController implements ManageController {
 
     private TableModel model;
     private FormView view;
-    private RowSorter sorter;
+    private RowSorter<DadoDTO> sorter;
 
     public FormController(TableModel model, FormView view) {
         this.model = model;
         this.view = view;
-        initComponents();
+        ManageControllerImpl<DadoDTO> baseController = new ManageControllerImpl<>(model, view, this);
+        sorter = baseController.getSorter();
     }
 
-    private void initComponents() {
-        view.getTable().setModel(model.getBaseModel());
-        view.formatColumns();
-        sorter = new TableRowSorter<>(model.getBaseModel());
-        view.getTable().setRowSorter(sorter);
-
-        view.getDeleteButton().addActionListener(e -> deleteButton_onClick());
-        view.getAddButton().addActionListener(e -> addButton_onClick());
-        view.getTable().addMouseListener((DoubleClickListener) this::table_onDoubleClick);
-    }
-
-    private void table_onDoubleClick(MouseEvent e) {
+    @Override
+    public void table_onDoubleClick(MouseEvent e) {
         EventQueue.invokeLater(() -> {
             try {
                 int viewRow = view.getTable().rowAtPoint(e.getPoint());
                 int modelRow = sorter.convertRowIndexToModel(viewRow);
                 DadoBancario dadoBancario = model.getObject(modelRow).fromDTO();
-                DadoBancario dadoSaved = EditDadoForm.open(dadoBancario);
-                if (dadoSaved != null) model.requeryTable();
+                DadoForm.open(dadoBancario);
+                model.requeryTable();
             } catch (FetchFailException ex) {
                 CustomErrorThrower.throwError(ex);
             }
         });
     }
 
-    private void addButton_onClick() {
+    @Override
+    public void addButton_onClick() {
         EventQueue.invokeLater(() -> {
             try {
-                DadoBancario dadoAdded = AddDadoBancarioForm.open();
-                if (dadoAdded != null) model.requeryTable();
+                DadoForm.openNew();
+                model.requeryTable();
             } catch (FetchFailException e) {
                 CustomErrorThrower.throwError(e);
             }
         });
     }
 
-    private void deleteButton_onClick() {
+    @Override
+    public void deleteButton_onClick() {
         EventQueue.invokeLater(() -> {
             try {
                 int[] rows = view.getTable().getSelectedRows();

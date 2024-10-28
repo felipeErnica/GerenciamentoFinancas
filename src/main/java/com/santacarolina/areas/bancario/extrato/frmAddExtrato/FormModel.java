@@ -1,16 +1,16 @@
 package com.santacarolina.areas.bancario.extrato.frmAddExtrato;
 
+import java.util.List;
+
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.model.Extrato;
 
-import java.util.List;
-
-public class AddExtratoModel {
+public class FormModel {
 
     private ContaBancaria contaBancaria;
     private AddExtratoTableModel tableModel;
 
-    public AddExtratoModel(ContaBancaria contaBancaria, List<Extrato> list) {
+    public FormModel(ContaBancaria contaBancaria, List<Extrato> list) {
         tableModel = new AddExtratoTableModel(list);
         this.contaBancaria = contaBancaria;
     }

@@ -5,12 +5,12 @@ import java.time.DateTimeException;
 import java.util.List;
 
 import com.santacarolina.areas.bancario.extrato.pgExtrato.ExtratoTableModel;
-import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.interfaces.EditTableModel;
 import com.santacarolina.model.Extrato;
 import com.santacarolina.ui.CustomTableModelImpl;
 import com.santacarolina.util.StringConversor;
 
-public class AddExtratoTableModel implements CustomTableModel<Extrato> {
+public class AddExtratoTableModel implements EditTableModel<Extrato> {
 
     private CustomTableModelImpl<Extrato> tableModel;
     private ExtratoTableModel extratoTableModel;
@@ -82,6 +82,12 @@ public class AddExtratoTableModel implements CustomTableModel<Extrato> {
     public void addRow(Extrato extrato) { tableModel.addRow(extrato); }
     public void removeRows(int[] rows) { tableModel.removeRows(rows); }
     public List<Extrato> getList() { return list; }
+
+    @Override
+    public void addNewRow() { tableModel.addRow(new Extrato()); }
+
+    @Override
+    public void fireTableCellUpdated(int row, int column) { tableModel.fireTableCellUpdated(row, column); }
 
 }
 

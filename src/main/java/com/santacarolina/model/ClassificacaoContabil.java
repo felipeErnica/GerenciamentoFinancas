@@ -4,9 +4,10 @@ import com.santacarolina.dao.CategoriaDAO;
 import com.santacarolina.dto.ClassificacaoDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.Copiable;
 import com.santacarolina.interfaces.ToDTO;
 
-public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO> {
+public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<ClassificacaoContabil> {
 
     private long id;
     private CategoriaContabil categoriaContabil;
@@ -51,6 +52,18 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO> {
 
     @Override
     public String toString() { return Long.toString(numeroIdentificacao); }
+
+    @Override
+    public ClassificacaoContabil generateCopy() {
+        ClassificacaoContabil copy = new ClassificacaoContabil();
+        copy.setId(id);
+        copy.setFluxoCaixa(fluxoCaixa);
+        copy.setCategoriaId(categoriaId);
+        copy.setNomeClassificacao(nomeClassificacao);
+        copy.setNumeroIdentificacao(numeroIdentificacao);
+        return copy;
+    }
+
 
     @Override
     public ClassificacaoDTO toDTO() { return new ClassificacaoDTO(this); }

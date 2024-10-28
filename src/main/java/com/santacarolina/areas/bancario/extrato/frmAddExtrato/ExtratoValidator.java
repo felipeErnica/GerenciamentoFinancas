@@ -5,7 +5,7 @@ import com.santacarolina.util.ValidatorViolations;
 
 public class ExtratoValidator {
 
-    public static boolean validate (AddExtratoModel model) {
+    public static boolean validate (FormModel model) {
         if (model.getList().isEmpty()) {
             ValidatorViolations.violateEmptyList("extratos");
             return false;

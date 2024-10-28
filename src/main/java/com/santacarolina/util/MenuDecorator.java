@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import org.knowm.xchart.internal.chartpart.Chart;
+import org.knowm.xchart.style.Styler.ToolTipType;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -26,6 +27,7 @@ public class MenuDecorator {
                 .setPlotBorderVisible(false)
                 .setAnnotationTextFontColor(GRAPH_FOREGROUND)
                 .setToolTipsEnabled(true)
+                .setToolTipType(ToolTipType.xAndYLabels)
                 .setToolTipHighlightColor(GRAPH_FOREGROUND)
                 .setToolTipBackgroundColor(GRAPH_BACKGROUND)
                 .setLegendBackgroundColor(GRAPH_BACKGROUND)

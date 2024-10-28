@@ -8,8 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.santacarolina.dao.ContaDAO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.Validator;
-import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;
@@ -17,11 +15,9 @@ import com.santacarolina.util.ValidatorViolations;
 /**
  * ContaValidator
  */
-public class ContaValidator implements Validator {
+public class ContaValidator {
 
-    @Override
-    public boolean validate(ViewUpdater viewUpdater) throws FetchFailException {
-        FormModel model = (FormModel) viewUpdater;
+    public static boolean validate(FormModel model) throws FetchFailException {
         if (model.getBanco() == null){
             ValidatorViolations.violateEmptyFields("banco");
             return false;
@@ -44,12 +40,16 @@ public class ContaValidator implements Validator {
         return true;
     }
 
-    public boolean contaExiste(FormModel model) throws FetchFailException {
+    private static boolean contaExiste(FormModel model) throws FetchFailException {
         Optional<ContaBancaria> optional = new ContaDAO().findEqual(model.getContaBancaria());
         if (optional.isPresent()) {
+            ContaBancaria contaBancaria = optional.get();
+            if (model.getContaBancaria().getId() != 0) {
+                ValidatorViolations.violateRecordExists("Já há uma conta com este dados!");
+                return true;
+            }
             int result = OptionDialog.showReplaceDialog( "Esta conta já existe. Deseja substituir os dados existentes por estes?"); 
             if (result == JOptionPane.YES_OPTION) {
-                ContaBancaria contaBancaria = optional.get();
                 model.getContaBancaria().setId(contaBancaria.getId());
                 return false;
             } 

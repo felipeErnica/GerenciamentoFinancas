@@ -64,5 +64,10 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
 
     @Override
     public ClassificacaoDTO getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
+
+    public void requeryTable() throws FetchFailException {
+        list = new ClassificacaoDAO().findAllDTO();
+        baseModel.setList(list);
+    }
     
 }

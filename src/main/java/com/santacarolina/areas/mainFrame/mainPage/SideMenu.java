@@ -24,7 +24,8 @@ public class SideMenu {
     private JButton prodButton;
 
     private SubMenuImpl infoBancoSubMenu;
-    private JButton conciliacaoButton;
+    private JButton addConciliacaoButton;
+    private JButton manageConciliacaoButton;
     private JButton extratosButton;
     private JButton addContaBancariaButton;
     private JButton manageContaBancariaButton;
@@ -69,8 +70,10 @@ public class SideMenu {
 
         infoBancoSubMenu = new SubMenuImpl(this, "Informações Bancárias");
         infoBancoSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/banco_menu_icon.svg")));
-        conciliacaoButton = new JButton("Conciliar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/conciliacao_icon.svg")));
-        infoBancoSubMenu.addButton(conciliacaoButton);
+        addConciliacaoButton = new JButton("Conciliar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/conciliacao_icon.svg")));
+        infoBancoSubMenu.addButton(addConciliacaoButton);
+        manageConciliacaoButton = new JButton("Gerenciar Conciliações");
+        infoBancoSubMenu.addButton(manageConciliacaoButton);
         extratosButton = new JButton("Mostrar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/extrato_icon.svg")));
         infoBancoSubMenu.addButton(extratosButton);
         addContaBancariaButton = new JButton("Nova Conta Bancária");
@@ -139,7 +142,8 @@ public class SideMenu {
     public JButton getDupNaoPagaButton() { return dupNaoPagaButton; }
     public JButton getProdButton() { return prodButton; }
 
-    public JButton getConciliacaoButton() { return conciliacaoButton; }
+    public JButton getAddConciliacaoButton() { return addConciliacaoButton; }
+    public JButton getManageConciliacaoButton() { return manageConciliacaoButton; }
     public JButton getExtratosButton() { return extratosButton; }
     public JButton getManageContaBancariaButton() { return manageContaBancariaButton; }
     public JButton getAddContaBancariaButton() { return addContaBancariaButton; }

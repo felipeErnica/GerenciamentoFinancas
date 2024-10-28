@@ -6,10 +6,11 @@ import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.dao.PixDAO;
+import com.santacarolina.interfaces.Copiable;
 import com.santacarolina.interfaces.ToDTO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DadoBancario implements ToDTO<DadoDTO>, Cloneable {
+public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
 
     private long id;
     private String agencia;
@@ -94,7 +95,7 @@ public class DadoBancario implements ToDTO<DadoDTO>, Cloneable {
     }
 
     @Override
-    public DadoBancario clone() {
+    public DadoBancario generateCopy() {
         DadoBancario clone = new DadoBancario();
         clone.setId(id);
         clone.setContatoId(contatoId);

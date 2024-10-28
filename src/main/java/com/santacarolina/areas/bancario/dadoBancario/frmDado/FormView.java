@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.dadoBancario.common;
+package com.santacarolina.areas.bancario.dadoBancario.frmDado;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.santacarolina.enums.TipoPix;
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class DadoBancarioFormView implements PropertyChangeListener {
+public class FormView implements PropertyChangeListener {
 
     private JDialog dialog;
     private JLabel contatoLabel;
@@ -31,10 +31,12 @@ public class DadoBancarioFormView implements PropertyChangeListener {
     private JTextField pixKey;
     private JButton addAccount;
 
-    public DadoBancarioFormView() {
+    public FormView(String dialogTitle, String buttonText) {
         AddView baseView = new AddView();
         addAccount = baseView.getAddButton();
+        addAccount.setText(buttonText);
         dialog = baseView.getDialog();
+        dialog.setTitle(dialogTitle);
         initComponents();
     }
 
@@ -112,19 +114,19 @@ public class DadoBancarioFormView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-            case DadoBancarioFormModel.AGENCIA_TEXT -> agencyTextField.setText((String) evt.getNewValue());
-            case DadoBancarioFormModel.NUMCONTA_TEXT -> contaTextField.setText((String) evt.getNewValue());
-            case DadoBancarioFormModel.PIX_CHECKBOX -> pixCheckBox.setSelected((Boolean) evt.getNewValue());
-            case DadoBancarioFormModel.CONTATO_COMBOBOX -> contactComboBox.setSelectedItem(evt.getNewValue());
-            case DadoBancarioFormModel.BANCO_COMBOBOX -> bankComboBox.setSelectedItem(evt.getNewValue());
-            case DadoBancarioFormModel.CHAVE_TEXT -> pixKey.setText((String) evt.getNewValue());
-            case DadoBancarioFormModel.CHAVE_INVALID -> {
+            case FormModel.AGENCIA_TEXT -> agencyTextField.setText((String) evt.getNewValue());
+            case FormModel.NUMCONTA_TEXT -> contaTextField.setText((String) evt.getNewValue());
+            case FormModel.PIX_CHECKBOX -> pixCheckBox.setSelected((Boolean) evt.getNewValue());
+            case FormModel.CONTATO_COMBOBOX -> contactComboBox.setSelectedItem(evt.getNewValue());
+            case FormModel.BANCO_COMBOBOX -> bankComboBox.setSelectedItem(evt.getNewValue());
+            case FormModel.CHAVE_TEXT -> pixKey.setText((String) evt.getNewValue());
+            case FormModel.CHAVE_INVALID -> {
                 if ((boolean) evt.getNewValue()) pixKey.putClientProperty(FlatClientProperties.OUTLINE, "error");
                 else pixKey.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
-            case DadoBancarioFormModel.CHAVE_ENABLED -> pixKey.setEnabled((Boolean) evt.getNewValue());
-            case DadoBancarioFormModel.TIPOPIX_ENABLED -> pixTypeComboBox.setEnabled((Boolean) evt.getNewValue());
-            case DadoBancarioFormModel.TIPOPIX_COMBOBOX -> pixTypeComboBox.setSelectedItem(evt.getNewValue());
+            case FormModel.CHAVE_ENABLED -> pixKey.setEnabled((Boolean) evt.getNewValue());
+            case FormModel.TIPOPIX_ENABLED -> pixTypeComboBox.setEnabled((Boolean) evt.getNewValue());
+            case FormModel.TIPOPIX_COMBOBOX -> pixTypeComboBox.setSelectedItem(evt.getNewValue());
         }
     }
 

@@ -29,7 +29,7 @@ public class FormController implements Controller {
 
     private void addButton_onClick() {
         try {
-            if (!new CategoriaValidator().validate(model)) return;
+            if (!CategoriaValidator.validate(model)) return;
             new CategoriaDAO().save(model.getCategoriaContabil());
             view.getDialog().dispose();
         } catch (FetchFailException | SaveFailException e) {

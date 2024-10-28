@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.conciliacao;
+package com.santacarolina.areas.bancario.conciliacao.extratoConciliacao;
 
 import java.time.LocalDate;
 import java.util.List;

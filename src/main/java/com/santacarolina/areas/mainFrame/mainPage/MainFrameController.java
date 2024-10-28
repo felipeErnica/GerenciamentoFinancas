@@ -1,30 +1,32 @@
 package com.santacarolina.areas.mainFrame.mainPage;
 
+import java.awt.EventQueue;
+
 import com.santacarolina.areas.bancario.conciliacao.frmConciliacao.ConciliacaoForm;
+import com.santacarolina.areas.bancario.conciliacao.frmManageConciliados.ManageConciliadosForm;
 import com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria.ContaForm;
 import com.santacarolina.areas.bancario.contaBancaria.frmManageContaBancaria.ManageContaForm;
-import com.santacarolina.areas.bancario.dadoBancario.frmAddDado.AddDadoBancarioForm;
+import com.santacarolina.areas.bancario.dadoBancario.frmDado.DadoForm;
 import com.santacarolina.areas.bancario.dadoBancario.frmManageDado.ManageDadoForm;
-import com.santacarolina.areas.bancario.pix.frmPix.PixForm;
+import com.santacarolina.areas.bancario.extrato.pgExtrato.ExtratoPane;
 import com.santacarolina.areas.bancario.pix.frmManagePix.ManagePixForm;
+import com.santacarolina.areas.bancario.pix.frmPix.PixForm;
 import com.santacarolina.areas.categoria.frmCategoria.CategoriaForm;
 import com.santacarolina.areas.categoria.frmManageCategoria.ManageCategoriaForm;
-import com.santacarolina.areas.classificacao.frmManageClassificacao.ClassificacaoForm;
+import com.santacarolina.areas.classificacao.frmClassificacao.ClassificacacaoForm;
+import com.santacarolina.areas.classificacao.frmManageClassificacao.ManageClassificacaoForm;
 import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
 import com.santacarolina.areas.contato.frmManageContato.ManageContatoForm;
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.documentos.frmImportNFe.ImportNFeForm;
 import com.santacarolina.areas.documentos.pgDocumentos.DocumentosPage;
 import com.santacarolina.areas.duplicatas.pgDuplicatasNaoPagas.DupNaoPagaPane;
-import com.santacarolina.areas.bancario.extrato.pgExtrato.ExtratoPane;
 import com.santacarolina.areas.duplicatas.pgDuplicatasPagas.DupPagaPane;
 import com.santacarolina.areas.pastaContabil.frmManagePasta.ManagePastaForm;
 import com.santacarolina.areas.pastaContabil.frmPastaContabil.PastaContabilForm;
 import com.santacarolina.areas.pgProdutos.ProdPane;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.util.ViewInvoker;
-
-import java.awt.*;
 
 public class MainFrameController implements Controller {
 
@@ -48,6 +50,7 @@ public class MainFrameController implements Controller {
         view.getProdButton().addActionListener(e -> prodButton_onClick());
 
         view.getExtratosButton().addActionListener(e -> extratosButton_onClick());
+        view.getManageConciliacaoButton().addActionListener(e -> manageConciliacao_onClick());
         view.getConciliacaoButton().addActionListener(e -> conciliacaoButton_onClick());
         view.getAddContaBancariaButton().addActionListener(e -> addContaBancaria_onClick());
         view.getManageContaBancariaButton().addActionListener(e -> manageContaBancaria_onClick());
@@ -68,7 +71,6 @@ public class MainFrameController implements Controller {
         view.getManageClassificacaoButton().addActionListener(e -> manageClassificaoButton_onClick());
     }
 
-
     private void homeButton_onClick() { model.setHomePage(); }
     private void nfeButton_onClick() { EventQueue.invokeLater(ImportNFeForm::open); }
     private void newDocButton_onClick() { EventQueue.invokeLater(DocForm::openNew); }
@@ -78,13 +80,14 @@ public class MainFrameController implements Controller {
     private void dupNaoPagaButton_onClick() { EventQueue.invokeLater(() ->model.setCenterPanel(new DupNaoPagaPane().getView())); }
 
     private void extratosButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ExtratoPane().getView())); }
+    private void manageConciliacao_onClick() { EventQueue.invokeLater(ManageConciliadosForm::open); }
     private void conciliacaoButton_onClick() { EventQueue.invokeLater(ConciliacaoForm::new); }
     private void addContaBancaria_onClick() { EventQueue.invokeLater(ContaForm::openNew); }
     private void manageContaBancaria_onClick() { EventQueue.invokeLater(ManageContaForm::open); }
 
     private void manageContatoButton_onClick() { EventQueue.invokeLater(ManageContatoForm::new);   }
     private void addContatoButton_onClick() { EventQueue.invokeLater(AddContatoForm::openNew); }
-    private void addDadoButton_onClick() { EventQueue.invokeLater(AddDadoBancarioForm::open); }
+    private void addDadoButton_onClick() { EventQueue.invokeLater(DadoForm::openNew); }
     private void manageDadoButton_onClick() { EventQueue.invokeLater(ManageDadoForm::new); }
     private void manageChavePixButton_onClick() { EventQueue.invokeLater(ManagePixForm::open); }
     private void addChavePixButton_onClick() { EventQueue.invokeLater(PixForm::openNew); }
@@ -94,12 +97,8 @@ public class MainFrameController implements Controller {
 
     private void addCategoriaButton_onClick() { EventQueue.invokeLater(CategoriaForm::openNew); }
     private void manageCategoriaButton_onClick() { EventQueue.invokeLater(ManageCategoriaForm::open); }
-
-    private void addClassificacaoButton_onClick() {
-        // TODO Auto-generated method stub
-    }
-
-    private void manageClassificaoButton_onClick() { EventQueue.invokeLater(ClassificacaoForm::open); }
+    private void addClassificacaoButton_onClick() { EventQueue.invokeLater(ClassificacacaoForm::openNew); }
+    private void manageClassificaoButton_onClick() { EventQueue.invokeLater(ManageClassificacaoForm::open); }
 
     @Override
     public void showView() { ViewInvoker.showFrame(view.getFrame()); }

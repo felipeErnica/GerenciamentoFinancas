@@ -25,7 +25,7 @@ public class PixDAO {
         return service.getRequest(query);
     }
 
-    public Optional<ChavePix> getByChave(String chave) throws FetchFailException {
+    public Optional<ChavePix> findByChave(String chave) throws FetchFailException {
         String query = MAPPING + "/chave=" + chave;
         return service.getRequest(query);
     }

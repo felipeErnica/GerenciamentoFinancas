@@ -39,7 +39,8 @@ public class MainView implements PropertyChangeListener {
     public JButton getDupNaoPagaButton() { return sideMenu.getDupNaoPagaButton(); }
     public JButton getProdButton() { return sideMenu.getProdButton(); }
 
-    public JButton getConciliacaoButton() { return sideMenu.getConciliacaoButton(); }
+    public JButton getConciliacaoButton() { return sideMenu.getAddConciliacaoButton(); }
+    public JButton getManageConciliacaoButton() { return sideMenu.getManageConciliacaoButton(); }
     public JButton getManageContaBancariaButton() { return sideMenu.getManageContaBancariaButton(); }
     public JButton getAddContaBancariaButton() { return sideMenu.getAddContaBancariaButton(); }
     public JButton getExtratosButton() { return sideMenu.getExtratosButton(); }

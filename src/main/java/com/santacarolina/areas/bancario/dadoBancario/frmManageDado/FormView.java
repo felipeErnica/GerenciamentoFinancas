@@ -1,26 +1,29 @@
 package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 
+import javax.swing.JDialog;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.santacarolina.interfaces.ManageView;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.ManageViewImpl;
 import com.santacarolina.util.AppIcon;
 
-import javax.swing.*;
-import javax.swing.table.TableColumn;
+public class FormView implements ManageView {
 
-public class FormView {
-
+    private ManageViewImpl baseView;
     private JDialog dialog;
     private ActionSVGButton deleteButton;
     private ActionSVGButton addButton;
     private JTable table;
 
     public FormView() {
-        ManageViewImpl view = new ManageViewImpl();
-        this.dialog = view.getDialog();
-        this.deleteButton = view.getDeleteButton();
-        this.addButton = view.getAddButton();
-        this.table = view.getTable();
+        baseView= new ManageViewImpl();
+        this.dialog = baseView.getDialog();
+        this.deleteButton = baseView.getDeleteButton();
+        this.addButton = baseView.getAddButton();
+        this.table = baseView.getTable();
         initComponents();
     }
 
@@ -32,17 +35,14 @@ public class FormView {
     }
 
     public void formatColumns () {
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            TableColumn column = table.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0 -> column.setPreferredWidth(400);
-                case 1 -> column.setPreferredWidth(300);
-                case 2 -> column.setPreferredWidth(80);
-                case 3 -> column.setPreferredWidth(120);
-                case 4 -> column.setPreferredWidth(100);
-                case 5 -> column.setPreferredWidth(150);
-            }
-        }
+        int width = table.getWidth()/100;
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(width*35);
+        columnModel.getColumn(1).setPreferredWidth(width*25);
+        columnModel.getColumn(2).setPreferredWidth(width*5);
+        columnModel.getColumn(3).setPreferredWidth(width*10);
+        columnModel.getColumn(4).setPreferredWidth(width*15);
+        columnModel.getColumn(5).setPreferredWidth(width*10);
     }
 
     public JDialog getDialog() { return dialog; }

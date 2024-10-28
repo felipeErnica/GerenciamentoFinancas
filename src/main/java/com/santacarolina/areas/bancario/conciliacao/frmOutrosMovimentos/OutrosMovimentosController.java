@@ -7,7 +7,7 @@ import javax.swing.table.TableColumnModel;
 
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoRenderer;
+import com.santacarolina.areas.bancario.conciliacao.extratoConciliacao.ExtratoConciliacaoRenderer;
 import com.santacarolina.dao.ConciliacaoDAO;
 import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.enums.TipoMovimento;
@@ -36,6 +36,7 @@ public class OutrosMovimentosController implements Controller {
         initComponents();
     }
 
+    @SuppressWarnings("unchecked")
     private void initComponents() {
         view.getExtratoTable().setModel(model.getExtratoTableModel().getBaseModel());
         ExtratoConciliacaoRenderer cellRenderer = new ExtratoConciliacaoRenderer(model.getExtratoTableModel());

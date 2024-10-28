@@ -1,9 +1,10 @@
 package com.santacarolina.model;
 
 import com.santacarolina.dto.BancoDTO;
+import com.santacarolina.interfaces.Copiable;
 import com.santacarolina.interfaces.ToDTO;
 
-public class Banco implements ToDTO<BancoDTO>, Cloneable {
+public class Banco implements ToDTO<BancoDTO>, Copiable<Banco> {
 
     private long id;
     private String nomeBanco;
@@ -32,7 +33,7 @@ public class Banco implements ToDTO<BancoDTO>, Cloneable {
     public BancoDTO toDTO() { return new BancoDTO(this); }
 
     @Override
-    public Banco clone(){
+    public Banco generateCopy() {
         Banco clone = new Banco();
         clone.setId(id);
         clone.setNomeBanco(nomeBanco);

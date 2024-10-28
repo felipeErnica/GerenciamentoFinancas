@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.dadoBancario.common;
+package com.santacarolina.areas.bancario.dadoBancario.frmDado;
 
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.interfaces.ViewUpdater;
@@ -10,7 +10,7 @@ import com.santacarolina.util.PropertyFirer;
 
 import java.beans.PropertyChangeListener;
 
-public class DadoBancarioFormModel implements ViewUpdater {
+public class FormModel implements ViewUpdater {
 
     public final static String CONTATO_COMBOBOX = "contato";
     public final static String BANCO_COMBOBOX = "banco";
@@ -34,10 +34,11 @@ public class DadoBancarioFormModel implements ViewUpdater {
     private String chave;
     private boolean pixEnabled;
     private boolean pixInvalidFormat;
+
     private boolean isUpdating;
     private PropertyFirer pf;
 
-    public DadoBancarioFormModel(DadoBancario dadoBancario) {
+    public FormModel(DadoBancario dadoBancario) {
         this.dadoBancario = dadoBancario;
         pf = new PropertyFirer(this);
         updateAllData();
@@ -55,7 +56,6 @@ public class DadoBancarioFormModel implements ViewUpdater {
             chave = chavePix.toString();
         }
     }
-
 
     public DadoBancario getDadoBancario() { return dadoBancario; }
     public DadoBancario getDadoSaved() { return dadoSaved; }
@@ -123,10 +123,6 @@ public class DadoBancarioFormModel implements ViewUpdater {
         isUpdating = true;
         triggerChave(chave);
         isUpdating = false;
-    }
-
-    public void setDadoSaved(DadoBancario dadoSaved) {
-        this.dadoSaved = dadoSaved;
     }
 
     private void triggerTipoPix(TipoPix tipoPix) {

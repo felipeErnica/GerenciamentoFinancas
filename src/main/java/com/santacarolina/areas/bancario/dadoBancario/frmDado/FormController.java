@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.dadoBancario.common;
+package com.santacarolina.areas.bancario.dadoBancario.frmDado;
 
 import org.jdesktop.swingx.combobox.EnumComboBoxModel;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
@@ -12,21 +12,22 @@ import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
+import com.santacarolina.interfaces.Controller;
 import com.santacarolina.model.Banco;
 import com.santacarolina.model.Contato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
+import com.santacarolina.util.ViewInvoker;
 
-public class DadoBancarioController {
+@SuppressWarnings("unchecked")
+public class FormController implements Controller {
 
-    private DadoBancarioValidator validator;
-    private DadoBancarioFormView view;
-    private DadoBancarioFormModel model;
+    private FormView view;
+    private FormModel model;
 
-    public DadoBancarioController (DadoBancarioFormView view, DadoBancarioFormModel model) throws FetchFailException {
+    public FormController (FormView view, FormModel model) throws FetchFailException {
         this.view = view;
         this.model = model;
-        validator = new DadoBancarioValidator(model);
         initComponents();
     }
 
@@ -47,15 +48,13 @@ public class DadoBancarioController {
 
     private void addAccount_onClick() {
         try {
-            if (!validator.validate()) return;
-            if (validator.dadoExists()) return;
-            if (validator.pixExists()) return;
+            if (!DadoBancarioValidator.validate(model)) return;
             if (model.getChavePix() == null) {
                 if (model.getDadoBancario().getPixId() != null) new PixDAO().deleteById(model.getDadoBancario().getPixId());
             } else {
                 model.getDadoBancario().addChavePix(model.getChavePix());
             }
-            model.setDadoSaved(new DadoDAO().save(model.getDadoBancario()));
+            new DadoDAO().save(model.getDadoBancario());
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();
         } catch (FetchFailException | SaveFailException | DeleteFailException e) {
@@ -82,5 +81,8 @@ public class DadoBancarioController {
     private void agencyTextField_afterUpdate() { model.setAgencia(view.getAgencyTextField().getText()); }
     private void pixKey_afterUpdate() { model.setChave(view.getPixKey().getText()); }
     private void pixCheckBox_onClick() { model.setPixEnabled(view.getPixCheckBox().isSelected()); }
+
+    @Override
+    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
 }

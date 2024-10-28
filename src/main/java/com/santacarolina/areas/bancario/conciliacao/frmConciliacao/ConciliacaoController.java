@@ -1,7 +1,7 @@
 package com.santacarolina.areas.bancario.conciliacao.frmConciliacao;
 
 import com.santacarolina.areas.duplicatas.common.DuplicataRenderer;
-import com.santacarolina.areas.bancario.conciliacao.ExtratoConciliacaoRenderer;
+import com.santacarolina.areas.bancario.conciliacao.extratoConciliacao.ExtratoConciliacaoRenderer;
 import com.santacarolina.areas.bancario.conciliacao.frmOutrosMovimentos.OutrosMovimentosForm;
 import com.santacarolina.dao.ConciliacaoDAO;
 import com.santacarolina.dao.DuplicataDAO;

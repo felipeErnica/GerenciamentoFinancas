@@ -15,10 +15,8 @@ import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 
+@SuppressWarnings("unchecked")
 public class PastaContabilController {
-
-    private static final PastaDAO pastaDAO = new PastaDAO();
-    private static final ContaDAO contaDAO = new ContaDAO();
 
     private PastaContabilView view;
     private PastaContabilModel model;
@@ -30,7 +28,7 @@ public class PastaContabilController {
     }
 
     private void init() throws FetchFailException {
-        view.getBankAccountComboBox().setModel(new ListComboBoxModel<>(contaDAO.findAll()));
+        view.getBankAccountComboBox().setModel(new ListComboBoxModel<>(new ContaDAO().findAll()));
 
         view.getSelectPathButton().addActionListener (e -> selectPathButton_onClick());
         view.getFolderTextField().addFocusListener((AfterUpdateListener) e -> folderTextField_afterUpdate());
@@ -56,9 +54,8 @@ public class PastaContabilController {
     //Salvar Pasta no banco de dados
     private void addFolder_onClick() {
         try {
-            PastaContabilValidator validator = new PastaContabilValidator();
-            if (!validator.validate(model)) return;
-            pastaDAO.save(model.getPastaContabil());
+            if (!PastaContabilValidator.validate(model)) return;
+            new PastaDAO().save(model.getPastaContabil());
         } catch (FetchFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
         }

@@ -1,19 +1,20 @@
-
 package com.santacarolina;
+
+import java.awt.Font;
+
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.santacarolina.areas.mainFrame.mainPage.MainFrame;
 
-import javax.swing.*;
-import java.awt.*;
-
 public class GerenciamentoFinancas {
 
     public static void main(String[] args) { SwingUtilities.invokeLater(() -> new GerenciamentoFinancas().runApp()); }
 
-    private void runApp(){
+    private void runApp() {
         setStyle();
         new MainFrame();
     }

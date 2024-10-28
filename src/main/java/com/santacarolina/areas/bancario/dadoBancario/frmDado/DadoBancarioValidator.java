@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.dadoBancario.common;
+package com.santacarolina.areas.bancario.dadoBancario.frmDado;
 
 import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.dao.PixDAO;
@@ -15,16 +15,7 @@ import java.util.Optional;
 
 public class DadoBancarioValidator {
 
-    private static final DadoDAO dadoDAO = new DadoDAO();
-    private static final PixDAO pixDAO = new PixDAO();
-
-    private DadoBancarioFormModel model;
-
-    public DadoBancarioValidator(DadoBancarioFormModel model) {
-        this.model = model;
-    }
-
-    public boolean validate() {
+    public static boolean validate(FormModel model) throws FetchFailException, DeleteFailException {
         if (model.getContato() == null) {
             ValidatorViolations.violateEmptyFields("Contato");
             return false;
@@ -47,18 +38,25 @@ public class DadoBancarioValidator {
                 return false;
             }
         }
+
+        if (dadoExists(model)) return false;
+        if (pixExists(model)) return false;
+
         return true;
     }
 
-    public boolean dadoExists() throws FetchFailException, DeleteFailException {
-        Optional<DadoBancario> optionalEqual = dadoDAO.getEqual(model.getDadoBancario());
-        if (optionalEqual.isPresent() && optionalEqual.get().getId() != model.getDadoBancario().getId()) {
+    private static boolean dadoExists(FormModel model) throws FetchFailException, DeleteFailException {
+        Optional<DadoBancario> optionalEqual = new DadoDAO().getEqual(model.getDadoBancario());
+        if (optionalEqual.isPresent()) {
             DadoBancario dadoEqual = optionalEqual.get();
+            if (model.getDadoBancario().getId() != 0) {
+                ValidatorViolations.violateRecordExists("Esta conta já está registrada em nome de " + dadoEqual.getContato() + "!");
+                return true;
+            }
             int result = OptionDialog.showReplaceDialog("Esta conta já está registrada em nome de " + dadoEqual.getContato() + "!" +
-                    " Deseja substituí-la por esta?" );
+                    "\nDeseja substituir os dados exitentes por estes?" );
             if (result == JOptionPane.YES_OPTION) {
                 model.getDadoBancario().setId(dadoEqual.getId());
-                if (dadoEqual.getPixId() != null) pixDAO.deleteById(dadoEqual.getPixId());
                 return false;
             }
             return true;
@@ -66,14 +64,18 @@ public class DadoBancarioValidator {
         return false;
     }
 
-    public boolean pixExists() throws FetchFailException {
+    public static boolean pixExists(FormModel model) throws FetchFailException {
         if (model.getChavePix() == null) return false;
-        Optional<ChavePix> pixEncontrado = pixDAO.getByChave(model.getChavePix().getChave());
-        if (pixEncontrado.isPresent() && pixEncontrado.get().getId() != model.getChavePix().getId()) {
+        Optional<ChavePix> pixEncontrado = new PixDAO().findByChave(model.getChavePix().getChave());
+        if (pixEncontrado.isPresent()) {
             ChavePix pixEqual = pixEncontrado.get();
-            int result = OptionDialog.showOptionDialog(
-                    "Esta chave pix já existe e pertence a " + pixEqual.getContato() + "! Deseja substituí-lo por este?",
-                    "ATENÇÃO: Pix já existe!");
+            if (model.getChavePix().getId() != 0) {
+                ValidatorViolations.violateRecordExists("Esta chave pix já existe e pertence a " + pixEqual.getContato() + "!");
+                return true;
+            }
+            int result = OptionDialog.showReplaceDialog(
+                    "Esta chave pix já existe e pertence a " + pixEqual.getContato() + "!" +
+                    "\nDeseja substituí-lo por este?");
             if (result == JOptionPane.YES_OPTION) {
                 model.getDadoBancario().getChavePix().setId(pixEqual.getId());
                 return false;

@@ -63,6 +63,8 @@ public class ChavePix implements ToDTO<PixDTO>, Cloneable {
 
     public void setId(long id) { this.id = id; }
     public void setTipoPix(TipoPix tipoPix) { this.tipoPix = tipoPix; }
+    public void setContatoId(long contatoId) { this.contatoId = contatoId; }
+    public void setDadoId(Long dadoId) { this.dadoId = dadoId; }
 
     public void setContato(Contato contato) {
         this.contato = contato;
@@ -110,8 +112,8 @@ public class ChavePix implements ToDTO<PixDTO>, Cloneable {
     public ChavePix clone() {
         ChavePix pix = new ChavePix();
         pix.setId(id);
-        pix.setDadoBancario(dadoBancario);
-        pix.setContato(contato);
+        pix.setDadoId(dadoId);
+        pix.setContatoId(contatoId);
         pix.setTipoPix(tipoPix);
         pix.setChave(chave);
         return pix;

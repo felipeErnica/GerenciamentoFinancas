@@ -2,9 +2,10 @@ package com.santacarolina.model;
 
 import com.santacarolina.dto.CategoriaDTO;
 import com.santacarolina.enums.FluxoCaixa;
+import com.santacarolina.interfaces.Copiable;
 import com.santacarolina.interfaces.ToDTO;
 
-public class CategoriaContabil implements ToDTO<CategoriaDTO>, Cloneable {
+public class CategoriaContabil implements ToDTO<CategoriaDTO>, Copiable<CategoriaContabil> {
 
     private long id;
     private FluxoCaixa fluxoCaixa;
@@ -31,13 +32,13 @@ public class CategoriaContabil implements ToDTO<CategoriaDTO>, Cloneable {
     public void setNumeroCategoria(String numeroCategoria) { this.numeroCategoria = numeroCategoria; }
 
     @Override
-    public String toString() { return nome; }
+    public String toString() { return numeroCategoria + " - " + nome; }
 
     @Override
     public CategoriaDTO toDTO() { return new CategoriaDTO(this); }
 
     @Override
-    public CategoriaContabil clone() {
+    public CategoriaContabil generateCopy() {
         CategoriaContabil clone = new CategoriaContabil();
         clone.setId(id);
         clone.setNome(nome);

@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.conciliacao;
+package com.santacarolina.areas.bancario.conciliacao.extratoConciliacao;
 
 import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.util.StringConversor;

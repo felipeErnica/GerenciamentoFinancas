@@ -1,4 +1,4 @@
-package com.santacarolina.areas.bancario.banco.common;
+package com.santacarolina.areas.bancario.banco.frmBanco;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.ui.AddView;
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class BancoView implements PropertyChangeListener {
+public class FormView implements PropertyChangeListener {
 
     private JDialog dialog;
     private JButton addBanco;
@@ -18,10 +18,12 @@ public class BancoView implements PropertyChangeListener {
     private JTextField nomeBancoTextField;
     private JTextField apelidoBancoTextField;
 
-    public BancoView() {
+    public FormView(String dialogTitle, String buttonText) {
         AddView view = new AddView();
         dialog = view.getDialog();
+        dialog.setTitle(dialogTitle);
         addBanco = view.getAddButton();
+        addBanco.setText(buttonText);
         initComponents();
     }
 
@@ -58,8 +60,8 @@ public class BancoView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-            case BancoModel.NOME_BANCO -> nomeBancoTextField.setText((String) evt.getNewValue());
-            case BancoModel.APELIDO -> apelidoBancoTextField.setText((String) evt.getNewValue());
+            case FormModel.NOME_BANCO -> nomeBancoTextField.setText((String) evt.getNewValue());
+            case FormModel.APELIDO -> apelidoBancoTextField.setText((String) evt.getNewValue());
         }
     }
 }

@@ -15,7 +15,7 @@ public enum TipoMovimento {
 
     private final String tipoMovimento;
     TipoMovimento(String tipoMovimento) { this.tipoMovimento = tipoMovimento; }
-    public String getTipoMovimento() { return tipoMovimento; }
+    public String getValue() { return tipoMovimento; }
 
     @Override
     public String toString() { return tipoMovimento; }

@@ -24,17 +24,17 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
         this.apiRequest = new ApiRequest<>(dtoClass); 
     }
 
-    public Optional<T> getRequest(String queryString) throws FetchFailException {
+    public Optional<T> getRequest(String query) throws FetchFailException {
         try {
-            return apiRequest.getRequest(queryString).map(FromDTO::fromDTO);
+            return apiRequest.getRequest(query).map(FromDTO::fromDTO);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }
     }
 
-    public List<T> getListRequest(String queryString) throws FetchFailException {
+    public List<T> getListRequest(String query) throws FetchFailException {
         try {
-            return apiRequest.getListRequest(queryString).stream()
+            return apiRequest.getListRequest(query).stream()
                     .map(FromDTO::fromDTO)
                     .collect(Collectors.toList());
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -42,48 +42,48 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
         }
     }
 
-    public Optional<DTO> getRequestDTO(String queryString) throws FetchFailException {
+    public Optional<DTO> getRequestDTO(String query) throws FetchFailException {
         try {
-            return apiRequest.getRequest(queryString);
+            return apiRequest.getRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }
     }
 
-    public List<DTO> getListRequestDTO(String queryString) throws FetchFailException {
+    public List<DTO> getListRequestDTO(String query) throws FetchFailException {
         try {
-            return apiRequest.getListRequest(queryString);
+            return apiRequest.getListRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }
     }
 
 
-    public void postRequest(String queryString, T t) throws SaveFailException {
+    public void postRequest(String query, T t) throws SaveFailException {
         try {
             DTO dto = t.toDTO();
-            apiRequest.postRequest(queryString, dto);
+            apiRequest.postRequest(query, dto);
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
         }
     }
 
-    public T postRequestWithResponse(String queryString, T t) throws SaveFailException {
+    public T postRequestWithResponse(String query, T t) throws SaveFailException {
         try {
             DTO dto = t.toDTO();
-            DTO saved = apiRequest.postRequestWithResponse(queryString, dto);
+            DTO saved = apiRequest.postRequestWithResponse(query, dto);
             return saved.fromDTO();
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
         }
     }
 
-    public void postListRequest(String queryString, List<T> list) throws SaveFailException {
+    public void postListRequest(String query, List<T> list) throws SaveFailException {
         try {
             List<DTO> dtoList = list.stream()
                     .map(ToDTO::toDTO)
                     .toList();
-            apiRequest.postListRequest(queryString, dtoList);
+            apiRequest.postListRequest(query, dtoList);
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
         }

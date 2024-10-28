@@ -12,16 +12,9 @@ public enum TipoPagamento {
 
     private final String tipoPagamento;
 
-    TipoPagamento(String tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
-    }
-
-    public String getTipoPagamento() {
-        return tipoPagamento;
-    }
+    TipoPagamento(String tipoPagamento) { this.tipoPagamento = tipoPagamento; }
+    public String getValue() { return tipoPagamento; }
 
     @Override
-    public String toString() {
-        return tipoPagamento;
-    }
+    public String toString() { return tipoPagamento; }
 }

@@ -25,5 +25,9 @@ public class ValidatorViolations {
         OptionDialog.showErrorDialog("O campo " + listField + " na linha " + row + " da lista de " + listName + " está preenchido incorretamente!",
                 "Lista Inválida!");
     }
+    
+    public static void violateRecordExists(String prompt) {
+        OptionDialog.showErrorDialog(prompt, "Registro já existe!");
+    }
 
 }
