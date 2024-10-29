@@ -9,20 +9,24 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 
+@SuppressWarnings("rawtypes")
 public class ExtratoRenderer implements TableCellRenderer {
 
     private DefaultTableCellRenderer renderer;
     private ExtratoTableModel model;
+    private RowSorter sorter;
 
-    public ExtratoRenderer(ExtratoTableModel model) {
+    public ExtratoRenderer(ExtratoTableModel model, RowSorter sorter) {
         this.model = model;
         renderer = new DefaultTableCellRenderer();
+        this.sorter = sorter;
     }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel c = (JLabel) renderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        ExtratoDTO extrato = model.getObject(row);
+        int modelRow = sorter.convertRowIndexToModel(row);
+        ExtratoDTO extrato = model.getObject(modelRow);
         switch (column) {
             case 0, 2 -> c.setHorizontalAlignment(SwingConstants.CENTER);
             case 1 -> {

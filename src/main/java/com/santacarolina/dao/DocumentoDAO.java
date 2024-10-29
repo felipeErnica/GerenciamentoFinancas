@@ -21,20 +21,20 @@ public class DocumentoDAO {
         return service.getRequest(query);
     }
 
-    public boolean exists(DocumentoFiscal documentoFiscal) throws FetchFailException {
+    public Optional<DocumentoFiscal> findEqualDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING + "/doc" +
                 "?contatoId=" + documentoFiscal.getEmissorId() +
                 "&tipoDoc=" + documentoFiscal.getTipoDoc().name() +
                 "&dataEmissao=" + documentoFiscal.getDataEmissao() +
                 "&pastaId=" + documentoFiscal.getPastaId() +
                 "&valor=" + documentoFiscal.getValor();
-        return service.getRequest(query).isPresent();
+        return service.getRequest(query);
     }
 
-    public boolean notaExists(DocumentoFiscal documentoFiscal) throws FetchFailException {
+    public Optional<DocumentoFiscal> findEqualNota(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING + "/nota?contatoId=" + documentoFiscal.getEmissorId() +
                 "&numDoc=" + documentoFiscal.getNumDoc();
-        return service.getRequest(query).isPresent();
+        return service.getRequest(query);
     }
 
     public void save(DocumentoFiscal documentoFiscal) throws SaveFailException { service.postRequest(MAPPING, documentoFiscal); }

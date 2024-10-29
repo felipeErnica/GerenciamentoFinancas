@@ -1,14 +1,17 @@
 package com.santacarolina.areas.mainFrame.common;
 
-import com.santacarolina.areas.duplicatas.common.DupTableModel;
-import com.santacarolina.ui.TablePanel;
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import org.oxbow.swingbits.table.filter.TableRowFilterSupport;
+
+import com.santacarolina.areas.duplicatas.common.DupTableModel;
+import com.santacarolina.ui.TablePanel;
 
 public class MainPaneViewImpl implements PropertyChangeListener {
 
@@ -26,8 +29,12 @@ public class MainPaneViewImpl implements PropertyChangeListener {
     private void initComponents() {
         this.tablePanel = new TablePanel();
         table = tablePanel.getTable();
-        TableFilterHeader header = new TableFilterHeader(table, AutoChoices.ENABLED);
-        header.setPosition(TableFilterHeader.Position.TOP);
+        TableRowFilterSupport.forTable(table)
+            .searchable(true)
+            .apply();
+
+        //TableFilterHeader header = new TableFilterHeader(table, AutoChoices.ENABLED);
+        //header.setPosition(TableFilterHeader.Position.TOP);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         scrollPane = tablePanel.getTableScrollPane();
         container = new JPanel(new BorderLayout());

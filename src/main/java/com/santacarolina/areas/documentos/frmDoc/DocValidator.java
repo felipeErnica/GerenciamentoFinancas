@@ -1,6 +1,7 @@
 package com.santacarolina.areas.documentos.frmDoc;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,7 +14,6 @@ import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Duplicata;
 import com.santacarolina.model.Produto;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;
 
 public class DocValidator {
@@ -22,22 +22,29 @@ public class DocValidator {
         if (!validateDocInfo(model.getDocModel())) return false;
         if (!validateDup(model.getDupModel())) return false;
         if (!validateProd(model.getProdutoModel().getTableModel())) return false;
-        DocumentoFiscal doc = model.getDocumentoFiscal();
-        if (doc.getId() == 0) {
-            DocumentoDAO dao = new DocumentoDAO();
-            if (doc.getTipoDoc() != TipoDoc.NOTA_FISCAL && doc.getTipoDoc() != TipoDoc.NFE) {
-                if (dao.exists(doc)) {
-                    OptionDialog.showErrorDialog("Este documento já foi lançado!", "Documento já existe!");
-                    return false;
-                }
-            } else {
-                if (dao.notaExists(doc)) {
-                    OptionDialog.showErrorDialog("Esta nota já foi lançada!", "Documento já existe!");
-                    return false;
-                }
-            }
-        }
+
+        if (docExists(model)) return false;
+
         return true;
+    }
+
+    private static boolean docExists(MainModel model) throws FetchFailException {
+        DocumentoFiscal novoDoc = model.getDocumentoFiscal();
+        Optional<DocumentoFiscal> optional = novoDoc.getTipoDoc() == TipoDoc.NFE || novoDoc.getTipoDoc() == TipoDoc.NOTA_FISCAL ?
+            new DocumentoDAO().findEqualNota(novoDoc) :
+            new DocumentoDAO().findEqualDoc(novoDoc);
+
+        if (optional.isPresent()) {
+            DocumentoFiscal docFound = optional.get();
+            if (docFound.getId() != novoDoc.getId()) {
+                ValidatorViolations.violateRecordExists("Este documento já existe!");
+                return true;
+            }
+            return false;
+        }
+        
+        return false;
+
     }
 
     private static boolean validateDocInfo (DocModel model) {

@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.RowSorter;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,21 +25,24 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ValidatorViolations;
 import com.santacarolina.util.OfxTransformer.OFXTransformerImpl;
 
+@SuppressWarnings("rawtypes")
 public class ExtratoController implements MainPaneController {
 
     private ExtratoView view;
     private ExtratoModel model;
+    private RowSorter sorter;
 
     public ExtratoController(ExtratoModel model, ExtratoView view) throws FetchFailException {
         this.model = model;
         this.view = view;
-        new MainPaneControllerImpl(view, model.getTableModel());
+        MainPaneControllerImpl baseController = new MainPaneControllerImpl(view, model.getTableModel());
+        sorter = baseController.getSorter();
         initComponents();
     }
 
     @SuppressWarnings("unchecked")
     private void initComponents() throws FetchFailException {
-        ExtratoRenderer cellRenderer = new ExtratoRenderer(model.getTableModel());
+        ExtratoRenderer cellRenderer = new ExtratoRenderer(model.getTableModel(), sorter);
         TableColumnModel columnModel = view.getTable().getColumnModel();
 
         columnModel.getColumn(0).setCellRenderer(cellRenderer);
