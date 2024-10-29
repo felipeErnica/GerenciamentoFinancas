@@ -13,6 +13,9 @@ import org.oxbow.swingbits.table.filter.TableRowFilterSupport;
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.ui.TablePanel;
 
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
 public class MainPaneViewImpl implements PropertyChangeListener {
 
     private MainPaneView childView;
@@ -29,12 +32,7 @@ public class MainPaneViewImpl implements PropertyChangeListener {
     private void initComponents() {
         this.tablePanel = new TablePanel();
         table = tablePanel.getTable();
-        TableRowFilterSupport.forTable(table)
-            .searchable(true)
-            .apply();
-
-        //TableFilterHeader header = new TableFilterHeader(table, AutoChoices.ENABLED);
-        //header.setPosition(TableFilterHeader.Position.TOP);
+        new TableFilterHeader(table, AutoChoices.ENABLED).setPosition(TableFilterHeader.Position.TOP);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         scrollPane = tablePanel.getTableScrollPane();
         container = new JPanel(new BorderLayout());
