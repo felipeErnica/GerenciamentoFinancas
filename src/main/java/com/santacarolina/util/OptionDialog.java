@@ -10,6 +10,7 @@ public class OptionDialog {
     private static int result = -1;
 
     public static int showReplaceDialog(String message) {
+        message += "\nDeseja substituir os dados existentes por estes?";
         return OptionDialog.showOptionDialog(message, "Registro já existe!");
     }
 

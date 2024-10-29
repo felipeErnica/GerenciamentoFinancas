@@ -7,7 +7,7 @@ import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.PropertyFirer;
 
-public class PastaContabilModel implements ViewUpdater {
+public class FormModel implements ViewUpdater {
 
     public static final String CONTA = "conta";
     public static final String NOME_PASTA = "nomePasta";
@@ -19,7 +19,7 @@ public class PastaContabilModel implements ViewUpdater {
     private ContaBancaria contaBancaria;
     private PropertyFirer pf;
 
-    public PastaContabilModel(PastaContabil p) {
+    public FormModel(PastaContabil p) {
         this.pastaContabil = p;
         pf = new PropertyFirer(this);
         init();

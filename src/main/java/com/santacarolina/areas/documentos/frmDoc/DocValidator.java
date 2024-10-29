@@ -1,5 +1,9 @@
 package com.santacarolina.areas.documentos.frmDoc;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.santacarolina.areas.documentos.frmDoc.docPanel.DocModel;
 import com.santacarolina.areas.documentos.frmDoc.dupPanel.DupModel;
 import com.santacarolina.areas.documentos.frmDoc.prodPanel.ProdutoTableModel;
@@ -11,9 +15,6 @@ import com.santacarolina.model.Duplicata;
 import com.santacarolina.model.Produto;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 public class DocValidator {
 

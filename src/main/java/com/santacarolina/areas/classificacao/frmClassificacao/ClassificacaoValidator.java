@@ -18,8 +18,7 @@ import com.santacarolina.util.ValidatorViolations;
  */
 public class ClassificacaoValidator {
 
-    public static boolean validate(ViewUpdater viewUpdater) throws FetchFailException {
-        FormModel model = (FormModel) viewUpdater;
+    public static boolean validate(FormModel model) throws FetchFailException {
         
         if (StringUtils.isBlank(model.getNome())) {
             ValidatorViolations.violateEmptyFields("nome");

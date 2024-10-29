@@ -16,12 +16,12 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("unchecked")
-public class PastaContabilController {
+public class FormController {
 
-    private PastaContabilView view;
-    private PastaContabilModel model;
+    private FormView view;
+    private FormModel model;
 
-    public PastaContabilController(PastaContabilView view, PastaContabilModel model) throws FetchFailException {
+    public FormController(FormView view, FormModel model) throws FetchFailException {
         this.view = view;
         this.model = model;
         init();

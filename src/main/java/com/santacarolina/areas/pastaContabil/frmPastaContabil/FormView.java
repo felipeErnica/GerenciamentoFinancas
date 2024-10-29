@@ -23,7 +23,7 @@ import com.santacarolina.util.AppIcon;
 
 import net.miginfocom.swing.MigLayout;
 
-public class PastaContabilView implements PropertyChangeListener {
+public class FormView implements PropertyChangeListener {
 
     private JDialog dialog;
     private JTextField folderTextField;
@@ -33,7 +33,7 @@ public class PastaContabilView implements PropertyChangeListener {
     private JButton addAccount;
     private JButton addFolder;
 
-    public PastaContabilView(String buttonText, String dialogText) {
+    public FormView(String buttonText, String dialogText) {
         AddView view = new AddView();
         dialog = view.getDialog();
         dialog.setTitle(dialogText);
@@ -95,9 +95,9 @@ public class PastaContabilView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-            case PastaContabilModel.CAMINHO -> pathTextField.setText((String)evt.getNewValue());
-            case PastaContabilModel.NOME_PASTA -> folderTextField.setText((String) evt.getNewValue());
-            case PastaContabilModel.CONTA -> bankAccountComboBox.setSelectedItem(evt.getNewValue());
+            case FormModel.CAMINHO -> pathTextField.setText((String)evt.getNewValue());
+            case FormModel.NOME_PASTA -> folderTextField.setText((String) evt.getNewValue());
+            case FormModel.CONTA -> bankAccountComboBox.setSelectedItem(evt.getNewValue());
         }
     }
 

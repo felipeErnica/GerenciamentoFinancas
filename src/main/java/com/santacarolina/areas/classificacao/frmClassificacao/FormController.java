@@ -16,6 +16,7 @@ import com.santacarolina.util.ViewInvoker;
 /**
  * FormController
  */
+@SuppressWarnings("unchecked")
 public class FormController implements Controller {
 
     private FormView view;
@@ -27,7 +28,6 @@ public class FormController implements Controller {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() throws FetchFailException {
         view.getCategoriaContabilComboBox().setModel(new ListComboBoxModel<>(new CategoriaDAO().findAll()));
         view.getCategoriaContabilComboBox().addActionListener(e -> categoriaContabil_afterUpdate());
@@ -37,12 +37,17 @@ public class FormController implements Controller {
         view.getAddButton().addActionListener(e -> addButton_onClick());
     }
 
-    private void newCategoriaButton_onClick() { EventQueue.invokeLater(CategoriaForm::openNew); }
-    private void nomeText_afterUpdate() { model.setNome(view.getNomeTextField().getText()); }
+    private void newCategoriaButton_onClick() {
+        EventQueue.invokeLater(CategoriaForm::openNew);
+    }
+
+    private void nomeText_afterUpdate() {
+        model.setNome(view.getNomeTextField().getText());
+    }
 
     private void numeroText_afterUpdate() {
         try {
-            model.setNumero(Long.parseLong(view.getNumeroTextField().getText())); 
+            model.setNumero(Long.parseLong(view.getNumeroTextField().getText()));
         } catch (NumberFormatException e) {
             view.getNumeroTextField().setText(null);
             model.setNumero(0);
@@ -56,7 +61,8 @@ public class FormController implements Controller {
 
     private void addButton_onClick() {
         try {
-            if (!ClassificacaoValidator.validate(model)) return;
+            if (!ClassificacaoValidator.validate(model))
+                return;
             new ClassificacaoDAO().save(model.getClassificacao());
         } catch (FetchFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
@@ -64,6 +70,8 @@ public class FormController implements Controller {
     }
 
     @Override
-    public void showView() { ViewInvoker.showView(view.getDialog()); }
+    public void showView() {
+        ViewInvoker.showView(view.getDialog());
+    }
 
 }

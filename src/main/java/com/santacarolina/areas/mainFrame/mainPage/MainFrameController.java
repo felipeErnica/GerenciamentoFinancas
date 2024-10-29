@@ -15,7 +15,7 @@ import com.santacarolina.areas.categoria.frmCategoria.CategoriaForm;
 import com.santacarolina.areas.categoria.frmManageCategoria.ManageCategoriaForm;
 import com.santacarolina.areas.classificacao.frmClassificacao.ClassificacacaoForm;
 import com.santacarolina.areas.classificacao.frmManageClassificacao.ManageClassificacaoForm;
-import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
+import com.santacarolina.areas.contato.common.ContatoForm;
 import com.santacarolina.areas.contato.frmManageContato.ManageContatoForm;
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.documentos.frmImportNFe.ImportNFeForm;
@@ -86,7 +86,7 @@ public class MainFrameController implements Controller {
     private void manageContaBancaria_onClick() { EventQueue.invokeLater(ManageContaForm::open); }
 
     private void manageContatoButton_onClick() { EventQueue.invokeLater(ManageContatoForm::new);   }
-    private void addContatoButton_onClick() { EventQueue.invokeLater(AddContatoForm::openNew); }
+    private void addContatoButton_onClick() { EventQueue.invokeLater(ContatoForm::openNew); }
     private void addDadoButton_onClick() { EventQueue.invokeLater(DadoForm::openNew); }
     private void manageDadoButton_onClick() { EventQueue.invokeLater(ManageDadoForm::new); }
     private void manageChavePixButton_onClick() { EventQueue.invokeLater(ManagePixForm::open); }

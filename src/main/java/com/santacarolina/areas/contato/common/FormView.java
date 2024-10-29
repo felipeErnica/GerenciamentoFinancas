@@ -9,7 +9,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class FormContatoView implements PropertyChangeListener {
+public class FormView implements PropertyChangeListener {
 
     private AddView addView;
     private JDialog dialog;
@@ -27,10 +27,12 @@ public class FormContatoView implements PropertyChangeListener {
     private JLabel ieLabel;
     private JTextField ieTextField;
 
-    public FormContatoView() {
+    public FormView(String dialogTitle, String buttonText) {
         addView = new AddView();
         dialog = addView.getDialog();
+        dialog.setTitle(dialogTitle);
         addContact = addView.getAddButton();
+        addContact.setText(buttonText);
         initComponents();
     }
 
@@ -92,61 +94,41 @@ public class FormContatoView implements PropertyChangeListener {
 
     }
 
-    public JDialog getDialog() {
-        return dialog;
-    }
-
-    public JButton getAddContact() {
-        return addContact;
-    }
-
-    public JTextField getNameTextField() {
-        return nameTextField;
-    }
-
-    public JCheckBox getDocCheckBox() {
-        return docCheckBox;
-    }
-
-    public JTextField getCpfTextField() {
-        return cpfTextField;
-    }
-
-    public JTextField getCnpjTextField() {
-        return cnpjTextField;
-    }
-
-    public JTextField getIeTextField() {
-        return ieTextField;
-    }
+    public JDialog getDialog() { return dialog; }
+    public JButton getAddContact() { return addContact; }
+    public JTextField getNameTextField() { return nameTextField; }
+    public JCheckBox getDocCheckBox() { return docCheckBox; }
+    public JTextField getCpfTextField() { return cpfTextField; }
+    public JTextField getCnpjTextField() { return cnpjTextField; }
+    public JTextField getIeTextField() { return ieTextField; }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-            case FormContatoModel.NOME -> nameTextField.setText((String) evt.getNewValue());
-            case FormContatoModel.DOC_CHECKBOX -> docCheckBox.setSelected((Boolean) evt.getNewValue());
-            case FormContatoModel.DOC_ENABLED -> {
+            case FormModel.NOME -> nameTextField.setText((String) evt.getNewValue());
+            case FormModel.DOC_CHECKBOX -> docCheckBox.setSelected((Boolean) evt.getNewValue());
+            case FormModel.DOC_ENABLED -> {
                 Boolean docEnabled = (Boolean) evt.getNewValue();
                 cpfTextField.setEnabled(docEnabled);
                 cnpjTextField.setEnabled(docEnabled);
                 ieTextField.setEnabled(docEnabled);
             }
-            case FormContatoModel.CNPJ -> cnpjTextField.setText((String) evt.getNewValue());
-            case FormContatoModel.CPF -> cpfTextField.setText((String) evt.getNewValue());
-            case FormContatoModel.IE -> ieTextField.setText((String) evt.getNewValue());
-            case FormContatoModel.CNPJ_INVALID -> {
+            case FormModel.CNPJ -> cnpjTextField.setText((String) evt.getNewValue());
+            case FormModel.CPF -> cpfTextField.setText((String) evt.getNewValue());
+            case FormModel.IE -> ieTextField.setText((String) evt.getNewValue());
+            case FormModel.CNPJ_INVALID -> {
                 if ((Boolean) evt.getNewValue())
                     cnpjTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
                 else
                     cnpjTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
-            case FormContatoModel.CPF_INVALID -> {
+            case FormModel.CPF_INVALID -> {
                 if ((Boolean) evt.getNewValue())
                     cpfTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
                 else
                     cpfTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
-            case FormContatoModel.IE_INVALID -> {
+            case FormModel.IE_INVALID -> {
                 if ((Boolean) evt.getNewValue())
                     ieTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
                 else

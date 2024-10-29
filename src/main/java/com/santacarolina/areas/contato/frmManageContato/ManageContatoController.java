@@ -9,8 +9,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
-import com.santacarolina.areas.contato.frmEditContato.EditContatoForm;
+import com.santacarolina.areas.contato.common.ContatoForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.ManageController;
@@ -19,6 +18,7 @@ import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 
+@SuppressWarnings("unchecked")
 public class ManageContatoController implements ManageController {
 
     private ManageControllerImpl<Contato> manageController;
@@ -48,16 +48,17 @@ public class ManageContatoController implements ManageController {
         int viewRow = view.getTable().rowAtPoint(e.getPoint());
         int modelRow  = sorter.convertRowIndexToModel(viewRow);
         Contato contato = model.getObject(modelRow);
-        new EditContatoForm(contato);
+        ContatoForm.open(contato);
     }
 
     @Override
-    public void addButton_onClick() { EventQueue.invokeLater(AddContatoForm::openNew); }
+    public void addButton_onClick() { EventQueue.invokeLater(ContatoForm::openNew); }
 
     @Override
     public void deleteButton_onClick() {
         try {
             int[] rows = view.getTable().getSelectedRows();
+            if (OptionDialog.showDeleteCascadeDialog(rows.length) != JOptionPane.YES_OPTION) return;
             if (OptionDialog.showDeleteDialog(rows.length) != JOptionPane.YES_OPTION) return;
             for (int i = rows.length - 1; i >= 0; i--) {
                 int viewRow = rows[i];

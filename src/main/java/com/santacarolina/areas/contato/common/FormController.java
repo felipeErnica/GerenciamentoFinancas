@@ -1,6 +1,7 @@
 package com.santacarolina.areas.contato.common;
 
 import com.santacarolina.dao.ContatoDAO;
+import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
@@ -8,18 +9,14 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
-public class FormContatoController implements Controller {
+public class FormController implements Controller {
 
-    private IContatoController child;
-    private ContatoValidator validator;
-    private FormContatoView view;
-    private FormContatoModel model;
+    private FormView view;
+    private FormModel model;
 
-    public FormContatoController(IContatoController child) {
-        this.child = child;
-        this.view = child.getView();
-        this.model = child.getModel();
-        this.validator = new ContatoValidator(model);
+    public FormController(FormView view, FormModel model) {
+        this.view = view;
+        this.model = model;
         initComponents();
     }
 
@@ -40,13 +37,11 @@ public class FormContatoController implements Controller {
 
     private void addButton_onClick() {
         try {
-            if (!validator.validate()) return;
-            if (child.nameExists()) return;
-            if (child.docsExists()) return;
-            model.setContatoSaved(new ContatoDAO().save(model.getContato()));
+            if (!ContatoValidator.validate(model)) return;
+            new ContatoDAO().save(model.getContato());
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();
-        } catch (SaveFailException e) {
+        } catch (SaveFailException | FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }

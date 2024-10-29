@@ -14,7 +14,7 @@ public class CategoriaForm {
     }
 
     public static void open(CategoriaContabil categoria) {
-        CategoriaContabil clone = categoria.clone();
+        CategoriaContabil clone = categoria.generateCopy();
         FormView view = new FormView("Editar Categoria Contábil", "Salvar Categoria");
         FormModel model = new FormModel(clone);
         build(view, model);

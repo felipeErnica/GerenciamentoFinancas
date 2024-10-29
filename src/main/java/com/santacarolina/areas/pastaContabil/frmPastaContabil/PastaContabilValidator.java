@@ -14,7 +14,7 @@ import com.santacarolina.util.ValidatorViolations;
 
 public class PastaContabilValidator {
 
-    public static boolean validate(PastaContabilModel model) throws FetchFailException {
+    public static boolean validate(FormModel model) throws FetchFailException {
 
         if (StringUtils.isBlank(model.getNomePasta())) {
             ValidatorViolations.violateEmptyFields("Nome da Pasta");
@@ -33,7 +33,7 @@ public class PastaContabilValidator {
     }
 
     //Verifica se há uma pasta com mesmo nome, se sim, oferece opção de substituir.
-    private static boolean pastaExists(PastaContabilModel model) throws FetchFailException {
+    private static boolean pastaExists(FormModel model) throws FetchFailException {
         Optional<PastaContabil> optionalPasta = new PastaDAO().findByNome(model.getNomePasta());
         if (optionalPasta.isPresent() && optionalPasta.get().getId() != model.getPastaContabil().getId()) {
             int result = OptionDialog.showReplaceDialog("Esta pasta já existe. Deseja substituir a existente por esta?");

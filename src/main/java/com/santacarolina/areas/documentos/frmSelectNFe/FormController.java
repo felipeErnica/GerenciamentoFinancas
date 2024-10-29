@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
+import com.santacarolina.areas.contato.common.ContatoForm;
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.model.Contato;
@@ -24,6 +24,7 @@ public class FormController implements Controller {
         init();
     }
 
+    @SuppressWarnings("unchecked")
     private void init() {
         view.getNfeComboBox().setModel(new ListComboBoxModel<>(model.getNfeList()));
         view.getNfeComboBox().setSelectedItem(null);
@@ -48,7 +49,8 @@ public class FormController implements Controller {
         int result = OptionDialog.showOptionDialog("O Emissor desta NFe não está registrado no sistema! " +
                 "Deseja adicioná-lo?","Novo Contato");
         if (result == JOptionPane.YES_OPTION) {
-            Contato emissor = AddContatoForm.addContato(model.getNfe().getEmissor());
+            Contato emissor = model.getNfe().getEmissor();
+            ContatoForm.saveNew(emissor);
             model.getNfe().setEmissor(emissor);
         } else {
             model.getNfe().setEmissor(null);

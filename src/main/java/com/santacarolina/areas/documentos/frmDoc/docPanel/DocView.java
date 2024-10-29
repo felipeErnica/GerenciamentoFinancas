@@ -36,6 +36,7 @@ public class DocView implements PropertyChangeListener {
 
     public DocView() { initComponents(); }
 
+    @SuppressWarnings("unchecked")
     private void initComponents() {
 
         JLabel senderLabel = new JLabel("Emissor:");

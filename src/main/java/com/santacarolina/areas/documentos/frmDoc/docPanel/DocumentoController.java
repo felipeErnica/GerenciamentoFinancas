@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import com.santacarolina.areas.contato.frmAddContato.AddContatoForm;
+import com.santacarolina.areas.contato.common.ContatoForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.enums.FluxoCaixa;
@@ -21,6 +21,7 @@ import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.FileManager;
 import com.santacarolina.util.StringConversor;
 
+@SuppressWarnings("unchecked")
 public class DocumentoController {
 
     private DocModel model;
@@ -56,7 +57,7 @@ public class DocumentoController {
 
     private void expenseButton_onClick() { model.setFluxoCaixa(FluxoCaixa.DESPESA); }
     private void incomeButton_onClick() { model.setFluxoCaixa(FluxoCaixa.RECEITA); }
-    private void addNewContactButton_onClick() { EventQueue.invokeLater(AddContatoForm::new); }
+    private void addNewContactButton_onClick() { EventQueue.invokeLater(ContatoForm::openNew); }
 
     private void docNumber_afterUpdate() {
         try {

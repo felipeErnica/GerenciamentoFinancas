@@ -2,11 +2,12 @@ package com.santacarolina.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.santacarolina.dto.ContatoDTO;
+import com.santacarolina.interfaces.Copiable;
 import com.santacarolina.interfaces.ToDTO;
 import com.santacarolina.util.DocConversor;
 import org.apache.commons.lang3.StringUtils;
 
-public class Contato implements Cloneable, ToDTO<ContatoDTO> {
+public class Contato implements Copiable<Contato>, ToDTO<ContatoDTO> {
 
     private long id;
     private String nome;
@@ -64,17 +65,6 @@ public class Contato implements Cloneable, ToDTO<ContatoDTO> {
     }
 
     @Override
-    public Contato clone() {
-        Contato contato = new Contato();
-        contato.setId(id);
-        contato.setNome(nome);
-        contato.setCnpj(cnpj);
-        contato.setCpf(cpf);
-        contato.setIe(ie);
-        return contato;
-    }
-
-    @Override
     public String toString() { return nome; }
 
     public String print() {
@@ -96,5 +86,16 @@ public class Contato implements Cloneable, ToDTO<ContatoDTO> {
 
     @Override
     public ContatoDTO toDTO() { return new ContatoDTO(this); }
+
+    @Override
+    public Contato generateCopy() {
+        Contato contato = new Contato();
+        contato.setId(id);
+        contato.setNome(nome);
+        contato.setCnpj(cnpj);
+        contato.setCpf(cpf);
+        contato.setIe(ie);
+        return contato;
+    }
 
 }

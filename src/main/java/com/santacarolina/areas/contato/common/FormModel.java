@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.beans.PropertyChangeListener;
 
-public class FormContatoModel implements ViewUpdater {
+public class FormModel implements ViewUpdater {
 
     public static final String NOME = "nome";
     public static final String CPF = "cpf";
@@ -32,7 +32,7 @@ public class FormContatoModel implements ViewUpdater {
     private PropertyFirer pf;
     private boolean isUpdating;
 
-    public FormContatoModel(Contato contato) {
+    public FormModel(Contato contato) {
         this.pf = new PropertyFirer(this);
         this.contato = contato;
         updateAllData();
