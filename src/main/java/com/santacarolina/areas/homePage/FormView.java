@@ -39,14 +39,14 @@ import net.miginfocom.swing.MigLayout;
 
 public class FormView implements PropertyChangeListener {
 
-    private static final Color GRAPH_FOREGROUND = UIManager.getColor("Graph.foreground");
+    private final Color GRAPH_FOREGROUND = UIManager.getColor("Graph.foreground");
 
-    private static final Color[] PIE_CHART_COLORS = new Color[] {UIManager.getColor("PieChart.color1"),
+    private final Color[] PIE_CHART_COLORS = new Color[] {UIManager.getColor("PieChart.color1"),
             UIManager.getColor("PieChart.color2"), UIManager.getColor("PieChart.color3"), UIManager.getColor("PieChart.color4"),
             UIManager.getColor("PieChart.color5"), UIManager.getColor("PieChart.color6")};
 
-    private static final Color INCOME_BLUE = UIManager.getColor("Graph.incomeColor");
-    private static final Color EXPENSE_COLOR = UIManager.getColor("Graph.expenseColor");
+    private final Color INCOME_BLUE = UIManager.getColor("Graph.incomeColor");
+    private final Color EXPENSE_COLOR = UIManager.getColor("Graph.expenseColor");
 
     private JPanel mainPanel;
 
@@ -220,7 +220,6 @@ public class FormView implements PropertyChangeListener {
             }
             case FormModel.PASTA_CONTABIL -> {
                 PastaContabil pastaContabil = (PastaContabil) evt.getNewValue();
-                System.out.println(pastaContabil);
                 pastaComboBox.setSelectedItem(pastaContabil);
             } 
             case FormModel.DATA_INICIO -> {

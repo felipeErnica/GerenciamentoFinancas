@@ -37,7 +37,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("org.apache.logging.log4j:log4j-api:2.24.0")
     implementation("org.apache.logging.log4j:log4j-core:2.24.0")
-    implementation("net.coderazzi:tablefilter-swing:5.5.4")
     implementation("org.netbeans.external:AbsoluteLayout:RELEASE220")
     implementation("com.formdev:flatlaf:3.5.1")
     implementation("com.formdev:flatlaf-extras:3.5.1")
@@ -53,7 +52,6 @@ dependencies {
     implementation("com.webcohesion.ofx4j:ofx4j:1.38")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
     implementation("org.knowm.xchart:xchart:3.8.8")
-    implementation("org.oxbow:swingbits:1.3.0")
 }
 
 application {

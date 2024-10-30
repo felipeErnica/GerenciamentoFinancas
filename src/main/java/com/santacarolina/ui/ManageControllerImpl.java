@@ -8,6 +8,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("rawtypes")
 public class ManageControllerImpl<T> implements Controller {
 
     private CustomTableModel<T> model;

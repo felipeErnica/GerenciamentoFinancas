@@ -44,6 +44,12 @@ public class SubMenuImpl {
     @BeanProperty(visualUpdate = true, description = "The button's default icon")
     public void setMainIcon(Icon defaultIcon) { mainButton.setIcon(defaultIcon); }
 
+    public void changeTheme() {
+        MenuDecorator.paintButton(mainButton);
+        MenuDecorator.paintPanel(pane);
+        buttons.forEach(button -> MenuDecorator.paintButton(button));
+    }
+
     public void addButton(AbstractButton button) {
         MenuDecorator.paintButton(button);
         pane.add(button, "h 0!");

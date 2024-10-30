@@ -1,6 +1,7 @@
 package com.santacarolina.areas.bancario.conciliacao.frmManageConciliados;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.santacarolina.dao.ConciliacaoDAO;
@@ -17,6 +18,7 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
 
     private CustomTableModelImpl<ConciliacaoDTO> baseModel;
     private List<ConciliacaoDTO> list;
+    private FilterModel filterModel;
 
     private String[] columnNames = {
         "Tipo de Movimento",
@@ -31,11 +33,13 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
         "Valor da Duplicata"
     };
 
-
     public ConciliadosTableModel() throws FetchFailException {
         list = new ConciliacaoDAO().findAll();
         baseModel = new CustomTableModelImpl<>(this, list);
+        filterModel = new FilterModel(this);
     }
+
+    public FilterModel getFilterModel() { return filterModel; }
 
     @Override
     public CustomTableModelImpl<ConciliacaoDTO> getBaseModel() { return baseModel; }
@@ -71,7 +75,7 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ConciliacaoDTO conc = list.get(rowIndex);
+        ConciliacaoDTO conc = filterModel.getList().get(rowIndex);
         return switch (columnIndex) {
             case 0 -> conc.getTipoMovimento();
             case 1 -> conc.getDataExtrato();
@@ -93,9 +97,11 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
     @Override
     public ConciliacaoDTO getObject(int rowIndex) { return list.get(rowIndex); }
 
+    public List<ConciliacaoDTO> getList() { return list; }
+
     public void requeryTable() throws FetchFailException {
         list = new ConciliacaoDAO().findAll();
         baseModel.setList(list);
     }
-    
+
 }

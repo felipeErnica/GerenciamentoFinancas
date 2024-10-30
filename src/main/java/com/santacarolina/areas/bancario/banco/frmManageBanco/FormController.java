@@ -2,36 +2,38 @@ package com.santacarolina.areas.bancario.banco.frmManageBanco;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.banco.frmBanco.BancoForm;
 import com.santacarolina.dao.BancoDAO;
-import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
+import com.santacarolina.interfaces.UpdateListener;
 import com.santacarolina.model.Banco;
-import com.santacarolina.model.ContaBancaria;
-import com.santacarolina.model.DadoBancario;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
+import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("rawtypes")
 public class FormController implements ManageController {
 
-    private ManageControllerImpl<Banco> baseController;
     private FormView view;
     private TableModel model;
     private RowSorter sorter;
 
     public FormController(FormView view, TableModel model) {
-        this.baseController = new ManageControllerImpl<>(model, view, this);
+        ManageControllerImpl baseController = new ManageControllerImpl<>(model, view, this);
         sorter = baseController.getSorter();
+        this.view = view;
+        this.model = model;
+        view.getContatoSearchField().getDocument().addDocumentListener((UpdateListener) e -> contatoSearchField_afterUpdate());; 
     }
+
+    private void contatoSearchField_afterUpdate() { model.setFilterSearch(view.getContatoSearchField().getText()); }
 
     @Override
     public void table_onDoubleClick(MouseEvent e) {
@@ -79,6 +81,6 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void showView() { baseController.showView(); }
+    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
 }

@@ -8,13 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.oxbow.swingbits.table.filter.TableRowFilterSupport;
-
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.ui.TablePanel;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class MainPaneViewImpl implements PropertyChangeListener {
 
@@ -32,7 +27,6 @@ public class MainPaneViewImpl implements PropertyChangeListener {
     private void initComponents() {
         this.tablePanel = new TablePanel();
         table = tablePanel.getTable();
-        new TableFilterHeader(table, AutoChoices.ENABLED).setPosition(TableFilterHeader.Position.TOP);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         scrollPane = tablePanel.getTableScrollPane();
         container = new JPanel(new BorderLayout());

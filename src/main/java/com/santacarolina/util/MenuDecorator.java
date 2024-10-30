@@ -16,10 +16,17 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 public class MenuDecorator {
 
-    private static final Color GRAPH_FOREGROUND = UIManager.getColor("Graph.foreground");
-    private static final Color GRAPH_BACKGROUND = UIManager.getColor("Graph.background");
-    private static final Color MENU_BACKGROUND = UIManager.getColor("SideBar.backgroundColor");
-    private static final Color MENU_FOREGROUND = UIManager.getColor("SideBar.foregroundColor");
+    private static Color GRAPH_FOREGROUND = UIManager.getColor("Graph.foreground");
+    private static Color GRAPH_BACKGROUND = UIManager.getColor("Graph.background");
+    private static Color MENU_BACKGROUND = UIManager.getColor("SideBar.backgroundColor");
+    private static Color MENU_FOREGROUND = UIManager.getColor("SideBar.foregroundColor");
+
+    public static void setColors() {
+        GRAPH_FOREGROUND = UIManager.getColor("Graph.foreground");
+        GRAPH_BACKGROUND = UIManager.getColor("Graph.background");
+        MENU_BACKGROUND = UIManager.getColor("SideBar.backgroundColor");
+        MENU_FOREGROUND = UIManager.getColor("SideBar.foregroundColor");
+    }
 
     public static void paintChart(@SuppressWarnings("rawtypes") Chart chart) {
         chart.getStyler()

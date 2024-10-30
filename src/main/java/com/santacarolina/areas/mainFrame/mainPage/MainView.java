@@ -30,8 +30,13 @@ public class MainView implements PropertyChangeListener {
     }
 
     public JFrame getFrame() { return frame; }
+    public SideMenu getSideMenu() { return sideMenu; }
+    public JPanel getCenterPane() { return centerPane; }
 
+    public JButton getChangeMode() { return sideMenu.getChangeMode(); }
+    
     public JButton getHomeButton() { return sideMenu.getHomeButton(); }
+    
     public JButton getNfeButton() { return sideMenu.getNfeButton(); }
     public JButton getNewDocButton() { return sideMenu.getNewDocButton(); }
     public JButton getDocButton() { return sideMenu.getDocButton(); }
@@ -39,6 +44,9 @@ public class MainView implements PropertyChangeListener {
     public JButton getDupNaoPagaButton() { return sideMenu.getDupNaoPagaButton(); }
     public JButton getProdButton() { return sideMenu.getProdButton(); }
 
+
+    public JButton getAddBanco() { return sideMenu.getAddBanco(); }
+    public JButton getManageBancos() { return sideMenu.getManageBancos(); }
     public JButton getConciliacaoButton() { return sideMenu.getAddConciliacaoButton(); }
     public JButton getManageConciliacaoButton() { return sideMenu.getManageConciliacaoButton(); }
     public JButton getManageContaBancariaButton() { return sideMenu.getManageContaBancariaButton(); }

@@ -13,9 +13,11 @@ import com.santacarolina.ui.ManageViewImpl;
 public class FormView implements ManageView {
 
     private ManageViewImpl baseView;
+    private FilterView filterView;
 
     public FormView() {
         baseView = new ManageViewImpl();
+        filterView = new FilterView(baseView.getFilterPane());
         baseView.getDialog().setTitle("Gerenciar Arquivos Conciliados");
         baseView.getAddButton().setText("Conciliar Arquivos");
         baseView.getDeleteButton().setText("Excluir Conciliações");
@@ -32,6 +34,8 @@ public class FormView implements ManageView {
 
     @Override
     public ActionSVGButton getDeleteButton() { return baseView.getDeleteButton(); }
+
+    public FilterView getFilterView() { return filterView; }
 
     @Override
     public void formatColumns() {

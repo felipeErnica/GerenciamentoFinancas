@@ -63,10 +63,27 @@ public class FormModel implements ViewUpdater {
     }
 
     private void updateAllData() throws FetchFailException {
-        if (pastaContabil == null) pastaContabil = new PastaDAO().findAll().get(0);
+        if (pastaContabil == null) mostValuablePasta(); 
         if (dataInicio == null) dataInicio = LocalDate.of(LocalDate.now().getYear(), 1, 1);
         if (dataFim == null) dataFim = LocalDate.now();
         filteredList = unfilteredList;
+    }
+
+    private void mostValuablePasta() throws FetchFailException {
+        List<PastaContabil> listPasta = new PastaDAO().findAll();
+        double biggestValue = 0;
+        PastaContabil selectedPasta = new PastaContabil();
+        for (PastaContabil pasta : listPasta) {
+            double pastaValue = unfilteredList.stream()
+                .filter(dto -> dto.getPastaId() == pasta.getId())
+                .mapToDouble(dto -> Math.abs(dto.getValorTotal()))
+                .sum();
+            if (pastaValue > biggestValue) {
+                biggestValue = pastaValue;
+                selectedPasta = pasta;
+            }
+        }
+        FormModel.pastaContabil = selectedPasta;
     }
 
     //Métodos setters: definem as variáveis de filtro, engatilham as funções de transformação das listas para vetores nos gráficos.

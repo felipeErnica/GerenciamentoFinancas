@@ -6,6 +6,11 @@ import com.santacarolina.util.AppIcon;
 import com.santacarolina.util.MenuDecorator;
 import net.miginfocom.swing.MigLayout;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 
 public class SideMenu {
@@ -13,6 +18,10 @@ public class SideMenu {
     private JPanel mainPane;
     private JPanel pane;
     private JScrollPane scrollPane;
+    private JPanel northPane;
+    private List<SubMenuImpl> listSubMenus;
+
+    private JButton changeMode;
 
     private SubMenuImpl docMenu;
     private JButton homeButton;
@@ -24,6 +33,8 @@ public class SideMenu {
     private JButton prodButton;
 
     private SubMenuImpl infoBancoSubMenu;
+    private JButton addBanco;
+    private JButton manageBancos;
     private JButton addConciliacaoButton;
     private JButton manageConciliacaoButton;
     private JButton extratosButton;
@@ -51,8 +62,11 @@ public class SideMenu {
     public SideMenu() { init(); }
 
     private void init() {
+        listSubMenus = new ArrayList<>();
+
         homeButton = new JButton("Início", AppIcon.paintIcon(new FlatSVGIcon("icon/inicio_icon.svg")));
         MenuDecorator.paintButton(homeButton);
+
         docMenu = new SubMenuImpl(this, "Documentos");
         docMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/doc_menu_icon.svg")));
         nfeButton = new JButton("Importar NFe", AppIcon.paintIcon(new FlatSVGIcon("icon/nfe_icon.svg")));
@@ -67,9 +81,14 @@ public class SideMenu {
         docMenu.addButton(dupPagaButton);
         prodButton = new JButton("Produtos e Serviços", AppIcon.paintIcon(new FlatSVGIcon("icon/produtos_icon.svg")));
         docMenu.addButton(prodButton);
+        listSubMenus.add(docMenu);
 
         infoBancoSubMenu = new SubMenuImpl(this, "Informações Bancárias");
         infoBancoSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/banco_menu_icon.svg")));
+        addBanco = new JButton("Novo Banco");
+        infoBancoSubMenu.addButton(addBanco);
+        manageBancos = new JButton("Gerenciar Bancos");
+        infoBancoSubMenu.addButton(manageBancos);
         addConciliacaoButton = new JButton("Conciliar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/conciliacao_icon.svg")));
         infoBancoSubMenu.addButton(addConciliacaoButton);
         manageConciliacaoButton = new JButton("Gerenciar Conciliações");
@@ -80,6 +99,7 @@ public class SideMenu {
         infoBancoSubMenu.addButton(addContaBancariaButton);
         manageContaBancariaButton = new JButton("Gerenciar Contas Bancárias");
         infoBancoSubMenu.addButton(manageContaBancariaButton);
+        listSubMenus.add(infoBancoSubMenu);
 
         contatosSubMenu = new SubMenuImpl(this, "Contatos");
         contatosSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/contato_menu_icon.svg")));
@@ -95,6 +115,7 @@ public class SideMenu {
         contatosSubMenu.addButton(addChavePix);
         manageChavePix = new JButton("Gerenciar Chaves", AppIcon.paintIcon(new FlatSVGIcon("icon/pix_icon.svg")));
         contatosSubMenu.addButton(manageChavePix);
+        listSubMenus.add(contatosSubMenu);
 
         pastasSubMenu = new SubMenuImpl(this, "Pastas Contábeis");
         pastasSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/pasta_menu_icon.svg")));
@@ -102,6 +123,7 @@ public class SideMenu {
         pastasSubMenu.addButton(addPastaButton);
         managePastaButton = new JButton("Gerenciar Pastas", AppIcon.paintIcon(new FlatSVGIcon("icon/pasta_icon.svg")));
         pastasSubMenu.addButton(managePastaButton);
+        listSubMenus.add(pastasSubMenu);
 
         classificacaoSubMenu = new SubMenuImpl(this, "Classificações Contábeis");
         classificacaoSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/classificacao_menu_icon.svg")));
@@ -113,6 +135,7 @@ public class SideMenu {
         classificacaoSubMenu.addButton(addClassificacaoButton);
         manageClassificacaoButton = new JButton("Gerenciar Classificações Contábeis", AppIcon.paintIcon("icon/classificacao_icon.svg"));
         classificacaoSubMenu.addButton(manageClassificacaoButton);
+        listSubMenus.add(classificacaoSubMenu); 
 
         pane = new JPanel(new MigLayout("insets 0, gap 0, flowy",
                 "fill, grow",
@@ -127,12 +150,31 @@ public class SideMenu {
         MenuDecorator.paintPanel(pane);
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(pane);
-        mainPane = new JPanel(new MigLayout("insets 0","fill, grow","fill, grow"));
-        mainPane.add(scrollPane);
+
+        changeMode = new JButton("Mudar Modo");
+
+        northPane = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        northPane.add(changeMode);
+        MenuDecorator.paintPanel(northPane);
+
+        mainPane = new JPanel(new BorderLayout());
+        mainPane.add(northPane, BorderLayout.NORTH);
+        mainPane.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public void changeColors() {
+        MenuDecorator.paintPanel(pane);
+        MenuDecorator.paintPanel(northPane);
+        northPane.repaint();
+        northPane.revalidate();
+        MenuDecorator.paintButton(homeButton);
+        listSubMenus.forEach(SubMenuImpl::changeTheme);
     }
 
     public JPanel getPane() { return mainPane; }
     public JScrollPane getScrollPane() { return scrollPane; }
+
+    public JButton getChangeMode() { return changeMode; }
 
     public JButton getHomeButton() { return homeButton; }
     public JButton getNfeButton() { return nfeButton; }
@@ -142,6 +184,8 @@ public class SideMenu {
     public JButton getDupNaoPagaButton() { return dupNaoPagaButton; }
     public JButton getProdButton() { return prodButton; }
 
+    public JButton getAddBanco() { return addBanco; }
+    public JButton getManageBancos() { return manageBancos; }
     public JButton getAddConciliacaoButton() { return addConciliacaoButton; }
     public JButton getManageConciliacaoButton() { return manageConciliacaoButton; }
     public JButton getExtratosButton() { return extratosButton; }
@@ -164,11 +208,13 @@ public class SideMenu {
     public JButton getAddClassificacaoButton() { return addClassificacaoButton; }
 
     public void revalidate() {
-        mainPane.removeAll(); scrollPane = new JScrollPane();
+        mainPane.removeAll(); 
+        scrollPane = new JScrollPane();
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(25);
         scrollPane.setViewportView(pane);
-        mainPane.add(scrollPane);
+        mainPane.add(northPane, BorderLayout.NORTH);
+        mainPane.add(scrollPane, BorderLayout.CENTER);
         mainPane.revalidate();
     }
 
