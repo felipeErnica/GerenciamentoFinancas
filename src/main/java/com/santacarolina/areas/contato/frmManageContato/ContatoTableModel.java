@@ -13,10 +13,12 @@ public class ContatoTableModel implements CustomTableModel<Contato> {
 
     private final CustomTableModelImpl<Contato> baseModel;
     private List<Contato> contatoList;
+    private FilterModel filterModel;
 
     public ContatoTableModel(List<Contato> contatoList) {
         this.contatoList = contatoList; 
         baseModel = new CustomTableModelImpl<>(this, contatoList);
+        filterModel = new FilterModel(this);
     }
 
     @Override
@@ -44,12 +46,12 @@ public class ContatoTableModel implements CustomTableModel<Contato> {
 
     @Override
     public Object getValueAt(final int rowIndex, final int columnIndex) {
-        final Contato c = getObject(rowIndex);
+        Contato contato = getObject(rowIndex);
         return switch (columnIndex) {
-            case 0 -> c.getNome();
-            case 1 -> DocConversor.docFormat(c.getCpf(), DocConversor.CPF_FORMAT);
-            case 2 -> DocConversor.docFormat(c.getCnpj(), DocConversor.CNPJ_FORMAT);
-            case 3 -> DocConversor.docFormat(c.getIe(), DocConversor.IE_FORMAT);
+            case 0 -> contato.getNome();
+            case 1 -> DocConversor.docFormat(contato.getCpf(), DocConversor.CPF_FORMAT);
+            case 2 -> DocConversor.docFormat(contato.getCnpj(), DocConversor.CNPJ_FORMAT);
+            case 3 -> DocConversor.docFormat(contato.getIe(), DocConversor.IE_FORMAT);
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
         };
     }
@@ -61,15 +63,17 @@ public class ContatoTableModel implements CustomTableModel<Contato> {
     public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) { }
 
     @Override
-    public Contato getObject(final int rowIndex) { return contatoList.get(rowIndex); }
+    public Contato getObject(final int rowIndex) { return baseModel.getObject(rowIndex); }
 
     public void removeRow(final int row) { baseModel.removeRow(row); }
     public void removeRows(final int[] rows) { baseModel.removeRows(rows); }
+    
+    public FilterModel getFilterModel() { return filterModel; }
+    public List<Contato> getList() { return contatoList; }
 
     public void requeryTable() throws FetchFailException {
         contatoList = new ContatoDAO().findAll();
         baseModel.setList(contatoList);
     }
-
 
 }

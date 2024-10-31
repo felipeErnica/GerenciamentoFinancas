@@ -20,6 +20,7 @@ public class FormView implements ManageView {
 
     public FormView() {
         baseView= new ManageViewImpl();
+        new FilterView(baseView.getFilterPane());
         this.dialog = baseView.getDialog();
         this.deleteButton = baseView.getDeleteButton();
         this.addButton = baseView.getAddButton();

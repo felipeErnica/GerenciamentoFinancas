@@ -31,6 +31,8 @@ public class ManageContatoController implements ManageController {
         this.sorter = manageController.getSorter();
         this.model = model;
         this.view = view;
+        new FilterController(view.getFilterView(), model.getFilterModel());
+        model.getFilterModel().addPropertyChangeListener(view.getFilterView());
         initComponents();
     }
 

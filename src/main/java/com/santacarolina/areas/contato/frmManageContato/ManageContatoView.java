@@ -15,10 +15,12 @@ public class ManageContatoView implements ManageView {
     private JTable table;
     private ActionSVGButton addButton;
     private ActionSVGButton deleteButton;
+    private FilterView filterView;
 
     public ManageContatoView() {
         this.view = new ManageViewImpl();
         table = view.getTable();
+        filterView = new FilterView(view.getFilterPane());
 
         addButton = view.getAddButton();
         deleteButton = view.getDeleteButton();
@@ -39,6 +41,7 @@ public class ManageContatoView implements ManageView {
     public JDialog getDialog() { return dialog; }
     public ActionSVGButton getAddButton() { return addButton; }
     public ActionSVGButton getDeleteButton() { return deleteButton; }
+    public FilterView getFilterView() { return filterView; }
 
     @Override
     public void formatColumns() {

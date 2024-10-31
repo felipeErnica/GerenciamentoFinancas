@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.combobox.EnumComboBoxModel;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.santacarolina.enums.TipoMovimento;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.PastaContabil;
@@ -37,10 +38,12 @@ public class FilterView implements PropertyChangeListener {
         
         JLabel dataInicioLabel = new JLabel("Data Inicial:");
         dataInicio = new JTextField();
+        dataInicio.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         dataInicioLabel.setLabelFor(dataInicio);
         
         JLabel dataFimLabel = new JLabel("Data Final:");
         dataFim = new JTextField();
+        dataFim.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         dataFimLabel.setLabelFor(dataFim);
 
         JLabel pastaLabel = new JLabel("Pasta Contábil:");
@@ -58,7 +61,7 @@ public class FilterView implements PropertyChangeListener {
         AutoCompleteDecorator.decorate(tipoMovimento);
         tipoLabel.setLabelFor(tipoMovimento);
 
-        filterPanel.setLayout(new MigLayout("insets 20",
+        filterPanel.setLayout(new MigLayout("",
             "[][grow, fill]10[][grow, fill]10[][grow, fill]",
             "[]15[]"));
 
