@@ -25,9 +25,10 @@ public class FormController implements ManageController {
     private FormView view;
     private RowSorter<DadoDTO> sorter;
 
-    public FormController(TableModel model, FormView view) {
+    public FormController(TableModel model, FormView view) throws FetchFailException {
         this.model = model;
         this.view = view;
+        new FilterController(view.getFilterView(), model.getFilterModel());
         ManageControllerImpl<DadoDTO> baseController = new ManageControllerImpl<>(model, view, this);
         sorter = baseController.getSorter();
     }

@@ -11,7 +11,7 @@ import com.santacarolina.dao.BancoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
-import com.santacarolina.interfaces.ChangeListener;
+import com.santacarolina.interfaces.DocumentChangeListener;
 import com.santacarolina.model.Banco;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
@@ -30,7 +30,7 @@ public class FormController implements ManageController {
         sorter = baseController.getSorter();
         this.view = view;
         this.model = model;
-        view.getContatoSearchField().getDocument().addDocumentListener((ChangeListener) e -> contatoSearchField_afterUpdate());; 
+        view.getContatoSearchField().getDocument().addDocumentListener((DocumentChangeListener) e -> contatoSearchField_afterUpdate());; 
     }
 
     private void contatoSearchField_afterUpdate() { model.setFilterSearch(view.getContatoSearchField().getText()); }

@@ -29,6 +29,7 @@ public class ManagePixController implements ManageController {
         ManageControllerImpl<PixDTO> baseController = new ManageControllerImpl<>(model, view, this);
         this.model = model;
         this.view = view;
+        new FilterController(view.getFilterView(), model.getFilterModel());
         sorter = baseController.getSorter();
     }
 

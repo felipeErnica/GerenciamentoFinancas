@@ -6,7 +6,7 @@ import javax.swing.event.DocumentListener;
 /**
  * UpdateListener
  */
-public interface ChangeListener extends DocumentListener {
+public interface DocumentChangeListener extends DocumentListener {
 
     @Override
     default void changedUpdate(DocumentEvent e) { update(e); }

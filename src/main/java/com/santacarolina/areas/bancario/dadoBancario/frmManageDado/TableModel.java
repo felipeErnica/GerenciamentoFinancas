@@ -1,19 +1,21 @@
 package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 
+import java.util.List;
+
 import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.interfaces.FilterModelContainer;
 import com.santacarolina.ui.CustomTableModelImpl;
 
-import java.util.List;
-
-public class TableModel implements CustomTableModel<DadoDTO> {
+public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContainer {
 
     private static final DadoDAO dadoDAO = new DadoDAO();
 
     private CustomTableModelImpl<DadoDTO> baseModel;
     private List<DadoDTO> list;
+    private FilterModel filterModel;
 
     private String[] columnNames = {
             "Nome do Contato",
@@ -27,6 +29,7 @@ public class TableModel implements CustomTableModel<DadoDTO> {
     public TableModel() throws FetchFailException {
         this.baseModel = new CustomTableModelImpl<>(this, dadoDAO.findAll() );
         list = baseModel.getList();
+        filterModel = new FilterModel(this);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class TableModel implements CustomTableModel<DadoDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        DadoDTO d = list.get(rowIndex);
+        DadoDTO d = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> d.getNomeContato();
             case 1 -> d.getNomeBanco();
@@ -71,9 +74,14 @@ public class TableModel implements CustomTableModel<DadoDTO> {
     public void addRow(DadoDTO dto) { baseModel.addRow(dto); }
     public void removeRow(int row) { baseModel.removeRow(row); }
     public void removeRows(int[] rows) { baseModel.removeRows(rows); }
+    public List<DadoDTO> getList() { return list; }
 
     public void requeryTable() throws FetchFailException {
-        baseModel.setList(dadoDAO.findAll());
-        list = baseModel.getList();
+        list = dadoDAO.findAll();
+        filterModel.setFilters();
     }
+
+    @Override
+    public FilterModel getFilterModel() { return filterModel; }
+
 }

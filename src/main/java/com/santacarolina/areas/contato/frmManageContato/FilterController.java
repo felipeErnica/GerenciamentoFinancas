@@ -1,6 +1,6 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
-import com.santacarolina.interfaces.ChangeListener;
+import com.santacarolina.interfaces.DocumentChangeListener;
 
 /**
  * FilterController
@@ -17,10 +17,10 @@ public class FilterController {
     }
 
     private void init() {
-        view.getIeField().getDocument().addDocumentListener((ChangeListener) e -> ieField_onChange());
-        view.getCpfField().getDocument().addDocumentListener((ChangeListener) e -> cpfField_onChange());
-        view.getCnpjField().getDocument().addDocumentListener((ChangeListener) e -> cnpjField_onChange());
-        view.getNomeSearch().getDocument().addDocumentListener((ChangeListener) e -> nomeField_onChange());
+        view.getIeField().getDocument().addDocumentListener((DocumentChangeListener) e -> ieField_onChange());
+        view.getCpfField().getDocument().addDocumentListener((DocumentChangeListener) e -> cpfField_onChange());
+        view.getCnpjField().getDocument().addDocumentListener((DocumentChangeListener) e -> cnpjField_onChange());
+        view.getNomeSearch().getDocument().addDocumentListener((DocumentChangeListener) e -> nomeField_onChange());
     }
 
     private void nomeField_onChange() { model.setNome(view.getNomeSearch().getText()); }

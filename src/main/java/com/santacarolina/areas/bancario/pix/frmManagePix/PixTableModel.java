@@ -10,6 +10,7 @@ import com.santacarolina.ui.CustomTableModelImpl;
 
 public class PixTableModel implements CustomTableModel<PixDTO> {
 
+    private FilterModel filterModel;
     private CustomTableModelImpl<PixDTO> baseModel;
     private List<PixDTO> list;
 
@@ -25,6 +26,7 @@ public class PixTableModel implements CustomTableModel<PixDTO> {
     public PixTableModel() throws FetchFailException {
         this.list = new PixDAO().findAll(); 
         baseModel = new CustomTableModelImpl<>(this, list);
+        filterModel = new FilterModel(this);
     }
 
     @Override
@@ -45,17 +47,20 @@ public class PixTableModel implements CustomTableModel<PixDTO> {
     public void removeRow(int row) { baseModel.removeRow(row); }
     public void removeRows(int[] rows) { baseModel.removeRows(rows); }
 
+    public List<PixDTO> getList() { return list; }
+    public FilterModel getFilterModel() { return filterModel; }
+
     public void requeryTable() throws FetchFailException {
         list = new PixDAO().findAll();
-        baseModel.setList(list);
+        filterModel.setFilters();
     }
 
     @Override
-    public PixDTO getObject(int rowIndex) { return list.get(rowIndex); }
+    public PixDTO getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        PixDTO c = list.get(rowIndex);
+        PixDTO c = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> c.getNomeContato();
             case 1 -> c.getTipoPix().toString();

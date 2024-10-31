@@ -5,22 +5,24 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.santacarolina.interfaces.FilterViewContainer;
 import com.santacarolina.interfaces.ManageView;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.ManageViewImpl;
 import com.santacarolina.util.AppIcon;
 
-public class FormView implements ManageView {
+public class FormView implements ManageView, FilterViewContainer {
 
     private ManageViewImpl baseView;
     private JDialog dialog;
     private ActionSVGButton deleteButton;
     private ActionSVGButton addButton;
+    private FilterView filterView;
     private JTable table;
 
     public FormView() {
         baseView= new ManageViewImpl();
-        new FilterView(baseView.getFilterPane());
+        filterView = new FilterView(baseView.getFilterPane());
         this.dialog = baseView.getDialog();
         this.deleteButton = baseView.getDeleteButton();
         this.addButton = baseView.getAddButton();
@@ -50,5 +52,8 @@ public class FormView implements ManageView {
     public ActionSVGButton getDeleteButton() { return deleteButton; }
     public JTable getTable() { return table; }
     public ActionSVGButton getAddButton() { return addButton; }
+
+    @Override
+    public FilterView getFilterView() { return filterView; }
 
 }
