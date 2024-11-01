@@ -83,8 +83,15 @@ public class MainFrameController implements Controller {
     }
 
     private void changeMode_onClick() {
-        if (FlatLaf.isLafDark()) FlatLightLaf.setup();
-        else FlatDarkLaf.setup();
+        
+        if (FlatLaf.isLafDark()) {
+            FlatLightLaf.setup();
+            view.getChangeMode().setIcon(AppIcon.paintIcon("icon/dark_icon.svg"));
+        } else {
+            FlatDarkLaf.setup();
+            view.getChangeMode().setIcon(AppIcon.paintIcon("icon/light_icon.svg"));
+        }
+
         MenuDecorator.setColors();
         AppIcon.setColors();
         view.getSideMenu().changeColors();

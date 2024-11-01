@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 
 import javax.swing.AbstractButton;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -13,6 +14,7 @@ import org.knowm.xchart.internal.chartpart.Chart;
 import org.knowm.xchart.style.Styler.ToolTipType;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.santacarolina.ui.RoundedBorder;
 
 public class MenuDecorator {
 
@@ -65,4 +67,16 @@ public class MenuDecorator {
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-}
+    public static void paintChangeModeButton(JButton button) {
+        button.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setBackground(MENU_BACKGROUND);
+        button.setForeground(MENU_FOREGROUND);
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        button.setPreferredSize(new Dimension(40,40));
+        button.setOpaque(true);
+        button.setFocusPainted(false);
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+}   

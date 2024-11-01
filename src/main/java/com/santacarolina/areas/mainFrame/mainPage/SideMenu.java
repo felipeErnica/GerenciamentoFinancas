@@ -1,24 +1,26 @@
 package com.santacarolina.areas.mainFrame.mainPage;
 
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.ui.SubMenuImpl;
 import com.santacarolina.util.AppIcon;
 import com.santacarolina.util.MenuDecorator;
+
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.*;
 
 public class SideMenu {
 
     private JPanel mainPane;
     private JPanel pane;
+    private JPanel northPanel;
     private JScrollPane scrollPane;
-    private JPanel northPane;
     private List<SubMenuImpl> listSubMenus;
 
     private JButton changeMode;
@@ -137,10 +139,19 @@ public class SideMenu {
         classificacaoSubMenu.addButton(manageClassificacaoButton);
         listSubMenus.add(classificacaoSubMenu); 
 
-        pane = new JPanel(new MigLayout("insets 0, gap 0, flowy",
+        changeMode = new JButton(AppIcon.paintIcon("icon/dark_icon.svg"));
+        MenuDecorator.paintChangeModeButton(changeMode);
+
+        northPanel = new JPanel(new MigLayout("insets 10"));
+        northPanel.add(changeMode);
+        MenuDecorator.paintPanel(northPanel);
+
+        pane = new JPanel(new MigLayout("insets, gap 0, flowy",
                 "fill, grow",
                 "fill"));
-        pane.add(homeButton, "gaptop 150, growx");
+
+        pane.add(northPanel);
+        pane.add(homeButton, "growx, gaptop 150");
         pane.add(docMenu.getPane());
         pane.add(infoBancoSubMenu.getPane());
         pane.add(contatosSubMenu.getPane());
@@ -151,23 +162,16 @@ public class SideMenu {
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(pane);
 
-        changeMode = new JButton("Mudar Modo");
-
-        northPane = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        northPane.add(changeMode);
-        MenuDecorator.paintPanel(northPane);
-
         mainPane = new JPanel(new BorderLayout());
-        mainPane.add(northPane, BorderLayout.NORTH);
         mainPane.add(scrollPane, BorderLayout.CENTER);
+        MenuDecorator.paintPanel(mainPane);
     }
 
     public void changeColors() {
         MenuDecorator.paintPanel(pane);
-        MenuDecorator.paintPanel(northPane);
-        northPane.repaint();
-        northPane.revalidate();
+        MenuDecorator.paintPanel(northPanel);
         MenuDecorator.paintButton(homeButton);
+        MenuDecorator.paintChangeModeButton(changeMode);
         listSubMenus.forEach(SubMenuImpl::changeTheme);
     }
 
@@ -213,7 +217,6 @@ public class SideMenu {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(25);
         scrollPane.setViewportView(pane);
-        mainPane.add(northPane, BorderLayout.NORTH);
         mainPane.add(scrollPane, BorderLayout.CENTER);
         mainPane.revalidate();
     }
