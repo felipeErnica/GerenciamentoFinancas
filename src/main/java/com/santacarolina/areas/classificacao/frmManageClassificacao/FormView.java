@@ -13,9 +13,11 @@ import com.santacarolina.ui.ManageViewImpl;
 public class FormView implements ManageView {
 
     private ManageViewImpl baseView;
+    private FilterView filterView;
 
     public FormView() {
         baseView = new ManageViewImpl();
+        filterView = new FilterView(baseView.getFilterPane());
         init();
     }
 
@@ -26,27 +28,21 @@ public class FormView implements ManageView {
     }
 
     @Override
-    public JTable getTable() {
-        return baseView.getTable();
-    }
+    public JTable getTable() { return baseView.getTable(); }
 
     @Override
-    public JDialog getDialog() {
-        return baseView.getDialog();
-    }
+    public JDialog getDialog() { return baseView.getDialog(); }
 
     @Override
-    public ActionSVGButton getAddButton() {
-        return baseView.getAddButton();
-    }
+    public ActionSVGButton getAddButton() { return baseView.getAddButton(); }
 
     @Override
-    public ActionSVGButton getDeleteButton() {
-        return baseView.getDeleteButton();
-    }
+    public ActionSVGButton getDeleteButton() { return baseView.getDeleteButton(); }
 
     @Override
     public void formatColumns() {
     }
+
+    public FilterView getFilterView() { return filterView; }
 
 }

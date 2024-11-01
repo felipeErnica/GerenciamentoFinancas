@@ -15,6 +15,7 @@ public class MainPaneViewImpl implements PropertyChangeListener {
 
     private MainPaneView childView;
     private TablePanel tablePanel;
+    private JPanel filterPanel;
     private JScrollPane scrollPane;
     private JPanel container;
     private JTable table;
@@ -29,7 +30,11 @@ public class MainPaneViewImpl implements PropertyChangeListener {
         table = tablePanel.getTable();
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         scrollPane = tablePanel.getTableScrollPane();
+        
+        filterPanel = new JPanel();
+
         container = new JPanel(new BorderLayout());
+        container.add(filterPanel, BorderLayout.NORTH);
         container.add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -38,6 +43,7 @@ public class MainPaneViewImpl implements PropertyChangeListener {
     public JScrollPane getScrollPane() { return scrollPane; }
     public TablePanel getTablePanel() { return tablePanel; }
     public void formatColumns() { childView.formatColumns(); }
+    public JPanel getFilterPanel() { return filterPanel; }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -50,4 +56,4 @@ public class MainPaneViewImpl implements PropertyChangeListener {
     }
 
 
-}
+}   

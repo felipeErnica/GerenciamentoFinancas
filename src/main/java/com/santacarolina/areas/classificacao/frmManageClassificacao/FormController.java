@@ -31,6 +31,7 @@ public class FormController implements ManageController {
         this.tableModel = tableModel;
         ManageControllerImpl<ClassificacaoDTO> baseController = new ManageControllerImpl<>(tableModel, view, this);
         sorter = baseController.getSorter();
+        new FilterController(view.getFilterView(), tableModel.getFilterModel());
         init();
     }
 

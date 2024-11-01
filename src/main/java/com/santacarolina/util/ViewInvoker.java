@@ -26,8 +26,10 @@ public class ViewInvoker {
     }
 
     public static void showFrame(JFrame frame) {
-        frame.pack();
-        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        screenSize.height = screenSize.height;
+        screenSize.width = screenSize.width;
+        frame.setSize(screenSize);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

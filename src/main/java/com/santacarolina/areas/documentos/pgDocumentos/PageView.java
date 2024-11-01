@@ -7,12 +7,17 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
 import com.santacarolina.areas.mainFrame.common.MainPaneViewImpl;
+import com.santacarolina.exceptions.FetchFailException;
 
 public class PageView implements MainPaneView {
 
     private MainPaneViewImpl mainView;
+    private FilterView filterView;
 
-    public PageView() { mainView = new MainPaneViewImpl(this); }
+    public PageView() throws FetchFailException { 
+        mainView = new MainPaneViewImpl(this); 
+        filterView = new FilterView(mainView.getFilterPanel());
+    }
 
     @Override
     public MainPaneViewImpl getBaseView() { return mainView; }
@@ -25,6 +30,8 @@ public class PageView implements MainPaneView {
 
     @Override
     public JTable getTable() { return mainView.getTable(); }
+
+    public FilterView getFilterView() { return filterView; }
 
     @Override
     public void formatColumns() {

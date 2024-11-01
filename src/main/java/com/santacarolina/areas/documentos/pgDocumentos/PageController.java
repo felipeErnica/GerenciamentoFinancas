@@ -28,6 +28,7 @@ public class PageController implements MainPaneController {
         this.model = model;
         this.view = view;
         this.sorter = controller.getSorter();
+        new FilterController(view.getFilterView(), model.getFilterModel());
         init();
     }
 
