@@ -19,9 +19,12 @@ public class CategoriaTableModel implements CustomTableModel<CategoriaContabil> 
         "Nome da Categoria"
     };
 
+    private FilterModel filterModel;
+
     public CategoriaTableModel() throws FetchFailException {
         this.list = new CategoriaDAO().findAll();
         this.baseModel = new CustomTableModelImpl<>(this, list);
+        filterModel = new FilterModel(this);
     }
 
     @Override
@@ -41,11 +44,10 @@ public class CategoriaTableModel implements CustomTableModel<CategoriaContabil> 
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
-    
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        CategoriaContabil cat = list.get(rowIndex);
+        CategoriaContabil cat = getObject(rowIndex);
         return switch(columnIndex) {
             case 0 -> cat.getFluxoCaixa().toString();
             case 1 -> cat.getNumeroCategoria();
@@ -62,8 +64,11 @@ public class CategoriaTableModel implements CustomTableModel<CategoriaContabil> 
 
     public void requeryTable() throws FetchFailException {
         list = new CategoriaDAO().findAll();
-        baseModel.setList(list);
+        filterModel.setFilters();
     }
+
+    public List<CategoriaContabil> getList() { return list; }
+    public FilterModel getFilterModel() { return filterModel; }
 
 }
 

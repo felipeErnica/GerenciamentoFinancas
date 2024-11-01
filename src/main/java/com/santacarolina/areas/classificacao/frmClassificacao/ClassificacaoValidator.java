@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;

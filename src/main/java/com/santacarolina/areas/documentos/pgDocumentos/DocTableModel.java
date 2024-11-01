@@ -14,8 +14,11 @@ public class DocTableModel implements CustomTableModel<DocumentoDTO> {
 
     private DocumentoDAO documentoDAO = new DocumentoDAO();
 
-    private CustomTableModelImpl<DocumentoDTO> tableModel;
+    private CustomTableModelImpl<DocumentoDTO> baseModel;
     private List<DocumentoDTO> list;
+
+    private FilterModel filterModel;
+
     private final String[] columnNames = {
             "",
             "Data de Emissão",
@@ -27,15 +30,16 @@ public class DocTableModel implements CustomTableModel<DocumentoDTO> {
     };
 
     public DocTableModel(List<DocumentoDTO> list) {
-        tableModel = new CustomTableModelImpl<>(this, list);
+        baseModel = new CustomTableModelImpl<>(this, list);
         this.list = list;
+        filterModel = new FilterModel(this);
     }
 
     @Override
-    public CustomTableModelImpl<DocumentoDTO> getBaseModel() { return tableModel; }
+    public CustomTableModelImpl<DocumentoDTO> getBaseModel() { return baseModel; }
 
     @Override
-    public int getRowCount() { return list.size(); }
+    public int getRowCount() { return baseModel.getRowCount(); }
 
     @Override
     public int getColumnCount() { return columnNames.length; }
@@ -56,11 +60,13 @@ public class DocTableModel implements CustomTableModel<DocumentoDTO> {
     }
 
     @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return false;
+    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        DocumentoDTO d = list.get(rowIndex);
+        DocumentoDTO d = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> rowIndex + 1;
             case 1 -> d.getDataEmissao();
@@ -74,14 +80,20 @@ public class DocTableModel implements CustomTableModel<DocumentoDTO> {
     }
 
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+    }
 
     @Override
-    public DocumentoDTO getObject(int rowIndex) { return list.get(rowIndex); }
+    public DocumentoDTO getObject(int rowIndex) {
+        return baseModel.getObject(rowIndex);
+    }
 
     public DocumentoFiscal getDocumento(int rowIndex) throws FetchFailException {
         long id = getObject(rowIndex).getId();
         return documentoDAO.findById(id).orElse(null);
     }
+
+    public List<DocumentoDTO> getList() { return list; }
+    public FilterModel getFilterModel() { return filterModel; }
 
 }

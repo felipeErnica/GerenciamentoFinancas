@@ -11,9 +11,11 @@ import com.santacarolina.ui.ManageViewImpl;
 public class FormView implements ManageView {
 
     private ManageViewImpl baseView;
+    private FilterView filterView;
 
     public FormView() {
         baseView = new ManageViewImpl();
+        filterView = new FilterView(baseView.getFilterPane());
         init();
     }
 
@@ -43,6 +45,8 @@ public class FormView implements ManageView {
         columnModel.getColumn(1).setPreferredWidth(width*20);
         columnModel.getColumn(2).setPreferredWidth(width*60);
     }
+
+    public FilterView getFilterView() { return filterView; }
 
 }
 

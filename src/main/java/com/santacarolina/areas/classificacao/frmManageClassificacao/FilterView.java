@@ -17,26 +17,38 @@ import net.miginfocom.swing.MigLayout;
  */
 public class FilterView {
 
+    private JTextField classificacaoField;
     private JTextField categoriaField;
-    private JComboBox<FluxoCaixa> fluxoCaixaField;
+    private JComboBox<FluxoCaixa> fluxoField;
 
     public FilterView(JPanel filterPanel) { init(filterPanel); }
 
     private void init(JPanel filterPanel) {
+        classificacaoField = new JTextField();
+        classificacaoField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
+        classificacaoField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Pesquisar classificação...");
+        classificacaoField.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_ICON, new FlatSearchIcon());
+
         categoriaField = new JTextField();
-        categoriaField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY_ALWAYS, "always");
+        categoriaField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         categoriaField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Pesquisar categoria...");
         categoriaField.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_ICON, new FlatSearchIcon());
 
-        fluxoCaixaField = new JComboBox<>(FluxoCaixa.values());
-        AutoCompleteDecorator.decorate(fluxoCaixaField);
-        fluxoCaixaField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Selecionar fluxo de caixa...");
+        fluxoField = new JComboBox<>(FluxoCaixa.values());
+        fluxoField.setSelectedItem(null);
+        AutoCompleteDecorator.decorate(fluxoField);
+        fluxoField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Selecionar fluxo...");
 
         filterPanel.setLayout(new MigLayout("",
-            "[grow 70, fill][grow 30, fill]"));
+            "[grow 45, fill]10[grow 45, fill]10[grow 10, fill]"));
 
+        filterPanel.add(classificacaoField);
         filterPanel.add(categoriaField);
-        filterPanel.add(fluxoCaixaField);
+        filterPanel.add(fluxoField);
     }
+
+    public JTextField getClassificacaoField() { return classificacaoField; }
+    public JTextField getCategoriaField() { return categoriaField; }
+    public JComboBox<FluxoCaixa> getFluxoField() { return fluxoField; }
 
 }

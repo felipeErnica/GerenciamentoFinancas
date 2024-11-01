@@ -28,24 +28,16 @@ public class FormView implements ManageView {
     }
 
     @Override
-    public JTable getTable() {
-        return baseView.getTable();
-    }
+    public JTable getTable() { return baseView.getTable(); }
 
     @Override
-    public JDialog getDialog() {
-        return baseView.getDialog();
-    }
+    public JDialog getDialog() { return baseView.getDialog(); }
 
     @Override
-    public ActionSVGButton getAddButton() {
-        return baseView.getAddButton();
-    }
+    public ActionSVGButton getAddButton() { return baseView.getAddButton(); }
 
     @Override
-    public ActionSVGButton getDeleteButton() {
-        return baseView.getDeleteButton();
-    }
+    public ActionSVGButton getDeleteButton() { return baseView.getDeleteButton(); }
 
     @Override
     public void formatColumns() {

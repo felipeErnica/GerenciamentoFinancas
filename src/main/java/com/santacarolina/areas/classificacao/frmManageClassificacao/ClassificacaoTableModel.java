@@ -17,6 +17,8 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
     private final CustomTableModelImpl<ClassificacaoDTO> baseModel;
     private List<ClassificacaoDTO> list;
 
+    private FilterModel filterModel;
+
     private final String[] columnNames = {
         "Receita X Despesa",
         "Categoria Contábil",
@@ -26,6 +28,7 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
 
     public ClassificacaoTableModel() throws FetchFailException {
         list = new ClassificacaoDAO().findAllDTO();
+        filterModel = new FilterModel(this);
         this.baseModel = new CustomTableModelImpl<>(this, list);
     }
 
@@ -49,7 +52,7 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ClassificacaoDTO dto = list.get(rowIndex);
+        ClassificacaoDTO dto = getObject(rowIndex);
         return switch(columnIndex) {
             case 0 -> dto.getFluxoCaixa().toString();
             case 1 -> dto.getNomeCategoria();
@@ -67,7 +70,10 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
 
     public void requeryTable() throws FetchFailException {
         list = new ClassificacaoDAO().findAllDTO();
-        baseModel.setList(list);
+        filterModel.setFilters();
     }
     
+    public FilterModel getFilterModel() { return filterModel; }
+    public List<ClassificacaoDTO> getList() { return list; }
+
 }
