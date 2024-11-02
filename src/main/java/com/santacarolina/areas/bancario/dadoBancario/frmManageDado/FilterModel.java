@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.interfaces.AbstractFilterModel;
-import com.santacarolina.model.Banco;
 
 /**
  * FilterModel

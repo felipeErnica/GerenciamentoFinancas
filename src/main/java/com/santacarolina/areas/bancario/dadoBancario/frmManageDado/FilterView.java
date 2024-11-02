@@ -1,16 +1,11 @@
 package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.icons.FlatSearchIcon;
 import com.santacarolina.interfaces.AbstractFilterView;
-import com.santacarolina.model.Banco;
 
 import net.miginfocom.swing.MigLayout;
 
