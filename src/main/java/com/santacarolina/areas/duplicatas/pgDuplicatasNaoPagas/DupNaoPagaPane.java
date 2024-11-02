@@ -21,6 +21,8 @@ public class DupNaoPagaPane {
         }
     }
 
-    public MainPaneView getView() { return view; }
+    public MainPaneView getView() {
+        return view;
+    }
 
 }
