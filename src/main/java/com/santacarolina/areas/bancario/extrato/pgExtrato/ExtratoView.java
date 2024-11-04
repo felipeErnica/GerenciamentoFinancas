@@ -24,9 +24,20 @@ public class ExtratoView implements MainPaneView, PropertyChangeListener {
     private JPanel upperPane;
     private JTextField saldoTextField;
 
+    private FilterView filterView;
+
     public ExtratoView() {
         mainPaneView = new MainPaneViewImpl(this);
         mainPane = mainPaneView.getPane();
+        
+        mainPaneView.getFilterPanel().setLayout(new BorderLayout());
+        
+        upperPane = new JPanel();
+        JPanel filterPanel = new JPanel();
+        mainPaneView.getFilterPanel().add(upperPane, BorderLayout.NORTH);
+        mainPaneView.getFilterPanel().add(filterPanel, BorderLayout.CENTER);
+
+        filterView = new FilterView(filterPanel);
         initComponents();
     }
 
@@ -39,7 +50,7 @@ public class ExtratoView implements MainPaneView, PropertyChangeListener {
         addExtrato = new JButton("Adicionar Extrato", AppIcon.paintIcon(new FlatSVGIcon("icon/extrato_icon.svg")));
         addOFX = new JButton("Adicionar OFX", AppIcon.paintIcon(new FlatSVGIcon("icon/ofx_icon.svg")));
 
-        upperPane = new JPanel(new MigLayout("insets 15",
+        upperPane.setLayout(new MigLayout("insets 15",
                 "[][grow, fill][][]",
                 "[fill]"));
 
@@ -53,11 +64,10 @@ public class ExtratoView implements MainPaneView, PropertyChangeListener {
         saldoTextField.setEditable(false);
         saldoLabel.setLabelFor(saldoTextField);
 
-        JPanel southPane = new JPanel(new MigLayout("insets 20","[grow][][300]"));
+        JPanel southPane = new JPanel(new MigLayout("insets 20","[grow 90][][grow 10, fill]"));
         southPane.add(saldoLabel, "skip");
         southPane.add(saldoTextField, "grow");
 
-        mainPane.add(upperPane, BorderLayout.NORTH);
         mainPane.add(southPane, BorderLayout.SOUTH);
         mainPane.revalidate();
     }
@@ -70,6 +80,7 @@ public class ExtratoView implements MainPaneView, PropertyChangeListener {
     public JButton getAddOFX() { return addOFX; }
     public JComboBox<ContaBancaria> getContaComboBox() { return contaComboBox; }
     public JTextField getSaldoTextField() { return saldoTextField; }
+    public FilterView getFilterView() { return filterView; }
 
     public void formatColumns() {
         int width = getScrollPane().getWidth()/100;

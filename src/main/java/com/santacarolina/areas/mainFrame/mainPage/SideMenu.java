@@ -87,19 +87,19 @@ public class SideMenu {
 
         infoBancoSubMenu = new SubMenuImpl(this, "Informações Bancárias");
         infoBancoSubMenu.setMainIcon(AppIcon.paintIcon(new FlatSVGIcon("icon/banco_menu_icon.svg")));
-        addBanco = new JButton("Novo Banco");
+        addBanco = new JButton("Novo Banco", AppIcon.paintIcon("icon/bank_add_icon.svg"));
         infoBancoSubMenu.addButton(addBanco);
-        manageBancos = new JButton("Gerenciar Bancos");
+        manageBancos = new JButton("Gerenciar Bancos", AppIcon.paintIcon("icon/bank_icon.svg"));
         infoBancoSubMenu.addButton(manageBancos);
         addConciliacaoButton = new JButton("Conciliar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/conciliacao_icon.svg")));
         infoBancoSubMenu.addButton(addConciliacaoButton);
-        manageConciliacaoButton = new JButton("Gerenciar Conciliações");
+        manageConciliacaoButton = new JButton("Gerenciar Conciliações", AppIcon.paintIcon("icon/bank_reconciliation_icon.svg"));
         infoBancoSubMenu.addButton(manageConciliacaoButton);
         extratosButton = new JButton("Mostrar Extratos", AppIcon.paintIcon(new FlatSVGIcon("icon/extrato_icon.svg")));
         infoBancoSubMenu.addButton(extratosButton);
-        addContaBancariaButton = new JButton("Nova Conta Bancária");
+        addContaBancariaButton = new JButton("Nova Conta Bancária", AppIcon.paintIcon("icon/bank_account_add_icon.svg"));
         infoBancoSubMenu.addButton(addContaBancariaButton);
-        manageContaBancariaButton = new JButton("Gerenciar Contas Bancárias");
+        manageContaBancariaButton = new JButton("Gerenciar Contas Bancárias", AppIcon.paintIcon("icon/bank_account_icon.svg"));
         infoBancoSubMenu.addButton(manageContaBancariaButton);
         listSubMenus.add(infoBancoSubMenu);
 

@@ -37,6 +37,7 @@ public class ExtratoController implements MainPaneController {
         this.view = view;
         MainPaneControllerImpl baseController = new MainPaneControllerImpl(view, model.getTableModel());
         sorter = baseController.getSorter();
+        new FilterController(view.getFilterView(), model.getTableModel().getFilterModel());
         initComponents();
     }
 
@@ -100,14 +101,12 @@ public class ExtratoController implements MainPaneController {
     }
 
     private void contaComboBox_afterUpdate() {
-        EventQueue.invokeLater(() -> {
-            try {
-                ContaBancaria conta = (ContaBancaria) view.getContaComboBox().getSelectedItem();
-                model.setContaBancaria(conta);
-            } catch (FetchFailException e) {
-                CustomErrorThrower.throwError(e);
-            }
-        });
+        try {
+            ContaBancaria conta = (ContaBancaria) view.getContaComboBox().getSelectedItem();
+            model.setContaBancaria(conta);
+        } catch (FetchFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
     }
 
 }

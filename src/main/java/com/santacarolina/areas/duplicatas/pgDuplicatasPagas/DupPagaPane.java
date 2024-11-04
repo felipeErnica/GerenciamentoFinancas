@@ -3,21 +3,28 @@ package com.santacarolina.areas.duplicatas.pgDuplicatasPagas;
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.areas.duplicatas.common.DupView;
+import com.santacarolina.areas.homePage.HomePage;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.Opener;
 import com.santacarolina.util.CustomErrorThrower;
 
-public class DupPagaPane {
+@SuppressWarnings("unused")
+public class DupPagaPane implements Opener {
 
     private DupView view;
+    private DupTableModel model;
+    private FormController controller;
 
-    public DupPagaPane() {
+    public DupView open() {
         try {
             view = new DupView();
-            DupTableModel model = new DupTableModel(new DuplicataDAO().findPagas());
-            new FormController(view, model);
+            model = new DupTableModel(new DuplicataDAO().findPagas());
+            controller = new FormController(view, model);
+            return view;
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
+            return null;
         }
     }
 

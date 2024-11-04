@@ -34,11 +34,11 @@ public class ExtratoModel implements ViewUpdater {
     public void setContaBancaria(ContaBancaria contaBancaria) throws FetchFailException {
         this.contaBancaria = contaBancaria;
         list = new ExtratoDAO().findByConta(contaBancaria.getId());
-        tableModel.setList(list);
         double saldoCalculo = list.stream()
             .mapToDouble(e -> e.getValor())
             .sum();
         saldo = StringConversor.getCurrency(saldoCalculo);
+        tableModel.setList(list);
         pf.firePropertyChange(SALDO, saldo);
     }
 

@@ -1,26 +1,27 @@
 package com.santacarolina.areas.pgProdutos;
 
-import com.santacarolina.areas.mainFrame.common.MainPaneCaller;
-import com.santacarolina.areas.mainFrame.common.MainPaneView;
 import com.santacarolina.dao.ProdutoDAO;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.Opener;
 import com.santacarolina.util.CustomErrorThrower;
 
-public class ProdPane implements MainPaneCaller {
+public class ProdPane implements Opener {
 
     private ProdView view;
+    private ProdTableModel model;
+    @SuppressWarnings("unused")
+    private ProdController controller;
 
-    public ProdPane() {
+    public ProdView open() {
         try {
             this.view = new ProdView();
-            ProdTableModel model = new ProdTableModel(new ProdutoDAO().findAll());
-            new ProdController(view, model);
+            model = new ProdTableModel(new ProdutoDAO().findAll());
+            controller = new ProdController(view, model);
+            return view;
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
+            return null;
         }
     }
-
-    @Override
-    public MainPaneView getView() { return view; }
 
 }

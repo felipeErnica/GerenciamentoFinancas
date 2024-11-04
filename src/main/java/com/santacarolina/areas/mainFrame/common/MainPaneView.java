@@ -1,6 +1,8 @@
 package com.santacarolina.areas.mainFrame.common;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public interface MainPaneView {
     JPanel getPane();

@@ -44,7 +44,6 @@ public class MainView implements PropertyChangeListener {
     public JButton getDupNaoPagaButton() { return sideMenu.getDupNaoPagaButton(); }
     public JButton getProdButton() { return sideMenu.getProdButton(); }
 
-
     public JButton getAddBanco() { return sideMenu.getAddBanco(); }
     public JButton getManageBancos() { return sideMenu.getManageBancos(); }
     public JButton getConciliacaoButton() { return sideMenu.getAddConciliacaoButton(); }
@@ -71,7 +70,7 @@ public class MainView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(MainFrameModel.CENTER_PANEL)) {
-        pane.remove(centerPane);
+            pane.remove(centerPane);
             MainPaneView view = (MainPaneView) evt.getNewValue();
             centerPane = view.getPane();
             pane.add(centerPane, BorderLayout.CENTER);

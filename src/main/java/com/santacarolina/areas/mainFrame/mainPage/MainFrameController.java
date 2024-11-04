@@ -96,20 +96,22 @@ public class MainFrameController implements Controller {
         AppIcon.setColors();
         view.getSideMenu().changeColors();
         view.getSideMenu().revalidate();
-        model.setHomePage();
+
+        if (model.getOpener() != null) model.setCenterPanel(model.getOpener());
+        else model.setHomePage();
     }
 
     private void homeButton_onClick() { model.setHomePage(); }
     private void nfeButton_onClick() { EventQueue.invokeLater(ImportNFeForm::open); }
     private void newDocButton_onClick() { EventQueue.invokeLater(DocForm::openNew); }
-    private void docButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DocumentosPage().getView())); }
-    private void prodButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ProdPane().getView())); }
-    private void dupPagaButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DupPagaPane().getView())); }
-    private void dupNaoPagaButton_onClick() { EventQueue.invokeLater(() ->model.setCenterPanel(new DupNaoPagaPane().getView())); }
+    private void docButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DocumentosPage())); }
+    private void prodButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ProdPane())); }
+    private void dupPagaButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DupPagaPane())); }
+    private void dupNaoPagaButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DupNaoPagaPane())); }
 
     private void manageBancos_onClick() { EventQueue.invokeLater(ManageBancoForm::open); }
     private void addBanco_onClick() { EventQueue.invokeLater(BancoForm::openNew); }
-    private void extratosButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ExtratoPane().getView())); }
+    private void extratosButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ExtratoPane())); }
     private void manageConciliacao_onClick() { EventQueue.invokeLater(ManageConciliadosForm::open); }
     private void conciliacaoButton_onClick() { EventQueue.invokeLater(ConciliacaoForm::new); }
     private void addContaBancaria_onClick() { EventQueue.invokeLater(ContaForm::openNew); }

@@ -19,6 +19,8 @@ public class DupView implements MainPaneView {
         filterView = new FilterView(mainPaneView.getFilterPanel());
     }
 
+    public FilterView getFilterView() { return filterView; }
+
     @Override
     public JPanel getPane() { return mainPaneView.getPane(); }
 
@@ -42,7 +44,5 @@ public class DupView implements MainPaneView {
         dupModel.getColumn(4).setPreferredWidth(dupWidth*30);
         dupModel.getColumn(5).setPreferredWidth(dupWidth*10);
     }
-
-    public FilterView getFilterView() { return filterView; }
 
 }

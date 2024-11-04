@@ -17,10 +17,12 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
 
     private List<ExtratoDTO> extratoList;
     private CustomTableModelImpl<ExtratoDTO> model;
+    private FilterModel filterModel;
 
     public ExtratoTableModel() {
         this.extratoList = new ArrayList<>();
         this.model = new CustomTableModelImpl<>(this, extratoList); 
+        filterModel = new FilterModel(this);
     }
 
     @Override
@@ -29,14 +31,17 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
     public int getRowCount() { return extratoList.size(); }
     public int getColumnCount() { return 6; }
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
-    public ExtratoDTO getObject(int rowIndex) { return extratoList.get(rowIndex); }
+    public ExtratoDTO getObject(int rowIndex) { return model.getObject(rowIndex); }
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
     public void addTableModelListener(TableModelListener l) { model.addTableModelListener(l); }
     public void removeTableModelListener(TableModelListener l) { model.removeTableModelListener(l); }
+    public FilterModel getFilterModel() { return filterModel; }
+    public List<ExtratoDTO> getList() { return extratoList; }
 
     public void setList(List<ExtratoDTO> list) {
         extratoList = list;
         model.setList(list);
+        filterModel.setData();
     }
 
     public String getColumnName(int columnIndex) {
@@ -62,7 +67,7 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ExtratoDTO e = extratoList.get(rowIndex);
+        ExtratoDTO e = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> rowIndex + 1;
             case 1 -> e.getDataTransacao();
