@@ -20,6 +20,7 @@ public class DuplicataDTO implements FromDTO<Duplicata> {
     private String boletoCaminho;
     private double valor;
     private boolean paga;
+    private long contaId;
     private String conta;
     private Long pixId;
     private FluxoCaixa fluxoCaixa;
@@ -49,6 +50,7 @@ public class DuplicataDTO implements FromDTO<Duplicata> {
     public String getBoletoCaminho() { return boletoCaminho; }
     public double getValor() { return valor; }
     public boolean isPaga() { return paga; }
+    public long getContaId() { return contaId; }
     public String getConta() { return conta; }
     public Long getPixId() { return pixId; }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
@@ -58,5 +60,12 @@ public class DuplicataDTO implements FromDTO<Duplicata> {
 
     @Override
     public Duplicata fromDTO() { return new Duplicata(this); }
+
+    @Override
+    public String toString() {
+        return "DuplicataDTO{id=" + id + ", numDup=" + numDup + ", tipoPagamento=" + tipoPagamento + ", dataVencimento="
+                + dataVencimento + ", nomeContato=" + nomeContato + ", valor=" + valor + ", paga=" + paga + ", conta="
+                + conta + ", fluxoCaixa=" + fluxoCaixa + "}";
+    }
 
 }

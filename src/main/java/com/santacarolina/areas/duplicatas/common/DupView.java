@@ -1,16 +1,23 @@
 package com.santacarolina.areas.duplicatas.common;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
+
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
 import com.santacarolina.areas.mainFrame.common.MainPaneViewImpl;
-
-import javax.swing.*;
-import javax.swing.table.TableColumnModel;
+import com.santacarolina.exceptions.FetchFailException;
 
 public class DupView implements MainPaneView {
 
     private MainPaneViewImpl mainPaneView;
+    private FilterView filterView;
 
-    public DupView() { this.mainPaneView = new MainPaneViewImpl(this); }
+    public DupView() throws FetchFailException { 
+        this.mainPaneView = new MainPaneViewImpl(this); 
+        filterView = new FilterView(mainPaneView.getFilterPanel());
+    }
 
     @Override
     public JPanel getPane() { return mainPaneView.getPane(); }
@@ -36,5 +43,6 @@ public class DupView implements MainPaneView {
         dupModel.getColumn(5).setPreferredWidth(dupWidth*10);
     }
 
+    public FilterView getFilterView() { return filterView; }
 
 }

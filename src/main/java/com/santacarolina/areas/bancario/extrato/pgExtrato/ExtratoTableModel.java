@@ -4,14 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.RowSorter;
 import javax.swing.event.TableModelListener;
 
 import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.ui.CustomTableModelImpl;
 
-@SuppressWarnings("rawtypes")
 public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
 
     public static final String CONTA = "conta";
@@ -19,7 +17,6 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
 
     private List<ExtratoDTO> extratoList;
     private CustomTableModelImpl<ExtratoDTO> model;
-    private RowSorter sorter;
 
     public ExtratoTableModel() {
         this.extratoList = new ArrayList<>();
@@ -36,7 +33,6 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
     public void addTableModelListener(TableModelListener l) { model.addTableModelListener(l); }
     public void removeTableModelListener(TableModelListener l) { model.removeTableModelListener(l); }
-    public void setSorter(RowSorter sorter) { this.sorter = sorter; }
 
     public void setList(List<ExtratoDTO> list) {
         extratoList = list;

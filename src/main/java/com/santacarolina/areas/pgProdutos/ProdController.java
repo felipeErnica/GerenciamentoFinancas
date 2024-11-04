@@ -23,6 +23,7 @@ public class ProdController implements MainPaneController {
         new MainPaneControllerImpl(view, model);
         this.view = view;
         this.model = model;
+        new FilterController(view.getFilterView(), model.getFilterModel());
         initComponents();
     }
 

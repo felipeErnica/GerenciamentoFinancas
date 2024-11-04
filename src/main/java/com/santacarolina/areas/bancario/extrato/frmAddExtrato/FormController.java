@@ -34,6 +34,7 @@ public class FormController implements EditTableController, Controller {
     }
 
     private void initComponents() {
+        view.getTable().setModel(model.getTableModel().getBaseModel());
         TableColumnModel columnModel = view.getTable().getColumnModel();
 
         DateCellRenderer dateRenderer = new DateCellRenderer();

@@ -2,14 +2,20 @@ package com.santacarolina.areas.pgProdutos;
 
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
 import com.santacarolina.areas.mainFrame.common.MainPaneViewImpl;
+import com.santacarolina.exceptions.FetchFailException;
+
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 
 public class ProdView implements MainPaneView {
 
     private MainPaneViewImpl baseView;
+    private FilterView filterView;
 
-    public ProdView() { this.baseView = new MainPaneViewImpl(this); }
+    public ProdView() throws FetchFailException { 
+        this.baseView = new MainPaneViewImpl(this); 
+        filterView = new FilterView(baseView.getFilterPanel());
+    }
 
     @Override
     public JPanel getPane() { return baseView.getPane(); }
@@ -22,6 +28,8 @@ public class ProdView implements MainPaneView {
 
     @Override
     public JScrollPane getScrollPane() { return baseView.getScrollPane(); }
+
+    public FilterView getFilterView() { return filterView; }
 
     @Override
     public void formatColumns() {

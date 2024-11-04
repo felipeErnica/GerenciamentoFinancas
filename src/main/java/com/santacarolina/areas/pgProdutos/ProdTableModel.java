@@ -10,11 +10,13 @@ import java.util.List;
 public class ProdTableModel implements CustomTableModel<ProdutoDTO> {
 
     private CustomTableModelImpl<ProdutoDTO> baseModel;
-    private List<ProdutoDTO> produtoList;
+    private List<ProdutoDTO> list;
+    private FilterModel filterModel;
 
     public ProdTableModel (List<ProdutoDTO> produtoList) {
         this.baseModel = new CustomTableModelImpl<>(this, produtoList);
-        this.produtoList = produtoList;
+        this.list = produtoList;
+        filterModel = new FilterModel(this);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class ProdTableModel implements CustomTableModel<ProdutoDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ProdutoDTO p = produtoList.get(rowIndex);
+        ProdutoDTO p = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> p.getDataEmissao();
             case 1 -> p.getNomePasta();
@@ -76,6 +78,9 @@ public class ProdTableModel implements CustomTableModel<ProdutoDTO> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
 
     @Override
-    public ProdutoDTO getObject(int rowIndex) { return produtoList.get(rowIndex); }
+    public ProdutoDTO getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
+
+    public List<ProdutoDTO> getList() { return list; }
+    public FilterModel getFilterModel() { return filterModel; }
 
 }

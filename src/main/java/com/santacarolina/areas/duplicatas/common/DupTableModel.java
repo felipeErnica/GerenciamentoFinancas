@@ -12,11 +12,13 @@ public class DupTableModel implements CustomTableModel<DuplicataDTO> {
     public final static String TABLE = "table";
 
     private CustomTableModelImpl<DuplicataDTO> model;
-    private List<DuplicataDTO> duplicataList;
+    private List<DuplicataDTO> list;
+    private FilterModel filterModel;
 
     public DupTableModel(List<DuplicataDTO> duplicataList) {
-        this.duplicataList = duplicataList;
+        this.list = duplicataList;
         this.model = new CustomTableModelImpl<>(this, duplicataList);
+        filterModel = new FilterModel(this);
     }
 
     public CustomTableModelImpl<DuplicataDTO> getBaseModel() { return model; }
@@ -26,7 +28,7 @@ public class DupTableModel implements CustomTableModel<DuplicataDTO> {
     public int getColumnCount() { return 6; }
 
     public void setList(List<DuplicataDTO> list) {
-        duplicataList = list;
+        this.list = list;
         model.setList(list);
     }
 
@@ -48,7 +50,7 @@ public class DupTableModel implements CustomTableModel<DuplicataDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        DuplicataDTO d = duplicataList.get(rowIndex);
+        DuplicataDTO d = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> d.getNumDup();
             case 1 -> d.getDataVencimento();
@@ -76,5 +78,8 @@ public class DupTableModel implements CustomTableModel<DuplicataDTO> {
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
         };
     }
+
+    public List<DuplicataDTO> getList() { return list; }
+    public FilterModel getFilterModel() { return filterModel; }
 
 }

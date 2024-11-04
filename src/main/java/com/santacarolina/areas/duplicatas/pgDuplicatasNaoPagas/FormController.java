@@ -1,16 +1,19 @@
 package com.santacarolina.areas.duplicatas.pgDuplicatasNaoPagas;
 
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+
+import javax.swing.RowSorter;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.areas.duplicatas.common.DupView;
+import com.santacarolina.areas.duplicatas.common.FilterController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.Duplicata;
-
-import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class FormController {
 
@@ -24,6 +27,7 @@ public class FormController {
         this.view = view;
         this.model = model;
         this.sorter = controller.getSorter();
+        new FilterController(view.getFilterView(), model.getFilterModel());
         initComponents();
     }
 
