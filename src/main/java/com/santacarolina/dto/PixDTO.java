@@ -60,4 +60,10 @@ public class PixDTO implements FromDTO<ChavePix> {
         };
     }
 
+    @Override
+    public String toString() {
+        return "PixDTO{id=" + id + ", nomeContato=" + nomeContato + ", tipoPix=" + tipoPix + ", chave=" + chave
+                + ", nomeBanco=" + nomeBanco + ", agencia=" + agencia + ", numeroConta=" + numeroConta + "}";
+    }
+
 }

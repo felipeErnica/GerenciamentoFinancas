@@ -40,6 +40,7 @@ public class ManagePixController implements ManageController {
                 int viewRow = view.getTable().rowAtPoint(e.getPoint());
                 int modelRow = sorter.convertRowIndexToModel(viewRow);
                 ChavePix chavePix = model.getObject(modelRow).fromDTO();
+                System.out.println(chavePix);
                 PixForm.open(chavePix);
                 model.requeryTable();
             } catch (FetchFailException ex) {

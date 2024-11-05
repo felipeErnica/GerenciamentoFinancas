@@ -12,6 +12,7 @@ import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
+import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 
@@ -29,10 +30,15 @@ public class FormController {
 
     private void init() throws FetchFailException {
         view.getBankAccountComboBox().setModel(new ListComboBoxModel<>(new ContaDAO().findAll()));
-
         view.getSelectPathButton().addActionListener (e -> selectPathButton_onClick());
         view.getFolderTextField().addFocusListener((AfterUpdateListener) e -> folderTextField_afterUpdate());
         view.getAddFolder().addActionListener(e -> addFolder_onClick());
+        view.getBankAccountComboBox().addActionListener(e -> contaBancaria_onAction());
+    }
+
+    private void contaBancaria_onAction() {
+        ContaBancaria contaBancaria = (ContaBancaria) view.getBankAccountComboBox().getSelectedItem();
+        model.setContaBancaria(contaBancaria);
     }
 
     //Converte String para Upper Case

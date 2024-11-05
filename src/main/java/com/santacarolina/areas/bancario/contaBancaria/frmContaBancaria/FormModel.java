@@ -25,6 +25,7 @@ public class FormModel implements ViewUpdater {
     private String abreviacao;
 
     private PropertyFirer pf;
+    private boolean isUpdating;
 
     public FormModel(ContaBancaria contaBancaria) {
         this.contaBancaria = contaBancaria;
@@ -66,8 +67,12 @@ public class FormModel implements ViewUpdater {
     }
 
     public void setApelidoConta(String apelidoConta) {
+        if (isUpdating) return;
         this.apelidoConta = apelidoConta.toUpperCase();
         this.contaBancaria.setNomeConta(this.apelidoConta);
+        isUpdating = true;
+        pf.firePropertyChange(APELIDO, this.apelidoConta);
+        isUpdating = false;
     }
 
     public void setAbreviacao(String abreviacao) {
@@ -76,13 +81,16 @@ public class FormModel implements ViewUpdater {
     }
 
     private void triggerAbreviacao() {
+        if (isUpdating) return;
         if (!StringUtils.isBlank(abreviacao)) return;
         if (banco != null && !StringUtils.isBlank(agencia) && !StringUtils.isBlank(numeroConta)) {
             StringBuilder abreviacaoBuilder = new StringBuilder();
             if (banco.getApelidoBanco() != null) abreviacaoBuilder.append(banco.getApelidoBanco());
             abreviacaoBuilder.append(" AG: ").append(agencia);
             abreviacaoBuilder.append(" CC: ").append(numeroConta);
+            isUpdating = true;
             pf.firePropertyChange(ABREVIACAO, abreviacaoBuilder.toString());
+            isUpdating = false;
         }
     }
 

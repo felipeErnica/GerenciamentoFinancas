@@ -12,6 +12,7 @@ import javax.swing.table.TableColumnModel;
 import com.santacarolina.areas.contato.common.ContatoForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
+import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.Contato;
 import com.santacarolina.ui.ManageControllerImpl;
@@ -54,14 +55,20 @@ public class ManageContatoController implements ManageController {
     }
 
     @Override
-    public void addButton_onClick() { EventQueue.invokeLater(ContatoForm::openNew); }
+    public void addButton_onClick() { 
+        ContatoForm.openNew();
+        try {
+            model.requeryTable();
+        } catch (FetchFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
+    }
 
     @Override
     public void deleteButton_onClick() {
         try {
             int[] rows = view.getTable().getSelectedRows();
             if (OptionDialog.showDeleteCascadeDialog(rows.length) != JOptionPane.YES_OPTION) return;
-            if (OptionDialog.showDeleteDialog(rows.length) != JOptionPane.YES_OPTION) return;
             for (int i = rows.length - 1; i >= 0; i--) {
                 int viewRow = rows[i];
                 int modelRow = sorter.convertRowIndexToModel(viewRow);
@@ -69,7 +76,8 @@ public class ManageContatoController implements ManageController {
                 model.removeRow(modelRow);
                 new ContatoDAO().deleteById(c.getId());
             }
-        } catch (DeleteFailException e) {
+            model.requeryTable();
+        } catch (DeleteFailException | FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }

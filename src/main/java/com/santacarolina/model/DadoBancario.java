@@ -112,4 +112,9 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
     @Override
     public DadoDTO toDTO() { return new DadoDTO(this); }
 
+    public String print() {
+        return "DadoBancario{id=" + id + ", agencia=" + agencia + ", banco=" + banco + ", numeroConta=" + numeroConta
+                + ",  contato=" + contato + "}";
+    }
+
 }

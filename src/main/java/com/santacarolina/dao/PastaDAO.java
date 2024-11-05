@@ -19,7 +19,7 @@ public class PastaDAO {
     public void save(PastaContabil pastaContabil) throws SaveFailException { service.postRequest(MAPPING, pastaContabil); }
 
     public Optional<PastaContabil> findByNome(String nome) throws FetchFailException {
-        String query = MAPPING + "/?nome=" + nome.replace(" ","+");
+        String query = MAPPING + "/nome=" + nome.replace(" ","+");
         return service.getRequest(query);
     }
 

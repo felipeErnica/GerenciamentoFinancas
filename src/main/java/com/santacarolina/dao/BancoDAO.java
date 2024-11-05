@@ -28,7 +28,7 @@ public class BancoDAO {
         return service.getRequest(query);
     }
 
-    public void deleteById(long id) throws DeleteFailException { service.deleteRequest(MAPPING); }
+    public void deleteById(long id) throws DeleteFailException { service.deleteRequest(MAPPING + "/" + id); }
 
     public Optional<Banco> findByApelido(String apelidoBanco) throws FetchFailException {
         String query = MAPPING + "/apelido=" + apelidoBanco;

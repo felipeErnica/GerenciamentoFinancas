@@ -32,6 +32,10 @@ public class Banco implements ToDTO<BancoDTO>, Copiable<Banco> {
     @Override
     public BancoDTO toDTO() { return new BancoDTO(this); }
 
+    public String print() {
+        return "Banco{id=" + id + ", nomeBanco=" + nomeBanco + ", apelidoBanco=" + apelidoBanco + "}";
+    }
+
     @Override
     public Banco generateCopy() {
         Banco clone = new Banco();

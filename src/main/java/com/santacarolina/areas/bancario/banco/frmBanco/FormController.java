@@ -29,7 +29,7 @@ public class FormController implements Controller {
 
     private void addBanco_onClick() {
         try {
-            if (!BancoValidator.validate(model))
+            if (!BancoValidator.validate(model)) return;
             new BancoDAO().save(model.getBanco());
             OptionDialog.showSuccessSaveMessage();
         } catch (SaveFailException | FetchFailException | DeleteFailException e) {

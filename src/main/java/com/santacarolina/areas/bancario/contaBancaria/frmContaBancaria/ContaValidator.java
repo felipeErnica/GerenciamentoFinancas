@@ -55,7 +55,7 @@ public class ContaValidator {
             } 
             return true;
         } 
-        return true;
+        return false;
     }
     
 }

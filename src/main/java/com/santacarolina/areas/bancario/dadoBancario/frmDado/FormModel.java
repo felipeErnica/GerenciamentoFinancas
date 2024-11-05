@@ -24,7 +24,7 @@ public class FormModel implements ViewUpdater {
     public final static String CHAVE_ENABLED = "chaveEnabled";
 
     private DadoBancario dadoBancario;
-    private DadoBancario dadoSaved;
+    private long idOriginal;
     private ChavePix chavePix;
     private Contato contato;
     private Banco banco;
@@ -45,6 +45,7 @@ public class FormModel implements ViewUpdater {
     }
 
     private void updateAllData() {
+        idOriginal = dadoBancario.getId();
         contato = dadoBancario.getContato();
         banco = dadoBancario.getBanco();
         numConta = dadoBancario.getNumeroConta();
@@ -58,7 +59,7 @@ public class FormModel implements ViewUpdater {
     }
 
     public DadoBancario getDadoBancario() { return dadoBancario; }
-    public DadoBancario getDadoSaved() { return dadoSaved; }
+    public long getIdOriginal() { return idOriginal; }
     public ChavePix getChavePix() { return chavePix; }
     public Contato getContato() { return contato; }
     public Banco getBanco() { return banco; }

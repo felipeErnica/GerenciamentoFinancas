@@ -37,7 +37,10 @@ public class FormController implements Controller {
 
     private void addButton_onClick() {
         try {
-            if (!ContatoValidator.validate(model)) return;
+            if (!ContatoValidator.validate(model)) {
+                model.getContato().setId(model.getIdOriginal());
+                return;
+            }
             new ContatoDAO().save(model.getContato());
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();

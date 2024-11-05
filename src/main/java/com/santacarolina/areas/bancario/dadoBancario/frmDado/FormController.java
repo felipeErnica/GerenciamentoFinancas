@@ -48,12 +48,18 @@ public class FormController implements Controller {
 
     private void addAccount_onClick() {
         try {
-            if (!DadoBancarioValidator.validate(model)) return;
+
+            if (!DadoBancarioValidator.validate(model)) {
+                model.getDadoBancario().setId(model.getIdOriginal());
+                return;
+            } 
+
             if (model.getChavePix() == null) {
                 if (model.getDadoBancario().getPixId() != null) new PixDAO().deleteById(model.getDadoBancario().getPixId());
             } else {
                 model.getDadoBancario().addChavePix(model.getChavePix());
             }
+
             new DadoDAO().save(model.getDadoBancario());
             OptionDialog.showSuccessSaveMessage();
             view.getDialog().dispose();
@@ -83,6 +89,6 @@ public class FormController implements Controller {
     private void pixCheckBox_onClick() { model.setPixEnabled(view.getPixCheckBox().isSelected()); }
 
     @Override
-    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
+    public void showView() { ViewInvoker.showView(view.getDialog()); }
 
 }

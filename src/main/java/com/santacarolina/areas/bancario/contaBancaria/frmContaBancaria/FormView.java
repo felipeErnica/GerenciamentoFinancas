@@ -1,5 +1,6 @@
 package com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.santacarolina.model.Banco;
 import com.santacarolina.ui.AddView;
 import net.miginfocom.swing.MigLayout;
@@ -31,7 +32,6 @@ public class FormView implements PropertyChangeListener {
     }
 
     private void initComponents() {
-
         bancoComboBox = new JComboBox<>();
         AutoCompleteDecorator.decorate(bancoComboBox);
         JLabel bancoLabel = new JLabel("Banco:");
@@ -39,18 +39,22 @@ public class FormView implements PropertyChangeListener {
 
         agenciaTextField = new JTextField();
         JLabel agenciaLabel = new JLabel("Agência:");
+        agenciaTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         agenciaLabel.setLabelFor(agenciaTextField);
 
         numeroContaTextField = new JTextField();
         JLabel numeroLabel = new JLabel("Número da Conta:");
+        numeroContaTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         numeroLabel.setLabelFor(numeroContaTextField);
 
         apelidoContaTextField = new JTextField();
         JLabel apelidoLabel = new JLabel("Apelido da Conta:");
+        apelidoContaTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         apelidoLabel.setLabelFor(apelidoContaTextField);
 
         JLabel abreviacaoLabel = new JLabel("Abreviação da Conta:");
         abreviacaoText = new JTextField();
+        abreviacaoText.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         abreviacaoLabel.setLabelFor(abreviacaoText);
 
         JPanel centerPane = new JPanel(new MigLayout("insets 20",
@@ -70,7 +74,6 @@ public class FormView implements PropertyChangeListener {
         centerPane.add(abreviacaoText);
 
         dialog.add(centerPane, BorderLayout.CENTER);
-
     }
 
     public JDialog getDialog() { return dialog; }

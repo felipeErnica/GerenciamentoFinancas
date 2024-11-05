@@ -20,7 +20,7 @@ public class FormModel implements ViewUpdater {
     public static final String IE_INVALID = "ieInvalid";
 
     private Contato contato;
-    private Contato contatoSaved;
+    private long idOriginal;
     private String name;
     private boolean docsEnabled;
     private String cpf;
@@ -39,6 +39,7 @@ public class FormModel implements ViewUpdater {
     }
 
     private void updateAllData() {
+        idOriginal = contato.getId();
         name = contato.getNome();
         if (!contato.isEmptyDocuments()) {
             cnpj = contato.printCnpj();
@@ -67,7 +68,7 @@ public class FormModel implements ViewUpdater {
     }
 
     public Contato getContato() { return contato; }
-    public Contato getContatoSaved() { return contatoSaved; }
+    public long getIdOriginal() { return idOriginal; }
     public String getName() { return name; }
     public String getCpf() { return cpf; }
     public String getCnpj() { return cnpj; }
@@ -78,7 +79,6 @@ public class FormModel implements ViewUpdater {
     public boolean isCpfInvalidFormat() { return cpfInvalidFormat; }
 
     public void setContato(Contato contato) { this.contato = contato; }
-    public void setContatoSaved(Contato contatoSaved) { this.contatoSaved = contatoSaved; }
 
     public void setName(String name) {
         if (isUpdating) return;

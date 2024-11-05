@@ -35,7 +35,7 @@ public class TableModel implements CustomTableModel<Banco> {
     public CustomTableModelImpl<Banco> getBaseModel() { return baseModel; }
 
     @Override
-    public int getRowCount() { return list.size(); }
+    public int getRowCount() { return baseModel.getRowCount(); }
 
     @Override
     public int getColumnCount() { return columnNames.length; }
@@ -51,7 +51,7 @@ public class TableModel implements CustomTableModel<Banco> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Banco banco = filteredList.get(rowIndex);
+        Banco banco = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> banco.getNomeBanco();
             case 1 -> banco.getApelidoBanco();
@@ -63,7 +63,7 @@ public class TableModel implements CustomTableModel<Banco> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
 
     @Override
-    public Banco getObject(int rowIndex) { return list.get(rowIndex); }
+    public Banco getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
 
     public void removeRow(int row) { baseModel.removeRow(row); }
 
@@ -73,9 +73,8 @@ public class TableModel implements CustomTableModel<Banco> {
         filterList();
     }
 
-
-    public void setFilterSearch(String filterSearch) { 
-        this.filterSearch = filterSearch; 
+    public void setFilterSearch(String filterSearch) {
+        this.filterSearch = filterSearch;
         filterList();
     }
 
@@ -83,25 +82,21 @@ public class TableModel implements CustomTableModel<Banco> {
 
         filteredList = new ArrayList<>(list);
 
-        if (StringUtils.isBlank(filterSearch)) { 
-            baseModel.setList(list); 
+        if (StringUtils.isBlank(filterSearch)) {
+            baseModel.setList(list);
             return;
         }
-        
-        List<Banco> firstFilter = filteredList.stream()
-            .filter(b -> b.getNomeBanco().toLowerCase().contains(filterSearch.toLowerCase()))
+
+        filteredList = filteredList.stream()
+            .filter(b -> b.getNomeBanco().contains(filterSearch.toUpperCase()) || apelidoContainsFilter(b.getApelidoBanco()))
             .collect(Collectors.toList());
 
-        if (firstFilter.size() == 0) {
-            filteredList = filteredList.stream()
-                .filter(b -> b.getApelidoBanco() != null)
-                .filter(b -> b.getApelidoBanco().toLowerCase().contains(filterSearch.toLowerCase()))
-                .collect(Collectors.toList());
-        } else {
-            filteredList = firstFilter;
-        }
-
         baseModel.setList(filteredList);
+    }
+
+    private boolean apelidoContainsFilter(String apelido) {
+        if (apelido == null) return false;
+        return apelido.contains(filterSearch.toUpperCase());
     }
 
 }

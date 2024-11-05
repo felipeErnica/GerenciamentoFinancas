@@ -33,7 +33,7 @@ public class ContatoDAO {
     }
 
     public Optional<Contato> findByNome(String nome) throws FetchFailException {
-        String queryString = MAPPING + "/info?nome=" + nome.replace(" ","+");
+        String queryString = MAPPING + "/nome=" + nome.replace(" ","+");
         return service.getRequest(queryString);
     }
 

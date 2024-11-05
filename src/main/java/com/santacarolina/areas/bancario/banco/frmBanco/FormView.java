@@ -1,5 +1,6 @@
 package com.santacarolina.areas.bancario.banco.frmBanco;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.ui.AddView;
 import com.santacarolina.util.AppIcon;
@@ -33,10 +34,12 @@ public class FormView implements PropertyChangeListener {
 
         nomeBancoTextField = new JTextField();
         JLabel nomeLabel = new JLabel("Nome do Banco:");
+        nomeBancoTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         nomeLabel.setLabelFor(nomeBancoTextField);
 
         apelidoBancoTextField = new JTextField();
         JLabel apelidoLabel = new JLabel("Apelido do Banco:");
+        apelidoBancoTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         apelidoLabel.setLabelFor(apelidoBancoTextField);
 
         JPanel centerPane = new JPanel(new MigLayout("insets 25, wrap",

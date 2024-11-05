@@ -49,14 +49,15 @@ public class DadoBancarioValidator {
         Optional<DadoBancario> optionalEqual = new DadoDAO().getEqual(model.getDadoBancario());
         if (optionalEqual.isPresent()) {
             DadoBancario dadoEqual = optionalEqual.get();
+            if (dadoEqual.getId() == model.getDadoBancario().getId()) return false;
             if (model.getDadoBancario().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Esta conta já está registrada em nome de " + dadoEqual.getContato() + "!");
                 return true;
             }
-            int result = OptionDialog.showReplaceDialog("Esta conta já está registrada em nome de " + dadoEqual.getContato() + "!" +
-                    "\nDeseja substituir os dados exitentes por estes?" );
+            int result = OptionDialog.showReplaceDialog("Esta conta já está registrada em nome de " + dadoEqual.getContato() + "!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getDadoBancario().setId(dadoEqual.getId());
+                model.getDadoBancario().setPixId(dadoEqual.getPixId());
                 return false;
             }
             return true;
@@ -69,17 +70,8 @@ public class DadoBancarioValidator {
         Optional<ChavePix> pixEncontrado = new PixDAO().findByChave(model.getChavePix().getChave());
         if (pixEncontrado.isPresent()) {
             ChavePix pixEqual = pixEncontrado.get();
-            if (model.getChavePix().getId() != 0) {
-                ValidatorViolations.violateRecordExists("Esta chave pix já existe e pertence a " + pixEqual.getContato() + "!");
-                return true;
-            }
-            int result = OptionDialog.showReplaceDialog(
-                    "Esta chave pix já existe e pertence a " + pixEqual.getContato() + "!" +
-                    "\nDeseja substituí-lo por este?");
-            if (result == JOptionPane.YES_OPTION) {
-                model.getDadoBancario().getChavePix().setId(pixEqual.getId());
-                return false;
-            }
+            if (model.getDadoBancario().getPixId() != null && pixEqual.getId() == model.getDadoBancario().getPixId()) return false;
+            ValidatorViolations.violateRecordExists("Esta chave pix já existe e pertence a " + pixEqual.getContato() + "!");
             return true;
         }
         return false;

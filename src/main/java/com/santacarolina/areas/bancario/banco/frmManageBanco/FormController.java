@@ -67,7 +67,7 @@ public class FormController implements ManageController {
         try {
             BancoDAO bancoDAO = new BancoDAO();
             int[] selectRows = view.getTable().getSelectedRows();
-                int result = OptionDialog.showDeleteCascadeDialog(selectRows.length);
+            int result = OptionDialog.showDeleteCascadeDialog(selectRows.length);
             if (result != JOptionPane.YES_OPTION) return;
             for (int i = selectRows.length - 1; i >= 0; i--) {
                 int modelRow = sorter.convertRowIndexToModel(selectRows[i]);
@@ -75,7 +75,8 @@ public class FormController implements ManageController {
                 bancoDAO.deleteById(banco.getId());
                 model.removeRow(modelRow);
             }
-        } catch (DeleteFailException e) {
+            model.requeryTable();
+        } catch (DeleteFailException | FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }
