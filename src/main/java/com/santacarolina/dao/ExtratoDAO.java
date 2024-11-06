@@ -24,7 +24,7 @@ public class ExtratoDAO {
         return service.getListRequestDTO(query);
     }
 
-    public void save(Extrato e) throws SaveFailException { service.postRequest(MAPPING, e); }
+    public void save(Extrato e) throws SaveFailException { service.postRequestDTO(MAPPING, e); }
 
     public void saveAll(List<Extrato> list) throws SaveFailException {
         String query = MAPPING + "/batch";

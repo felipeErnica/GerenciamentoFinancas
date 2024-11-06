@@ -41,7 +41,7 @@ public class DuplicataDAO {
         return service.getRequest(query);
     }
 
-    public void save(Duplicata d) throws SaveFailException { service.postRequest(MAPPING, d); }
+    public void save(Duplicata d) throws SaveFailException { service.postRequestDTO(MAPPING, d); }
 
     public void saveAll(List<Duplicata> list) throws SaveFailException {
         String query = MAPPING + "/batch";

@@ -40,7 +40,7 @@ public class ClassificacaoDAO {
     }
 
     public void save(ClassificacaoContabil classificacao) throws SaveFailException { 
-        service.postRequest(MAPPING, classificacao); 
+        service.postRequestDTO(MAPPING, classificacao); 
     }
 
     public void deleteById(long id) throws DeleteFailException {

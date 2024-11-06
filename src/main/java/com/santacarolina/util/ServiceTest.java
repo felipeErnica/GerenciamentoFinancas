@@ -14,19 +14,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
+public class ServiceTest<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
-    private static final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger();
 
-    private final ApiRequest<DTO> apiRequest;
+    private final ApiRequest<DTO> apiRequestDTO;
+    private final ApiRequest<T> apiRequest;
 
-    public Service(Class<DTO> dtoClass) {
-        this.apiRequest = new ApiRequest<>(dtoClass); 
+
+    public ServiceTest(Class<DTO> dtoClass, Class<T> tClass) {
+        this.apiRequestDTO = new ApiRequest<>(dtoClass);
+        this.apiRequest = new ApiRequest<>(tClass);
     }
 
     public Optional<T> getRequest(String query) throws FetchFailException {
         try {
-            return apiRequest.getRequest(query).map(FromDTO::fromDTO);
+            return apiRequestDTO.getRequest(query).map(FromDTO::fromDTO);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }
@@ -34,7 +37,7 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     public List<T> getListRequest(String query) throws FetchFailException {
         try {
-            return apiRequest.getListRequest(query).stream()
+            return apiRequestDTO.getListRequest(query).stream()
                     .map(FromDTO::fromDTO)
                     .collect(Collectors.toList());
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -44,7 +47,7 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     public Optional<DTO> getRequestDTO(String query) throws FetchFailException {
         try {
-            return apiRequest.getRequest(query);
+            return apiRequestDTO.getRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }
@@ -52,17 +55,24 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     public List<DTO> getListRequestDTO(String query) throws FetchFailException {
         try {
-            return apiRequest.getListRequest(query);
+            return apiRequestDTO.getListRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }
     }
 
-
     public void postRequestDTO(String query, T t) throws SaveFailException {
         try {
             DTO dto = t.toDTO();
-            apiRequest.postRequest(query, dto);
+            apiRequestDTO.postRequest(query, dto);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        }
+    }
+
+    public void postRequest(String query, T t) throws SaveFailException {
+        try {
+            apiRequest.postRequest(query, t);
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
         }
@@ -71,7 +81,7 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
     public T postRequestWithResponse(String query, T t) throws SaveFailException {
         try {
             DTO dto = t.toDTO();
-            DTO saved = apiRequest.postRequestWithResponse(query, dto);
+            DTO saved = apiRequestDTO.postRequestWithResponse(query, dto);
             return saved.fromDTO();
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
@@ -83,7 +93,7 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
             List<DTO> dtoList = list.stream()
                     .map(ToDTO::toDTO)
                     .toList();
-            apiRequest.postListRequest(query, dtoList);
+            apiRequestDTO.postListRequest(query, dtoList);
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
         }
@@ -91,7 +101,7 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     public void deleteRequest(String query) throws DeleteFailException {
         try {
-            apiRequest.deleteRequest(query);
+            apiRequestDTO.deleteRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new DeleteFailException(e, logger);
         }

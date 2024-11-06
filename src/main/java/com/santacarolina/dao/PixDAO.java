@@ -35,7 +35,7 @@ public class PixDAO {
         return service.getListRequest(queryString);
     }
 
-    public void save(ChavePix c) throws SaveFailException { service.postRequest(MAPPING, c); }
+    public void save(ChavePix c) throws SaveFailException { service.postRequestDTO(MAPPING, c); }
 
     public void deleteById(long id) throws DeleteFailException {
         String query = MAPPING + "/" + id;

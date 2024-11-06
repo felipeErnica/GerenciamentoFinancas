@@ -28,7 +28,7 @@ public class ConciliacaoDAO {
         return service.getListRequest(query);
     }
 
-    public void save(Conciliacao conciliacao) throws SaveFailException { service.postRequest(MAPPING, conciliacao); }
+    public void save(Conciliacao conciliacao) throws SaveFailException { service.postRequestDTO(MAPPING, conciliacao); }
 
     public void saveAll(List<Conciliacao> list) throws SaveFailException {
         String query = MAPPING + "/batch";

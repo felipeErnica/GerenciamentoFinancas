@@ -38,7 +38,7 @@ public class CategoriaDAO {
     }
 
     public void save(CategoriaContabil categoriaContabil) throws SaveFailException {
-        service.postRequest(MAPPING, categoriaContabil);
+        service.postRequestDTO(MAPPING, categoriaContabil);
     }
 
     public void deleteById(long id) throws DeleteFailException {

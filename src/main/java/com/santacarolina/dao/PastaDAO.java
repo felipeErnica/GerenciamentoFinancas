@@ -16,7 +16,7 @@ public class PastaDAO {
     private final String MAPPING = "/pastaContabil";
 
     public List<PastaContabil> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }
-    public void save(PastaContabil pastaContabil) throws SaveFailException { service.postRequest(MAPPING, pastaContabil); }
+    public void save(PastaContabil pastaContabil) throws SaveFailException { service.postRequestDTO(MAPPING, pastaContabil); }
 
     public Optional<PastaContabil> findByNome(String nome) throws FetchFailException {
         String query = MAPPING + "/nome=" + nome.replace(" ","+");

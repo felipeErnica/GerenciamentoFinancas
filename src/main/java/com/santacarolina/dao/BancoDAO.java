@@ -16,7 +16,7 @@ public class BancoDAO {
     private static final String MAPPING = "/bancos";
 
     public List<Banco> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }
-    public void save(Banco banco) throws SaveFailException { service.postRequest(MAPPING, banco); }
+    public void save(Banco banco) throws SaveFailException { service.postRequestDTO(MAPPING, banco); }
 
     public Optional<Banco> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;

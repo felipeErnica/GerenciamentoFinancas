@@ -1,18 +1,18 @@
 package com.santacarolina.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.santacarolina.dto.ContaDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.ContaBancaria;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.util.ServiceTest;
 
 public class ContaDAO {
 
-    private final Service<ContaBancaria, ContaDTO> service = new Service<>(ContaDTO.class);
+    private final ServiceTest<ContaBancaria, ContaDTO> service = new ServiceTest<>(ContaDTO.class, ContaBancaria.class);
     private final String MAPPING = "/contasAdm";
 
     public List<ContaBancaria> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }
@@ -24,7 +24,7 @@ public class ContaDAO {
         return service.getRequest(query);
     }
 
-    public void save(ContaBancaria contaBancaria) throws SaveFailException { service.postRequest(MAPPING, contaBancaria); }
+    public void save(ContaBancaria contaBancaria) throws SaveFailException { service.postRequestDTO(MAPPING, contaBancaria); }
 
     public Optional<ContaBancaria> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;

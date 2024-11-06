@@ -37,5 +37,5 @@ public class DocumentoDAO {
         return service.getRequest(query);
     }
 
-    public void save(DocumentoFiscal documentoFiscal) throws SaveFailException { service.postRequest(MAPPING, documentoFiscal); }
+    public void save(DocumentoFiscal documentoFiscal) throws SaveFailException { service.postRequestDTO(MAPPING, documentoFiscal); }
 }
