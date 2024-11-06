@@ -52,6 +52,7 @@ public class FormView implements PropertyChangeListener {
 
         folderTextField = new JTextField();
         JLabel folderLabel = new JLabel("Nome da Pasta:");
+        folderTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         folderLabel.setLabelFor(folderTextField);
 
         selectPathButton = new JButton(new FlatFileChooserNewFolderIcon());
@@ -70,8 +71,7 @@ public class FormView implements PropertyChangeListener {
 
         fieldPane.setLayout(new MigLayout("insets 25",
                 "[right][grow, fill][fill]",
-                "[][][]"
-        ));
+                "[][][]"));
 
         fieldPane.add(folderLabel);
         fieldPane.add(folderTextField, "wrap, span");
@@ -95,7 +95,7 @@ public class FormView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-            case FormModel.CAMINHO -> pathTextField.setText((String)evt.getNewValue());
+            case FormModel.CAMINHO -> pathTextField.setText((String) evt.getNewValue());
             case FormModel.NOME_PASTA -> folderTextField.setText((String) evt.getNewValue());
             case FormModel.CONTA -> bankAccountComboBox.setSelectedItem(evt.getNewValue());
         }

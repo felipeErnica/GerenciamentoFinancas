@@ -37,7 +37,7 @@ public class OptionDialog {
         String message = numDeletions == 1 ? "Deseja excluir este registro?" :
                 "Deseja excluir estes " + numDeletions + " registros?";
         message = message + "\n\n ATENÇÃO: Estes registros estão relacionados a outros dados no sistema! " + 
-            "Ao excluí-los este dados serão apagados também! " + 
+            "Ao excluí-los estes dados serão apagados também! " + 
             "Deseja continuar mesmo assim?";
         return OptionDialog.showOptionDialog(message,"Exclusão de Registros!");
     }

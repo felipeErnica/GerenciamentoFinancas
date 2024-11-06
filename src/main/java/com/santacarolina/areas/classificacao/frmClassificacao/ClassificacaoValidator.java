@@ -22,7 +22,7 @@ public class ClassificacaoValidator {
         if (StringUtils.isBlank(model.getNome())) {
             ValidatorViolations.violateEmptyFields("nome");
             return false;
-        } else if (model.getNumero() == 0) {
+        } else if (StringUtils.isBlank(model.getNumero())) {
             ValidatorViolations.violateEmptyFields("número");
             return false;
         } else if (model.getCategoriaContabil() == null) {
@@ -45,8 +45,11 @@ public class ClassificacaoValidator {
         Optional<ClassificacaoContabil> optional = new ClassificacaoDAO().findByNumero(model.getNumero());
         if (optional.isPresent() && optional.get().getId() != model.getClassificacao().getId()) {
             ClassificacaoContabil classificacao = optional.get();
-            int result = OptionDialog.showReplaceDialog("Este número já pertence a classificação " + classificacao.getNomeClassificacao() + "! " +
-                "Deseja subsituir os dados existentes por estes?");
+            if (model.getClassificacao().getId() != 0) {
+                ValidatorViolations.violateRecordExists("Este número já pertence a classificação " + classificacao.getNomeClassificacao() + "!");
+                return true;
+            }
+            int result = OptionDialog.showReplaceDialog("Este número já pertence a classificação " + classificacao.getNomeClassificacao() + "!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getClassificacao().setId(classificacao.getId());
                 return false;
@@ -60,8 +63,11 @@ public class ClassificacaoValidator {
         Optional<ClassificacaoContabil> optional = new ClassificacaoDAO().findByNome(model.getNome());
         if (optional.isPresent() && optional.get().getId() != model.getClassificacao().getId()) {
             ClassificacaoContabil classificacao = optional.get();
-            int result = OptionDialog.showReplaceDialog("Este nome já exsite! " +
-                "Deseja subsituir os dados existentes por estes?");
+            if (model.getClassificacao().getId() != 0) {
+                ValidatorViolations.violateRecordExists("Este nome já existe!");
+                return true;
+            }
+            int result = OptionDialog.showReplaceDialog("Este nome já existe!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getClassificacao().setId(classificacao.getId());
                 return false;
@@ -72,8 +78,7 @@ public class ClassificacaoValidator {
     }
 
     private static boolean numeroInvalid(FormModel model) {
-        String numero = Long.toString(model.getNumero());
-        if (!numero.startsWith(model.getCategoriaContabil().getNumeroCategoria())) return true;
+        if (!model.getNumero().startsWith(model.getCategoriaContabil().getNumeroCategoria())) return true;
         else return false;
     }
     

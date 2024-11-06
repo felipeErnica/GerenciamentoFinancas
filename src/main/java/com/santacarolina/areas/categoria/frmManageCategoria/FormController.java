@@ -77,7 +77,7 @@ public class FormController implements ManageController {
             int[] rows = view.getTable().getSelectedRows();
             int result = OptionDialog.showDeleteCascadeDialog(rows.length);
             if (result != JOptionPane.YES_OPTION) return;
-            for (int i = rows.length; i >= 0; i--) {
+            for (int i = rows.length - 1; i >= 0; i--) {
                 int row = sorter.convertRowIndexToModel(rows[i]);
                 CategoriaContabil cat = tableModel.getObject(row);
                 new CategoriaDAO().deleteById(cat.getId());

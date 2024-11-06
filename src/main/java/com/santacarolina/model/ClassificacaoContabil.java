@@ -13,7 +13,7 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<
     private CategoriaContabil categoriaContabil;
     private long categoriaId;
     private FluxoCaixa fluxoCaixa;
-    private long numeroIdentificacao;
+    private String numeroIdentificacao;
     private String nomeClassificacao;
 
     public ClassificacaoContabil() { }
@@ -29,7 +29,7 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<
     public long getId() { return id; }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
     public String getNomeClassificacao() { return nomeClassificacao; }
-    public long getNumeroIdentificacao() { return numeroIdentificacao; }
+    public String getNumeroIdentificacao() { return numeroIdentificacao; }
     public long getCategoriaId() { return categoriaId; }
 
     public CategoriaContabil getCategoriaContabil() {
@@ -41,7 +41,7 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<
 
     public void setId(long id) { this.id = id; }
     public void setFluxoCaixa(FluxoCaixa fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
-    public void setNumeroIdentificacao(long numeroIdentificacao) { this.numeroIdentificacao = numeroIdentificacao; }
+    public void setNumeroIdentificacao(String numeroIdentificacao) { this.numeroIdentificacao = numeroIdentificacao; }
     public void setNomeClassificacao(String nomeClassificacao) { this.nomeClassificacao = nomeClassificacao; }
     public void setCategoriaId(long categoriaId) { this.categoriaId = categoriaId; }
 
@@ -51,7 +51,7 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<
     }
 
     @Override
-    public String toString() { return Long.toString(numeroIdentificacao); }
+    public String toString() { return numeroIdentificacao; }
 
     @Override
     public ClassificacaoContabil generateCopy() {

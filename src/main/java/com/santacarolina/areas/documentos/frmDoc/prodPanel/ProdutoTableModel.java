@@ -114,7 +114,7 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
     private void findClassificacao(String aValue, Produto p) {
         try {
             ClassificacaoDAO controller = new ClassificacaoDAO();
-            Optional<ClassificacaoContabil> optional = controller.findByNumero(Long.parseLong(aValue));
+            Optional<ClassificacaoContabil> optional = controller.findByNumero(aValue);
             optional.ifPresentOrElse(p::setClassificacao,() -> p.setClassificacao(null));
         } catch (FetchFailException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), e.getMessageTitle(), JOptionPane.ERROR_MESSAGE);

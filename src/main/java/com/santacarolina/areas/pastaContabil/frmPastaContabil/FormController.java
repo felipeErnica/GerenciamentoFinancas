@@ -14,6 +14,7 @@ import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.model.ContaBancaria;
 import com.santacarolina.util.CustomErrorThrower;
+import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("unchecked")
@@ -62,6 +63,7 @@ public class FormController {
         try {
             if (!PastaContabilValidator.validate(model)) return;
             new PastaDAO().save(model.getPastaContabil());
+            OptionDialog.showSuccessSaveMessage();
         } catch (FetchFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
         }

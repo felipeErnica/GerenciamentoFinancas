@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.santacarolina.model.CategoriaContabil;
 import com.santacarolina.ui.AddView;
 
@@ -46,10 +47,12 @@ public class FormView implements PropertyChangeListener {
 
         JLabel numeroLabel = new JLabel("Número da Classificação:");
         numeroTextField = new JTextField();
+        numeroTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         numeroLabel.setLabelFor(numeroTextField);
 
         JLabel nomeLabel = new JLabel("Nome da Classificação:");
         nomeTextField = new JTextField();
+        nomeTextField.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         nomeLabel.setLabelFor(nomeTextField);
 
         JPanel panel = baseView.getCenterPanel();
@@ -79,10 +82,7 @@ public class FormView implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case FormModel.NOME -> nomeTextField.setText((String) evt.getNewValue());
-            case FormModel.NUMERO-> {
-                Long numero = (Long) evt.getNewValue();
-                numeroTextField.setText(numero.toString());
-            }
+            case FormModel.NUMERO-> numeroTextField.setText((String) evt.getNewValue());
             case FormModel.CATEGORIA -> categoriaContabilComboBox.setSelectedItem(evt.getNewValue());
         }
     }

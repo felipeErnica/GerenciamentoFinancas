@@ -109,7 +109,7 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         ClassificacaoContabil classificacao = classificacaoList.get(rowIndex);
         switch (columnIndex) {
-            case 0 -> classificacao.setNumeroIdentificacao((long) aValue);
+            case 0 -> classificacao.setNumeroIdentificacao((String) aValue);
             case 1 -> classificacao.setNomeClassificacao((String) aValue);
         };
     }

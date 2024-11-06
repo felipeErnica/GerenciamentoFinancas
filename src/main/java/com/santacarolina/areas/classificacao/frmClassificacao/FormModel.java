@@ -20,7 +20,7 @@ public class FormModel implements ViewUpdater {
     public ClassificacaoContabil classificacao;
 
     private String nome;
-    private long numero;
+    private String numero;
     private CategoriaContabil categoriaContabil;
     private FluxoCaixa fluxoCaixa;
 
@@ -34,14 +34,21 @@ public class FormModel implements ViewUpdater {
 
     public void setNome(String nome) { 
         this.nome = nome.toUpperCase();
+        System.out.println(this.nome);
+        classificacao.setNomeClassificacao(this.nome);
         pf.firePropertyChange(NOME, this.nome);
     }
 
-    public void setNumero(long numero) { this.numero = numero; }
+    public void setNumero(String numero) { 
+        this.numero = numero; 
+        classificacao.setNumeroIdentificacao(numero);
+    }
 
     public void setCategoriaContabil(CategoriaContabil categoriaContabil) {
         this.categoriaContabil = categoriaContabil; 
         fluxoCaixa = categoriaContabil != null ? categoriaContabil.getFluxoCaixa() : null;
+        classificacao.setCategoriaContabil(categoriaContabil);
+        classificacao.setFluxoCaixa(fluxoCaixa);
     }
 
     private void updateAllData() {
@@ -61,16 +68,9 @@ public class FormModel implements ViewUpdater {
         pf.firePropertyChange(CATEGORIA, categoriaContabil);
     }
 
-    public ClassificacaoContabil getClassificacao() { 
-        classificacao.setCategoriaContabil(categoriaContabil);
-        classificacao.setNumeroIdentificacao(numero);
-        classificacao.setNomeClassificacao(nome);
-        classificacao.setFluxoCaixa(fluxoCaixa);
-        return classificacao; 
-    }
-
+    public ClassificacaoContabil getClassificacao() { return classificacao; }
     public CategoriaContabil getCategoriaContabil() { return categoriaContabil; }
     public String getNome() { return nome; }
-    public long getNumero() { return numero; }
+    public String getNumero() { return numero; }
 
 }

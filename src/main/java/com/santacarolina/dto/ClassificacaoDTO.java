@@ -10,7 +10,7 @@ public class ClassificacaoDTO implements FromDTO<ClassificacaoContabil> {
     private long categoriaId;
     private String nomeCategoria;
     private FluxoCaixa fluxoCaixa;
-    private long numeroIdentificacao;
+    private String numeroIdentificacao;
     private String nomeClassificacao;
 
     public ClassificacaoDTO() { }
@@ -26,7 +26,7 @@ public class ClassificacaoDTO implements FromDTO<ClassificacaoContabil> {
     public long getId() { return id; }
     public long getCategoriaId() { return categoriaId; }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
-    public long getNumeroIdentificacao() { return numeroIdentificacao; }
+    public String getNumeroIdentificacao() { return numeroIdentificacao; }
     public String getNomeClassificacao() { return nomeClassificacao; }
     public String getNomeCategoria() { return nomeCategoria; }
 

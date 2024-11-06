@@ -35,7 +35,6 @@ public class FormView implements PropertyChangeListener {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void init() {
-        
         JPanel centerPanel = baseView.getCenterPanel();
 
         JLabel fluxoLabel = new JLabel("Fluxo de Caixa:");
@@ -61,7 +60,6 @@ public class FormView implements PropertyChangeListener {
         centerPanel.add(numeroTextField, "wrap");
         centerPanel.add(nomeLabel);
         centerPanel.add(nomeTextField);
-
     }
 
     @Override

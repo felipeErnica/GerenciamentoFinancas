@@ -11,7 +11,7 @@ public class ClassificacacaoForm {
 
     public static void open(ClassificacaoContabil classificacao) {
         ClassificacaoContabil copy = classificacao.generateCopy();
-        FormView view = new FormView("Nova Classificação Contábil", "Adicionar Classificação");
+        FormView view = new FormView("Editar Classificação Contábil", "Salvar Classificação");
         buildForm(view, copy);
     }
 

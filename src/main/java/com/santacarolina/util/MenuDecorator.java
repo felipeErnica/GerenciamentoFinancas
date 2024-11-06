@@ -14,7 +14,6 @@ import org.knowm.xchart.internal.chartpart.Chart;
 import org.knowm.xchart.style.Styler.ToolTipType;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.santacarolina.ui.RoundedBorder;
 
 public class MenuDecorator {
 

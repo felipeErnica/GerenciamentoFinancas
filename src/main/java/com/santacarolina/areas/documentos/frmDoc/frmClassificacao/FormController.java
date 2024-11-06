@@ -1,6 +1,5 @@
 package com.santacarolina.areas.documentos.frmDoc.frmClassificacao;
 
-import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 
 import javax.swing.SwingConstants;
@@ -11,8 +10,8 @@ import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
 import com.santacarolina.dao.CategoriaDAO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.AfterUpdateListener;
 import com.santacarolina.interfaces.Controller;
+import com.santacarolina.interfaces.DocumentChangeListener;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.interfaces.OnResize;
 import com.santacarolina.model.CategoriaContabil;
@@ -30,6 +29,7 @@ public class FormController implements Controller {
         init();
     }
 
+    @SuppressWarnings("unchecked")
     private void init() throws FetchFailException {
         view.getCategoriaComboBox().setModel(new ListComboBoxModel<>(new CategoriaDAO().findAll()));
         view.getCategoriaComboBox().setSelectedItem(null);
@@ -44,7 +44,7 @@ public class FormController implements Controller {
         columnModel.getColumn(0).setCellRenderer(defaultRenderer);
 
         view.getTable().addMouseListener((DoubleClickListener) this::table_doubleClick);
-        view.getTextField().addFocusListener((AfterUpdateListener) e -> textField_afterUpdate());
+        view.getTextField().getDocument().addDocumentListener((DocumentChangeListener) e -> textField_afterUpdate());
         view.getCategoriaComboBox().addActionListener(e -> categoriaComboBox_afterUpdate());
     }
 
@@ -61,7 +61,6 @@ public class FormController implements Controller {
         model.setClassificacao(classificacao);
         view.getDialog().dispose();
     }
-
 
     @Override
     public void showView() { ViewInvoker.showView(view.getDialog()); }
