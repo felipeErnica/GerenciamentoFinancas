@@ -1,5 +1,6 @@
 package com.santacarolina.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dto.PixDTO;

@@ -13,7 +13,7 @@ public class ContaForm {
 
     public static void open(ContaBancaria contaBancaria) {
         FormView view = new FormView("Editar Conta Bancária", "Salvar Conta");
-        ContaBancaria clone = contaBancaria.getCopy();
+        ContaBancaria clone = contaBancaria.generateCopy();
         buildForm(view, clone);
     }
 

@@ -3,9 +3,10 @@ package com.santacarolina.model;
 import com.santacarolina.dao.BancoDAO;
 import com.santacarolina.dto.ContaDTO;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.interfaces.Copiable;
 import com.santacarolina.interfaces.ToDTO;
 
-public class ContaBancaria implements ToDTO<ContaDTO> {
+public class ContaBancaria implements ToDTO<ContaDTO>, Copiable<ContaBancaria> {
 
     private long id;
     private String nomeConta;
@@ -51,7 +52,7 @@ public class ContaBancaria implements ToDTO<ContaDTO> {
         this.bancoId = banco != null ? banco.getId() : 0;
     }
 
-    public ContaBancaria getCopy() {
+    public ContaBancaria generateCopy() {
         ContaBancaria copy = new ContaBancaria();
         copy.setAbreviacao(abreviacaoConta);
         copy.setBanco(banco);

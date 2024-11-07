@@ -42,4 +42,9 @@ public class PixDAO {
         service.deleteRequest(query);
     }
 
+    public Optional<ChavePix> findByDadoId(long dadoId) throws FetchFailException {
+        String query = MAPPING + "/dadoId=" + dadoId;
+        return service.getRequest(query);
+    }
+
 }

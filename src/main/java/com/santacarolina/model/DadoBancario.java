@@ -5,7 +5,6 @@ import com.santacarolina.dao.BancoDAO;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.dao.PixDAO;
 import com.santacarolina.interfaces.Copiable;
 import com.santacarolina.interfaces.ToDTO;
 
@@ -16,8 +15,6 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
     private String agencia;
     private Banco banco;
     private String numeroConta;
-    private Long pixId;
-    private ChavePix chavePix;
     private Contato contato;
     private long bancoId;
     private long contatoId;
@@ -28,7 +25,6 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
         this.id = dto.getId();
         this.agencia = dto.getAgencia();
         this.numeroConta = dto.getNumeroConta();
-        this.pixId = dto.getPixId();
         this.bancoId = dto.getBancoId();
         this.contatoId = dto.getContatoId();
     }
@@ -36,18 +32,8 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
     public long getId() { return id; }
     public String getAgencia() { return agencia; }
     public String getNumeroConta() { return numeroConta; }
-    public Long getPixId() { return pixId; }
     public long getBancoId() { return bancoId; }
     public long getContatoId() { return contatoId; }
-
-    public ChavePix getChavePix() {
-        try {
-            if (chavePix == null && pixId != null) this.chavePix = new PixDAO().findById(pixId).orElse(null);
-            return chavePix;
-        } catch (FetchFailException e) {
-            return chavePix;
-        }
-    }
 
     public Contato getContato() {
         try {
@@ -70,14 +56,8 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
     public void setId(long id) { this.id = id; }
     public void setAgencia(String agencia) { this.agencia = agencia; }
     public void setNumeroConta(String numeroConta) { this.numeroConta = numeroConta; }
-    public void setPixId(Long pixId) { this.pixId = pixId; }
     public void setBancoId(long bancoId) { this.bancoId = bancoId; }
     public void setContatoId(long contatoId) { this.contatoId = contatoId; }
-
-    public void setChavePix(ChavePix chavePix) {
-        this.chavePix = chavePix;
-        pixId = chavePix != null ? chavePix.getId() : null;
-    }
 
     public void setContato(Contato contato) {
         this.contato = contato;
@@ -89,11 +69,6 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
         this.bancoId = banco != null ? banco.getId() : 0;
     }
 
-    public void addChavePix(ChavePix chavePix) {
-        setChavePix(chavePix);
-        chavePix.setDadoBancario(this);
-    }
-
     @Override
     public DadoBancario generateCopy() {
         DadoBancario clone = new DadoBancario();
@@ -102,7 +77,6 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
         clone.setAgencia(agencia);
         clone.setBancoId(bancoId);
         clone.setNumeroConta(numeroConta);
-        clone.setPixId(pixId);
         return clone;
     }
 

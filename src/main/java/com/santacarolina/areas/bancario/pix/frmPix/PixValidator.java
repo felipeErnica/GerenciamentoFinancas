@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.santacarolina.dao.PixDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.ChavePix;
+import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;
 
@@ -39,18 +40,26 @@ public class PixValidator {
     }
 
     private static boolean contaPossuiPix(FormModel model) {
-        if (model.getDadoBancario().getChavePix() != null) {
+        if (model.getDadoBancario() != null) return false;
+        
+        Optional<ChavePix> pixFromDado;
+        try {
+            pixFromDado = new PixDAO().findByDadoId(model.getDadoBancario().getId());
+        } catch (FetchFailException e) {
+            CustomErrorThrower.throwError(e);
+            return true;
+        }
+
+        if (!pixFromDado.isPresent()) {
             if (model.getChavePix().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Esta conta já possui uma chave Pix! Não é possível adicionar outra!");
                 return true;
             }
-            int result = OptionDialog.showReplaceDialog("Esta conta possuí uma chave registrada!" +
-                "\nDeseja substituir os dados existentes por estes?");
+            int result = OptionDialog.showReplaceDialog("Esta conta possuí uma chave registrada!");
             if (result == JOptionPane.YES_OPTION) {
-                model.getChavePix().setId(model.getDadoBancario().getPixId());
+                model.getChavePix().setId(pixFromDado.get().getId());
                 return false;
             }
-            return true;
         }
         return false;
     }
@@ -59,12 +68,11 @@ public class PixValidator {
         Optional<ChavePix> optional = new PixDAO().findByChave(model.getChave());
         if (optional.isPresent()) {
             ChavePix chave = optional.get();
-            if (model.getDadoBancario().getChavePix() != null || model.getChavePix().getId() != 0) {
+            if (model.getChavePix().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este pix já existe e pertence a " + chave.getContato() + "!");
                 return true;
             }
-            int result = OptionDialog.showReplaceDialog("Esta chave já existe e pertence a " + chave.getContato() + "!" +
-                "\nDeseja substituir os dados existentes por estes?");
+            int result = OptionDialog.showReplaceDialog("Esta chave já existe e pertence a " + chave.getContato() + "!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getChavePix().setId(chave.getId());
                 return false;

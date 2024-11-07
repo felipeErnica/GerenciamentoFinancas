@@ -4,13 +4,13 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import com.santacarolina.dao.DadoDAO;
+import com.santacarolina.dao.PixDAO;
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.PropertyFirer;
 
 public class FormModel implements ViewUpdater {
@@ -182,7 +182,15 @@ public class FormModel implements ViewUpdater {
         this.chavePix.setDadoBancario(d);
         if (d != null) {
             this.banco = d.getBanco().getNomeBanco();
-            triggerChavePix(d.getChavePix());
+            
+            ChavePix chavePix;
+            try {
+                chavePix = new PixDAO().findByDadoId(d.getId()).orElse(null);
+            } catch (FetchFailException e) {
+                chavePix = null;
+            }
+
+            triggerChavePix(chavePix);
         }
         else {
             this.banco = "";

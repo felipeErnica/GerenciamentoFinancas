@@ -24,6 +24,7 @@ public class FormController implements Controller {
         initComponents();
     }
 
+    @SuppressWarnings("unchecked")
     public void initComponents() throws FetchFailException {
         view.getContatoComboBox().setModel(new ListComboBoxModel<>(new ContatoDAO().findAll()));
 

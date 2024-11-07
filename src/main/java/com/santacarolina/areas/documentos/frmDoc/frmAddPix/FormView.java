@@ -116,6 +116,7 @@ public class FormView implements PropertyChangeListener {
     public JButton getAddNewPix() { return addNewPix; }
 
     @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case FormModel.CONTATO -> contatoComboBox.setSelectedItem(evt.getNewValue());

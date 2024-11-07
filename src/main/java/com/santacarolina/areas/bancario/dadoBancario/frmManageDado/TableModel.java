@@ -21,9 +21,7 @@ public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContain
             "Nome do Contato",
             "Banco",
             "Agência",
-            "Número da Conta",
-            "Tipo Pix",
-            "Chave Pix"
+            "Número da Conta"
     };
 
     public TableModel() throws FetchFailException {
@@ -36,7 +34,7 @@ public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContain
     public CustomTableModelImpl<DadoDTO> getBaseModel() { return baseModel; }
 
     @Override
-    public int getRowCount() { return list.size(); }
+    public int getRowCount() { return baseModel.getRowCount(); }
 
     @Override
     public int getColumnCount() { return columnNames.length; }
@@ -58,8 +56,6 @@ public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContain
             case 1 -> d.getNomeBanco();
             case 2 -> d.getAgencia();
             case 3 -> d.getNumeroConta();
-            case 4 -> d.getTipoPix();
-            case 5 -> d.printChave();
             default -> throw new IllegalStateException("Unexpected column value: " + columnIndex);
         };
     }

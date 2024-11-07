@@ -46,7 +46,7 @@ public class FormModel implements ViewUpdater {
             if (chave != null) {
                 init();
             } else {
-                chave = dup.getDadoBancario() != null ? dup.getDadoBancario().getChavePix() : null;
+                if (dup.getDadoBancario() != null) chave = new PixDAO().findByDadoId(dup.getDadoId()).orElse(null);
                 if (chave != null) init();
                 else initEmpty(dup);
             }
