@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -36,10 +37,10 @@ public class FormView implements PropertyChangeListener {
         addAccount.setText(buttonText);
         dialog = baseView.getDialog();
         dialog.setTitle(dialogTitle);
-        initComponents();
+        initComponents(baseView.getCenterPanel());
     }
 
-    private void initComponents() {
+    private void initComponents(JPanel centerPanel) {
         contatoLabel = new JLabel("Nome do Contato:");
         contactComboBox = new JComboBox<>();
         AutoCompleteDecorator.decorate(contactComboBox);
@@ -57,19 +58,19 @@ public class FormView implements PropertyChangeListener {
         AutoCompleteDecorator.decorate(bankComboBox);
         bancoLabel.setLabelFor(bankComboBox);
 
-        dialog.setLayout(new MigLayout("insets 25",
+        centerPanel.setLayout(new MigLayout("insets 25",
                 "[right][fill, grow][grow]",
                 "[][]20[][]20[][]"
         ));
 
-        dialog.add(contatoLabel);
-        dialog.add(contactComboBox,"span, wrap");
-        dialog.add(bancoLabel);
-        dialog.add(bankComboBox, "span, wrap");
-        dialog.add(contaLabel);
-        dialog.add(contaTextField, "wrap");
-        dialog.add(agenciaLabel);
-        dialog.add(agencyTextField, "wrap");
+        centerPanel.add(contatoLabel);
+        centerPanel.add(contactComboBox,"span, wrap");
+        centerPanel.add(bancoLabel);
+        centerPanel.add(bankComboBox, "span, wrap");
+        centerPanel.add(contaLabel);
+        centerPanel.add(contaTextField, "wrap");
+        centerPanel.add(agenciaLabel);
+        centerPanel.add(agencyTextField, "wrap");
     }
 
     public JDialog getDialog() { return dialog; }

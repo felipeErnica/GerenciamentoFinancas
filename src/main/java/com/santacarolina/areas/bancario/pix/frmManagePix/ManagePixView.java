@@ -1,15 +1,15 @@
 package com.santacarolina.areas.bancario.pix.frmManagePix;
 
+import javax.swing.JDialog;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.santacarolina.interfaces.AbstractFilterView;
 import com.santacarolina.interfaces.FilterViewContainer;
 import com.santacarolina.interfaces.ManageView;
 import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.ManageViewImpl;
 import com.santacarolina.util.AppIcon;
-
-import javax.swing.*;
-import javax.swing.table.TableColumnModel;
 
 public class ManagePixView implements ManageView, FilterViewContainer {
 

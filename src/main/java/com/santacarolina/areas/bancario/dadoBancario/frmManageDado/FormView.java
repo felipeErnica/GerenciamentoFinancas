@@ -44,8 +44,6 @@ public class FormView implements ManageView, FilterViewContainer {
         columnModel.getColumn(1).setPreferredWidth(width*25);
         columnModel.getColumn(2).setPreferredWidth(width*5);
         columnModel.getColumn(3).setPreferredWidth(width*10);
-        columnModel.getColumn(4).setPreferredWidth(width*15);
-        columnModel.getColumn(5).setPreferredWidth(width*10);
     }
 
     public JDialog getDialog() { return dialog; }

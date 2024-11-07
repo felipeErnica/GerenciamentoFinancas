@@ -36,7 +36,7 @@ public class DadoDAO {
         return service.getListRequest(queryString);
     }
 
-    public DadoBancario save(DadoBancario d) throws SaveFailException { return service.postRequestWithResponse(MAPPING, d); }
+    public void save(DadoBancario d) throws SaveFailException { service.postRequest(MAPPING, d); }
 
     public void deleteById(long id) throws DeleteFailException {
         String query = MAPPING + "/" + id;

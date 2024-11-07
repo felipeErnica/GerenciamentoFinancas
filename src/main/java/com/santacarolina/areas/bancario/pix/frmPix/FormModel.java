@@ -38,17 +38,17 @@ public class FormModel implements ViewUpdater {
     private boolean contaSelected;
     private boolean contaEnabled;
     private boolean dadosEnabled;
-    private final PropertyFirer ps;
+    private final PropertyFirer pf;
 
     public FormModel(ChavePix chavePix) throws FetchFailException {
-        ps = new PropertyFirer(this);
+        pf = new PropertyFirer(this);
         this.dadosEnabled = true;
         this.chavePix = chavePix;
         updateAllData();
     }
 
     @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }
+    public void addPropertyChangeListener(PropertyChangeListener listener) { pf.addPropertyChangeListener(listener); }
 
     private void updateAllData() throws FetchFailException {
         this.contato = this.chavePix.getContato();
@@ -65,16 +65,16 @@ public class FormModel implements ViewUpdater {
     @Override
     public void fireInitialChanges() {
         isUpdating = true;
-        ps.firePropertyChange(CONTATO, this.contato);
-        ps.firePropertyChange(CONTA_CHECKBOX, this.contaSelected);
-        ps.firePropertyChange(CONTA_ENABLED, this.contaEnabled);
-        ps.firePropertyChange(CONTA_LIST, this.contaList);
-        ps.firePropertyChange(CONTA, this.dadoBancario);
-        ps.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
-        ps.firePropertyChange(TIPO_PIX, this.tipoPix);
-        ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
-        ps.firePropertyChange(CHAVE, chave);
-        ps.firePropertyChange(BANCO, banco);
+        pf.firePropertyChange(CONTATO, this.contato);
+        pf.firePropertyChange(CONTA_CHECKBOX, this.contaSelected);
+        pf.firePropertyChange(CONTA_ENABLED, this.contaEnabled);
+        pf.firePropertyChange(CONTA_LIST, this.contaList);
+        pf.firePropertyChange(CONTA, this.dadoBancario);
+        pf.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
+        pf.firePropertyChange(TIPO_PIX, this.tipoPix);
+        pf.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
+        pf.firePropertyChange(CHAVE, chave);
+        pf.firePropertyChange(BANCO, banco);
         isUpdating = false;
     }
 
@@ -94,14 +94,14 @@ public class FormModel implements ViewUpdater {
         if (isUpdating) return;
         isUpdating = true;
         triggerContato(contato);
-        ps.firePropertyChange(CONTA_ENABLED, this.contaEnabled);
-        ps.firePropertyChange(CONTA_LIST, this.contaList);
-        ps.firePropertyChange(CONTA, this.dadoBancario);
-        ps.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
-        ps.firePropertyChange(TIPO_PIX, this.tipoPix);
-        ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
-        ps.firePropertyChange(CHAVE, this.chave);
-        ps.firePropertyChange(BANCO, this.banco);
+        pf.firePropertyChange(CONTA_ENABLED, this.contaEnabled);
+        pf.firePropertyChange(CONTA_LIST, this.contaList);
+        pf.firePropertyChange(CONTA, this.dadoBancario);
+        pf.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
+        pf.firePropertyChange(TIPO_PIX, this.tipoPix);
+        pf.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
+        pf.firePropertyChange(CHAVE, this.chave);
+        pf.firePropertyChange(BANCO, this.banco);
         isUpdating = false;
     }
 
@@ -110,14 +110,14 @@ public class FormModel implements ViewUpdater {
         isUpdating = true;
         this.contaSelected = contaSelected;
         triggerEnableConta();
-        ps.firePropertyChange(CONTA_ENABLED, this.contaEnabled);
-        ps.firePropertyChange(CONTA_LIST, this.contaList);
-        ps.firePropertyChange(CONTA, this.dadoBancario);
-        ps.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
-        ps.firePropertyChange(TIPO_PIX, this.tipoPix);
-        ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
-        ps.firePropertyChange(CHAVE, this.chave);
-        ps.firePropertyChange(BANCO, this.banco);
+        pf.firePropertyChange(CONTA_ENABLED, this.contaEnabled);
+        pf.firePropertyChange(CONTA_LIST, this.contaList);
+        pf.firePropertyChange(CONTA, this.dadoBancario);
+        pf.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
+        pf.firePropertyChange(TIPO_PIX, this.tipoPix);
+        pf.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
+        pf.firePropertyChange(CHAVE, this.chave);
+        pf.firePropertyChange(BANCO, this.banco);
         isUpdating = false;
     }
 
@@ -125,11 +125,11 @@ public class FormModel implements ViewUpdater {
         if (isUpdating) return;
         isUpdating = true;
         triggerDado(dadoBancario);
-        ps.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
-        ps.firePropertyChange(TIPO_PIX, this.tipoPix);
-        ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
-        ps.firePropertyChange(CHAVE, this.chave);
-        ps.firePropertyChange(BANCO, this.banco);
+        pf.firePropertyChange(PIX_ENABLED, this.dadosEnabled);
+        pf.firePropertyChange(TIPO_PIX, this.tipoPix);
+        pf.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
+        pf.firePropertyChange(CHAVE, this.chave);
+        pf.firePropertyChange(BANCO, this.banco);
         isUpdating = false;
     }
 
@@ -138,8 +138,8 @@ public class FormModel implements ViewUpdater {
         isUpdating = true;
         triggerTipoPix(tipoPix);
         triggerChave(this.chave);
-        ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
-        ps.firePropertyChange(CHAVE, this.chave);
+        pf.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
+        pf.firePropertyChange(CHAVE, this.chave);
         isUpdating = false;
     }
 
@@ -147,10 +147,19 @@ public class FormModel implements ViewUpdater {
         if (isUpdating) return;
         isUpdating = true;
         triggerChave(chave);
-        ps.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
-        ps.firePropertyChange(CHAVE, this.chave);
+        pf.firePropertyChange(CHAVE_INVALID, this.invalidFormat);
+        pf.firePropertyChange(CHAVE, this.chave);
         isUpdating = false;
     }
+
+    public void refreshContaList() throws FetchFailException {
+        if (contato != null) contaList = new DadoDAO().findByContato(contato);
+        else contaList = null;
+        isUpdating = true;
+        pf.firePropertyChange(CONTA_LIST, contaList);
+        isUpdating = false;
+    }
+
 
     private void triggerContato(Contato contato) throws FetchFailException {
         this.contato = contato;

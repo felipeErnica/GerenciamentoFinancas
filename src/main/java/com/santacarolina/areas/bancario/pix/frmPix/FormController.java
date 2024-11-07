@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import org.jdesktop.swingx.combobox.EnumComboBoxModel;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
+import com.santacarolina.areas.bancario.dadoBancario.frmDado.DadoForm;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.PixDAO;
 import com.santacarolina.enums.TipoPix;
@@ -37,7 +38,17 @@ public class FormController implements Controller {
         view.getTipoPixComboBox().addActionListener(e -> tipoPix_afterUpdate());
         view.getChaveTextField().addFocusListener((AfterUpdateListener) e -> chaveField_afterUpdate());
         view.getAddButton().addActionListener(e -> addButton_onClick());
+        view.getAddDadoBancarioButton().addActionListener(e -> addContaBancaria_onClick());
         view.getContaCheckBox().addActionListener(e -> contaCheckBox_onClick());
+    }
+
+    private void addContaBancaria_onClick() {
+        DadoForm.openNew();
+        try {
+            model.refreshContaList();
+        } catch (FetchFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
     }
 
     private void addButton_onClick() {

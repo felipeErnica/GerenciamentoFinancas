@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 public class FormView implements PropertyChangeListener {
 
@@ -31,6 +32,7 @@ public class FormView implements PropertyChangeListener {
     private JComboBox<TipoPix> tipoPixComboBox;
     private JLabel chaveLabel;
     private JTextField chaveTextField;
+    private JButton addDadoBancarioButton;
 
     public FormView(String dialogTitle, String buttonText) {
         AddView addView = new AddView();
@@ -76,6 +78,8 @@ public class FormView implements PropertyChangeListener {
         bancoTextField.setEnabled(false);
         bancoLabel.setLabelFor(bancoTextField);
 
+        addDadoBancarioButton = new JButton("Nova Conta Bancária");
+
         centerPanel.setLayout(new MigLayout("insets 20",
                 "[right][fill, grow][grow]",
                 "[]30[][]30[][][]"));
@@ -84,7 +88,8 @@ public class FormView implements PropertyChangeListener {
         centerPanel.add(contatoComboBox, "span, wrap");
         centerPanel.add(contaCheckBox, "wrap,skip");
         centerPanel.add(contaLabel);
-        centerPanel.add(contaComboBox, "wrap");
+        centerPanel.add(contaComboBox);
+        centerPanel.add(addDadoBancarioButton, "wrap");
         centerPanel.add(tipoChaveLabel);
         centerPanel.add(tipoPixComboBox,"wrap");
         centerPanel.add(chaveLabel);
@@ -96,6 +101,7 @@ public class FormView implements PropertyChangeListener {
 
     }
 
+    public JButton getAddDadoBancarioButton() { return addDadoBancarioButton; }
     public JDialog getDialog() { return dialog; }
     public JComboBox<Contato> getContatoComboBox() { return contatoComboBox; }
     public JComboBox<DadoBancario> getContaComboBox() { return contaComboBox; }
@@ -105,6 +111,7 @@ public class FormView implements PropertyChangeListener {
     public JButton getAddButton() { return addButton; }
     public JCheckBox getContaCheckBox() { return contaCheckBox; }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -122,6 +129,11 @@ public class FormView implements PropertyChangeListener {
                 Boolean chaveInvalid = (Boolean) evt.getNewValue();
                 if (chaveInvalid) chaveTextField.putClientProperty(FlatClientProperties.OUTLINE,"error");
                 else chaveTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
+            }
+            case FormModel.CONTA_LIST -> {
+                List<DadoBancario> list = (List<DadoBancario>) evt.getNewValue();
+                if (list == null) break;
+                list.forEach(dado -> contaComboBox.addItem(dado));
             }
             case FormModel.CHAVE -> {
                 System.out.println((String) evt.getNewValue());
