@@ -1,19 +1,19 @@
 package com.santacarolina.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.util.ServiceTest;
 
 public class DadoDAO {
 
-    private Service<DadoBancario, DadoDTO> service = new Service<>(DadoDTO.class);
+    private ServiceTest<DadoBancario, DadoDTO> service = new ServiceTest<>(DadoDTO.class, DadoBancario.class);
     private static final String MAPPING = "/contas";
 
     public List<DadoDTO> findAll() throws FetchFailException { return service.getListRequestDTO(MAPPING); }

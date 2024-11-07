@@ -80,9 +80,7 @@ public class ServiceTest<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     public T postRequestWithResponse(String query, T t) throws SaveFailException {
         try {
-            DTO dto = t.toDTO();
-            DTO saved = apiRequestDTO.postRequestWithResponse(query, dto);
-            return saved.fromDTO();
+            return apiRequest.postRequestWithResponse(query, t);
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
         }

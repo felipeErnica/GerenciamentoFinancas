@@ -78,6 +78,7 @@ public class FilterModel implements AbstractFilterModel {
 
     private void filterNome() {
         filteredList = filteredList.stream()
+            .filter(dto -> !StringUtils.isBlank(dto.getNomeContato()))
             .filter(dto -> dto.getNomeContato().contains(nome.toUpperCase()))
             .collect(Collectors.toList());
     }
