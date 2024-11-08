@@ -3,24 +3,29 @@ package com.santacarolina.areas.pgProdutos;
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
+import com.santacarolina.dao.ProdutoDAO;
+import com.santacarolina.dto.ProdutoDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.Produto;
 import com.santacarolina.ui.CurrencyCellRenderer;
 import com.santacarolina.ui.DateCellRenderer;
+import com.santacarolina.util.CustomErrorThrower;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
-public class ProdController implements MainPaneController {
+public class ProdController implements MainPaneController<ProdutoDTO> {
 
     private ProdView view;
     private ProdTableModel model;
 
     public ProdController(ProdView view, ProdTableModel model) {
-        new MainPaneControllerImpl(view, model);
+        new MainPaneControllerImpl<>(view, model, this);
         this.view = view;
         this.model = model;
         new FilterController(view.getFilterView(), model.getFilterModel());
@@ -53,6 +58,15 @@ public class ProdController implements MainPaneController {
             Produto prod = model.getObject(row).fromDTO();
             DocForm.open(prod.getDocumento());
         });
+    }
+
+    @Override
+    public void deleteBatch(List<ProdutoDTO> list) {
+        try {
+            new ProdutoDAO().deleteAll(list);
+        } catch (DeleteFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
     }
 
 }

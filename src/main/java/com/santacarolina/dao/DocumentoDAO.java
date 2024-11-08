@@ -1,6 +1,7 @@
 package com.santacarolina.dao;
 
 import com.santacarolina.dto.DocumentoDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.DocumentoFiscal;
@@ -38,4 +39,16 @@ public class DocumentoDAO {
     }
 
     public void save(DocumentoFiscal documentoFiscal) throws SaveFailException { service.postRequestDTO(MAPPING, documentoFiscal); }
+
+    public void deleteAll(List<DocumentoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteListDTO(query, list);
+    }
+
+    public void delete(DocumentoDTO dto) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.delete(query, dto);
+    }
+
+
 }

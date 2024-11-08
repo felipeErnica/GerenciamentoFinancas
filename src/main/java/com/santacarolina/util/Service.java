@@ -1,5 +1,7 @@
 package com.santacarolina.util;
 
+import com.santacarolina.dto.DocumentoDTO;
+import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
@@ -97,4 +99,19 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
         }
     }
 
+    public void deleteListDTO(String query, List<DTO> list) throws DeleteFailException {
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
+    }
+
+    public void delete(String query, DTO dto) throws DeleteFailException {
+        try {
+            apiRequest.postRequest(query, dto);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
+    }
 }

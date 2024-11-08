@@ -1,6 +1,7 @@
 package com.santacarolina.dao;
 
 import com.santacarolina.dto.ExtratoDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Extrato;
@@ -34,6 +35,11 @@ public class ExtratoDAO {
     public Optional<Extrato> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;
         return service.getRequest(query);
+    }
+
+    public void deleteAll(List<ExtratoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteListDTO(query, list);
     }
 
 }

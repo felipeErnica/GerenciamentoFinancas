@@ -2,6 +2,7 @@ package com.santacarolina.areas.duplicatas.pgDuplicatasPagas;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.table.TableColumnModel;
 
@@ -9,17 +10,22 @@ import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.areas.duplicatas.common.DupView;
 import com.santacarolina.areas.duplicatas.common.FilterController;
+import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
+import com.santacarolina.dao.DuplicataDAO;
+import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.Duplicata;
+import com.santacarolina.util.CustomErrorThrower;
 
-public class FormController {
+public class FormController implements MainPaneController<DuplicataDTO> {
 
     private DupView view;
     private DupTableModel model;
 
     public FormController(DupView view, DupTableModel model) {
-        new MainPaneControllerImpl(view, model);
+        new MainPaneControllerImpl<DuplicataDTO>(view, model, this);
         this.view = view;
         this.model = model;
         new FilterController(view.getFilterView(), model.getFilterModel());
@@ -44,6 +50,15 @@ public class FormController {
             Duplicata dup = model.getObject(row).fromDTO();
             DocForm.open(dup.getDocumento());
         });
+    }
+
+    @Override
+    public void deleteBatch(List<DuplicataDTO> list) {
+        try {
+            new DuplicataDAO().deleteAll(list);
+        } catch (DeleteFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
     }
 
 }

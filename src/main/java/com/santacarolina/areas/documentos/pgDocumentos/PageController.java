@@ -3,6 +3,9 @@ package com.santacarolina.areas.documentos.pgDocumentos;
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
+import com.santacarolina.dao.DocumentoDAO;
+import com.santacarolina.dto.DocumentoDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.DocumentoFiscal;
@@ -15,16 +18,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
-public class PageController implements MainPaneController {
+public class PageController implements MainPaneController<DocumentoDTO> {
 
-    private MainPaneControllerImpl controller;
+    private MainPaneControllerImpl<DocumentoDTO> controller;
     private DocTableModel model;
     private PageView view;
     private RowSorter<TableModel> sorter;
 
     public PageController(DocTableModel model, PageView view) {
-        this.controller = new MainPaneControllerImpl(view, model);
+        this.controller = new MainPaneControllerImpl<>(view, model, this);
         this.model = model;
         this.view = view;
         this.sorter = controller.getSorter();
@@ -57,6 +61,19 @@ public class PageController implements MainPaneController {
             DocForm.open(doc);
         } catch (FetchFailException ex) {
             CustomErrorThrower.throwError(ex);
+        }
+    }
+
+    @Override
+    public void deleteBatch(List<DocumentoDTO> list) {
+        DocumentoDAO dao = new DocumentoDAO();
+        for (DocumentoDTO dto : list) {
+            try {
+                dao.delete(dto);
+            } catch (DeleteFailException e) {
+                CustomErrorThrower.throwError(e);
+                return;
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.santacarolina.dao;
 
 import com.santacarolina.dto.ProdutoDTO;
+import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Produto;
@@ -29,6 +30,11 @@ public class ProdutoDAO {
         return service.getListRequestDTO(MAPPING).stream()
                 .map(ProdutoDTO::fromDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void deleteAll(List<ProdutoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteListDTO(query, list);
     }
 
 }
