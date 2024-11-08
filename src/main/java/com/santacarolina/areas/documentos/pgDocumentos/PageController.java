@@ -69,6 +69,7 @@ public class PageController implements MainPaneController<DocumentoDTO> {
         DocumentoDAO dao = new DocumentoDAO();
         for (DocumentoDTO dto : list) {
             try {
+                System.out.println(dto.toString());
                 dao.delete(dto);
             } catch (DeleteFailException e) {
                 CustomErrorThrower.throwError(e);
