@@ -51,5 +51,4 @@ public class DocumentoDAO {
         service.delete(query, dto);
     }
 
-
 }
