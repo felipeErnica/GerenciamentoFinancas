@@ -64,11 +64,7 @@ public class ContaBancaria implements ToDTO<ContaDTO>, Copiable<ContaBancaria> {
     }
 
     @Override
-    public String toString() {
-        return (getBanco().getApelidoBanco().isEmpty() ? banco.getNomeBanco() : banco.getApelidoBanco()) +
-                " AG:" + agencia +
-                " CC:" + numeroConta;
-    }
+    public String toString() { return abreviacaoConta != null ? abreviacaoConta : nomeConta; }
 
     @Override
     public ContaDTO toDTO() { return new ContaDTO().fromObject(this); }
