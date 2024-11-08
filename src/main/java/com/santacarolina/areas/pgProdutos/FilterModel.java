@@ -100,8 +100,8 @@ public class FilterModel implements ViewUpdater {
 
     private void filterTipo() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getClassificacao()))
-            .filter(dto -> dto.getClassificacao().contains(tipoMercadoria.toUpperCase()))
+            .filter(dto -> !StringUtils.isBlank(dto.getNomeClassificacao()))
+            .filter(dto -> dto.getNomeClassificacao().contains(tipoMercadoria.toUpperCase()))
             .collect(Collectors.toList());
     }
 

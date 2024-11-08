@@ -64,7 +64,7 @@ public class ProdTableModel implements CustomTableModel<ProdutoDTO> {
             case 0 -> p.getDataEmissao();
             case 1 -> p.getNomePasta();
             case 2 -> p.getNomeContato();
-            case 3 -> p.getClassificacao();
+            case 3 -> p.getNomeClassificacao();
             case 4 -> p.getDescricao();
             case 5 -> p.getUnd();
             case 6 -> p.getQuantidade();

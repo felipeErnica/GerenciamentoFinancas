@@ -25,6 +25,11 @@ public class ClassificacaoDAO {
         return service.getListRequestDTO(MAPPING);
     }
 
+    public Optional<ClassificacaoDTO> findByIdDTO(long classificacaoId) throws FetchFailException {
+        String query = MAPPING + "/" + classificacaoId;
+        return service.getRequestDTO(query);
+    }
+
     public Optional<ClassificacaoContabil> findByNumero(String numero) throws FetchFailException {
         return service.getRequest(MAPPING + "/numeroIdentificacao=" + numero);
     }

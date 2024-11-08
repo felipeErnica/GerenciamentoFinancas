@@ -37,7 +37,7 @@ public class DocumentoFiscal implements Cloneable, Serializable, ToDTO<Documento
         this.numDoc = dto.getNumDoc();
         this.tipoDoc = dto.getTipoDoc();
         this.emissorId = dto.getEmissorId();
-        this.caminho = dto.getCaminho();
+        this.caminho = dto.getCaminhoDocumento();
         this.pastaId = dto.getPastaId();
         this.valor = dto.getValor();
         this.dataEmissao = dto.getDataEmissao();
