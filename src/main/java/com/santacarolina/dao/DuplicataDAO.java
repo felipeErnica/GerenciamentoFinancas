@@ -54,4 +54,9 @@ public class DuplicataDAO {
         service.deleteListDTO(query, list);
     }
 
+    public List<DuplicataDTO> findByDocId(long id) throws FetchFailException {
+        String query = MAPPING + "/documento=" + id;
+        return service.getListRequestDTO(query);
+    }
+
 }

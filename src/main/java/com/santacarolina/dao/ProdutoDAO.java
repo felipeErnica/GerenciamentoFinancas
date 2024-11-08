@@ -37,4 +37,9 @@ public class ProdutoDAO {
         service.deleteListDTO(query, list);
     }
 
+    public List<ProdutoDTO> findByDocId(long id) throws FetchFailException {
+        String query = MAPPING + "/documento=" + id;
+        return service.getListRequestDTO(query);
+    }
+
 }

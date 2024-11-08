@@ -1,9 +1,13 @@
 package com.santacarolina.dto;
 
+import com.santacarolina.dao.DuplicataDAO;
+import com.santacarolina.dao.ProdutoDAO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.enums.TipoDoc;
+import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.FromDTO;
 import com.santacarolina.model.DocumentoFiscal;
+
 import com.santacarolina.model.Duplicata;
 import com.santacarolina.model.Produto;
 
@@ -56,8 +60,29 @@ public class DocumentoDTO implements FromDTO<DocumentoFiscal> {
     public double getValor() { return valor; }
     public LocalDate getDataEmissao() { return dataEmissao; }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
-    public List<DuplicataDTO> getDuplicataList() { return duplicataList; }
-    public List<ProdutoDTO> getProdutoList() { return produtoList; }
+    
+    public List<DuplicataDTO> getDuplicataList() {
+        if (duplicataList == null) {
+            try {
+                duplicataList = new DuplicataDAO().findByDocId(id);
+            } catch (FetchFailException e) {
+                duplicataList = null;
+            }
+        }
+        return duplicataList; 
+    }
+
+    public List<ProdutoDTO> getProdutoList() { 
+        if (produtoList == null) {
+            try {
+                produtoList = new ProdutoDAO().findByDocId(id);
+            } catch (FetchFailException e) {
+                produtoList = null;
+            }
+        }
+        return produtoList; 
+    }
+
     public String getNomePasta() { return nomePasta; }
     public String getNomeContato() { return nomeContato; }
 
