@@ -108,7 +108,7 @@ public class ServiceTest<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
     public void delete(String query, DTO dto) throws DeleteFailException {
         try {
-            apiRequest.postRequest(query, dto.fromDTO());
+            apiRequestDTO.postRequest(query, dto);
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new DeleteFailException(e, logger);
         }
