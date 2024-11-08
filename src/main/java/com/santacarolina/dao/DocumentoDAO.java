@@ -6,13 +6,14 @@ import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.util.Service;
+import com.santacarolina.util.ServiceTest;
 
 import java.util.List;
 import java.util.Optional;
 
 public class DocumentoDAO {
 
-    private Service<DocumentoFiscal, DocumentoDTO> service = new Service<>(DocumentoDTO.class);
+    private ServiceTest<DocumentoFiscal, DocumentoDTO> service = new ServiceTest<>(DocumentoDTO.class, DocumentoFiscal.class);
     private static final String MAPPING = "/documentos";
 
     public List<DocumentoDTO> findAll() throws FetchFailException { return service.getListRequestDTO(MAPPING); }
@@ -40,13 +41,13 @@ public class DocumentoDAO {
 
     public void save(DocumentoFiscal documentoFiscal) throws SaveFailException { service.postRequestDTO(MAPPING, documentoFiscal); }
 
-    public void deleteAll(List<DocumentoDTO> list) throws DeleteFailException {
-        String query = MAPPING + "/delete-batch";
-        service.deleteListDTO(query, list);
-    }
+    //public void deleteAll(List<DocumentoDTO> list) throws DeleteFailException {
+        //String query = MAPPING + "/delete-batch";
+        //service.deleteListDTO(query, list);
+    //}
 
     public void delete(DocumentoDTO dto) throws DeleteFailException {
-        String query = MAPPING + "/delete-batch";
+        String query = MAPPING + "/delete";
         service.delete(query, dto);
     }
 

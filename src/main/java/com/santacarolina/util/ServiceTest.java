@@ -1,5 +1,6 @@
 package com.santacarolina.util;
 
+import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
@@ -101,6 +102,14 @@ public class ServiceTest<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
         try {
             apiRequestDTO.deleteRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
+    }
+
+    public void delete(String query, DTO dto) throws DeleteFailException {
+        try {
+            apiRequest.postRequest(query, dto.fromDTO());
+        } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new DeleteFailException(e, logger);
         }
     }
