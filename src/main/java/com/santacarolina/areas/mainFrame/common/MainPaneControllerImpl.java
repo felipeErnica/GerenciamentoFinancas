@@ -43,10 +43,10 @@ public class MainPaneControllerImpl<T> {
         if (rows.length == 0) return;
         if (OptionDialog.showDeleteCascadeDialog(rows.length) != JOptionPane.YES_OPTION) return;
         List<T> list = new ArrayList<>();
-        for (int i = 0; i < rows.length; i++) {
+        for (int i = rows.length - 1; i >= 0; i--) {
             int modelRow = sorter.convertRowIndexToModel(rows[i]);
-            model.removeRow(modelRow);
             list.add(model.getObject(modelRow));
+            model.removeRow(modelRow);
         }
         childController.deleteBatch(list);
     }
