@@ -51,7 +51,7 @@ public class DuplicataDAO {
 
     public void deleteAll(List<DuplicataDTO> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteListDTO(query, list);
+        service.deleteList(query, list);
     }
 
     public List<DuplicataDTO> findByDocId(long id) throws FetchFailException {

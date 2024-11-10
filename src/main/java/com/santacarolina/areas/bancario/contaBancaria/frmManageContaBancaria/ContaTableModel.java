@@ -50,7 +50,7 @@ public class ContaTableModel implements CustomTableModel<ContaBancaria> {
         return switch(columnIndex) {
             case 0 -> conta.getNomeConta();
             case 1 -> conta.getAbreviacaoConta();
-            case 2 -> conta.getBanco().toString();
+            case 2 -> conta.getBanco() != null ? conta.getBanco().toString() : null;
             case 3 -> conta.getAgencia();
             case 4 -> conta.getNumeroConta();
             default -> throw new IllegalArgumentException("Unexpected value: " + columnIndex);

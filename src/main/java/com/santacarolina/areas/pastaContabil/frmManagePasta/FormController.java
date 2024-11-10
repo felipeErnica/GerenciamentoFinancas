@@ -51,7 +51,7 @@ public class FormController implements ManageController {
     public void addButton_onClick() { EventQueue.invokeLater(PastaContabilForm::openNew); }
 
     @Override
-    public void deleteButton_onClick() {
+    public void callDeleteDAO() {
         try {
             int rows[] = view.getTable().getSelectedRows();
             for (int i = rows.length - 1; i >= 0; i--) {

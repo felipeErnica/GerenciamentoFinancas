@@ -2,24 +2,25 @@ package com.santacarolina.areas.bancario.banco.frmManageBanco;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.banco.frmBanco.BancoForm;
 import com.santacarolina.dao.BancoDAO;
+import com.santacarolina.dto.BancoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.interfaces.DocumentChangeListener;
+import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.Banco;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("rawtypes")
-public class FormController implements ManageController {
+public class FormController implements ManageController<Banco> {
 
     private FormView view;
     private TableModel model;
@@ -63,20 +64,13 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void deleteButton_onClick() {
+    public void callDeleteDAO(List<Banco> list) {
+        List<BancoDTO> listDTO = list.stream()
+            .map(banco -> banco.toDTO())
+            .collect(Collectors.toList());
         try {
-            BancoDAO bancoDAO = new BancoDAO();
-            int[] selectRows = view.getTable().getSelectedRows();
-            int result = OptionDialog.showDeleteCascadeDialog(selectRows.length);
-            if (result != JOptionPane.YES_OPTION) return;
-            for (int i = selectRows.length - 1; i >= 0; i--) {
-                int modelRow = sorter.convertRowIndexToModel(selectRows[i]);
-                Banco banco = model.getObject(modelRow);
-                bancoDAO.deleteById(banco.getId());
-                model.removeRow(modelRow);
-            }
-            model.requeryTable();
-        } catch (DeleteFailException | FetchFailException e) {
+            new BancoDAO().deleteAll(listDTO);
+        } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }

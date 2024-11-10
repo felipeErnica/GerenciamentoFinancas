@@ -1,20 +1,19 @@
 package com.santacarolina.util;
 
-import com.santacarolina.dto.DocumentoDTO;
-import com.santacarolina.dto.DuplicataDTO;
-import com.santacarolina.exceptions.DeleteFailException;
-import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.exceptions.SaveFailException;
-import com.santacarolina.interfaces.FromDTO;
-import com.santacarolina.interfaces.ToDTO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.santacarolina.exceptions.DeleteFailException;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.exceptions.SaveFailException;
+import com.santacarolina.interfaces.FromDTO;
+import com.santacarolina.interfaces.ToDTO;
 
 public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
 
@@ -99,7 +98,7 @@ public class Service<T extends ToDTO<DTO>, DTO extends FromDTO<T>> {
         }
     }
 
-    public void deleteListDTO(String query, List<DTO> list) throws DeleteFailException {
+    public void deleteList(String query, List<DTO> list) throws DeleteFailException {
         try {
             apiRequest.postListRequest(query, list);
         } catch (IOException | URISyntaxException | InterruptedException e) {

@@ -76,7 +76,7 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void deleteButton_onClick() {
+    public void callDeleteDAO() {
         int[] rows = view.getTable().getSelectedRows();
         int result = OptionDialog.showDeleteCascadeDialog(rows.length);
         if (result != JOptionPane.YES_OPTION) return;

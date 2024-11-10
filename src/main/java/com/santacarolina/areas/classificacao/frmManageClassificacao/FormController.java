@@ -70,7 +70,7 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void deleteButton_onClick() {
+    public void callDeleteDAO() {
         try {
             int[] rows = view.getTable().getSelectedRows();
             for (int i = rows.length - 1; i >= 0; i--) {

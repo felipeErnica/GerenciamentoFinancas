@@ -72,7 +72,7 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void deleteButton_onClick() {
+    public void callDeleteDAO() {
         try {
             int[] rows = view.getTable().getSelectedRows();
             int result = OptionDialog.showDeleteCascadeDialog(rows.length);

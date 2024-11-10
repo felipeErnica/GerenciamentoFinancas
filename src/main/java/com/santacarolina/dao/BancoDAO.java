@@ -34,5 +34,9 @@ public class BancoDAO {
         String query = MAPPING + "/apelido=" + apelidoBanco;
         return service.getRequest(query);
     }
+    public void deleteAll(List<BancoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteList(query, list);
+    }
 
 }

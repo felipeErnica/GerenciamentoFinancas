@@ -65,7 +65,7 @@ public class ManageContatoController implements ManageController {
     }
 
     @Override
-    public void deleteButton_onClick() {
+    public void callDeleteDAO() {
         try {
             int[] rows = view.getTable().getSelectedRows();
             if (OptionDialog.showDeleteCascadeDialog(rows.length) != JOptionPane.YES_OPTION) return;

@@ -39,7 +39,7 @@ public class ExtratoDAO {
 
     public void deleteAll(List<ExtratoDTO> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteListDTO(query, list);
+        service.deleteList(query, list);
     }
 
 }

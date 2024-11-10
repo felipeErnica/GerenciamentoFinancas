@@ -34,7 +34,7 @@ public class ProdutoDAO {
 
     public void deleteAll(List<ProdutoDTO> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteListDTO(query, list);
+        service.deleteList(query, list);
     }
 
     public List<ProdutoDTO> findByDocId(long id) throws FetchFailException {

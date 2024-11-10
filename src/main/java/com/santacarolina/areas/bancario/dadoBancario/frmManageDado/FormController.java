@@ -61,7 +61,7 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void deleteButton_onClick() {
+    public void callDeleteDAO() {
         EventQueue.invokeLater(() -> {
             try {
                 int[] rows = view.getTable().getSelectedRows();
