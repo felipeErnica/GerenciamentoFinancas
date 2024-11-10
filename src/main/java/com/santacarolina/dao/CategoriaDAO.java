@@ -45,5 +45,10 @@ public class CategoriaDAO {
         String query = MAPPING + "/" + id;
         service.deleteRequest(query);
     }
+
+    public void deleteAll(List<CategoriaDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteList(query, list);
+    }
     
 }

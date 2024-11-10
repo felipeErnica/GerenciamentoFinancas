@@ -33,4 +33,9 @@ public class PastaDAO {
         service.deleteRequest(query);
     }
 
+    public void deleteAll(List<PastaDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteList(query, list);
+    }
+
 }

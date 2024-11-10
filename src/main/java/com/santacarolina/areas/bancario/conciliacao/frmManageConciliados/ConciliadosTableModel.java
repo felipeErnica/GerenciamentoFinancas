@@ -1,7 +1,6 @@
 package com.santacarolina.areas.bancario.conciliacao.frmManageConciliados;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.santacarolina.dao.ConciliacaoDAO;

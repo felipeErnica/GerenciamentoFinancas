@@ -53,4 +53,9 @@ public class ClassificacaoDAO {
         service.deleteRequest(query);
     }
 
+    public void deleteAll(List<ClassificacaoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteList(query, list);
+    }
+
 }

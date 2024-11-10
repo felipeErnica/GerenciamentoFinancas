@@ -2,8 +2,8 @@ package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.dadoBancario.frmDado.DadoForm;
@@ -15,11 +15,10 @@ import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.DadoBancario;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("unchecked")
-public class FormController implements ManageController {
+public class FormController implements ManageController<DadoDTO> {
 
     private TableModel model;
     private FormView view;
@@ -61,25 +60,15 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void callDeleteDAO() {
-        EventQueue.invokeLater(() -> {
-            try {
-                int[] rows = view.getTable().getSelectedRows();
-                if (OptionDialog.showDeleteDialog(rows.length) != JOptionPane.YES_OPTION) return;
-                for (int i = rows.length - 1; i >= 0; i--) {
-                    int viewRow = rows[i];
-                    int modelRow = sorter.convertRowIndexToModel(viewRow);
-                    DadoBancario dadoBancario = model.getObject(modelRow).fromDTO();
-                    new DadoDAO().deleteById(dadoBancario.getId());
-                    model.removeRow(modelRow);
-                }
-            } catch (DeleteFailException e) {
-                CustomErrorThrower.throwError(e);
-            }
-        });
-    }
+    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
     @Override
-    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
+    public void callDeleteDAO(List<DadoDTO> list) {
+        try {
+            new DadoDAO().deleteAll(list);
+        } catch (DeleteFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
+    }
 
 }

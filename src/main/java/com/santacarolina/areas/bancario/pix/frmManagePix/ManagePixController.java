@@ -2,8 +2,8 @@ package com.santacarolina.areas.bancario.pix.frmManagePix;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.pix.frmPix.PixForm;
@@ -15,11 +15,10 @@ import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("unchecked")
-public class ManagePixController implements ManageController {
+public class ManagePixController implements ManageController<PixDTO> {
 
     private PixTableModel model;
     private ManagePixView view;
@@ -63,24 +62,15 @@ public class ManagePixController implements ManageController {
     }
 
     @Override
-    public void callDeleteDAO() {
-        EventQueue.invokeLater(() -> {
-            try {
-                int[] rows = view.getTable().getSelectedRows();
-                if (OptionDialog.showDeleteDialog(rows.length) != JOptionPane.YES_OPTION) return;
-                for (int i = rows.length - 1; i >= 0; i--) {
-                    int modelRow = sorter.convertRowIndexToModel(rows[i]);
-                    PixDTO pix = model.getObject(modelRow);
-                    new PixDAO().deleteById(pix.getId());
-                    model.removeRow(modelRow);
-                }
-            } catch (DeleteFailException e) {
-                CustomErrorThrower.throwError(e);
-            }
-        });
-    }
+    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
     @Override
-    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
+    public void callDeleteDAO(List<PixDTO> list) {
+        try {
+            new PixDAO().deleteAll(list);
+        } catch (DeleteFailException e) {
+            CustomErrorThrower.throwError(e);
+        }
+    }
 
 }

@@ -2,6 +2,8 @@ package com.santacarolina.areas.categoria.frmManageCategoria;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
@@ -11,6 +13,8 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.categoria.frmCategoria.CategoriaForm;
 import com.santacarolina.dao.CategoriaDAO;
+import com.santacarolina.dao.PixDAO;
+import com.santacarolina.dto.CategoriaDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
@@ -20,7 +24,7 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
-public class FormController implements ManageController {
+public class FormController implements ManageController<CategoriaContabil> {
 
     private FormView view;
     private CategoriaTableModel tableModel;
@@ -72,18 +76,13 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void callDeleteDAO() {
+    public void callDeleteDAO(List<CategoriaContabil> list) {
+        List<CategoriaDTO> listDTO = list.stream()
+            .map(categoria -> categoria.toDTO())
+            .collect(Collectors.toList());
         try {
-            int[] rows = view.getTable().getSelectedRows();
-            int result = OptionDialog.showDeleteCascadeDialog(rows.length);
-            if (result != JOptionPane.YES_OPTION) return;
-            for (int i = rows.length - 1; i >= 0; i--) {
-                int row = sorter.convertRowIndexToModel(rows[i]);
-                CategoriaContabil cat = tableModel.getObject(row);
-                new CategoriaDAO().deleteById(cat.getId());
-            }
-            tableModel.requeryTable();
-        } catch (FetchFailException | DeleteFailException e) {
+            new CategoriaDAO().deleteAll(listDTO);
+        } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }

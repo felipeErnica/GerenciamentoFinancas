@@ -1,5 +1,8 @@
 package com.santacarolina.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.santacarolina.dto.PixDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
@@ -7,9 +10,6 @@ import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.model.Contato;
 import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 public class PixDAO {
 
@@ -45,6 +45,11 @@ public class PixDAO {
     public Optional<ChavePix> findByDadoId(long dadoId) throws FetchFailException {
         String query = MAPPING + "/dadoId=" + dadoId;
         return service.getRequest(query);
+    }
+
+    public void deleteAll(List<PixDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteList(query, list);
     }
 
 }

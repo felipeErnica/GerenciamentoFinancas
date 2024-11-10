@@ -2,6 +2,7 @@ package com.santacarolina.areas.pastaContabil.frmManagePasta;
 
 import com.santacarolina.areas.pastaContabil.frmPastaContabil.PastaContabilForm;
 import com.santacarolina.dao.PastaDAO;
+import com.santacarolina.dto.PastaDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
@@ -12,10 +13,11 @@ import com.santacarolina.util.CustomErrorThrower;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class FormController implements ManageController {
-
-    private static final PastaDAO pastaDAO = new PastaDAO();
+@SuppressWarnings("unchecked")
+public class FormController implements ManageController<PastaContabil> {
 
     private ManageControllerImpl<PastaContabil> baseController;
     private RowSorter<PastaTableModel> sorter;
@@ -51,15 +53,12 @@ public class FormController implements ManageController {
     public void addButton_onClick() { EventQueue.invokeLater(PastaContabilForm::openNew); }
 
     @Override
-    public void callDeleteDAO() {
+    public void callDeleteDAO(List<PastaContabil> list) {
+        List<PastaDTO> listDTO = list.stream()
+            .map(pasta -> pasta.toDTO())
+            .collect(Collectors.toList());
         try {
-            int rows[] = view.getTable().getSelectedRows();
-            for (int i = rows.length - 1; i >= 0; i--) {
-                int modelRow = rows[i];
-                PastaContabil p = model.getObject(modelRow);
-                model.removeRow(modelRow);
-                pastaDAO.deleteById(p.getId());
-            }
+            new PastaDAO().deleteAll(listDTO);
         } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }

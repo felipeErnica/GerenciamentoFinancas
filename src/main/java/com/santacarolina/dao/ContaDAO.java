@@ -36,4 +36,9 @@ public class ContaDAO {
         service.deleteRequest(query);
     }
 
+    public void deleteAll(List<ContaDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteAll(query, list);
+    }
+
 }

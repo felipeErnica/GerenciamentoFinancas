@@ -43,4 +43,9 @@ public class DadoDAO {
         service.deleteRequest(query);
     }
 
+    public void deleteAll(List<DadoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteAll(query, list);
+    }
+
 }

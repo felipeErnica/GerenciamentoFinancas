@@ -48,4 +48,9 @@ public class ContatoDAO {
         String query = MAPPING + "/" + id;
         service.deleteRequest(query);
     }
+
+    public void deleteAll(List<ContatoDTO> list) throws DeleteFailException {
+        String query = MAPPING + "/delete-batch";
+        service.deleteList(query, list);
+    }
 }

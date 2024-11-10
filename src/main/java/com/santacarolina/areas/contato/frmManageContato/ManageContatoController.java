@@ -2,6 +2,8 @@ package com.santacarolina.areas.contato.frmManageContato;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
@@ -11,6 +13,7 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.contato.common.ContatoForm;
 import com.santacarolina.dao.ContatoDAO;
+import com.santacarolina.dto.ContatoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
@@ -20,7 +23,7 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 
 @SuppressWarnings("unchecked")
-public class ManageContatoController implements ManageController {
+public class ManageContatoController implements ManageController<Contato> {
 
     private ManageControllerImpl<Contato> manageController;
     private ContatoTableModel model;
@@ -65,24 +68,18 @@ public class ManageContatoController implements ManageController {
     }
 
     @Override
-    public void callDeleteDAO() {
+    public void showView() { manageController.showView(); }
+
+    @Override
+    public void callDeleteDAO(List<Contato> list) {
+        List<ContatoDTO> listDTO = list.stream()
+            .map(contato -> contato.toDTO())
+            .collect(Collectors.toList());
         try {
-            int[] rows = view.getTable().getSelectedRows();
-            if (OptionDialog.showDeleteCascadeDialog(rows.length) != JOptionPane.YES_OPTION) return;
-            for (int i = rows.length - 1; i >= 0; i--) {
-                int viewRow = rows[i];
-                int modelRow = sorter.convertRowIndexToModel(viewRow);
-                Contato c = model.getObject(modelRow);
-                model.removeRow(modelRow);
-                new ContatoDAO().deleteById(c.getId());
-            }
-            model.requeryTable();
-        } catch (DeleteFailException | FetchFailException e) {
+            new ContatoDAO().deleteAll(listDTO);
+        } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }
-
-    @Override
-    public void showView() { manageController.showView(); }
 
 }

@@ -2,6 +2,7 @@ package com.santacarolina.areas.classificacao.frmManageClassificacao;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.RowSorter;
 
@@ -20,7 +21,7 @@ import com.santacarolina.util.ViewInvoker;
  * FormController
  */
 @SuppressWarnings("rawtypes")
-public class FormController implements ManageController {
+public class FormController implements ManageController<ClassificacaoDTO> {
 
     private FormView view;
     private ClassificacaoTableModel tableModel;
@@ -70,16 +71,10 @@ public class FormController implements ManageController {
     }
 
     @Override
-    public void callDeleteDAO() {
+    public void callDeleteDAO(List<ClassificacaoDTO> list) {
         try {
-            int[] rows = view.getTable().getSelectedRows();
-            for (int i = rows.length - 1; i >= 0; i--) {
-                int modelRow = sorter.convertRowIndexToModel(rows[i]);
-                ClassificacaoContabil classificacao = tableModel.getObject(modelRow).fromDTO();
-                new ClassificacaoDAO().deleteById(classificacao.getId());
-                tableModel.requeryTable();
-            }
-        } catch (FetchFailException | DeleteFailException e) {
+            new ClassificacaoDAO().deleteAll(list);
+        } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }
