@@ -129,23 +129,18 @@ public class FormModel implements ViewUpdater {
         filteredList = filteredList.stream()
             .filter(p -> p.getProduto().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
-        System.out.println("filterPasta");
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
             .filter(p -> p.getDuplicata().getDataVencimento().isBefore(dataFim))
             .collect(Collectors.toList());
-        System.out.println("filterInicio");
-        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
             .filter(p -> p.getDuplicata().getDataVencimento().isAfter(dataInicio))
             .collect(Collectors.toList());
-        System.out.println("filterFim");
-        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
     }
 
     private void buildResultingLine() {
@@ -159,20 +154,17 @@ public class FormModel implements ViewUpdater {
     private void  buildPieSeriesList() {
         List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
 
-        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
-
-        Map<ClassificacaoContabil,List<Produto>> map = filteredList.stream()
+        Map<String, List<Produto>> map = filteredList.stream()
             .map(pd -> pd.getProduto())
-            .collect(Collectors.groupingBy(p -> p.getClassificacao()));
+            .collect(Collectors.groupingBy(p -> p.getClassificacao().getNomeClassificacao()));
 
         //Soma toda as entradas de uma mesma classificacao e adiciona a uma lista que mapeia a classificacao a um valor.
-        for (ClassificacaoContabil classificacao : map.keySet()) {
+        for (String classificacao : map.keySet()) {
             List<Produto> listProdutos = map.getOrDefault(classificacao, Collections.emptyList());
             double valorClassificacao = listProdutos.stream()
                 .mapToDouble(p -> p.getValorTotal())
                 .sum();
-            System.out.println("categoria-graph: " + classificacao.getNomeClassificacao() + " valor: " + valorClassificacao);
-            ExpenseCategory ec = new ExpenseCategory(classificacao.getNomeClassificacao(), Math.abs(valorClassificacao)*-1);
+            ExpenseCategory ec = new ExpenseCategory(classificacao, Math.abs(valorClassificacao)*-1);
             expenseCategoryList.add(ec);
         }
 
