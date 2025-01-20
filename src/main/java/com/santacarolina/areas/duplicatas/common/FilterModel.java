@@ -134,19 +134,19 @@ public class FilterModel implements ViewUpdater {
     private void filterInicio() {
         System.out.println("filterInicio");
         filteredList.forEach(d -> System.out.println(d.toString()));
-        filteredList = filteredList.stream()
-            .filter(dup -> dup.getDataVencimento() != null)
-            .filter(dup -> dup.getDataVencimento().isAfter(dataInicio.minusDays(1)))
-            .collect(Collectors.toList());
+        //filteredList = filteredList.stream()
+            //.filter(dup -> dup.getDataVencimento() != null)
+            //.filter(dup -> dup.getDataVencimento().isAfter(dataInicio.minusDays(1)))
+            //.collect(Collectors.toList());
     }
 
     private void filterFim() {
         System.out.println("filterFim");
         filteredList.forEach(d -> System.out.println(d.toString()));
-        filteredList = filteredList.stream()
-            .filter(dup -> dup.getDataVencimento() != null)
-            .filter(dup -> dup.getDataVencimento().isBefore(dataFim.plusDays(1)))
-            .collect(Collectors.toList());
+        //filteredList = filteredList.stream()
+            //.filter(dup -> dup.getDataVencimento() != null)
+            //.filter(dup -> dup.getDataVencimento().isBefore(dataFim.plusDays(1)))
+            //.collect(Collectors.toList());
     }
 
     @Override

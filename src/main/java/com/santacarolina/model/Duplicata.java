@@ -29,24 +29,21 @@ public class Duplicata {
     public DocumentoFiscal getDocumento() {
         try {
             if (documento == null && documentoId != 0) documento = new DocumentoDAO().findById(documentoId).orElse(null);
-        } catch (FetchFailException ignored) {
-        }
+        } catch (FetchFailException ignored) { }
         return documento;
     }
 
     public DadoBancario getDado() {
         try {
             if (dado == null && dadoId != null) dado = new DadoDAO().findById(dadoId).orElse(null);
-        } catch (FetchFailException ignored) {
-        }
+        } catch (FetchFailException ignored) { }
         return dado;
     }
 
     public ChavePix getPix() {
         try {
             if (pix == null && pixId != null) pix = new PixDAO().findById(pixId).orElse(null);
-        } catch (FetchFailException ignored) {
-        }
+        } catch (FetchFailException ignored) { }
         return pix;
     }
 
