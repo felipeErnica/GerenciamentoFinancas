@@ -5,22 +5,23 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.santacarolina.areas.homePage.graphData.ExpenseCategory;
 import com.santacarolina.areas.homePage.graphData.ExpenseIncomeSerie;
-import com.santacarolina.dao.ClassificacaoDAO;
-import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.dao.ProdutoDuplicataDAO;
-import com.santacarolina.dto.ProdutoDuplicataDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.model.PastaContabil;
+import com.santacarolina.model.Produto;
+import com.santacarolina.model.ProdutoDuplicata;
 import com.santacarolina.util.PropertyFirer;
 
 public class FormModel implements ViewUpdater {
@@ -37,10 +38,8 @@ public class FormModel implements ViewUpdater {
     private static LocalDate dataInicio;
     private static LocalDate dataFim;
 
-    private List<ClassificacaoContabil> classificacaoList;
-
-    private List<ProdutoDuplicataDTO> unfilteredList;
-    private List<ProdutoDuplicataDTO> filteredList;
+    private List<ProdutoDuplicata> unfilteredList;
+    private List<ProdutoDuplicata> filteredList;
 
     private List<ExpenseCategory> pieSeriesList;
     private List<ExpenseIncomeSerie> expenseIncomeSeries;
@@ -51,12 +50,10 @@ public class FormModel implements ViewUpdater {
     private PropertyFirer pf;
 
     public FormModel() throws FetchFailException {
-        classificacaoList = new ClassificacaoDAO().findAll().stream()
-            .filter(c -> c.getFluxoCaixa() == FluxoCaixa.DESPESA)
-            .toList();
         unfilteredList = new ProdutoDuplicataDAO().findAll().stream()
-            .filter(p -> p.getDataVencimento() != null)
-            .filter(p -> p.getNomePasta() != null)
+            .filter(p -> p.getDuplicata().getDataVencimento() != null)
+            .filter(p -> p.getDuplicata().getDocumento() != null)
+            .filter(p -> p.getDuplicata().getDocumento().getPastaContabil() != null)
             .collect(Collectors.toList());
         pf = new PropertyFirer(this);
         updateAllData();
@@ -70,16 +67,19 @@ public class FormModel implements ViewUpdater {
     }
 
     private void mostValuablePasta() throws FetchFailException {
-        List<PastaContabil> listPasta = new PastaDAO().findAll();
+        Map<PastaContabil, List<Produto>> map = unfilteredList.stream()
+            .map(pd -> pd.getProduto())
+            .collect(Collectors.groupingBy(p -> p.getDocumento().getPastaContabil()));
+        
         double biggestValue = 0;
         PastaContabil selectedPasta = new PastaContabil();
-        for (PastaContabil pasta : listPasta) {
-            double pastaValue = unfilteredList.stream()
-                .filter(dto -> dto.getPastaId() == pasta.getId())
-                .mapToDouble(dto -> Math.abs(dto.getValorTotal()))
+        for (PastaContabil pasta : map.keySet()) {
+            List<Produto> listProdutos = map.getOrDefault(pasta, Collections.emptyList());
+            double sum = listProdutos.stream()
+                .mapToDouble(p -> Math.abs(p.getValorTotal()))
                 .sum();
-            if (pastaValue > biggestValue) {
-                biggestValue = pastaValue;
+            if (sum > biggestValue) {
+                biggestValue = sum;
                 selectedPasta = pasta;
             }
         }
@@ -127,26 +127,26 @@ public class FormModel implements ViewUpdater {
 
     private void filterPasta() {
         filteredList = filteredList.stream()
-            .filter(p -> p.getPastaId() == pastaContabil.getId())
+            .filter(p -> p.getProduto().getDocumento().getPastaContabil().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
-            .filter(p -> p.getDataVencimento().isBefore(dataFim))
+            .filter(p -> p.getDuplicata().getDataVencimento().isBefore(dataFim))
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            .filter(p -> p.getDataVencimento().isAfter(dataInicio))
+            .filter(p -> p.getDuplicata().getDataVencimento().isAfter(dataInicio))
             .collect(Collectors.toList());
     }
 
     private void buildResultingLine() {
         filteredList.forEach(p -> {
-            if (p.getFluxoCaixa() == FluxoCaixa.RECEITA) p.setValorUnit(Math.abs(p.getValorUnit()));
-            else p.setValorUnit(Math.abs(p.getValorUnit())*-1);
+            if (p.getProduto().getDocumento().getFluxoCaixa() == FluxoCaixa.RECEITA) p.getProduto().setValorUnit(Math.abs(p.getProduto().getValorUnit()));
+            else p.getProduto().setValorUnit(Math.abs(p.getProduto().getValorUnit())*-1);
         });
         resultadosSerie = buildExpenseIncomeSerie(filteredList, "RESULTADOS"); 
     }
@@ -154,11 +154,15 @@ public class FormModel implements ViewUpdater {
     private void  buildPieSeriesList() {
         List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
 
+        Map<ClassificacaoContabil,List<Produto>> map = filteredList.stream()
+            .map(pd -> pd.getProduto())
+            .collect(Collectors.groupingBy(p -> p.getClassificacao()));
+
         //Soma toda as entradas de uma mesma classificacao e adiciona a uma lista que mapeia a classificacao a um valor.
-        for (ClassificacaoContabil classificacao : classificacaoList) {
-            double valorClassificacao = filteredList.stream()
-                .filter(p -> p.getClassificacaoId() == classificacao.getId())
-                .mapToDouble(dto -> dto.getValorTotal())
+        for (ClassificacaoContabil classificacao : map.keySet()) {
+            List<Produto> listProdutos = map.getOrDefault(classificacao, Collections.emptyList());
+            double valorClassificacao = listProdutos.stream()
+                .mapToDouble(p -> p.getValorTotal())
                 .sum();
             ExpenseCategory ec = new ExpenseCategory(classificacao.getNomeClassificacao(), Math.abs(valorClassificacao)*-1);
             expenseCategoryList.add(ec);
@@ -190,8 +194,8 @@ public class FormModel implements ViewUpdater {
         expenseIncomeSeries = new ArrayList<>();
 
         //Cria a séria RECEITAS, mapeia os valores a uma data.
-        List<ProdutoDuplicataDTO> incomeList = filteredList.stream()
-            .filter(d -> d.getFluxoCaixa() == FluxoCaixa.RECEITA)
+        List<ProdutoDuplicata> incomeList = filteredList.stream()
+            .filter(p -> p.getProduto().getDocumento().getFluxoCaixa() == FluxoCaixa.RECEITA)
             .toList();
         
         ExpenseIncomeSerie incomeSerie = buildExpenseIncomeSerie(incomeList, "RECEITA");
@@ -205,11 +209,11 @@ public class FormModel implements ViewUpdater {
         }
 
         //Cria a séria DESPESAS, mapeia os valores a uma data.
-        List<ProdutoDuplicataDTO> expenseList = filteredList.stream()
-            .filter(d -> d.getFluxoCaixa() == FluxoCaixa.DESPESA)
+        List<ProdutoDuplicata> expenseList = filteredList.stream()
+            .filter(p -> p.getProduto().getDocumento().getFluxoCaixa() == FluxoCaixa.DESPESA)
             .collect(Collectors.toList());
         
-        expenseList.forEach(d -> d.setValorUnit(Math.abs(d.getValorUnit())));
+        expenseList.forEach(d -> d.getProduto().setValorUnit(Math.abs(d.getProduto().getValorUnit())));
         ExpenseIncomeSerie expenseSerie = buildExpenseIncomeSerie(expenseList, "DESPESA");
 
         double expenseMax = 1000;
@@ -225,9 +229,9 @@ public class FormModel implements ViewUpdater {
     }
 
     //Método para somar entradas em uma mesmo Mês e retorna os valores mapeados
-    private ExpenseIncomeSerie buildExpenseIncomeSerie(List<ProdutoDuplicataDTO> rawList, String name) {
+    private ExpenseIncomeSerie buildExpenseIncomeSerie(List<ProdutoDuplicata> rawList, String name) {
         List<Integer> yearList = filteredList.stream()
-                .map(d -> d.getDataVencimento().getYear())
+                .map(d -> d.getDuplicata().getDataVencimento().getYear())
                 .sorted()
                 .distinct()
                 .toList();
@@ -236,8 +240,8 @@ public class FormModel implements ViewUpdater {
 
         for (Integer year : yearList) {
             List<Month> monthRange = filteredList.stream()
-                    .filter(d -> d.getDataVencimento().getYear() == year)
-                    .map(d -> d.getDataVencimento().getMonth())
+                    .filter(d -> d.getDuplicata().getDataVencimento().getYear() == year)
+                    .map(d -> d.getDuplicata().getDataVencimento().getMonth())
                     .sorted()
                     .distinct()
                     .toList();
@@ -245,9 +249,9 @@ public class FormModel implements ViewUpdater {
                 Date date = Date.from(LocalDate.of(year,month,1).atStartOfDay(ZoneId.systemDefault()).toInstant());
                 listDate.add(date);
                 double monthValues = rawList.stream()
-                        .filter(d -> d.getDataVencimento().getYear() == year)
-                        .filter(d -> d.getDataVencimento().getMonth() == month)
-                        .mapToDouble(ProdutoDuplicataDTO::getValorTotal)
+                        .filter(d -> d.getDuplicata().getDataVencimento().getYear() == year)
+                        .filter(d -> d.getDuplicata().getDataVencimento().getMonth() == month)
+                        .mapToDouble(p -> p.getProduto().getValorTotal())
                         .sum();
                 listValues.add(monthValues);
             }

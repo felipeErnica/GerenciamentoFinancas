@@ -1,9 +1,6 @@
 package com.santacarolina.dto;
 
-import java.time.LocalDate;
-
 import com.santacarolina.enums.TipoMovimento;
-import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.FromDTO;
 import com.santacarolina.model.Conciliacao;
 
@@ -11,49 +8,27 @@ public class ConciliacaoDTO implements FromDTO<Conciliacao> {
 
     private long id;
     private TipoMovimento tipoMovimento;
-    private Long duplicataId;
-    private LocalDate dataVencimento;
-    private TipoPagamento tipoPagamento;
-    private double valorDuplicata;
-    private long pastaId;
-    private String nomePasta;
-    private long emissorId;
-    private long nomeEmissor;
-    private long contaId;
-    private String contaBancaria;
-    private long extratoId;
-    private LocalDate dataExtrato;
-    private String descExtrato;
-    private String categoriaExtrato;
-    private double valorExtrato;
 
+    private DuplicataDTO duplicata;
+    private ExtratoDTO extrato;
 
     public ConciliacaoDTO (Conciliacao c) {
         this.id = c.getId();
         this.tipoMovimento = c.getTipoMovimento();
-        this.duplicataId = c.getDuplicataId();
-        this.extratoId = c.getExtratoId();
+        this.duplicata = new DuplicataDTO(c.getDuplicata());
+        this.extrato = new ExtratoDTO(c.getExtrato());
     }
 
     public ConciliacaoDTO() { }
 
     public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
     public TipoMovimento getTipoMovimento() { return tipoMovimento; }
-    public Long getDuplicataId() { return duplicataId; }
-    public long getExtratoId() { return extratoId; }
-    public LocalDate getDataVencimento() { return dataVencimento; }
-    public TipoPagamento getTipoPagamento() { return tipoPagamento; }
-    public double getValorDuplicata() { return valorDuplicata; }
-    public long getPastaId() { return pastaId; }
-    public String getNomePasta() { return nomePasta; }
-    public long getContaId() { return contaId; }
-    public String getContaBancaria() { return contaBancaria; }
-    public LocalDate getDataExtrato() { return dataExtrato; }
-    public String getDescExtrato() { return descExtrato; }
-    public String getCategoriaExtrato() { return categoriaExtrato; }
-    public double getValorExtrato() { return valorExtrato; }
-    public long getEmissorId() { return emissorId; }
-    public long getNomeEmissor() { return nomeEmissor; }
+    public void setTipoMovimento(TipoMovimento tipoMovimento) { this.tipoMovimento = tipoMovimento; }
+    public DuplicataDTO getDuplicata() { return duplicata; }
+    public void setDuplicata(DuplicataDTO duplicata) { this.duplicata = duplicata; }
+    public ExtratoDTO getExtrato() { return extrato; }
+    public void setExtrato(ExtratoDTO extrato) { this.extrato = extrato; }
 
     @Override
     public Conciliacao fromDTO() { return new Conciliacao(this); }

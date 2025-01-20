@@ -20,8 +20,8 @@ public class Produto implements ToDTO<ProdutoDTO>, Comparable<Produto> {
 
     public Produto(ProdutoDTO dto) {
         this.id = dto.getId();
-        this.documentoId = dto.getDocId();
-        this.classificacaoId = dto.getClassificacaoId();
+        this.documento = new DocumentoFiscal(dto.getDocumento());
+        this.classificacao = new ClassificacaoContabil(dto.getClassificacao());
         this.descricao = dto.getDescricao();
         this.und = dto.getUnd();
         this.quantidade = dto.getQuantidade();

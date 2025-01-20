@@ -39,11 +39,14 @@ public class ApiRequest<T> {
                 .build();
 
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 200 && response.statusCode() != 404) throw new InterruptedException("Server Error: " + response.statusCode());
+        if (response.statusCode() != 200 && response.statusCode() != 404)
+            throw new InterruptedException("Server Error: " + response.statusCode());
         String json = response.body();
         logger.info("Response: " + response.statusCode());
-        if (json.isEmpty()) return Optional.empty();
-        else return Optional.ofNullable(mapper.readValue(json, tClass));
+        if (json.isEmpty())
+            return Optional.empty();
+        else
+            return Optional.ofNullable(mapper.readValue(json, tClass));
     }
 
     public List<T> getListRequest(String queryString) throws URISyntaxException, IOException, InterruptedException {
@@ -53,7 +56,8 @@ public class ApiRequest<T> {
                 .GET()
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 200 && response.statusCode() != 404) throw new InterruptedException("Server Error: " + response.statusCode());
+        if (response.statusCode() != 200 && response.statusCode() != 404)
+            throw new InterruptedException("Server Error: " + response.statusCode());
         String json = response.body();
         logger.info("Response: " + response.statusCode());
         return mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, tClass));
@@ -72,7 +76,8 @@ public class ApiRequest<T> {
         logger.info("Response POST: " + response.statusCode());
     }
 
-    public T postRequestWithResponse(String queryString, T t) throws InterruptedException, IOException, URISyntaxException {
+    public T postRequestWithResponse(String queryString, T t)
+            throws InterruptedException, IOException, URISyntaxException {
         String json = mapper.writeValueAsString(t);
         logger.info("Enviando Objeto: " + json);
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(json);
@@ -83,11 +88,13 @@ public class ApiRequest<T> {
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
         logger.info("Response POST: " + response.statusCode());
-        if (response.statusCode() != 200) throw new InterruptedException("Server Error: " + response.statusCode());
+        if (response.statusCode() != 200)
+            throw new InterruptedException("Server Error: " + response.statusCode());
         return mapper.readValue(response.body(), tClass);
     }
 
-    public void postListRequest(String queryString, List<T> list) throws IOException, URISyntaxException, InterruptedException {
+    public void postListRequest(String queryString, List<T> list)
+            throws IOException, URISyntaxException, InterruptedException {
         String json = mapper.writeValueAsString(list);
         logger.info("Enviando Batch: " + json);
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(json);
@@ -98,7 +105,8 @@ public class ApiRequest<T> {
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
         logger.info("Response Batch: " + response.statusCode());
-        if (response.statusCode() != 200) throw new InterruptedException("Server Error: " + response.statusCode());
+        if (response.statusCode() != 200)
+            throw new InterruptedException("Server Error: " + response.statusCode());
     }
 
     public void deleteRequest(String query) throws URISyntaxException, IOException, InterruptedException {
@@ -109,7 +117,8 @@ public class ApiRequest<T> {
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
         logger.info("Response Delete: " + response.statusCode());
-        if (response.statusCode() != 200) throw new InterruptedException("Server Error: " + response.statusCode());
+        if (response.statusCode() != 200)
+            throw new InterruptedException("Server Error: " + response.statusCode());
     }
 
 }

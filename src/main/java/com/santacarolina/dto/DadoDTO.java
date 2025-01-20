@@ -7,29 +7,25 @@ public class DadoDTO implements FromDTO<DadoBancario> {
 
     private long id;
     private String agencia;
-    private long bancoId;
-    private String nomeBanco;
+    private BancoDTO banco;
     private String numeroConta;
-    private long contatoId;
-    private String nomeContato;
+    private ContatoDTO contato;
 
     public DadoDTO (DadoBancario d) {
         this.id = d.getId();
         this.agencia = d.getAgencia();
-        this.bancoId = d.getBancoId();
         this.numeroConta = d.getNumeroConta();
-        this.contatoId = d.getContatoId();
+        this.banco = new BancoDTO(d.getBanco());
+        this.contato = new ContatoDTO(d.getContato());
     }
 
     public DadoDTO() {}
 
     public long getId() { return id; }
     public String getAgencia() { return agencia; }
-    public long getBancoId() { return bancoId; }
     public String getNumeroConta() { return numeroConta; }
-    public long getContatoId() { return contatoId; }
-    public String getNomeContato() { return nomeContato; }
-    public String getNomeBanco() { return nomeBanco; }
+    public BancoDTO getBanco() { return banco; }
+    public ContatoDTO getContato() { return contato; }
 
     @Override
     public DadoBancario fromDTO() { return new DadoBancario(this); }

@@ -22,7 +22,7 @@ public class ContaBancaria implements ToDTO<ContaDTO>, Copiable<ContaBancaria> {
         this.id = dto.getId();
         this.nomeConta = dto.getNomeConta();
         this.agencia = dto.getAgencia();
-        this.bancoId = dto.getBancoId();
+        this.banco = new Banco(dto.getBanco());
         this.numeroConta = dto.getNumeroConta();
         this.abreviacaoConta = dto.getAbreviacaoConta();
     }
@@ -67,6 +67,6 @@ public class ContaBancaria implements ToDTO<ContaDTO>, Copiable<ContaBancaria> {
     public String toString() { return abreviacaoConta != null ? abreviacaoConta : nomeConta; }
 
     @Override
-    public ContaDTO toDTO() { return new ContaDTO().fromObject(this); }
+    public ContaDTO toDTO() { return new ContaDTO(this); }
 
 }

@@ -8,7 +8,7 @@ public class PastaDTO implements FromDTO<PastaContabil> {
     private long id;
     private String nome;
     private String caminhoPasta;
-    private long contaId;
+    private ContaDTO conta;
 
     public PastaDTO() {}
 
@@ -16,13 +16,13 @@ public class PastaDTO implements FromDTO<PastaContabil> {
         this.id = p.getId();
         this.nome = p.getNome();
         this.caminhoPasta = p.getCaminhoPasta();
-        this.contaId = p.getContaId();
+        this.conta = new ContaDTO(p.getContaBancaria());
     }
 
     public long getId() { return id; }
     public String getNome() { return nome; }
     public String getCaminhoPasta() { return caminhoPasta; }
-    public long getContaId() { return contaId; }
+    public ContaDTO getConta() { return conta; }
 
     @Override
     public PastaContabil fromDTO() { return new PastaContabil(this); }

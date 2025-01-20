@@ -8,9 +8,8 @@ import java.time.LocalDate;
 public class ExtratoDTO implements FromDTO<Extrato> {
 
     private long id;
-    private Long contaId;
+    private ContaDTO conta;
     private LocalDate dataTransacao;
-    private String contaBancaria;
     private String categoriaExtrato;
     private String descricao;
     private double valor;
@@ -20,7 +19,7 @@ public class ExtratoDTO implements FromDTO<Extrato> {
 
     public ExtratoDTO (Extrato e) {
         this.id = e.getId();
-        this.contaId = e.getContaId();
+        this.conta = new ContaDTO(e.getContaBancaria());
         this.dataTransacao = e.getDataTransacao();
         this.categoriaExtrato = e.getCatBancaria();
         this.descricao = e.getDescricao();
@@ -29,9 +28,8 @@ public class ExtratoDTO implements FromDTO<Extrato> {
     }
 
     public long getId() { return id; }
-    public Long getContaId() { return contaId; }
+    public ContaDTO getConta() { return conta; }
     public LocalDate getDataTransacao() { return dataTransacao; }
-    public String getContaBancaria() { return contaBancaria; }
     public String getCategoriaExtrato() { return categoriaExtrato; }
     public String getDescricao() { return descricao; }
     public double getValor() { return valor; }

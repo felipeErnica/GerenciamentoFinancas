@@ -70,7 +70,7 @@ public class ExtratoConciliacaoTableModel implements CustomTableModel<ExtratoDTO
         ExtratoDTO e = extratoList.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> e.getDataTransacao();
-            case 1 -> e.getContaBancaria();
+            case 1 -> e.getConta().getNomeConta();
             case 2 -> e.getCategoriaExtrato();
             case 3 -> e.getDescricao();
             case 4 -> e.getValor();

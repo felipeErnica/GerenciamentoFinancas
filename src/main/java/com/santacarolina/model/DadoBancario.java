@@ -25,8 +25,8 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
         this.id = dto.getId();
         this.agencia = dto.getAgencia();
         this.numeroConta = dto.getNumeroConta();
-        this.bancoId = dto.getBancoId();
-        this.contatoId = dto.getContatoId();
+        this.banco = new Banco(dto.getBanco());
+        this.contato = new Contato(dto.getContato());
     }
 
     public long getId() { return id; }

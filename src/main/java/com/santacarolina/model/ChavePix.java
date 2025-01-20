@@ -1,15 +1,15 @@
 package com.santacarolina.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.ContatoDAO;
-import com.santacarolina.dto.PixDTO;
-import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.dao.DadoDAO;
+import com.santacarolina.dto.PixDTO;
 import com.santacarolina.enums.TipoPix;
+import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ToDTO;
 import com.santacarolina.util.DocConversor;
-import org.apache.commons.lang3.StringUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChavePix implements ToDTO<PixDTO>, Cloneable {
@@ -26,8 +26,8 @@ public class ChavePix implements ToDTO<PixDTO>, Cloneable {
 
     public ChavePix (PixDTO p) {
         this.id = p.getId();
-        this.dadoId = p.getDadoId();
-        this.contatoId = p.getContatoId();
+        this.dadoBancario = new DadoBancario(p.getDado());
+        this.contato = new Contato(p.getContato());
         this.tipoPix = p.getTipoPix();
         this.chave = p.getChave();
     }

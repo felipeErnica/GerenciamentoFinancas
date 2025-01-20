@@ -19,8 +19,8 @@ public class Conciliacao implements ToDTO<ConciliacaoDTO> {
     public Conciliacao (ConciliacaoDTO dto) {
         this.id = dto.getId();
         this.tipoMovimento = dto.getTipoMovimento();
-        this.duplicataId = dto.getDuplicataId();
-        this.extratoId = dto.getExtratoId();
+        this.extrato = new Extrato(dto.getExtrato());
+        this.duplicata = new Duplicata(dto.getDuplicata());
     }
 
     public Conciliacao(Duplicata duplicata, Extrato extrato) {

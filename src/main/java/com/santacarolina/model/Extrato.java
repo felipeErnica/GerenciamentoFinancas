@@ -1,13 +1,12 @@
 package com.santacarolina.model;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.santacarolina.dao.ContaDAO;
-import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ToDTO;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class Extrato implements ToDTO<ExtratoDTO> {
 
@@ -26,7 +25,7 @@ public class Extrato implements ToDTO<ExtratoDTO> {
     public Extrato (ExtratoDTO dto) {
         this.id = dto.getId();
         this.dataTransacao = dto.getDataTransacao();
-        this.contaId = dto.getContaId();
+        this.contaBancaria = new ContaBancaria(dto.getConta());
         this.catBancaria = dto.getCategoriaExtrato();
         this.descricao = dto.getDescricao();
         this.valor = dto.getValor();

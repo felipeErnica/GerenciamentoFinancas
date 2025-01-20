@@ -43,11 +43,11 @@ public class FilterModel implements ViewUpdater {
 
     private void updateData() {
         dataInicio = filteredList.stream()
-            .map(dto -> dto.getDataExtrato())
+            .map(dto -> dto.getExtrato().getDataTransacao())
             .sorted()
             .findFirst().orElse(null);
         dataFim = filteredList.stream()
-            .map(dto -> dto.getDataExtrato())
+            .map(dto -> dto.getExtrato().getDataTransacao())
             .sorted(Comparator.reverseOrder())
             .findFirst().orElse(null);
     }
@@ -110,19 +110,20 @@ public class FilterModel implements ViewUpdater {
 
     private void filterFim() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataExtrato().isBefore(dataFim.plusDays(1)))
+            .filter(dto -> dto.getExtrato().getDataTransacao().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataExtrato().isAfter(dataInicio.minusDays(1)))
+            .filter(dto -> dto.getExtrato().getDataTransacao().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterPasta() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getPastaId() == pastaContabil.getId())
+            .filter(dto -> dto.getDuplicata() != null)
+            .filter(dto -> dto.getDuplicata().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 
@@ -134,7 +135,8 @@ public class FilterModel implements ViewUpdater {
 
     private void filterEmissor() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getEmissorId() == emissor.getId())
+            .filter(dto -> dto.getDuplicata() != null)
+            .filter(dto -> dto.getDuplicata().getDocumento().getEmissor().getId() == emissor.getId())
             .collect(Collectors.toList());
     }
 

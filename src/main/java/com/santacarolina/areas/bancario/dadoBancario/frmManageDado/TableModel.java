@@ -52,8 +52,8 @@ public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContain
     public Object getValueAt(int rowIndex, int columnIndex) {
         DadoDTO d = getObject(rowIndex);
         return switch (columnIndex) {
-            case 0 -> d.getNomeContato();
-            case 1 -> d.getNomeBanco();
+            case 0 -> d.getContato().getNome();
+            case 1 -> d.getBanco().getNomeBanco();
             case 2 -> d.getAgencia();
             case 3 -> d.getNumeroConta();
             default -> throw new IllegalStateException("Unexpected column value: " + columnIndex);

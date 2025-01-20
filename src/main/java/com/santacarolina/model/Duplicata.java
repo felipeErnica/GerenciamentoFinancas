@@ -1,5 +1,7 @@
 package com.santacarolina.model;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.dao.DocumentoDAO;
@@ -8,8 +10,6 @@ import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ToDTO;
-
-import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Duplicata implements ToDTO<DuplicataDTO> {
@@ -30,14 +30,14 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
 
     public Duplicata (DuplicataDTO dto) {
         this.id = dto.getId();
-        this.documentoId = dto.getDocId();
+        this.documento = new DocumentoFiscal(dto.getDocumento());
         this.numDup = dto.getNumDup();
         this.dataVencimento = dto.getDataVencimento();
         this.tipoPagamento = dto.getTipoPagamento();
         this.valor = dto.getValor();
         this.boletoCaminho = dto.getBoletoCaminho();
-        this.pixId = dto.getPixId();
-        this.dadoId = dto.getDadoId();
+        this.pix = new ChavePix(dto.getPix());
+        this.dadoBancario = new DadoBancario(dto.getDado());
         this.isPayed = dto.isPaga();
     }
 

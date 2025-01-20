@@ -77,15 +77,15 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
         ConciliacaoDTO conc = filterModel.getList().get(rowIndex);
         return switch (columnIndex) {
             case 0 -> conc.getTipoMovimento();
-            case 1 -> conc.getDataExtrato();
-            case 2 -> conc.getContaBancaria();
-            case 3 -> conc.getCategoriaExtrato();
-            case 4 -> conc.getDescExtrato();
-            case 5 -> conc.getValorExtrato();
-            case 6 -> conc.getDataVencimento();
-            case 7 -> conc.getNomePasta();
-            case 8 -> conc.getNomeEmissor();
-            case 9 -> conc.getValorDuplicata();
+            case 1 -> conc.getExtrato().getDataTransacao();
+            case 2 -> conc.getExtrato().getConta().getNomeConta();
+            case 3 -> conc.getExtrato().getCategoriaExtrato();
+            case 4 -> conc.getExtrato().getDescricao();
+            case 5 -> conc.getExtrato().getDescricao();
+            case 6 -> conc.getDuplicata() != null ? conc.getDuplicata().getDataVencimento() : null;
+            case 7 -> conc.getDuplicata() != null ? conc.getDuplicata().getDocumento().getPasta().getNome(): null;
+            case 8 -> conc.getDuplicata() != null ? conc.getDuplicata().getDocumento() : null;
+            case 9 -> conc.getDuplicata() != null ? conc.getDuplicata().getValor() : null;
             default -> throw new IllegalArgumentException("Unexpected value: " + columnIndex);
         };
     }

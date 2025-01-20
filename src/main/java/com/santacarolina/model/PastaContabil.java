@@ -21,7 +21,7 @@ public class PastaContabil implements ToDTO<PastaDTO>, Cloneable {
         this.id = dto.getId();
         this.nome = dto.getNome();
         this.caminhoPasta = dto.getCaminhoPasta();
-        this.contaId = dto.getContaId();
+        this.contaBancaria = new ContaBancaria(dto.getConta());
     }
 
     public long getId() { return id; }
