@@ -101,6 +101,7 @@ public class FilterModel implements ViewUpdater {
     }
 
     private void filterEmissor() {
+        System.out.println("filtro emissor: " + emissor);
         filteredList = filteredList.stream()
             .filter(dup -> dup.getDocumento() != null)
             .filter(dup -> dup.getDocumento().getEmissor() != null)
@@ -129,12 +130,11 @@ public class FilterModel implements ViewUpdater {
             .filter(dup -> dup.getDataVencimento() != null)
             .filter(dup -> dup.getDataVencimento().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
-        filteredList.forEach(dup -> System.out.println(dup));
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
-                .filter(dup -> dup.getDataVencimento() != null)
+            .filter(dup -> dup.getDataVencimento() != null)
             .filter(dup -> dup.getDataVencimento().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }

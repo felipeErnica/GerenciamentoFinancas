@@ -20,6 +20,7 @@ public class DupNaoPagaPane implements Opener {
             model = new DupTableModel(new DuplicataDAO().findNaoPagas());
             controller = new FormController(view, model);
             return view;
+            
         } catch (FetchFailException e) {
             CustomErrorThrower.throwError(e);
             return null;

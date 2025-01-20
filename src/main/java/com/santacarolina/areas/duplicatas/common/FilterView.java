@@ -76,29 +76,15 @@ public class FilterView implements PropertyChangeListener {
         filterPanel.add(dataFim);
     }
 
-    public JTextField getDataInicio() {
-        return dataInicio;
-    }
+    public JTextField getDataInicio() { return dataInicio; }
+    public JTextField getDataFim() { return dataFim; }
+    public JComboBox<TipoPagamento> getTipoPagamentoField() { return tipoPagamentoField; }
+    public JComboBox<ContaBancaria> getContaField() { return contaField; }
+    public JTextField getEmissorField() { return emissorField; }
 
-    public JTextField getDataFim() {
-        return dataFim;
-    }
-
-    public JComboBox<TipoPagamento> getTipoPagamentoField() {
-        return tipoPagamentoField;
-    }
-
-    public JComboBox<ContaBancaria> getContaField() {
-        return contaField;
-    }
-
-    public JTextField getEmissorField() {
-        return emissorField;
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()) {
+    @Override 
+    public void propertyChange(PropertyChangeEvent evt) { 
+        switch (evt.getPropertyName()) { 
             case FilterModel.DATA_INICIO -> {
                 LocalDate date = (LocalDate) evt.getNewValue();
                 dataInicio.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
