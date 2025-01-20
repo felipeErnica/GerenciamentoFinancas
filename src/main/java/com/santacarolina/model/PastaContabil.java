@@ -1,11 +1,9 @@
 package com.santacarolina.model;
 
 import com.santacarolina.dao.ContaDAO;
-import com.santacarolina.dto.PastaDTO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ToDTO;
 
-public class PastaContabil implements ToDTO<PastaDTO>, Cloneable {
+public class PastaContabil implements Cloneable {
 
     private static final ContaDAO contaDAO = new ContaDAO();
 
@@ -14,15 +12,6 @@ public class PastaContabil implements ToDTO<PastaDTO>, Cloneable {
     private String caminhoPasta;
     private long contaId;
     private ContaBancaria contaBancaria;
-
-    public PastaContabil() {}
-
-    public PastaContabil (PastaDTO dto) {
-        this.id = dto.getId();
-        this.nome = dto.getNome();
-        this.caminhoPasta = dto.getCaminhoPasta();
-        this.contaBancaria = new ContaBancaria(dto.getConta());
-    }
 
     public long getId() { return id; }
     public String getNome() { return nome; }
@@ -58,8 +47,5 @@ public class PastaContabil implements ToDTO<PastaDTO>, Cloneable {
         clone.setContaId(contaId);
         return clone;
     }
-
-    @Override
-    public PastaDTO toDTO() { return new PastaDTO(this); }
 
 }

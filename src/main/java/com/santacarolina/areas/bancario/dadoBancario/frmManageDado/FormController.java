@@ -8,7 +8,6 @@ import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.dadoBancario.frmDado.DadoForm;
 import com.santacarolina.dao.DadoDAO;
-import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
@@ -18,17 +17,17 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("unchecked")
-public class FormController implements ManageController<DadoDTO> {
+public class FormController implements ManageController<DadoBancario> {
 
     private TableModel model;
     private FormView view;
-    private RowSorter<DadoDTO> sorter;
+    private RowSorter<DadoBancario> sorter;
 
     public FormController(TableModel model, FormView view) throws FetchFailException {
         this.model = model;
         this.view = view;
         new FilterController(view.getFilterView(), model.getFilterModel());
-        ManageControllerImpl<DadoDTO> baseController = new ManageControllerImpl<>(model, view, this);
+        ManageControllerImpl<DadoBancario> baseController = new ManageControllerImpl<>(model, view, this);
         sorter = baseController.getSorter();
     }
 
@@ -38,7 +37,7 @@ public class FormController implements ManageController<DadoDTO> {
             try {
                 int viewRow = view.getTable().rowAtPoint(e.getPoint());
                 int modelRow = sorter.convertRowIndexToModel(viewRow);
-                DadoBancario dadoBancario = model.getObject(modelRow).fromDTO();
+                DadoBancario dadoBancario = model.getObject(modelRow);
                 DadoForm.open(dadoBancario);
                 model.requeryTable();
             } catch (FetchFailException ex) {
@@ -63,7 +62,7 @@ public class FormController implements ManageController<DadoDTO> {
     public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
     @Override
-    public void callDeleteDAO(List<DadoDTO> list) {
+    public void callDeleteDAO(List<DadoBancario> list) {
         try {
             new DadoDAO().deleteAll(list);
         } catch (DeleteFailException e) {

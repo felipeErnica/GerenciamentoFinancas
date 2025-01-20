@@ -3,18 +3,18 @@ package com.santacarolina.areas.bancario.dadoBancario.frmManageDado;
 import java.util.List;
 
 import com.santacarolina.dao.DadoDAO;
-import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.interfaces.FilterModelContainer;
+import com.santacarolina.model.DadoBancario;
 import com.santacarolina.ui.CustomTableModelImpl;
 
-public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContainer {
+public class TableModel implements CustomTableModel<DadoBancario>, FilterModelContainer {
 
     private static final DadoDAO dadoDAO = new DadoDAO();
 
-    private CustomTableModelImpl<DadoDTO> baseModel;
-    private List<DadoDTO> list;
+    private CustomTableModelImpl<DadoBancario> baseModel;
+    private List<DadoBancario> list;
     private FilterModel filterModel;
 
     private String[] columnNames = {
@@ -31,7 +31,7 @@ public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContain
     }
 
     @Override
-    public CustomTableModelImpl<DadoDTO> getBaseModel() { return baseModel; }
+    public CustomTableModelImpl<DadoBancario> getBaseModel() { return baseModel; }
 
     @Override
     public int getRowCount() { return baseModel.getRowCount(); }
@@ -50,7 +50,7 @@ public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContain
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        DadoDTO d = getObject(rowIndex);
+        DadoBancario d = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> d.getContato().getNome();
             case 1 -> d.getBanco().getNomeBanco();
@@ -64,13 +64,13 @@ public class TableModel implements CustomTableModel<DadoDTO>, FilterModelContain
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
     @Override
-    public DadoDTO getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
+    public DadoBancario getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
 
-    public void addNewRow() { baseModel.addRow(new DadoDTO());}
-    public void addRow(DadoDTO dto) { baseModel.addRow(dto); }
+    public void addNewRow() { baseModel.addRow(new DadoBancario());}
+    public void addRow(DadoBancario dto) { baseModel.addRow(dto); }
     public void removeRow(int row) { baseModel.removeRow(row); }
     public void removeRows(int[] rows) { baseModel.removeRows(rows); }
-    public List<DadoDTO> getList() { return list; }
+    public List<DadoBancario> getList() { return list; }
 
     public void requeryTable() throws FetchFailException {
         list = dadoDAO.findAll();

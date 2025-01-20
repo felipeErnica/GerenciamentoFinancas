@@ -4,7 +4,6 @@ import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.ProdutoDAO;
-import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.Produto;
@@ -19,7 +18,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class ProdController implements MainPaneController<ProdutoDTO> {
+public class ProdController implements MainPaneController<Produto> {
 
     private ProdView view;
     private ProdTableModel model;
@@ -55,13 +54,13 @@ public class ProdController implements MainPaneController<ProdutoDTO> {
     private void table_doubleClick(MouseEvent e) {
         EventQueue.invokeLater(() -> {
             int row = view.getTable().rowAtPoint(e.getPoint());
-            Produto prod = model.getObject(row).fromDTO();
+            Produto prod = model.getObject(row);
             DocForm.open(prod.getDocumento());
         });
     }
 
     @Override
-    public void deleteBatch(List<ProdutoDTO> list) {
+    public void deleteBatch(List<Produto> list) {
         try {
             new ProdutoDAO().deleteAll(list);
         } catch (DeleteFailException e) {

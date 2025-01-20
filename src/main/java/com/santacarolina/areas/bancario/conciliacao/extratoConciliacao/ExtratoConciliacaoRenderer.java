@@ -1,13 +1,16 @@
 package com.santacarolina.areas.bancario.conciliacao.extratoConciliacao;
 
-import com.santacarolina.dto.ExtratoDTO;
-import com.santacarolina.util.StringConversor;
+import java.awt.Component;
+import java.time.format.DateTimeFormatter;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
-import java.time.format.DateTimeFormatter;
+
+import com.santacarolina.model.Extrato;
+import com.santacarolina.util.StringConversor;
 
 public class ExtratoConciliacaoRenderer implements TableCellRenderer {
 
@@ -22,7 +25,7 @@ public class ExtratoConciliacaoRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel c = (JLabel) renderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        ExtratoDTO extrato = model.getObject(row);
+        Extrato extrato = model.getObject(row);
         switch (column) {
             case 0 -> {
                 c.setText(extrato.getDataTransacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));

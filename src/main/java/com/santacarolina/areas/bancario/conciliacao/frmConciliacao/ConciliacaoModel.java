@@ -35,8 +35,8 @@ public class ConciliacaoModel implements ViewUpdater {
         dupTableModel = new DupTableModel(duplicataDao.findNaoPagas());
     }
 
-    public Extrato getExtrato(int rowIndex) { return extratoTableModel.getObject(rowIndex).fromDTO(); }
-    public Duplicata getDuplicata(int rowIndex) { return dupTableModel.getObject(rowIndex).fromDTO(); }
+    public Extrato getExtrato(int rowIndex) { return extratoTableModel.getObject(rowIndex); }
+    public Duplicata getDuplicata(int rowIndex) { return dupTableModel.getObject(rowIndex); }
     public ExtratoConciliacaoTableModel getExtratoTableModel() { return extratoTableModel; }
     public DupTableModel getDupTableModel() { return dupTableModel; }
     public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }

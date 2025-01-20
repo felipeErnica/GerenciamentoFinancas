@@ -53,7 +53,7 @@ public class FormModel implements ViewUpdater {
         unfilteredList = new ProdutoDuplicataDAO().findAll().stream()
             .filter(p -> p.getDuplicata().getDataVencimento() != null)
             .filter(p -> p.getDuplicata().getDocumento() != null)
-            .filter(p -> p.getDuplicata().getDocumento().getPastaContabil() != null)
+            .filter(p -> p.getDuplicata().getDocumento().getPasta() != null)
             .collect(Collectors.toList());
         pf = new PropertyFirer(this);
         updateAllData();
@@ -69,7 +69,7 @@ public class FormModel implements ViewUpdater {
     private void mostValuablePasta() throws FetchFailException {
         Map<PastaContabil, List<Produto>> map = unfilteredList.stream()
             .map(pd -> pd.getProduto())
-            .collect(Collectors.groupingBy(p -> p.getDocumento().getPastaContabil()));
+            .collect(Collectors.groupingBy(p -> p.getDocumento().getPasta()));
         
         double biggestValue = 0;
         PastaContabil selectedPasta = new PastaContabil();
@@ -127,7 +127,7 @@ public class FormModel implements ViewUpdater {
 
     private void filterPasta() {
         filteredList = filteredList.stream()
-            .filter(p -> p.getProduto().getDocumento().getPastaContabil().getId() == pastaContabil.getId())
+            .filter(p -> p.getProduto().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 

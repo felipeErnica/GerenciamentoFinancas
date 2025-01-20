@@ -32,7 +32,7 @@ public class BBTransformer implements OFXTransformer{
         }
 
         e.setDataTransacao(localDate);
-        e.setCatBancaria(catBuffer.toString());
+        e.setCategoriaExtrato(catBuffer.toString());
         e.setDescricao(descBuffer.toString());
         e.setValor(transaction.getAmount());
         return e;

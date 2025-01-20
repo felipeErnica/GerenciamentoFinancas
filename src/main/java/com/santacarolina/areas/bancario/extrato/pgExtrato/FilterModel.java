@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.util.PropertyFirer;
 import com.santacarolina.util.StringConversor;
 
@@ -24,7 +24,7 @@ public class FilterModel implements ViewUpdater {
     private LocalDate dataFim;
 
     private PropertyFirer pf;
-    private List<ExtratoDTO> filteredList;
+    private List<Extrato> filteredList;
     private ExtratoTableModel tableModel;
 
     public FilterModel(ExtratoTableModel tableModel) {
@@ -75,15 +75,15 @@ public class FilterModel implements ViewUpdater {
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataTransacao() != null)
-            .filter(dto -> dto.getDataTransacao().isAfter(dataInicio.minusDays(1)))
+            .filter(extrato -> extrato.getDataTransacao() != null)
+            .filter(extrato -> extrato.getDataTransacao().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataTransacao() != null)
-            .filter(dto -> dto.getDataTransacao().isBefore(dataFim.plusDays(1)))
+            .filter(extrato -> extrato.getDataTransacao() != null)
+            .filter(extrato -> extrato.getDataTransacao().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 

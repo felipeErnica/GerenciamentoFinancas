@@ -1,29 +1,18 @@
 package com.santacarolina.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.santacarolina.dto.ContatoDTO;
-import com.santacarolina.interfaces.Copiable;
-import com.santacarolina.interfaces.ToDTO;
-import com.santacarolina.util.DocConversor;
 import org.apache.commons.lang3.StringUtils;
 
-public class Contato implements Copiable<Contato>, ToDTO<ContatoDTO> {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.santacarolina.interfaces.Copiable;
+import com.santacarolina.util.DocConversor;
+
+public class Contato implements Copiable<Contato> {
 
     private long id;
     private String nome;
     private String cpf;
     private String cnpj;
     private String ie;
-
-    public Contato (ContatoDTO dto) {
-        this.id = dto.getId();
-        this.nome = dto.getNome();
-        this.cpf = dto.getCpf();
-        this.cnpj = dto.getCnpj();
-        this.ie = dto.getIe();
-    }
-
-    public Contato() {}
 
     public long getId() { return id; }
     public String getNome() { return nome; }
@@ -83,9 +72,6 @@ public class Contato implements Copiable<Contato>, ToDTO<ContatoDTO> {
         if (!(o instanceof Contato that)) return false;
         return  id == that.id;
     }
-
-    @Override
-    public ContatoDTO toDTO() { return new ContatoDTO(this); }
 
     @Override
     public Contato generateCopy() {

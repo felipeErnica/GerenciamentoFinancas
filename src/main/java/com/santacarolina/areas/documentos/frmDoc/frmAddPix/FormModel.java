@@ -46,7 +46,7 @@ public class FormModel implements ViewUpdater {
             if (chave != null) {
                 init();
             } else {
-                if (dup.getDadoBancario() != null) chave = new PixDAO().findByDadoId(dup.getDadoId()).orElse(null);
+                if (dup.getDado() != null) chave = new PixDAO().findByDadoId(dup.getDadoId()).orElse(null);
                 if (chave != null) init();
                 else initEmpty(dup);
             }
@@ -54,15 +54,15 @@ public class FormModel implements ViewUpdater {
     }
 
     private void initEmpty(Duplicata dup) throws FetchFailException {
-        contato = dup.getDocumento().getEmissor();
+        contato = dup.getDocumento().getContato();
         if (contato == null) return;
         chaveList = new PixDAO().findByContato(contato);
         if (!chaveList.isEmpty()) {
             chaveEnabled = true;
             chave = chaveList.get(0);
             tipoPix = chave.getTipoPix().getString();
-            if (chave.getDadoBancario() != null) {
-                DadoBancario dado = chave.getDadoBancario();
+            if (chave.getDado() != null) {
+                DadoBancario dado = chave.getDado();
                 agencia = dado.getAgencia();
                 conta = dado.getNumeroConta();
                 banco = dado.getBanco().getNomeBanco();
@@ -75,8 +75,8 @@ public class FormModel implements ViewUpdater {
         chaveList  = new PixDAO().findByContato(contato);
         chaveEnabled = true;    
         tipoPix = chave.getTipoPix().getString();
-        if (chave.getDadoBancario() != null) {
-            DadoBancario dado = chave.getDadoBancario();
+        if (chave.getDado() != null) {
+            DadoBancario dado = chave.getDado();
             agencia = dado.getAgencia();
             conta = dado.getNumeroConta();
             banco = dado.getBanco().getNomeBanco();
@@ -154,19 +154,19 @@ public class FormModel implements ViewUpdater {
     }
 
     public void triggerBanco(ChavePix chave) {
-        if (chave != null && chave.getDadoBancario() != null) banco = chave.getDadoBancario().getBanco().getNomeBanco();
+        if (chave != null && chave.getDado() != null) banco = chave.getDado().getBanco().getNomeBanco();
         else banco = null;
         pf.firePropertyChange(BANCO, banco);
     }
 
     public void triggerAgencia(ChavePix chave) {
-        if (chave != null && chave.getDadoBancario() != null) agencia = chave.getDadoBancario().getAgencia();
+        if (chave != null && chave.getDado() != null) agencia = chave.getDado().getAgencia();
         else agencia = null;
         pf.firePropertyChange(AGENCIA, agencia);
     }
 
     public void triggerConta(ChavePix chave) {
-        if (chave != null && chave.getDadoBancario() != null) conta = chave.getDadoBancario().getNumeroConta();
+        if (chave != null && chave.getDado() != null) conta = chave.getDado().getNumeroConta();
         else conta = null;
         pf.firePropertyChange(CONTA, conta);
     }

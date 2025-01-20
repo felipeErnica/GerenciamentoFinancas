@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.PastaContabil;
+import com.santacarolina.model.Produto;
 import com.santacarolina.util.PropertyFirer;
 import com.santacarolina.util.StringConversor;
 
@@ -32,7 +32,7 @@ public class FilterModel implements ViewUpdater {
 
     private PropertyFirer pf;
     private ProdTableModel tableModel;
-    private List<ProdutoDTO> filteredList;
+    private List<Produto> filteredList;
 
     public FilterModel(ProdTableModel tableModel) {
         this.tableModel = tableModel;
@@ -93,43 +93,47 @@ public class FilterModel implements ViewUpdater {
 
     private void filterEmissor() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getNomeContato()))
-            .filter(dto -> dto.getNomeContato().contains(emissor.toUpperCase()))
+            .filter(prod -> prod.getDocumento() != null)
+            .filter(prod -> prod.getDocumento().getContato() != null)
+            .filter(prod -> prod.getDocumento().getContato().getNome().contains(emissor.toUpperCase()))
             .collect(Collectors.toList());
     }
 
     private void filterTipo() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getNomeClassificacao()))
-            .filter(dto -> dto.getNomeClassificacao().contains(tipoMercadoria.toUpperCase()))
+            .filter(prod -> prod.getClassificacao() != null)
+            .filter(prod -> prod.getClassificacao().getNomeClassificacao().contains(tipoMercadoria.toUpperCase()))
             .collect(Collectors.toList());
     }
 
     private void filterDescricao() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getDescricao()))
-            .filter(dto -> dto.getDescricao().contains(descricao.toUpperCase()))
+            .filter(prod -> !StringUtils.isBlank(prod.getDescricao()))
+            .filter(prod -> prod.getDescricao().contains(descricao.toUpperCase()))
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataEmissao() != null)
-            .filter(dto -> dto.getDataEmissao().isAfter(dataInicio.minusDays(1)))
+            .filter(prod -> prod.getDocumento() != null)
+            .filter(prod -> prod.getDocumento().getDataEmissao() != null)
+            .filter(prod -> prod.getDocumento().getDataEmissao().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataEmissao() != null)
-            .filter(dto -> dto.getDataEmissao().isBefore(dataFim.plusDays(1)))
+            .filter(prod -> prod.getDocumento() != null)
+            .filter(prod -> prod.getDocumento().getDataEmissao() != null)
+            .filter(prod -> prod.getDocumento().getDataEmissao().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterPasta() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getPastaId() != 0)
-            .filter(dto -> dto.getPastaId() == pastaContabil.getId())
+            .filter(prod -> prod.getDocumento() != null)
+            .filter(prod -> prod.getDocumento().getPasta() != null)
+            .filter(prod -> prod.getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 

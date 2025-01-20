@@ -1,61 +1,85 @@
 package com.santacarolina.dao;
 
-import com.santacarolina.dto.ClassificacaoDTO;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.ClassificacaoContabil;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.util.ApiRequest;
 
 public class ClassificacaoDAO {
 
-    private final Service<ClassificacaoContabil, ClassificacaoDTO> service;
+    private final Logger logger = LogManager.getLogger();
+    private final ApiRequest<ClassificacaoContabil> apiRequest;
     private final String MAPPING = "/classificacao";
 
-    public ClassificacaoDAO() { this.service = new Service<>(ClassificacaoDTO.class); }
+    public ClassificacaoDAO() { this.apiRequest = new ApiRequest<>(ClassificacaoContabil.class); }
 
     public List<ClassificacaoContabil> findAll() throws FetchFailException {
-        return service.getListRequest(MAPPING);
-    }
-
-    public List<ClassificacaoDTO> findAllDTO () throws FetchFailException {
-        return service.getListRequestDTO(MAPPING);
-    }
-
-    public Optional<ClassificacaoDTO> findByIdDTO(long classificacaoId) throws FetchFailException {
-        String query = MAPPING + "/" + classificacaoId;
-        return service.getRequestDTO(query);
+        try {
+            return apiRequest.getListRequest(MAPPING);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<ClassificacaoContabil> findByNumero(String numero) throws FetchFailException {
-        return service.getRequest(MAPPING + "/numeroIdentificacao=" + numero);
+        try {
+            return apiRequest.getRequest(MAPPING + "/numeroIdentificacao=" + numero);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<ClassificacaoContabil> findById(long classificacaoId) throws FetchFailException {
         String query = MAPPING + "/" + classificacaoId;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<ClassificacaoContabil> findByNome(String nome) throws FetchFailException {
         String query = MAPPING + "/nome=" + nome.replace(" ", "+");
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public void save(ClassificacaoContabil classificacao) throws SaveFailException { 
-        service.postRequestDTO(MAPPING, classificacao); 
+        try {
+            apiRequest.postRequest(MAPPING, classificacao);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        } 
     }
 
     public void deleteById(long id) throws DeleteFailException {
         String query = MAPPING + "/" + id;
-        service.deleteRequest(query);
+        try {
+            apiRequest.deleteRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
-    public void deleteAll(List<ClassificacaoDTO> list) throws DeleteFailException {
+    public void deleteAll(List<ClassificacaoContabil> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteList(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
 }

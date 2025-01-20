@@ -4,10 +4,10 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import com.santacarolina.dao.ExtratoDAO;
-import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ContaBancaria;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.ui.CustomTableModelImpl;
 import com.santacarolina.util.PropertyFirer;
 import com.santacarolina.util.StringConversor;
@@ -22,7 +22,7 @@ public class ExtratoModel implements ViewUpdater {
     private ExtratoTableModel tableModel;
     private ContaBancaria contaBancaria;
     private String saldo;
-    private List<ExtratoDTO> list;
+    private List<Extrato> list;
 
     private PropertyFirer pf;
 
@@ -43,7 +43,7 @@ public class ExtratoModel implements ViewUpdater {
     }
 
     public ContaBancaria getContaBancaria() { return contaBancaria; }
-    public CustomTableModelImpl<ExtratoDTO> getBaseModel() { return tableModel.getBaseModel(); }
+    public CustomTableModelImpl<Extrato> getBaseModel() { return tableModel.getBaseModel(); }
     public ExtratoTableModel getTableModel() { return tableModel; }
 
     @Override

@@ -3,13 +3,11 @@ package com.santacarolina.areas.bancario.contaBancaria.frmManageContaBancaria;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria.ContaForm;
 import com.santacarolina.dao.ContaDAO;
-import com.santacarolina.dto.ContaDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
@@ -64,11 +62,8 @@ public class FormController implements ManageController<ContaBancaria> {
 
     @Override
     public void callDeleteDAO(List<ContaBancaria> list) {
-        List<ContaDTO> listDTO = list.stream()
-            .map(conta -> conta.toDTO())
-            .collect(Collectors.toList());
         try {
-            new ContaDAO().deleteAll(listDTO);
+            new ContaDAO().deleteAll(list);
         } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }

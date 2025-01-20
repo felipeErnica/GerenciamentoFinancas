@@ -39,12 +39,12 @@ public class FormModel implements ViewUpdater {
         pf = new PropertyFirer(this);
         if (!duplicataList.isEmpty()) {
             Duplicata dup = duplicataList.get(0);
-            dado = dup.getDadoBancario();
+            dado = dup.getDado();
             if (dado != null) {
                 init();
             } else {
                 ChavePix pix = dup.getPix();
-                dado = pix != null ? pix.getDadoBancario() : null;
+                dado = pix != null ? pix.getDado() : null;
                 if (dado != null) init();
                 else initEmpty(dup);
             }
@@ -52,7 +52,7 @@ public class FormModel implements ViewUpdater {
     }
 
     private void initEmpty(Duplicata dup) throws FetchFailException {
-        contato = dup.getDocumento().getEmissor();
+        contato = dup.getDocumento().getContato();
         if (contato == null) return;
         dadoList = dadoDAO.findByContato(contato);
         if (!dadoList.isEmpty()) {

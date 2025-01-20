@@ -80,7 +80,7 @@ public class OutrosMovimentosController implements Controller {
 
             for (int extratoRow : extratoRows) {
                 Extrato e = model.getExtrato(extratoRow);
-                e.setConciliated(true);
+                e.setConciliado(true);
                 listExtrato.add(e);
                 Conciliacao c = new Conciliacao(e, tipoMovimento);
                 listConciliacao.add(c);

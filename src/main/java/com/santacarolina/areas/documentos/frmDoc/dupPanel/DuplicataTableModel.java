@@ -70,7 +70,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
         Duplicata d = duplicataList.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> d.getNumDup();
-            case 1 -> documentoFiscal.getPastaContabil() == null ? "" : documentoFiscal.getPastaContabil().getContaBancaria();
+            case 1 -> documentoFiscal.getPasta() == null ? "" : documentoFiscal.getPasta().getContaBancaria();
             case 2 -> d.getDataVencimento() != null ?
                     d.getDataVencimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null;
             case 3 -> d.getTipoPagamento();

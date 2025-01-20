@@ -72,7 +72,7 @@ public class FormController implements EditTableController, Controller {
 
     private void addButton_onClick() {
         Extrato e = new Extrato();
-        e.setContaBancaria(model.getContaBancaria());
+        e.setConta(model.getContaBancaria());
         model.addRow(e);
     }
 

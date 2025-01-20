@@ -1,41 +1,75 @@
 package com.santacarolina.dao;
 
-import com.santacarolina.dto.PastaDTO;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.PastaContabil;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.util.ApiRequest;
 
 public class PastaDAO {
 
-    private final Service<PastaContabil, PastaDTO> service = new Service<>(PastaDTO.class);
+    private final Logger logger = LogManager.getLogger();
+    private final ApiRequest<PastaContabil> apiRequest = new ApiRequest<>(PastaContabil.class);
     private final String MAPPING = "/pastaContabil";
 
-    public List<PastaContabil> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }
-    public void save(PastaContabil pastaContabil) throws SaveFailException { service.postRequestDTO(MAPPING, pastaContabil); }
+    public List<PastaContabil> findAll() throws FetchFailException {
+        try {
+            return apiRequest.getListRequest(MAPPING);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        } 
+    }
+
+    public void save(PastaContabil pastaContabil) throws SaveFailException {
+        try {
+            apiRequest.postRequest(MAPPING, pastaContabil);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        } 
+    }
 
     public Optional<PastaContabil> findByNome(String nome) throws FetchFailException {
         String query = MAPPING + "/nome=" + nome.replace(" ","+");
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<PastaContabil> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public void deleteById(long id) throws DeleteFailException {
         String query = MAPPING + "/" + id;
-        service.deleteRequest(query);
+        try {
+            apiRequest.deleteRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
-    public void deleteAll(List<PastaDTO> list) throws DeleteFailException {
+    public void deleteAll(List<PastaContabil> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteList(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
 }

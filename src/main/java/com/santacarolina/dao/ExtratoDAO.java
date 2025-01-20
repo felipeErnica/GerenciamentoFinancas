@@ -1,45 +1,76 @@
 package com.santacarolina.dao;
 
-import com.santacarolina.dto.ExtratoDTO;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Extrato;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.util.ApiRequest;
 
 public class ExtratoDAO {
 
-    private final Service<Extrato, ExtratoDTO> service = new Service<>(ExtratoDTO.class);
+    private final Logger logger = LogManager.getLogger();
+    private final ApiRequest<Extrato> apiRequest = new ApiRequest<>(Extrato.class);
     private final String MAPPING = "/extratos";
 
-    public List<ExtratoDTO> findByConta(long contaId) throws FetchFailException {
+    public List<Extrato> findByConta(long contaId) throws FetchFailException {
         String query = MAPPING + "/contaId=" + contaId;
-        return service.getListRequestDTO(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public List<ExtratoDTO> findByConciliacao(boolean isPayed) throws FetchFailException {
+    public List<Extrato> findByConciliacao(boolean isPayed) throws FetchFailException {
         String query = MAPPING + "/isConciliado=" + isPayed;
-        return service.getListRequestDTO(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public void save(Extrato e) throws SaveFailException { service.postRequestDTO(MAPPING, e); }
+    public void save(Extrato extrato) throws SaveFailException {
+        try {
+            apiRequest.postRequest(MAPPING, extrato);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        } 
+    }
 
     public void saveAll(List<Extrato> list) throws SaveFailException {
         String query = MAPPING + "/batch";
-        service.postListRequest(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        }
     }
 
     public Optional<Extrato> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public void deleteAll(List<ExtratoDTO> list) throws DeleteFailException {
+    public void deleteAll(List<Extrato> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteList(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
 }

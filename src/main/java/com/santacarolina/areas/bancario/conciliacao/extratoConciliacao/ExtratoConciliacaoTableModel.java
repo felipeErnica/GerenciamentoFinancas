@@ -6,21 +6,21 @@ import java.util.List;
 import javax.swing.event.TableModelListener;
 
 import com.santacarolina.dao.ExtratoDAO;
-import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.model.ContaBancaria;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.ui.CustomTableModelImpl;
 
-public class ExtratoConciliacaoTableModel implements CustomTableModel<ExtratoDTO> {
+public class ExtratoConciliacaoTableModel implements CustomTableModel<Extrato> {
 
     public static final String CONTA = "conta";
 
     private ExtratoDAO dao;
-    private List<ExtratoDTO> extratoList;
-    private CustomTableModelImpl<ExtratoDTO> model;
+    private List<Extrato> extratoList;
+    private CustomTableModelImpl<Extrato> model;
 
-    public ExtratoConciliacaoTableModel(List<ExtratoDTO> extratoList) {
+    public ExtratoConciliacaoTableModel(List<Extrato> extratoList) {
         this.extratoList = extratoList;
         this.model = new CustomTableModelImpl<>(this, extratoList);
         this.dao = new ExtratoDAO();
@@ -32,16 +32,16 @@ public class ExtratoConciliacaoTableModel implements CustomTableModel<ExtratoDTO
     }
 
     @Override
-    public CustomTableModelImpl<ExtratoDTO> getBaseModel() { return model; }
+    public CustomTableModelImpl<Extrato> getBaseModel() { return model; }
 
     public int getRowCount() { return extratoList.size(); }
     public int getColumnCount() { return 5; }
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
-    public ExtratoDTO getObject(int rowIndex) { return extratoList.get(rowIndex); }
+    public Extrato getObject(int rowIndex) { return extratoList.get(rowIndex); }
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
     public void addTableModelListener(TableModelListener l) { model.addTableModelListener(l); }
     public void removeTableModelListener(TableModelListener l) { model.removeTableModelListener(l); }
-    public void setList(List<ExtratoDTO> list) {
+    public void setList(List<Extrato> list) {
         extratoList = list;
         model.setList(list);
     }
@@ -67,7 +67,7 @@ public class ExtratoConciliacaoTableModel implements CustomTableModel<ExtratoDTO
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ExtratoDTO e = extratoList.get(rowIndex);
+        Extrato e = extratoList.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> e.getDataTransacao();
             case 1 -> e.getConta().getNomeConta();

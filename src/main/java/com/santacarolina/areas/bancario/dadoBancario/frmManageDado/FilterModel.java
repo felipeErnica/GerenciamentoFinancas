@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.interfaces.AbstractFilterModel;
+import com.santacarolina.model.DadoBancario;
 
 /**
  * FilterModel
@@ -20,7 +20,7 @@ public class FilterModel implements AbstractFilterModel {
     private String banco;
 
     private TableModel tableModel;
-    private List<DadoDTO> filteredList;
+    private List<DadoBancario> filteredList;
 
     public FilterModel(TableModel tableModel) {
         this.tableModel = tableModel;

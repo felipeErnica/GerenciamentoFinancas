@@ -1,20 +1,19 @@
 package com.santacarolina.areas.pastaContabil.frmManagePasta;
 
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
+import javax.swing.RowSorter;
+
 import com.santacarolina.areas.pastaContabil.frmPastaContabil.PastaContabilForm;
 import com.santacarolina.dao.PastaDAO;
-import com.santacarolina.dto.PastaDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
 public class FormController implements ManageController<PastaContabil> {
@@ -54,11 +53,8 @@ public class FormController implements ManageController<PastaContabil> {
 
     @Override
     public void callDeleteDAO(List<PastaContabil> list) {
-        List<PastaDTO> listDTO = list.stream()
-            .map(pasta -> pasta.toDTO())
-            .collect(Collectors.toList());
         try {
-            new PastaDAO().deleteAll(listDTO);
+            new PastaDAO().deleteAll(list);
         } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }

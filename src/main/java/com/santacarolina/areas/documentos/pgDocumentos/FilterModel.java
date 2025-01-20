@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.enums.TipoDoc;
 import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.PropertyFirer;
 import com.santacarolina.util.StringConversor;
@@ -31,7 +31,7 @@ public class FilterModel implements ViewUpdater {
     private LocalDate dataFim;
     private LocalDate dataInicio;
 
-    private List<DocumentoDTO> filteredList;
+    private List<DocumentoFiscal> filteredList;
     private DocTableModel tableModel;
     private PropertyFirer pf;
 
@@ -97,41 +97,42 @@ public class FilterModel implements ViewUpdater {
 
     private void filterPasta() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getPastaId() == pastaContabil.getId())
+            .filter(doc -> doc.getPastaId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 
     private void filterTipo() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getTipoDoc() == tipoDoc)
+            .filter(doc -> doc.getTipoDoc() == tipoDoc)
             .collect(Collectors.toList());
     }
 
     private void filterEmissor() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getNomeContato()))
-            .filter(dto -> dto.getNomeContato().contains(emissor.toUpperCase()))
+            .filter(doc -> doc.getContato() != null)
+            .filter(doc -> !StringUtils.isBlank(doc.getContato().getNome()))
+            .filter(doc -> doc.getContato().getNome().contains(emissor.toUpperCase()))
             .collect(Collectors.toList());
     }
 
     private void filterNumDoc() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getNumDoc() != null)
-            .filter(dto -> dto.getNumDoc().toString().contains(numDoc))
+            .filter(doc -> doc.getNumDoc() != null)
+            .filter(doc -> doc.getNumDoc().toString().contains(numDoc))
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataEmissao() != null)
-            .filter(dto -> dto.getDataEmissao().isAfter(dataInicio.minusDays(1)))
+            .filter(doc -> doc.getDataEmissao() != null)
+            .filter(doc -> doc.getDataEmissao().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataEmissao() != null)
-            .filter(dto -> dto.getDataEmissao().isBefore(dataFim.plusDays(1)))
+            .filter(doc -> doc.getDataEmissao() != null)
+            .filter(doc -> doc.getDataEmissao().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 

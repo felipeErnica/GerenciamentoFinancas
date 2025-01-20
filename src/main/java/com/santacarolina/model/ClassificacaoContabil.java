@@ -1,38 +1,29 @@
 package com.santacarolina.model;
 
 import com.santacarolina.dao.CategoriaDAO;
-import com.santacarolina.dto.ClassificacaoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Copiable;
-import com.santacarolina.interfaces.ToDTO;
 
-public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<ClassificacaoContabil> {
+public class ClassificacaoContabil implements Copiable<ClassificacaoContabil> {
 
     private long id;
-    private CategoriaContabil categoriaContabil;
+    private CategoriaContabil categoria;
     private long categoriaId;
     private String numeroIdentificacao;
     private String nomeClassificacao;
 
     public ClassificacaoContabil() { }
 
-    public ClassificacaoContabil (ClassificacaoDTO dto) {
-        this.id = dto.getId();
-        this.categoriaId = dto.getCategoriaId();
-        this.numeroIdentificacao = dto.getNumeroIdentificacao();
-        this.nomeClassificacao = dto.getNomeClassificacao();
-    }
-
     public long getId() { return id; }
     public String getNomeClassificacao() { return nomeClassificacao; }
     public String getNumeroIdentificacao() { return numeroIdentificacao; }
     public long getCategoriaId() { return categoriaId; }
 
-    public CategoriaContabil getCategoriaContabil() {
+    public CategoriaContabil getCategoria() {
         try {
-            if (categoriaId != 0) categoriaContabil = new CategoriaDAO().findById(categoriaId).orElse(null);
+            if (categoriaId != 0) categoria = new CategoriaDAO().findById(categoriaId).orElse(null);
         } catch (FetchFailException e) {}
-        return categoriaContabil;
+        return categoria;
     }
 
     public void setId(long id) { this.id = id; }
@@ -40,8 +31,8 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<
     public void setNomeClassificacao(String nomeClassificacao) { this.nomeClassificacao = nomeClassificacao; }
     public void setCategoriaId(long categoriaId) { this.categoriaId = categoriaId; }
 
-    public void setCategoriaContabil(CategoriaContabil categoriaContabil) {
-        this.categoriaContabil = categoriaContabil;
+    public void setCategoria(CategoriaContabil categoriaContabil) {
+        this.categoria = categoriaContabil;
         this.categoriaId = categoriaContabil != null ? categoriaContabil.getId() : 0;
     }
 
@@ -57,9 +48,5 @@ public class ClassificacaoContabil implements ToDTO<ClassificacaoDTO>, Copiable<
         copy.setNumeroIdentificacao(numeroIdentificacao);
         return copy;
     }
-
-
-    @Override
-    public ClassificacaoDTO toDTO() { return new ClassificacaoDTO(this); }
 
 }

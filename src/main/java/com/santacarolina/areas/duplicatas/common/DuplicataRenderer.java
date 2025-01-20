@@ -1,6 +1,6 @@
 package com.santacarolina.areas.duplicatas.common;
 
-import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.StringConversor;
 
 import javax.swing.*;
@@ -22,16 +22,16 @@ public class DuplicataRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel c = (JLabel) cellRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        DuplicataDTO dto = model.getObject(row);
+        Duplicata dup = model.getObject(row);
         switch (column) {
             case 1 -> {
                 c.setHorizontalAlignment(SwingConstants.CENTER);
-                c.setText(dto.getDataVencimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                c.setText(dup.getDataVencimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
             case 0, 2, 3 -> c.setHorizontalAlignment(SwingConstants.CENTER);
             case 4 -> c.setHorizontalAlignment(SwingConstants.LEFT);
             case 5 -> {
-                c.setText(StringConversor.getCurrency(dto.getValor()));
+                c.setText(StringConversor.getCurrency(dup.getValor()));
                 c.setHorizontalAlignment(SwingConstants.LEFT);
             }
         }

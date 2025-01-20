@@ -18,7 +18,6 @@ import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.ContaDAO;
 import com.santacarolina.dao.ExtratoDAO;
-import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.OFXTransformerException;
@@ -29,7 +28,7 @@ import com.santacarolina.util.ValidatorViolations;
 import com.santacarolina.util.OfxTransformer.OFXTransformerImpl;
 
 @SuppressWarnings("rawtypes")
-public class ExtratoController implements MainPaneController<ExtratoDTO> {
+public class ExtratoController implements MainPaneController<Extrato> {
 
     private ExtratoView view;
     private ExtratoModel model;
@@ -38,7 +37,7 @@ public class ExtratoController implements MainPaneController<ExtratoDTO> {
     public ExtratoController(ExtratoModel model, ExtratoView view) throws FetchFailException {
         this.model = model;
         this.view = view;
-        MainPaneControllerImpl<ExtratoDTO> baseController = new MainPaneControllerImpl<>(view, model.getTableModel(), this);
+        MainPaneControllerImpl<Extrato> baseController = new MainPaneControllerImpl<>(view, model.getTableModel(), this);
         sorter = baseController.getSorter();
         new FilterController(view.getFilterView(), model.getTableModel().getFilterModel());
         initComponents();
@@ -113,7 +112,7 @@ public class ExtratoController implements MainPaneController<ExtratoDTO> {
     }
 
     @Override
-    public void deleteBatch(List<ExtratoDTO> list) {
+    public void deleteBatch(List<Extrato> list) {
         try {
             new ExtratoDAO().deleteAll(list);
         } catch (DeleteFailException e) {

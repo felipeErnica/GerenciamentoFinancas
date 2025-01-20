@@ -3,31 +3,31 @@ package com.santacarolina.areas.duplicatas.common;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.model.Duplicata;
 import com.santacarolina.ui.CustomTableModelImpl;
 
-public class DupTableModel implements CustomTableModel<DuplicataDTO> {
+public class DupTableModel implements CustomTableModel<Duplicata> {
 
     public final static String TABLE = "table";
 
-    private CustomTableModelImpl<DuplicataDTO> model;
-    private List<DuplicataDTO> list;
+    private CustomTableModelImpl<Duplicata> model;
+    private List<Duplicata> list;
     private FilterModel filterModel;
 
-    public DupTableModel(List<DuplicataDTO> duplicataList) {
+    public DupTableModel(List<Duplicata> duplicataList) {
         this.list = duplicataList;
         this.model = new CustomTableModelImpl<>(this, duplicataList);
         filterModel = new FilterModel(this);
     }
 
-    public CustomTableModelImpl<DuplicataDTO> getBaseModel() { return model; }
+    public CustomTableModelImpl<Duplicata> getBaseModel() { return model; }
     @Override
     public int getRowCount() { return model.getRowCount(); }
     @Override
     public int getColumnCount() { return 6; }
 
-    public void setList(List<DuplicataDTO> list) {
+    public void setList(List<Duplicata> list) {
         this.list = list;
         model.setList(list);
     }
@@ -50,13 +50,22 @@ public class DupTableModel implements CustomTableModel<DuplicataDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        DuplicataDTO d = getObject(rowIndex);
+        Duplicata d = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> d.getNumDup();
             case 1 -> d.getDataVencimento();
             case 2 -> d.getTipoPagamento() != null ? d.getTipoPagamento().toString() : "";
-            case 3 -> d.getConta();
-            case 4 -> d.getNomeContato();
+            case 3 -> {
+                if (d.getDocumento() == null) yield null;
+                if (d.getDocumento().getPasta() == null) yield null;
+                if (d.getDocumento().getPasta().getContaBancaria() == null) yield null;
+                yield d.getDocumento().getPasta().getContaBancaria().getAbreviacaoConta();
+            }
+            case 4 -> {
+                if (d.getDocumento() == null) yield null;
+                if (d.getDocumento().getContato() == null) yield null;
+                yield d.getDocumento().getContato().getNome();
+            }
             case 5 -> d.getValor();
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
         };
@@ -66,7 +75,7 @@ public class DupTableModel implements CustomTableModel<DuplicataDTO> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
 
     @Override
-    public DuplicataDTO getObject(int rowIndex) { return model.getObject(rowIndex); }
+    public Duplicata getObject(int rowIndex) { return model.getObject(rowIndex); }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
@@ -79,7 +88,7 @@ public class DupTableModel implements CustomTableModel<DuplicataDTO> {
         };
     }
 
-    public List<DuplicataDTO> getList() { return list; }
+    public List<Duplicata> getList() { return list; }
     public FilterModel getFilterModel() { return filterModel; }
 
 }

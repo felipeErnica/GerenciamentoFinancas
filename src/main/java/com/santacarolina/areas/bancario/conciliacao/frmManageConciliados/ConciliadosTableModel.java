@@ -4,19 +4,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.santacarolina.dao.ConciliacaoDAO;
-import com.santacarolina.dto.ConciliacaoDTO;
 import com.santacarolina.enums.TipoMovimento;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.model.Conciliacao;
 import com.santacarolina.ui.CustomTableModelImpl;
 
 /**
  * ConciliadosTableModel
  */
-public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
+public class ConciliadosTableModel implements CustomTableModel<Conciliacao> {
 
-    private CustomTableModelImpl<ConciliacaoDTO> baseModel;
-    private List<ConciliacaoDTO> list;
+    private CustomTableModelImpl<Conciliacao> baseModel;
+    private List<Conciliacao> list;
     private FilterModel filterModel;
 
     private String[] columnNames = {
@@ -41,7 +41,7 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
     public FilterModel getFilterModel() { return filterModel; }
 
     @Override
-    public CustomTableModelImpl<ConciliacaoDTO> getBaseModel() { return baseModel; }
+    public CustomTableModelImpl<Conciliacao> getBaseModel() { return baseModel; }
 
     @Override
     public int getRowCount() { return list.size(); }
@@ -74,7 +74,7 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ConciliacaoDTO conc = filterModel.getList().get(rowIndex);
+        Conciliacao conc = filterModel.getList().get(rowIndex);
         return switch (columnIndex) {
             case 0 -> conc.getTipoMovimento();
             case 1 -> conc.getExtrato().getDataTransacao();
@@ -94,9 +94,9 @@ public class ConciliadosTableModel implements CustomTableModel<ConciliacaoDTO> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
     @Override
-    public ConciliacaoDTO getObject(int rowIndex) { return list.get(rowIndex); }
+    public Conciliacao getObject(int rowIndex) { return list.get(rowIndex); }
 
-    public List<ConciliacaoDTO> getList() { return list; }
+    public List<Conciliacao> getList() { return list; }
 
     public void requeryTable() throws FetchFailException {
         list = new ConciliacaoDAO().findAll();

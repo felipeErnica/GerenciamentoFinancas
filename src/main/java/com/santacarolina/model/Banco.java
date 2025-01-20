@@ -1,22 +1,12 @@
 package com.santacarolina.model;
 
-import com.santacarolina.dto.BancoDTO;
 import com.santacarolina.interfaces.Copiable;
-import com.santacarolina.interfaces.ToDTO;
 
-public class Banco implements ToDTO<BancoDTO>, Copiable<Banco> {
+public class Banco implements Copiable<Banco> {
 
     private long id;
     private String nomeBanco;
     private String apelidoBanco;
-
-    public Banco() { }
-
-    public Banco (BancoDTO b) {
-        this.id = b.getId();
-        this.nomeBanco = b.getNomeBanco();
-        this.apelidoBanco = b.getApelidoBanco();
-    }
 
     public long getId() { return id; }
     public String getNomeBanco() { return nomeBanco; }
@@ -28,9 +18,6 @@ public class Banco implements ToDTO<BancoDTO>, Copiable<Banco> {
 
     @Override
     public String toString() { return nomeBanco; }
-
-    @Override
-    public BancoDTO toDTO() { return new BancoDTO(this); }
 
     public String print() {
         return "Banco{id=" + id + ", nomeBanco=" + nomeBanco + ", apelidoBanco=" + apelidoBanco + "}";

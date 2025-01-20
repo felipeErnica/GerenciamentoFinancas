@@ -26,7 +26,7 @@ public class OutrosMovimentosModel implements ViewUpdater {
     }
 
     public TipoMovimento getTipoMovimento() { return tipoMovimento; }
-    public Extrato getExtrato(int rowIndex) { return extratoTableModel.getObject(rowIndex).fromDTO(); }
+    public Extrato getExtrato(int rowIndex) { return extratoTableModel.getObject(rowIndex); }
     public ExtratoConciliacaoTableModel getExtratoTableModel() { return extratoTableModel; }
     public void addPropertyChangeListener(PropertyChangeListener listener) { ps.addPropertyChangeListener(listener); }
 

@@ -36,7 +36,7 @@ public class FormController {
     }
 
     private void addButton_onClick() {
-        model.getDuplicataList().forEach(d -> d.setDadoBancario(model.getDado()));
+        model.getDuplicataList().forEach(d -> d.setDado(model.getDado()));
         view.getDialog().dispose();
     }
 

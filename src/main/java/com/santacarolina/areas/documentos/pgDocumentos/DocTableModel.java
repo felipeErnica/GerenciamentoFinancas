@@ -1,7 +1,6 @@
 package com.santacarolina.areas.documentos.pgDocumentos;
 
 import com.santacarolina.dao.DocumentoDAO;
-import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.model.DocumentoFiscal;
@@ -10,12 +9,12 @@ import com.santacarolina.ui.CustomTableModelImpl;
 import java.time.LocalDate;
 import java.util.List;
 
-public class DocTableModel implements CustomTableModel<DocumentoDTO> {
+public class DocTableModel implements CustomTableModel<DocumentoFiscal> {
 
     private DocumentoDAO documentoDAO = new DocumentoDAO();
 
-    private CustomTableModelImpl<DocumentoDTO> baseModel;
-    private List<DocumentoDTO> list;
+    private CustomTableModelImpl<DocumentoFiscal> baseModel;
+    private List<DocumentoFiscal> list;
 
     private FilterModel filterModel;
 
@@ -29,14 +28,14 @@ public class DocTableModel implements CustomTableModel<DocumentoDTO> {
             "Valor"
     };
 
-    public DocTableModel(List<DocumentoDTO> list) {
+    public DocTableModel(List<DocumentoFiscal> list) {
         baseModel = new CustomTableModelImpl<>(this, list);
         this.list = list;
         filterModel = new FilterModel(this);
     }
 
     @Override
-    public CustomTableModelImpl<DocumentoDTO> getBaseModel() { return baseModel; }
+    public CustomTableModelImpl<DocumentoFiscal> getBaseModel() { return baseModel; }
 
     @Override
     public int getRowCount() { return baseModel.getRowCount(); }
@@ -66,34 +65,31 @@ public class DocTableModel implements CustomTableModel<DocumentoDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        DocumentoDTO d = getObject(rowIndex);
+        DocumentoFiscal d = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> rowIndex + 1;
             case 1 -> d.getDataEmissao();
-            case 2 -> d.getNomePasta();
+            case 2 -> d.getPasta() != null ? d.getPasta().getNome() : null;
             case 3 -> d.getTipoDoc().getValue();
             case 4 -> d.getNumDoc();
-            case 5 -> d.getNomeContato();
+            case 5 -> d.getContato() != null ? d.getContato().getNome() : null;
             case 6 -> d.getValor();
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
         };
     }
 
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-    }
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
 
     @Override
-    public DocumentoDTO getObject(int rowIndex) {
-        return baseModel.getObject(rowIndex);
-    }
+    public DocumentoFiscal getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
 
     public DocumentoFiscal getDocumento(int rowIndex) throws FetchFailException {
         long id = getObject(rowIndex).getId();
         return documentoDAO.findById(id).orElse(null);
     }
 
-    public List<DocumentoDTO> getList() { return list; }
+    public List<DocumentoFiscal> getList() { return list; }
     public FilterModel getFilterModel() { return filterModel; }
 
 }

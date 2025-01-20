@@ -46,8 +46,8 @@ public class AddExtratoTableModel implements EditTableModel<Extrato> {
         return switch (columnIndex) {
             case 0 -> rowIndex + 1;
             case 1 -> e.getDataTransacao();
-            case 2 -> e.getContaBancaria().toString();
-            case 3 -> e.getCatBancaria();
+            case 2 -> e.getConta().toString();
+            case 3 -> e.getCategoriaExtrato();
             case 4 -> e.getDescricao();
             case 5 -> e.getValor();
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
@@ -64,7 +64,7 @@ public class AddExtratoTableModel implements EditTableModel<Extrato> {
                     e.setDataTransacao(null);
                 }
             }
-            case 3 -> e.setCatBancaria((String) aValue);
+            case 3 -> e.setCategoriaExtrato((String) aValue);
             case 4 -> e.setDescricao((String) aValue);
             case 5 -> {
                 try {

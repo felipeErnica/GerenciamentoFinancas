@@ -1,45 +1,59 @@
 package com.santacarolina.dao;
 
-import com.santacarolina.dto.ProdutoDTO;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Produto;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.santacarolina.util.ApiRequest;
 
 public class ProdutoDAO {
 
+    private final Logger logger = LogManager.getLogger();
     private final String MAPPING  = "/produtos";
-    private Service<Produto, ProdutoDTO> service;
+    private ApiRequest<Produto> apiRequest;
 
-    public ProdutoDAO() { this.service = new Service<>(ProdutoDTO.class); }
+    public ProdutoDAO() { this.apiRequest = new ApiRequest<>(Produto.class); }
 
     public List<Produto> findByDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING  + "/documento=" + documentoFiscal.getId();
-        return service.getListRequest(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public List<ProdutoDTO> findAll() throws FetchFailException {
-        return service.getListRequestDTO(MAPPING);
+    public List<Produto> findAll() throws FetchFailException {
+        try {
+            return apiRequest.getListRequest(MAPPING);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public List<Produto> findAllProdutos() throws FetchFailException {
-        return service.getListRequestDTO(MAPPING).stream()
-                .map(ProdutoDTO::fromDTO)
-                .collect(Collectors.toList());
-    }
-
-    public void deleteAll(List<ProdutoDTO> list) throws DeleteFailException {
+    public void deleteAll(List<Produto> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteList(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
-    public List<ProdutoDTO> findByDocId(long id) throws FetchFailException {
+    public List<Produto> findByDocId(long id) throws FetchFailException {
         String query = MAPPING + "/documento=" + id;
-        return service.getListRequestDTO(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
 }

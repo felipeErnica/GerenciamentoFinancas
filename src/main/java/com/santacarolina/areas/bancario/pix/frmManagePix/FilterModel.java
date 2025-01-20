@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.santacarolina.dto.PixDTO;
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.interfaces.AbstractFilterModel;
 import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.ChavePix;
 import com.santacarolina.util.DocConversor;
 import com.santacarolina.util.PropertyFirer;
 
@@ -29,7 +29,7 @@ public class FilterModel implements AbstractFilterModel, ViewUpdater {
     private TipoPix tipoPix;
     
     private PixTableModel tableModel;
-    private List<PixDTO> filteredList;
+    private List<ChavePix> filteredList;
     private boolean isUpdating;
 
     private PropertyFirer pf;
@@ -106,40 +106,42 @@ public class FilterModel implements AbstractFilterModel, ViewUpdater {
 
     private void filterTipoPix() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getTipoPix() == tipoPix)
+            .filter(pix -> pix.getTipoPix() == tipoPix)
             .collect(Collectors.toList());
     }
 
     private void filterConta() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getNumeroConta()))
-            .filter(dto -> dto.getNumeroConta().contains(conta))
+            .filter(pix -> pix.getDado() != null)
+            .filter(pix -> pix.getDado().getNumeroConta().contains(conta))
             .collect(Collectors.toList());
     }
 
     private void filterAgencia() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getAgencia()))
-            .filter(dto -> dto.getAgencia().contains(agencia))
+            .filter(pix -> pix.getDado() != null)
+            .filter(pix -> pix.getDado().getAgencia().contains(agencia))
             .collect(Collectors.toList());
     }
 
     private void filterChave() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getChave().contains(chave))
+            .filter(pix -> pix.getChave().contains(chave))
             .collect(Collectors.toList());
     }
 
     private void filterBanco() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getNomeBanco()))
-            .filter(dto -> dto.getNomeBanco().contains(banco))
+            .filter(pix -> pix.getDado() != null)
+            .filter(pix -> pix.getDado().getBanco() != null)
+            .filter(pix -> pix.getDado().getBanco().getNomeBanco().contains(banco))
             .collect(Collectors.toList());
     }
 
     private void filterNome() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getNomeContato().contains(nome.toUpperCase()))
+            .filter(pix -> pix.getContato() != null)
+            .filter(pix -> pix.getContato().getNome().contains(nome.toUpperCase()))
             .collect(Collectors.toList());
     }
 

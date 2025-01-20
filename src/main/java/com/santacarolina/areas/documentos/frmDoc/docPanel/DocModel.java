@@ -52,12 +52,12 @@ public class DocModel implements ViewUpdater {
 
     private void init() {
         fluxoCaixa = documentoFiscal.getFluxoCaixa();
-        emissor = documentoFiscal.getEmissor();
-        pastaContabil = documentoFiscal.getPastaContabil();
+        emissor = documentoFiscal.getContato();
+        pastaContabil = documentoFiscal.getPasta();
         tipoDoc = documentoFiscal.getTipoDoc();
         emissionDate = documentoFiscal.getDataEmissao();
         docValue = documentoFiscal.getValor();
-        docPath = documentoFiscal.getCaminho();
+        docPath = documentoFiscal.getCaminhoDocumento();
         docNumber = documentoFiscal.getNumDoc();
         docNumberEnable = tipoDoc == TipoDoc.NFE || tipoDoc == TipoDoc.NOTA_FISCAL;
     }
@@ -115,12 +115,12 @@ public class DocModel implements ViewUpdater {
 
     public void setEmissor(Contato emissor) {
         this.emissor = emissor;
-        documentoFiscal.setEmissor(emissor);
+        documentoFiscal.setContato(emissor);
     }
 
     public void setPastaContabil(PastaContabil pastaContabil) {
         this.pastaContabil = pastaContabil;
-        documentoFiscal.setPastaContabil(pastaContabil);
+        documentoFiscal.setPasta(pastaContabil);
     }
 
     public void setTipoDoc(TipoDoc tipoDoc) {
@@ -149,7 +149,7 @@ public class DocModel implements ViewUpdater {
         if (isUpdating) return;
         isUpdating = true;
         this.docPath = docPath;
-        documentoFiscal.setCaminho(docPath);
+        documentoFiscal.setCaminhoDocumento(docPath);
         pf.firePropertyChange(CAMINHO, docPath);
         isUpdating = false;
     }

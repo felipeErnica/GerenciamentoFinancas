@@ -24,7 +24,7 @@ public class FilterController {
     }
 
     private void categoriaField_onChange() { model.setCategoria(view.getCategoriaField().getText()); }
-    private void classificacaoField_onChange() { model.setClassificacao(view.getClassificacaoField().getText()); }
+    private void classificacaoField_onChange() { model.setNome(view.getClassificacaoField().getText()); }
     
     private void fluxoField_onUpdate() {
         FluxoCaixa fluxoCaixa = (FluxoCaixa) view.getFluxoField().getSelectedItem();

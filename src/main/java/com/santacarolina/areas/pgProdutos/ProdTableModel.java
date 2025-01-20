@@ -1,26 +1,26 @@
 package com.santacarolina.areas.pgProdutos;
 
-import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.model.Produto;
 import com.santacarolina.ui.CustomTableModelImpl;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class ProdTableModel implements CustomTableModel<ProdutoDTO> {
+public class ProdTableModel implements CustomTableModel<Produto> {
 
-    private CustomTableModelImpl<ProdutoDTO> baseModel;
-    private List<ProdutoDTO> list;
+    private CustomTableModelImpl<Produto> baseModel;
+    private List<Produto> list;
     private FilterModel filterModel;
 
-    public ProdTableModel (List<ProdutoDTO> produtoList) {
+    public ProdTableModel (List<Produto> produtoList) {
         this.baseModel = new CustomTableModelImpl<>(this, produtoList);
         this.list = produtoList;
         filterModel = new FilterModel(this);
     }
 
     @Override
-    public CustomTableModelImpl<ProdutoDTO> getBaseModel() { return baseModel; }
+    public CustomTableModelImpl<Produto> getBaseModel() { return baseModel; }
 
     @Override
     public int getRowCount() { return baseModel.getRowCount(); }
@@ -59,17 +59,25 @@ public class ProdTableModel implements CustomTableModel<ProdutoDTO> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ProdutoDTO p = getObject(rowIndex);
+        Produto p = getObject(rowIndex);
         return switch (columnIndex) {
-            case 0 -> p.getDataEmissao();
-            case 1 -> p.getNomePasta();
-            case 2 -> p.getNomeContato();
-            case 3 -> p.getNomeClassificacao();
+            case 0 -> p.getDocumento() != null ? p.getDocumento().getDataEmissao() : null;
+            case 1 -> {
+                if (p.getDocumento() == null) yield null;
+                if (p.getDocumento().getPasta() == null) yield null;
+                yield p.getDocumento().getPasta().getNome();
+            }
+            case 2 -> {
+                if (p.getDocumento() == null) yield null;
+                if (p.getDocumento().getContato() == null) yield null;
+                yield p.getDocumento().getContato().getNome();
+            }
+            case 3 -> p.getClassificacao() != null ? p.getClassificacao().getNomeClassificacao(): null;
             case 4 -> p.getDescricao();
             case 5 -> p.getUnd();
             case 6 -> p.getQuantidade();
             case 7 -> p.getValorUnit();
-            case 8 -> p.getValorUnit()*p.getQuantidade();
+            case 8 -> p.getValorTotal();
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
         };
     }
@@ -78,9 +86,9 @@ public class ProdTableModel implements CustomTableModel<ProdutoDTO> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
 
     @Override
-    public ProdutoDTO getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
+    public Produto getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
 
-    public List<ProdutoDTO> getList() { return list; }
+    public List<Produto> getList() { return list; }
     public FilterModel getFilterModel() { return filterModel; }
 
 }

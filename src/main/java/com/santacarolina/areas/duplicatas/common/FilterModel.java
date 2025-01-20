@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ContaBancaria;
+import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.PropertyFirer;
 import com.santacarolina.util.StringConversor;
 
@@ -31,7 +31,7 @@ public class FilterModel implements ViewUpdater {
     private LocalDate dataFim;
 
     private PropertyFirer pf;
-    private List<DuplicataDTO> filteredList;
+    private List<Duplicata> filteredList;
     private DupTableModel tableModel;
     private boolean isUpdating;
 
@@ -103,37 +103,40 @@ public class FilterModel implements ViewUpdater {
 
     private void filterEmissor() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getNomeContato()))
-            .filter(dto -> dto.getNomeContato().contains(emissor.toUpperCase()))
+            .filter(dup -> dup.getDocumento() != null)
+            .filter(dup -> dup.getDocumento().getContato() != null)
+            .filter(dup -> dup.getDocumento().getContato().getNome().contains(emissor.toUpperCase()))
             .collect(Collectors.toList());
     }
 
     private void filterTipo() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getTipoPagamento() != null)
-            .filter(dto -> dto.getTipoPagamento() == tipoPagamento)
+            .filter(dup -> dup.getTipoPagamento() != null)
+            .filter(dup -> dup.getTipoPagamento() == tipoPagamento)
             .collect(Collectors.toList());
     }
 
     private void filterConta() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getConta()))
-            .filter(dto -> dto.getContaId() == contaBancaria.getId())
+            .filter(dup -> dup.getDocumento() != null)
+            .filter(dup -> dup.getDocumento().getPasta() != null)
+            .filter(dup -> dup.getDocumento().getPasta().getContaBancaria() != null)
+            .filter(dup -> dup.getDocumento().getPasta().getContaBancaria().getId() == contaBancaria.getId())
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDataVencimento() != null)
-            .filter(dto -> dto.getDataVencimento().isAfter(dataInicio.minusDays(1)))
+            .filter(dup -> dup.getDataVencimento() != null)
+            .filter(dup -> dup.getDataVencimento().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
-        filteredList.forEach(dto -> System.out.println(dto));
+        filteredList.forEach(dup -> System.out.println(dup));
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
-                .filter(dto -> dto.getDataVencimento() != null)
-            .filter(dto -> dto.getDataVencimento().isBefore(dataFim.plusDays(1)))
+                .filter(dup -> dup.getDataVencimento() != null)
+            .filter(dup -> dup.getDataVencimento().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 

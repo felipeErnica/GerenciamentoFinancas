@@ -12,7 +12,7 @@ public class SicrediTransformer implements OFXTransformer {
         Extrato e = new Extrato();
         LocalDate localDate = transaction.getDatePosted().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         e.setDataTransacao(localDate);
-        e.setCatBancaria(transaction.getMemo());
+        e.setCategoriaExtrato(transaction.getMemo());
         e.setDescricao(transaction.getReferenceNumber());
         e.setValor(transaction.getAmount());
         return e;

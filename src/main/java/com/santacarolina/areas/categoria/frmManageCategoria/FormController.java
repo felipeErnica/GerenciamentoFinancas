@@ -3,9 +3,7 @@ package com.santacarolina.areas.categoria.frmManageCategoria;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -13,15 +11,12 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.categoria.frmCategoria.CategoriaForm;
 import com.santacarolina.dao.CategoriaDAO;
-import com.santacarolina.dao.PixDAO;
-import com.santacarolina.dto.CategoriaDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.CategoriaContabil;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
-import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ViewInvoker;
 
 public class FormController implements ManageController<CategoriaContabil> {
@@ -77,11 +72,8 @@ public class FormController implements ManageController<CategoriaContabil> {
 
     @Override
     public void callDeleteDAO(List<CategoriaContabil> list) {
-        List<CategoriaDTO> listDTO = list.stream()
-            .map(categoria -> categoria.toDTO())
-            .collect(Collectors.toList());
         try {
-            new CategoriaDAO().deleteAll(listDTO);
+            new CategoriaDAO().deleteAll(list);
         } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }

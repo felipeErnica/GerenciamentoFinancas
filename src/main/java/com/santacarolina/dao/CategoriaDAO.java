@@ -1,54 +1,87 @@
 package com.santacarolina.dao;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-import com.santacarolina.dto.CategoriaDTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.CategoriaContabil;
-import com.santacarolina.util.Service;
+import com.santacarolina.util.ApiRequest;
 
 /**
  * CategoriaDAO
  */
 public class CategoriaDAO {
 
-    private final Service<CategoriaContabil,CategoriaDTO> service = new Service<>(CategoriaDTO.class);
+    private final ApiRequest<CategoriaContabil> apiRequest = new ApiRequest<>(CategoriaContabil.class);
     private final String MAPPING = "/categoria";
+    private final Logger logger = LogManager.getLogger();
 
     public List<CategoriaContabil> findAll() throws FetchFailException {
-        return service.getListRequest(MAPPING);
+        try {
+            return apiRequest.getListRequest(MAPPING);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<CategoriaContabil> findByNome(String nome) throws FetchFailException {
         String query = MAPPING + "/nome=" + nome.replace(" ", "+");
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<CategoriaContabil> findByNumero(String numero) throws FetchFailException {
         String query = MAPPING + "/numero=" + numero;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<CategoriaContabil> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public void save(CategoriaContabil categoriaContabil) throws SaveFailException {
-        service.postRequestDTO(MAPPING, categoriaContabil);
+        try {
+            apiRequest.postRequest(MAPPING, categoriaContabil);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        }
     }
 
     public void deleteById(long id) throws DeleteFailException {
         String query = MAPPING + "/" + id;
-        service.deleteRequest(query);
+        try {
+            apiRequest.deleteRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
-    public void deleteAll(List<CategoriaDTO> list) throws DeleteFailException {
+    public void deleteAll(List<CategoriaContabil> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteList(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
     
 }

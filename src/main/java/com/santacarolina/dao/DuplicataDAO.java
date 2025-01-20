@@ -1,62 +1,107 @@
 package com.santacarolina.dao;
 
-import com.santacarolina.dto.DuplicataDTO;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Duplicata;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.util.ApiRequest;
 
 public class DuplicataDAO {
 
-    private final Service<Duplicata, DuplicataDTO> service;
+    private final Logger logger = LogManager.getLogger();
+    private final ApiRequest<Duplicata> apiRequest;
     private static final String MAPPING = "/duplicatas";
 
     public DuplicataDAO() {
-        this.service = new Service<>(DuplicataDTO.class);
+        this.apiRequest = new ApiRequest<>(Duplicata.class);
     }
 
-    public List<DuplicataDTO> findAll() throws FetchFailException { return service.getListRequestDTO(MAPPING); }
+    public List<Duplicata> findAll() throws FetchFailException { 
+        try {
+            return apiRequest.getListRequest(MAPPING);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        } 
+    }
 
     public List<Duplicata> findByDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING  + "/documento=" + documentoFiscal.getId();
-        return service.getListRequest(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public List<DuplicataDTO> findPagas() throws FetchFailException {
+    public List<Duplicata> findPagas() throws FetchFailException {
         String query = MAPPING + "/pagas";
-        return service.getListRequestDTO(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public List<DuplicataDTO> findNaoPagas() throws FetchFailException {
+    public List<Duplicata> findNaoPagas() throws FetchFailException {
         String query = MAPPING + "/naoPagas";
-        return service.getListRequestDTO(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<Duplicata> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public void save(Duplicata d) throws SaveFailException { service.postRequestDTO(MAPPING, d); }
+    public void save(Duplicata d) throws SaveFailException {
+        try {
+            apiRequest.postRequest(MAPPING, d);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        } 
+    }
 
     public void saveAll(List<Duplicata> list) throws SaveFailException {
         String query = MAPPING + "/batch";
-        service.postListRequest(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        }
     }
 
-    public void deleteAll(List<DuplicataDTO> list) throws DeleteFailException {
+    public void deleteAll(List<Duplicata> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteList(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
-    public List<DuplicataDTO> findByDocId(long id) throws FetchFailException {
+    public List<Duplicata> findByDocId(long id) throws FetchFailException {
         String query = MAPPING + "/documento=" + id;
-        return service.getListRequestDTO(query);
+        try {
+            return apiRequest.getListRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
 }

@@ -8,9 +8,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.santacarolina.dto.ConciliacaoDTO;
 import com.santacarolina.enums.TipoMovimento;
 import com.santacarolina.interfaces.ViewUpdater;
+import com.santacarolina.model.Conciliacao;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.util.PropertyFirer;
@@ -31,7 +31,7 @@ public class FilterModel implements ViewUpdater {
     private PastaContabil pastaContabil;
     private Contato emissor;
     private TipoMovimento tipoMovimento;
-    private List<ConciliacaoDTO> filteredList;
+    private List<Conciliacao> filteredList;
     private ConciliadosTableModel tableModel;
 
     public FilterModel(ConciliadosTableModel model) {
@@ -43,11 +43,11 @@ public class FilterModel implements ViewUpdater {
 
     private void updateData() {
         dataInicio = filteredList.stream()
-            .map(dto -> dto.getExtrato().getDataTransacao())
+            .map(conciliacao -> conciliacao.getExtrato().getDataTransacao())
             .sorted()
             .findFirst().orElse(null);
         dataFim = filteredList.stream()
-            .map(dto -> dto.getExtrato().getDataTransacao())
+            .map(conciliacao -> conciliacao.getExtrato().getDataTransacao())
             .sorted(Comparator.reverseOrder())
             .findFirst().orElse(null);
     }
@@ -96,7 +96,7 @@ public class FilterModel implements ViewUpdater {
         setFilters();
     }
 
-    public List<ConciliacaoDTO> getList() { return filteredList; }
+    public List<Conciliacao> getList() { return filteredList; }
 
     private void setFilters() {
         filteredList = new ArrayList<>(tableModel.getList());
@@ -110,33 +110,33 @@ public class FilterModel implements ViewUpdater {
 
     private void filterFim() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getExtrato().getDataTransacao().isBefore(dataFim.plusDays(1)))
+            .filter(conciliacao -> conciliacao.getExtrato().getDataTransacao().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getExtrato().getDataTransacao().isAfter(dataInicio.minusDays(1)))
+            .filter(conciliacao -> conciliacao.getExtrato().getDataTransacao().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterPasta() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDuplicata() != null)
-            .filter(dto -> dto.getDuplicata().getDocumento().getPasta().getId() == pastaContabil.getId())
+            .filter(conciliacao -> conciliacao.getDuplicata() != null)
+            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 
     private void filterTipo() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getTipoMovimento() == tipoMovimento)
+            .filter(conciliacao -> conciliacao.getTipoMovimento() == tipoMovimento)
             .collect(Collectors.toList());
     }
 
     private void filterEmissor() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getDuplicata() != null)
-            .filter(dto -> dto.getDuplicata().getDocumento().getEmissor().getId() == emissor.getId())
+            .filter(conciliacao -> conciliacao.getDuplicata() != null)
+            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getContato().getId() == emissor.getId())
             .collect(Collectors.toList());
     }
 

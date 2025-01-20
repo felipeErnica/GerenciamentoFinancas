@@ -5,32 +5,20 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.DadoDAO;
-import com.santacarolina.dto.PixDTO;
 import com.santacarolina.enums.TipoPix;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ToDTO;
 import com.santacarolina.util.DocConversor;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ChavePix implements ToDTO<PixDTO>, Cloneable {
+public class ChavePix implements Cloneable {
 
     private long id;
     private Long dadoId;
-    private DadoBancario dadoBancario;
+    private DadoBancario dado;
     private long contatoId;
     private Contato contato;
     private TipoPix tipoPix;
     private String chave;
-
-    public ChavePix() { }
-
-    public ChavePix (PixDTO p) {
-        this.id = p.getId();
-        this.dadoBancario = new DadoBancario(p.getDado());
-        this.contato = new Contato(p.getContato());
-        this.tipoPix = p.getTipoPix();
-        this.chave = p.getChave();
-    }
 
     public long getId() { return id; }
     public TipoPix getTipoPix() { return tipoPix; }
@@ -45,12 +33,12 @@ public class ChavePix implements ToDTO<PixDTO>, Cloneable {
         return contato;
     }
 
-    public DadoBancario getDadoBancario() {
+    public DadoBancario getDado() {
         try {
-            if (dadoBancario == null && dadoId != null) this.dadoBancario = new DadoDAO().findById(dadoId).orElse(null);
-            return dadoBancario;
+            if (dado == null && dadoId != null) this.dado = new DadoDAO().findById(dadoId).orElse(null);
+            return dado;
         } catch (FetchFailException ignored) {}
-        return dadoBancario;
+        return dado;
     }
 
     public boolean isInvalidFormat() {
@@ -72,8 +60,8 @@ public class ChavePix implements ToDTO<PixDTO>, Cloneable {
         this.contatoId = contato != null ? contato.getId() : 0;
     }
 
-    public void setDadoBancario(DadoBancario dadoBancario) {
-        this.dadoBancario = dadoBancario;
+    public void setDado(DadoBancario dadoBancario) {
+        this.dado = dadoBancario;
         this.dadoId = dadoBancario != null ? dadoBancario.getId() : null;
     }
 
@@ -120,8 +108,14 @@ public class ChavePix implements ToDTO<PixDTO>, Cloneable {
         return pix;
     }
 
-    @Override
-    public PixDTO toDTO() { return new PixDTO(this); }
+    public String printChave() {
+        return switch (tipoPix) {
+            case CPF -> DocConversor.docFormat(chave, DocConversor.CPF_FORMAT);
+            case CNPJ -> DocConversor.docFormat(chave, DocConversor.CNPJ_FORMAT);
+            case TELEFONE -> DocConversor.docFormat(chave, DocConversor.PHONE_FORMAT);
+            default -> chave;
+        };
+    }
 
 }
 

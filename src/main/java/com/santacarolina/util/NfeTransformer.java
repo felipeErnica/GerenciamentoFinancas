@@ -1,11 +1,12 @@
 package com.santacarolina.util;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.santacarolina.dto.nfe.NFeDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.NFeException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.DocumentoFiscal;
+import com.santacarolina.model.nfe.NFeDTO;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessageFactory;
@@ -27,7 +28,7 @@ public class NfeTransformer {
             nfeDoc.setTipoDoc(nFeDTO.getTipoDoc());
             nfeDoc.setValor(nFeDTO.getValor());
             nfeDoc.setDataEmissao(nFeDTO.getDataEmissao());
-            nfeDoc.setEmissor(nFeDTO.getEmissor());
+            nfeDoc.setContato(nFeDTO.getEmissor());
             nfeDoc.setFluxoCaixa(nFeDTO.getFluxoCaixa());
             System.out.println(nfeDoc);
             nFeDTO.getProdutos().forEach(nfeDoc::addProduto);

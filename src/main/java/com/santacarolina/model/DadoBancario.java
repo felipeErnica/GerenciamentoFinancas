@@ -3,13 +3,11 @@ package com.santacarolina.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.BancoDAO;
 import com.santacarolina.dao.ContatoDAO;
-import com.santacarolina.dto.DadoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Copiable;
-import com.santacarolina.interfaces.ToDTO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
+public class DadoBancario implements Copiable<DadoBancario> {
 
     private long id;
     private String agencia;
@@ -18,16 +16,6 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
     private Contato contato;
     private long bancoId;
     private long contatoId;
-
-    public DadoBancario() {}
-
-    public DadoBancario (DadoDTO dto) {
-        this.id = dto.getId();
-        this.agencia = dto.getAgencia();
-        this.numeroConta = dto.getNumeroConta();
-        this.banco = new Banco(dto.getBanco());
-        this.contato = new Contato(dto.getContato());
-    }
 
     public long getId() { return id; }
     public String getAgencia() { return agencia; }
@@ -82,9 +70,6 @@ public class DadoBancario implements ToDTO<DadoDTO>, Copiable<DadoBancario> {
 
     @Override
     public String toString() { return numeroConta; }
-
-    @Override
-    public DadoDTO toDTO() { return new DadoDTO(this); }
 
     public String print() {
         return "DadoBancario{id=" + id + ", agencia=" + agencia + ", banco=" + banco + ", numeroConta=" + numeroConta

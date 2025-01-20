@@ -53,9 +53,9 @@ public class FormModel implements ViewUpdater {
     private void updateAllData() throws FetchFailException {
         this.contato = this.chavePix.getContato();
         this.contaList = new DadoDAO().findByContato(this.contato);
-        this.contaSelected = this.chavePix.getDadoBancario() != null || this.chavePix.getId() == 0;
+        this.contaSelected = this.chavePix.getDado() != null || this.chavePix.getId() == 0;
         this.contaEnabled = this.contaSelected;
-        this.dadoBancario = this.chavePix.getDadoBancario();
+        this.dadoBancario = this.chavePix.getDado();
         this.tipoPix = this.chavePix.getTipoPix();
         this.chave = this.chavePix.toString();
         this.invalidFormat = this.chavePix.isInvalidFormat();
@@ -188,7 +188,7 @@ public class FormModel implements ViewUpdater {
 
     private void triggerDado(DadoBancario d) {
         this.dadoBancario = d;
-        this.chavePix.setDadoBancario(d);
+        this.chavePix.setDado(d);
         if (d != null) {
             this.banco = d.getBanco().getNomeBanco();
             

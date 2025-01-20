@@ -7,10 +7,10 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.bancario.conciliacao.frmConciliacao.ConciliacaoForm;
 import com.santacarolina.dao.ConciliacaoDAO;
-import com.santacarolina.dto.ConciliacaoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
+import com.santacarolina.model.Conciliacao;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
@@ -18,7 +18,7 @@ import com.santacarolina.util.ViewInvoker;
 /**
  * FormController
  */
-public class FormController implements ManageController<ConciliacaoDTO> {
+public class FormController implements ManageController<Conciliacao> {
 
     private FormView view;
     private ConciliadosTableModel tableModel;
@@ -64,7 +64,7 @@ public class FormController implements ManageController<ConciliacaoDTO> {
     }
 
     @Override
-    public void callDeleteDAO(List<ConciliacaoDTO> list) {
+    public void callDeleteDAO(List<Conciliacao> list) {
         try {
             new ConciliacaoDAO().deleteAll(list);
         } catch (DeleteFailException e) {

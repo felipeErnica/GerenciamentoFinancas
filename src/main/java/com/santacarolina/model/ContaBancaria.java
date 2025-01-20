@@ -1,12 +1,10 @@
 package com.santacarolina.model;
 
 import com.santacarolina.dao.BancoDAO;
-import com.santacarolina.dto.ContaDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Copiable;
-import com.santacarolina.interfaces.ToDTO;
 
-public class ContaBancaria implements ToDTO<ContaDTO>, Copiable<ContaBancaria> {
+public class ContaBancaria implements Copiable<ContaBancaria> {
 
     private long id;
     private String nomeConta;
@@ -15,17 +13,6 @@ public class ContaBancaria implements ToDTO<ContaDTO>, Copiable<ContaBancaria> {
     private long bancoId;
     private String numeroConta;
     private String abreviacaoConta;
-
-    public ContaBancaria() { }
-
-    public ContaBancaria (ContaDTO dto) {
-        this.id = dto.getId();
-        this.nomeConta = dto.getNomeConta();
-        this.agencia = dto.getAgencia();
-        this.banco = new Banco(dto.getBanco());
-        this.numeroConta = dto.getNumeroConta();
-        this.abreviacaoConta = dto.getAbreviacaoConta();
-    }
 
     public long getId() { return id; }
     public String getNomeConta() { return nomeConta; }
@@ -65,8 +52,5 @@ public class ContaBancaria implements ToDTO<ContaDTO>, Copiable<ContaBancaria> {
 
     @Override
     public String toString() { return abreviacaoConta != null ? abreviacaoConta : nomeConta; }
-
-    @Override
-    public ContaDTO toDTO() { return new ContaDTO(this); }
 
 }

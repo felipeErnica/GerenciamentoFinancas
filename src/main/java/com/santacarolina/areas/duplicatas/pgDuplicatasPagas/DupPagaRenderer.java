@@ -11,7 +11,7 @@ import javax.swing.table.TableCellRenderer;
 
 import com.santacarolina.areas.duplicatas.common.DupTableModel;
 import com.santacarolina.areas.duplicatas.common.DuplicataRenderer;
-import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.model.Duplicata;
 
 public class DupPagaRenderer implements TableCellRenderer {
 
@@ -33,7 +33,7 @@ public class DupPagaRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel c = (JLabel) cellRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        DuplicataDTO dup = model.getObject(row);
+        Duplicata dup = model.getObject(row);
         if (dup.getValor() > 0) {
             c.setForeground(INCOME_BLUE);
             c.setFont(boldFont);

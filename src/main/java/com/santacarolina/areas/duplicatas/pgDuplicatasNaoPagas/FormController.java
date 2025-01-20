@@ -15,15 +15,14 @@ import com.santacarolina.areas.duplicatas.common.FilterController;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.DuplicataDAO;
-import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.CustomErrorThrower;
 
-public class FormController implements MainPaneController<DuplicataDTO> {
+public class FormController implements MainPaneController<Duplicata> {
 
-    private MainPaneControllerImpl<DuplicataDTO> controller;
+    private MainPaneControllerImpl<Duplicata> controller;
     private DupView view;
     private DupTableModel model;
     private RowSorter<TableModel> sorter;
@@ -53,13 +52,13 @@ public class FormController implements MainPaneController<DuplicataDTO> {
         EventQueue.invokeLater(() -> {
             int row = view.getTable().rowAtPoint(e.getPoint());
             int modelRow = sorter.convertRowIndexToModel(row);
-            Duplicata dup = model.getObject(modelRow).fromDTO();
+            Duplicata dup = model.getObject(modelRow);
             DocForm.open(dup.getDocumento());
         });
     }
 
     @Override
-    public void deleteBatch(List<DuplicataDTO> list) {
+    public void deleteBatch(List<Duplicata> list) {
         try {
             new DuplicataDAO().deleteAll(list);
         } catch (DeleteFailException e) {

@@ -6,13 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.dao.PixDAO;
-import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ToDTO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Duplicata implements ToDTO<DuplicataDTO> {
+public class Duplicata {
 
     private long id;
     private DocumentoFiscal documento;
@@ -22,26 +20,11 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
     private TipoPagamento tipoPagamento;
     private double valor;
     private String boletoCaminho;
-    private DadoBancario dadoBancario;
+    private Long dadoId;
+    private DadoBancario dado;
     private Long pixId;
     private ChavePix pix;
-    private Long dadoId;
-    private boolean isPayed;
-
-    public Duplicata (DuplicataDTO dto) {
-        this.id = dto.getId();
-        this.documento = new DocumentoFiscal(dto.getDocumento());
-        this.numDup = dto.getNumDup();
-        this.dataVencimento = dto.getDataVencimento();
-        this.tipoPagamento = dto.getTipoPagamento();
-        this.valor = dto.getValor();
-        this.boletoCaminho = dto.getBoletoCaminho();
-        this.pix = new ChavePix(dto.getPix());
-        this.dadoBancario = new DadoBancario(dto.getDado());
-        this.isPayed = dto.isPaga();
-    }
-
-    public Duplicata() {}
+    private boolean paga;
 
     public DocumentoFiscal getDocumento() {
         try {
@@ -51,12 +34,12 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
         return documento;
     }
 
-    public DadoBancario getDadoBancario() {
+    public DadoBancario getDado() {
         try {
-            if (dadoBancario == null && dadoId != null) dadoBancario = new DadoDAO().findById(dadoId).orElse(null);
+            if (dado == null && dadoId != null) dado = new DadoDAO().findById(dadoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
-        return dadoBancario;
+        return dado;
     }
 
     public ChavePix getPix() {
@@ -73,7 +56,7 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
     public TipoPagamento getTipoPagamento() { return tipoPagamento; }
     public double getValor() { return this.valor; }
     public String getBoletoCaminho() { return boletoCaminho; }
-    public boolean isPayed() { return isPayed; }
+    public boolean isPaga() { return paga; }
     public Long getDocumentoId() { return documentoId; }
     public Long getDadoId() { return dadoId; }
     public Long getPixId() { return pixId; }
@@ -83,8 +66,8 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
         this.documentoId = documento != null ? documento.getId() : 0;
     }
 
-    public void setDadoBancario(DadoBancario dadoBancario) {
-        this.dadoBancario = dadoBancario;
+    public void setDado(DadoBancario dadoBancario) {
+        this.dado = dadoBancario;
         this.dadoId = dadoBancario != null ? dadoBancario.getId() : null;
     }
 
@@ -98,11 +81,8 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
     public void setTipoPagamento(TipoPagamento tipoPagamento) { this.tipoPagamento = tipoPagamento; }
     public void setValor(double valor) { this.valor = valor; }
     public void setBoletoCaminho(String boletoCaminho) { this.boletoCaminho = boletoCaminho; }
-    public void setPayed(boolean payed) { isPayed = payed; }
+    public void setPaga(boolean payed) { paga = payed; }
     public void setPixId(Long pixId) { this.pixId = pixId; }
-
-    @Override
-    public DuplicataDTO toDTO() { return new DuplicataDTO(this); }
 
     @Override
     public String toString() {
@@ -113,8 +93,8 @@ public class Duplicata implements ToDTO<DuplicataDTO> {
         sb.append(", metodoPagto=").append(tipoPagamento);
         sb.append(", valor=").append(valor);
         sb.append(", caminhoPagto='").append(boletoCaminho).append('\'');
-        sb.append(", dadoBancario=").append(dadoBancario);
-        sb.append(", paga=").append(isPayed);
+        sb.append(", dadoBancario=").append(dado);
+        sb.append(", paga=").append(paga);
         sb.append('}');
         return sb.toString();
     }

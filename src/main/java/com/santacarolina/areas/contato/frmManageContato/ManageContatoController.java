@@ -1,11 +1,8 @@
 package com.santacarolina.areas.contato.frmManageContato;
 
-import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -13,14 +10,12 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.contato.common.ContatoForm;
 import com.santacarolina.dao.ContatoDAO;
-import com.santacarolina.dto.ContatoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
 import com.santacarolina.model.Contato;
 import com.santacarolina.ui.ManageControllerImpl;
 import com.santacarolina.util.CustomErrorThrower;
-import com.santacarolina.util.OptionDialog;
 
 @SuppressWarnings("unchecked")
 public class ManageContatoController implements ManageController<Contato> {
@@ -72,11 +67,8 @@ public class ManageContatoController implements ManageController<Contato> {
 
     @Override
     public void callDeleteDAO(List<Contato> list) {
-        List<ContatoDTO> listDTO = list.stream()
-            .map(contato -> contato.toDTO())
-            .collect(Collectors.toList());
         try {
-            new ContatoDAO().deleteAll(listDTO);
+            new ContatoDAO().deleteAll(list);
         } catch (DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }

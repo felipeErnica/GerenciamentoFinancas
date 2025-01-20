@@ -38,7 +38,7 @@ public class FormController implements Controller {
             return;
         }
         DocumentoFiscal nfe = model.getNfe();
-        if (nfe.getEmissorId() == 0) addContato();
+        if (nfe.getContatoId() == 0) addContato();
         model.deleteNfe(nfe);
         view.getNfeComboBox().setSelectedItem(null);
         if (model.getNfeList().isEmpty()) view.getDialog().dispose();
@@ -49,11 +49,11 @@ public class FormController implements Controller {
         int result = OptionDialog.showOptionDialog("O Emissor desta NFe não está registrado no sistema! " +
                 "Deseja adicioná-lo?","Novo Contato");
         if (result == JOptionPane.YES_OPTION) {
-            Contato emissor = model.getNfe().getEmissor();
+            Contato emissor = model.getNfe().getContato();
             ContatoForm.saveNew(emissor);
-            model.getNfe().setEmissor(emissor);
+            model.getNfe().setContato(emissor);
         } else {
-            model.getNfe().setEmissor(null);
+            model.getNfe().setContato(null);
         }
     }
 

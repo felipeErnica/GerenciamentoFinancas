@@ -4,7 +4,6 @@ import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.DocumentoDAO;
-import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
@@ -20,9 +19,9 @@ import javax.swing.table.TableModel;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class PageController implements MainPaneController<DocumentoDTO> {
+public class PageController implements MainPaneController<DocumentoFiscal> {
 
-    private MainPaneControllerImpl<DocumentoDTO> controller;
+    private MainPaneControllerImpl<DocumentoFiscal> controller;
     private DocTableModel model;
     private PageView view;
     private RowSorter<TableModel> sorter;
@@ -65,7 +64,7 @@ public class PageController implements MainPaneController<DocumentoDTO> {
     }
 
     @Override
-    public void deleteBatch(List<DocumentoDTO> list) {
+    public void deleteBatch(List<DocumentoFiscal> list) {
         try {
             new DocumentoDAO().deleteAll(list);
         } catch (DeleteFailException e) {

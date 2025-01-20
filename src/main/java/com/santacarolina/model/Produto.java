@@ -2,11 +2,9 @@ package com.santacarolina.model;
 
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.dao.DocumentoDAO;
-import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ToDTO;
 
-public class Produto implements ToDTO<ProdutoDTO>, Comparable<Produto> {
+public class Produto implements Comparable<Produto> {
 
     private long id;
     private long documentoId;
@@ -17,18 +15,6 @@ public class Produto implements ToDTO<ProdutoDTO>, Comparable<Produto> {
     private String und;
     private double quantidade;
     private double valorUnit;
-
-    public Produto(ProdutoDTO dto) {
-        this.id = dto.getId();
-        this.documento = new DocumentoFiscal(dto.getDocumento());
-        this.classificacao = new ClassificacaoContabil(dto.getClassificacao());
-        this.descricao = dto.getDescricao();
-        this.und = dto.getUnd();
-        this.quantidade = dto.getQuantidade();
-        this.valorUnit = dto.getValorUnit();
-    }
-
-    public Produto() { }
 
     public long getId() { return id; }
     public String getDescricao() { return descricao; }
@@ -69,9 +55,6 @@ public class Produto implements ToDTO<ProdutoDTO>, Comparable<Produto> {
         this.classificacao = classificacao;
         this.classificacaoId = classificacao != null ? classificacao.getId() : 0;
     }
-
-    @Override
-    public ProdutoDTO toDTO() { return new ProdutoDTO(this); }
 
     @Override
     public String toString() {

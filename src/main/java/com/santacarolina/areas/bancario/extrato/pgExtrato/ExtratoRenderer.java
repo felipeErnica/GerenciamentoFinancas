@@ -1,6 +1,6 @@
 package com.santacarolina.areas.bancario.extrato.pgExtrato;
 
-import com.santacarolina.dto.ExtratoDTO;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.util.StringConversor;
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class ExtratoRenderer implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel c = (JLabel) renderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         int modelRow = sorter.convertRowIndexToModel(row);
-        ExtratoDTO extrato = model.getObject(modelRow);
+        Extrato extrato = model.getObject(modelRow);
         switch (column) {
             case 0, 2 -> c.setHorizontalAlignment(SwingConstants.CENTER);
             case 1 -> {

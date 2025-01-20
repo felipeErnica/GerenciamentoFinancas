@@ -2,7 +2,6 @@ package com.santacarolina.areas.classificacao.frmClassificacao;
 
 import java.beans.PropertyChangeListener;
 
-import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.CategoriaContabil;
 import com.santacarolina.model.ClassificacaoContabil;
@@ -22,7 +21,6 @@ public class FormModel implements ViewUpdater {
     private String nome;
     private String numero;
     private CategoriaContabil categoriaContabil;
-    private FluxoCaixa fluxoCaixa;
 
     private PropertyFirer pf;
 
@@ -34,7 +32,6 @@ public class FormModel implements ViewUpdater {
 
     public void setNome(String nome) { 
         this.nome = nome.toUpperCase();
-        System.out.println(this.nome);
         classificacao.setNomeClassificacao(this.nome);
         pf.firePropertyChange(NOME, this.nome);
     }
@@ -46,14 +43,11 @@ public class FormModel implements ViewUpdater {
 
     public void setCategoriaContabil(CategoriaContabil categoriaContabil) {
         this.categoriaContabil = categoriaContabil; 
-        fluxoCaixa = categoriaContabil != null ? categoriaContabil.getFluxoCaixa() : null;
-        classificacao.setCategoriaContabil(categoriaContabil);
-        classificacao.setFluxoCaixa(fluxoCaixa);
+        classificacao.setCategoria(categoriaContabil);
     }
 
     private void updateAllData() {
-        fluxoCaixa = categoriaContabil != null ? categoriaContabil.getFluxoCaixa() : null;
-        categoriaContabil = classificacao.getCategoriaContabil();
+        categoriaContabil = classificacao.getCategoria();
         nome = classificacao.getNomeClassificacao();
         numero = classificacao.getNumeroIdentificacao();
     }

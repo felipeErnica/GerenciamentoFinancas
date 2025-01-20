@@ -1,42 +1,82 @@
 package com.santacarolina.dao;
 
-import com.santacarolina.dto.BancoDTO;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Banco;
-import com.santacarolina.util.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.santacarolina.util.ApiRequest;
 
 public class BancoDAO {
 
-    private final Service<Banco, BancoDTO> service = new Service<>(BancoDTO.class);
     private static final String MAPPING = "/bancos";
+    private Logger logger = LogManager.getLogger();
+    private ApiRequest<Banco> apiRequest = new ApiRequest<>(Banco.class);
 
-    public List<Banco> findAll() throws FetchFailException { return service.getListRequest(MAPPING); }
-    public void save(Banco banco) throws SaveFailException { service.postRequestDTO(MAPPING, banco); }
+    public List<Banco> findAll() throws FetchFailException { 
+        try {
+            return apiRequest.getListRequest(MAPPING);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        } 
+    }
+    
+    public void save(Banco banco) throws SaveFailException { 
+        try {
+            apiRequest.postRequest(MAPPING, banco);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
+        } 
+    }
 
     public Optional<Banco> findById(long id) throws FetchFailException {
         String query = MAPPING + "/" + id;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
     public Optional<Banco> findByNome(String nomeBanco) throws FetchFailException {
         String query = MAPPING + "/nomeBanco=" + nomeBanco.replace(" ","+");
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
 
-    public void deleteById(long id) throws DeleteFailException { service.deleteRequest(MAPPING + "/" + id); }
+    public void deleteById(long id) throws DeleteFailException { 
+        try {
+            apiRequest.deleteRequest(MAPPING + "/" + id);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        } 
+    }
 
     public Optional<Banco> findByApelido(String apelidoBanco) throws FetchFailException {
         String query = MAPPING + "/apelido=" + apelidoBanco;
-        return service.getRequest(query);
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
     }
-    public void deleteAll(List<BancoDTO> list) throws DeleteFailException {
+    public void deleteAll(List<Banco> list) throws DeleteFailException {
         String query = MAPPING + "/delete-batch";
-        service.deleteList(query, list);
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new DeleteFailException(e, logger);
+        }
     }
 
 }

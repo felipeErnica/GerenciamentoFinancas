@@ -49,7 +49,7 @@ public class OFXTransformerImpl {
                 BankStatementResponse statementResponse = statement.getMessage();
                 for (Transaction transaction : statementResponse.getTransactionList().getTransactions()) {
                     Extrato e = transformer.getExtrato(transaction);
-                    e.setContaBancaria(conta);
+                    e.setConta(conta);
                     list.add(e);
                 }
             }

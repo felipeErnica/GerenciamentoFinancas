@@ -6,17 +6,17 @@ import java.util.List;
 
 import javax.swing.event.TableModelListener;
 
-import com.santacarolina.dto.ExtratoDTO;
 import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.ui.CustomTableModelImpl;
 
-public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
+public class ExtratoTableModel implements CustomTableModel<Extrato> {
 
     public static final String CONTA = "conta";
     public static final String SALDO_TEXT = "saldo";
 
-    private List<ExtratoDTO> extratoList;
-    private CustomTableModelImpl<ExtratoDTO> model;
+    private List<Extrato> extratoList;
+    private CustomTableModelImpl<Extrato> model;
     private FilterModel filterModel;
 
     public ExtratoTableModel() {
@@ -26,19 +26,19 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
     }
 
     @Override
-    public CustomTableModelImpl<ExtratoDTO> getBaseModel() { return model; }
+    public CustomTableModelImpl<Extrato> getBaseModel() { return model; }
 
     public int getRowCount() { return extratoList.size(); }
     public int getColumnCount() { return 6; }
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
-    public ExtratoDTO getObject(int rowIndex) { return model.getObject(rowIndex); }
+    public Extrato getObject(int rowIndex) { return model.getObject(rowIndex); }
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
     public void addTableModelListener(TableModelListener l) { model.addTableModelListener(l); }
     public void removeTableModelListener(TableModelListener l) { model.removeTableModelListener(l); }
     public FilterModel getFilterModel() { return filterModel; }
-    public List<ExtratoDTO> getList() { return extratoList; }
+    public List<Extrato> getList() { return extratoList; }
 
-    public void setList(List<ExtratoDTO> list) {
+    public void setList(List<Extrato> list) {
         extratoList = list;
         model.setList(list);
         filterModel.setData();
@@ -67,11 +67,11 @@ public class ExtratoTableModel implements CustomTableModel<ExtratoDTO> {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ExtratoDTO e = getObject(rowIndex);
+        Extrato e = getObject(rowIndex);
         return switch (columnIndex) {
             case 0 -> rowIndex + 1;
             case 1 -> e.getDataTransacao();
-            case 2 -> e.getContaBancaria();
+            case 2 -> e.getConta();
             case 3 -> e.getCategoriaExtrato();
             case 4 -> e.getDescricao();
             case 5 -> e.getValor();

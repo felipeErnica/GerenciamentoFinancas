@@ -73,7 +73,7 @@ public class FormController implements Controller {
             File nfe = new File(fd.getFilterPath() + "/" + string);
             try {
                 DocumentoFiscal nfeDoc = NfeTransformer.transformNFe(nfe);
-                nfeDoc.setPastaContabil(model.getPastaContabil());
+                nfeDoc.setPasta(model.getPastaContabil());
                 nfeList.add(nfeDoc);
             } catch (NFeException | FetchFailException | SaveFailException e) {
                 failedFiles.add(nfe.getAbsolutePath());

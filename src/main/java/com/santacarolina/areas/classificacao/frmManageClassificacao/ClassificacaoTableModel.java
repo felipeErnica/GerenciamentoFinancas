@@ -3,19 +3,19 @@ package com.santacarolina.areas.classificacao.frmManageClassificacao;
 import java.util.List;
 
 import com.santacarolina.dao.ClassificacaoDAO;
-import com.santacarolina.dto.ClassificacaoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
+import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.ui.CustomTableModelImpl;
 
 /**
  * ClassificacaoTableModel
  */
-public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDTO>{
+public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoContabil> {
 
 
-    private final CustomTableModelImpl<ClassificacaoDTO> baseModel;
-    private List<ClassificacaoDTO> list;
+    private final CustomTableModelImpl<ClassificacaoContabil> baseModel;
+    private List<ClassificacaoContabil> list;
 
     private FilterModel filterModel;
 
@@ -27,13 +27,13 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
     };
 
     public ClassificacaoTableModel() throws FetchFailException {
-        list = new ClassificacaoDAO().findAllDTO();
+        list = new ClassificacaoDAO().findAll();
         filterModel = new FilterModel(this);
         this.baseModel = new CustomTableModelImpl<>(this, list);
     }
 
     @Override
-    public CustomTableModelImpl<ClassificacaoDTO> getBaseModel() { return baseModel; }
+    public CustomTableModelImpl<ClassificacaoContabil> getBaseModel() { return baseModel; }
 
     @Override
     public int getRowCount() { return list.size(); }
@@ -52,12 +52,12 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ClassificacaoDTO dto = getObject(rowIndex);
+        ClassificacaoContabil classificacaoContabil = getObject(rowIndex);
         return switch(columnIndex) {
-            case 0 -> dto.getFluxoCaixa().toString();
-            case 1 -> dto.getNomeCategoria();
-            case 2 -> dto.getNumeroIdentificacao();
-            case 3 -> dto.getNomeClassificacao();
+            case 0 -> classificacaoContabil.getCategoria() != null ? classificacaoContabil.getCategoria().getFluxoCaixa().toString() : null;
+            case 1 -> classificacaoContabil.getCategoria() != null ? classificacaoContabil.getCategoria().getNome() : null;
+            case 2 -> classificacaoContabil.getNumeroIdentificacao();
+            case 3 -> classificacaoContabil.getNomeClassificacao();
             default -> throw new IllegalArgumentException("Unexpected value: " + columnIndex);
         };
     }
@@ -66,14 +66,14 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoDT
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
 
     @Override
-    public ClassificacaoDTO getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
+    public ClassificacaoContabil getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
 
     public void requeryTable() throws FetchFailException {
-        list = new ClassificacaoDAO().findAllDTO();
+        list = new ClassificacaoDAO().findAll();
         filterModel.setFilters();
     }
     
     public FilterModel getFilterModel() { return filterModel; }
-    public List<ClassificacaoDTO> getList() { return list; }
+    public List<ClassificacaoContabil> getList() { return list; }
 
 }

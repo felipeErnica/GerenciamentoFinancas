@@ -89,11 +89,11 @@ public class ConciliacaoController implements Controller {
 
     private void singleConciliacao(int dupRow, int extratoRow) throws SaveFailException, FetchFailException {
         Duplicata duplicata = model.getDuplicata(dupRow);
-        duplicata.setPayed(true);
+        duplicata.setPaga(true);
         dupDao.save(duplicata);
 
         Extrato extrato = model.getExtrato(extratoRow);
-        extrato.setConciliated(true);
+        extrato.setConciliado(true);
         extratoDao.save(extrato);
 
         Conciliacao conciliacao = new Conciliacao(duplicata, extrato);
@@ -106,11 +106,11 @@ public class ConciliacaoController implements Controller {
         List<Extrato> extratoList = new ArrayList<>();
 
         Duplicata duplicata = model.getDuplicata(dupRow);
-        duplicata.setPayed(true);
+        duplicata.setPaga(true);
 
         for (int extratoRow : extratoRows) {
             Extrato extrato = model.getExtrato(extratoRow);
-            extrato.setConciliated(true);
+            extrato.setConciliado(true);
             extratoList.add(extrato);
 
             Conciliacao conciliacao = new Conciliacao(duplicata, extrato);
@@ -128,11 +128,11 @@ public class ConciliacaoController implements Controller {
         List<Duplicata> listDup = new ArrayList<>();
 
         Extrato extrato = model.getExtrato(extratoRow);
-        extrato.setConciliated(true);
+        extrato.setConciliado(true);
 
         for (int dupRow : dupRows) {
             Duplicata dup = model.getDuplicata(dupRow);
-            dup.setPayed(true);
+            dup.setPaga(true);
             Conciliacao conciliacao = new Conciliacao(dup, extrato);
             conciliacaoList.add(conciliacao);
             listDup.add(dup);

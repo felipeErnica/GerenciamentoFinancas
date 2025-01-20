@@ -2,12 +2,10 @@ package com.santacarolina.model;
 
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.ExtratoDAO;
-import com.santacarolina.dto.ConciliacaoDTO;
 import com.santacarolina.enums.TipoMovimento;
 import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.interfaces.ToDTO;
 
-public class Conciliacao implements ToDTO<ConciliacaoDTO> {
+public class Conciliacao {
 
     private long id;
     private TipoMovimento tipoMovimento;
@@ -15,13 +13,6 @@ public class Conciliacao implements ToDTO<ConciliacaoDTO> {
     private Duplicata duplicata;
     private long extratoId;
     private Extrato extrato;
-
-    public Conciliacao (ConciliacaoDTO dto) {
-        this.id = dto.getId();
-        this.tipoMovimento = dto.getTipoMovimento();
-        this.extrato = new Extrato(dto.getExtrato());
-        this.duplicata = new Duplicata(dto.getDuplicata());
-    }
 
     public Conciliacao(Duplicata duplicata, Extrato extrato) {
         this.duplicata = duplicata;
@@ -64,8 +55,5 @@ public class Conciliacao implements ToDTO<ConciliacaoDTO> {
         this.extrato = extrato;
         this.extratoId = extrato != null ? extrato.getId() : 0;
     }
-
-    @Override
-    public ConciliacaoDTO toDTO () { return new ConciliacaoDTO(this); }
 
 }

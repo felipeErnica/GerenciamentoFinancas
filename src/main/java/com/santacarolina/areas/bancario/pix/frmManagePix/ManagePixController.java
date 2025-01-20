@@ -8,7 +8,6 @@ import javax.swing.RowSorter;
 
 import com.santacarolina.areas.bancario.pix.frmPix.PixForm;
 import com.santacarolina.dao.PixDAO;
-import com.santacarolina.dto.PixDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ManageController;
@@ -18,14 +17,14 @@ import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 
 @SuppressWarnings("unchecked")
-public class ManagePixController implements ManageController<PixDTO> {
+public class ManagePixController implements ManageController<ChavePix> {
 
     private PixTableModel model;
     private ManagePixView view;
     private RowSorter<PixTableModel> sorter;
 
     public ManagePixController(PixTableModel model, ManagePixView view) {
-        ManageControllerImpl<PixDTO> baseController = new ManageControllerImpl<>(model, view, this);
+        ManageControllerImpl<ChavePix> baseController = new ManageControllerImpl<>(model, view, this);
         this.model = model;
         this.view = view;
         new FilterController(view.getFilterView(), model.getFilterModel());
@@ -38,7 +37,7 @@ public class ManagePixController implements ManageController<PixDTO> {
             try {
                 int viewRow = view.getTable().rowAtPoint(e.getPoint());
                 int modelRow = sorter.convertRowIndexToModel(viewRow);
-                ChavePix chavePix = model.getObject(modelRow).fromDTO();
+                ChavePix chavePix = model.getObject(modelRow);
                 System.out.println(chavePix);
                 PixForm.open(chavePix);
                 model.requeryTable();
@@ -65,7 +64,7 @@ public class ManagePixController implements ManageController<PixDTO> {
     public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
 
     @Override
-    public void callDeleteDAO(List<PixDTO> list) {
+    public void callDeleteDAO(List<ChavePix> list) {
         try {
             new PixDAO().deleteAll(list);
         } catch (DeleteFailException e) {
