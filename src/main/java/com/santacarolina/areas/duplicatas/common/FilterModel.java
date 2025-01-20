@@ -47,7 +47,6 @@ public class FilterModel implements ViewUpdater {
             dataInicio = filteredList.getFirst().getDataVencimento();
             dataFim = filteredList.getLast().getDataVencimento();
         }
-
     }
 
     public void setEmissor(String emissor) {
@@ -93,7 +92,6 @@ public class FilterModel implements ViewUpdater {
 
     public void setFilters() {
         filteredList = new ArrayList<>(tableModel.getList()); 
-        System.out.println("Tamanho lista: " + filteredList.size());
         if (!StringUtils.isBlank(emissor)) filterEmissor();
         if (tipoPagamento != null) filterTipo();
         if (contaBancaria != null) filterConta();
@@ -103,13 +101,11 @@ public class FilterModel implements ViewUpdater {
     }
 
     private void filterEmissor() {
-        System.out.println("Tamanho lista: " + filteredList.size());
         filteredList = filteredList.stream()
             .filter(dup -> dup.getDocumento() != null)
             .filter(dup -> dup.getDocumento().getEmissor() != null)
             .filter(dup -> dup.getDocumento().getEmissor().getNome().contains(emissor.toUpperCase()))
             .collect(Collectors.toList());
-        System.out.println("Tamanho lista: " + filteredList.size());
     }
 
     private void filterTipo() {
