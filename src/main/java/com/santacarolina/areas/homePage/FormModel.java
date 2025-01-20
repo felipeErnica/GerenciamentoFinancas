@@ -113,7 +113,6 @@ public class FormModel implements ViewUpdater {
     //Método privado para construir os vetores de dados nos gráficos. Filtra a lista de acordo com as váriaveis definidas e retorna a lista
     //de vetores apropriada
     private void buildGraphs() {
-        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
         if (pastaContabil != null) filterPasta();
         if (dataInicio != null) filterInicio();
         if (dataFim != null) filterFim();
@@ -130,18 +129,24 @@ public class FormModel implements ViewUpdater {
         filteredList = filteredList.stream()
             .filter(p -> p.getProduto().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
+        System.out.println("filterPasta");
+        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
             .filter(p -> p.getDuplicata().getDataVencimento().isBefore(dataFim))
             .collect(Collectors.toList());
+        System.out.println("filterInicio");
+        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
             .filter(p -> p.getDuplicata().getDataVencimento().isAfter(dataInicio))
             .collect(Collectors.toList());
+        System.out.println("filterFim");
+        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
     }
 
     private void buildResultingLine() {
