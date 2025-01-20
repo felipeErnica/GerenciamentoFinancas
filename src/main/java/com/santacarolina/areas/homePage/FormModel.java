@@ -154,6 +154,8 @@ public class FormModel implements ViewUpdater {
     private void  buildPieSeriesList() {
         List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
 
+        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
+
         Map<ClassificacaoContabil,List<Produto>> map = filteredList.stream()
             .map(pd -> pd.getProduto())
             .collect(Collectors.groupingBy(p -> p.getClassificacao()));
