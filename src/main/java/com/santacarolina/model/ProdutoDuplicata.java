@@ -13,6 +13,8 @@ public class ProdutoDuplicata {
         this.duplicata = duplicata;
     }
 
+    public ProdutoDuplicata() { }
+
     public Produto getProduto() { return produto; }
     public Duplicata getDuplicata() { return duplicata; }
 
