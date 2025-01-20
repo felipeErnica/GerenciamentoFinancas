@@ -103,7 +103,7 @@ public class FilterModel implements ViewUpdater {
     private void filterEmissor() {
         System.out.println("filtro emissor: " + emissor);
         System.out.println("filterEmissor");
-        filteredList.forEach(d -> d.toString());
+        filteredList.forEach(d -> System.out.println(d.toString()));
         filteredList = filteredList.stream()
             .filter(dup -> dup.getDocumento() != null)
             .filter(dup -> dup.getDocumento().getEmissor() != null)
@@ -113,7 +113,7 @@ public class FilterModel implements ViewUpdater {
 
     private void filterTipo() {
         System.out.println("filterTipo");
-        filteredList.forEach(d -> d.toString());
+        filteredList.forEach(d -> System.out.println(d.toString()));
         filteredList = filteredList.stream()
             .filter(dup -> dup.getTipoPagamento() != null)
             .filter(dup -> dup.getTipoPagamento() == tipoPagamento)
@@ -122,7 +122,7 @@ public class FilterModel implements ViewUpdater {
 
     private void filterConta() {
         System.out.println("filterConta");
-        filteredList.forEach(d -> d.toString());
+        filteredList.forEach(d -> System.out.println(d.toString()));
         filteredList = filteredList.stream()
             .filter(dup -> dup.getDocumento() != null)
             .filter(dup -> dup.getDocumento().getPasta() != null)
@@ -133,7 +133,7 @@ public class FilterModel implements ViewUpdater {
 
     private void filterInicio() {
         System.out.println("filterInicio");
-        filteredList.forEach(d -> d.toString());
+        filteredList.forEach(d -> System.out.println(d.toString()));
         filteredList = filteredList.stream()
             .filter(dup -> dup.getDataVencimento() != null)
             .filter(dup -> dup.getDataVencimento().isAfter(dataInicio.minusDays(1)))
@@ -142,7 +142,7 @@ public class FilterModel implements ViewUpdater {
 
     private void filterFim() {
         System.out.println("filterFim");
-        filteredList.forEach(d -> d.toString());
+        filteredList.forEach(d -> System.out.println(d.toString()));
         filteredList = filteredList.stream()
             .filter(dup -> dup.getDataVencimento() != null)
             .filter(dup -> dup.getDataVencimento().isBefore(dataFim.plusDays(1)))
