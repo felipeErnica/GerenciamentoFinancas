@@ -20,7 +20,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private Long numDoc;
     private TipoDoc tipoDoc;
     private Contato emissor;
-    private long contatoId;
+    private long emissorId;
     private String caminhoDocumento;
     private PastaContabil pasta;
     private long pastaId;
@@ -30,6 +30,11 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private List<Duplicata> duplicatas;
     private List<Produto> produtos;
 
+    public DocumentoFiscal() {
+        this.pastaId = pasta.getId();
+        this.emissorId = emissor.getId();
+    }
+
     public long getId() { return id; }
     public Long getNumDoc() { return numDoc; }
     public String getCaminhoDocumento() { return caminhoDocumento; }
@@ -37,14 +42,14 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public LocalDate getDataEmissao() { return dataEmissao; }
     public TipoDoc getTipoDoc() { return tipoDoc; }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
-    public long getContatoId() { return contatoId; }
+    public long getEmissorId() { return emissorId; }
     public long getPastaId() { return pastaId; }
     public boolean isExpense() { return fluxoCaixa == FluxoCaixa.DESPESA; }
     public boolean isIncome() { return fluxoCaixa == FluxoCaixa.RECEITA; }
 
     public Contato getEmissor() {
         try {
-            if (emissor == null) emissor = new ContatoDAO().findById(contatoId).orElse(null);
+            if (emissor == null) emissor = new ContatoDAO().findById(emissorId).orElse(null);
         } catch (FetchFailException ignored) {}
         return emissor;
     }
@@ -76,7 +81,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public void setCaminhoDocumento(String caminho) { this.caminhoDocumento = caminho; }
     public void setValor(double valor) { this.valor = valor; }
     public void setDataEmissao(LocalDate dataEmissao) { this.dataEmissao = dataEmissao; }
-    public void setEmissorId(Long emissorId) { this.contatoId = emissorId; }
+    public void setEmissorId(Long emissorId) { this.emissorId = emissorId; }
     public void setPastaId(Long pastaId) { this.pastaId = pastaId; }
     public void setFluxoCaixa(FluxoCaixa fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
     public void setDuplicatas(List<Duplicata> duplicatas) { this.duplicatas = duplicatas; }
@@ -84,7 +89,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
 
     public void setEmissor(Contato emissor) {
         this.emissor = emissor;
-        this.contatoId = emissor != null ? emissor.getId() : 0;
+        this.emissorId = emissor != null ? emissor.getId() : 0;
     }
 
     public void setPasta(PastaContabil pastaContabil) {
@@ -114,7 +119,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         DocumentoFiscal clone = new DocumentoFiscal();
         clone.setCaminhoDocumento(caminhoDocumento);
         clone.setId(id);
-        clone.setEmissorId(contatoId);
+        clone.setEmissorId(emissorId);
         clone.setValor(valor);
         clone.setDataEmissao(dataEmissao);
         clone.setFluxoCaixa(fluxoCaixa);
@@ -140,7 +145,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         sb.append("id=").append(id);
         sb.append(", numDoc=").append(numDoc);
         sb.append(", tipoDoc=").append(tipoDoc);
-        sb.append(", emissorId=").append(contatoId);
+        sb.append(", emissorId=").append(emissorId);
         sb.append(", caminho='").append(caminhoDocumento).append('\'');
         sb.append(", pastaId=").append(pastaId);
         sb.append(", valor=").append(valor);

@@ -38,7 +38,7 @@ public class FormController implements Controller {
             return;
         }
         DocumentoFiscal nfe = model.getNfe();
-        if (nfe.getContatoId() == 0) addContato();
+        if (nfe.getEmissorId() == 0) addContato();
         model.deleteNfe(nfe);
         view.getNfeComboBox().setSelectedItem(null);
         if (model.getNfeList().isEmpty()) view.getDialog().dispose();

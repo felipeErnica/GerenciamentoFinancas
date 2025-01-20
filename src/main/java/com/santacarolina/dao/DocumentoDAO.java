@@ -39,7 +39,7 @@ public class DocumentoDAO {
 
     public Optional<DocumentoFiscal> findEqualDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING + "/doc" +
-                "?contatoId=" + documentoFiscal.getContatoId() +
+                "?contatoId=" + documentoFiscal.getEmissorId() +
                 "&tipoDoc=" + documentoFiscal.getTipoDoc().name() +
                 "&dataEmissao=" + documentoFiscal.getDataEmissao() +
                 "&pastaId=" + documentoFiscal.getPastaId() +
@@ -52,7 +52,7 @@ public class DocumentoDAO {
     }
 
     public Optional<DocumentoFiscal> findEqualNota(DocumentoFiscal documentoFiscal) throws FetchFailException {
-        String query = MAPPING + "/nota?contatoId=" + documentoFiscal.getContatoId() +
+        String query = MAPPING + "/nota?contatoId=" + documentoFiscal.getEmissorId() +
                 "&numDoc=" + documentoFiscal.getNumDoc();
         try {
             return apiRequest.getRequest(query);
