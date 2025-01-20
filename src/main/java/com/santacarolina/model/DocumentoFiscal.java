@@ -31,8 +31,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private List<Produto> produtos;
 
     public DocumentoFiscal() {
-        this.pastaId = pasta.getId();
-        this.emissorId = emissor.getId();
+        this.pastaId = pasta != null ? pasta.getId() : null;
+        this.emissorId = emissor != null ? emissor.getId() : null;
     }
 
     public long getId() { return id; }
