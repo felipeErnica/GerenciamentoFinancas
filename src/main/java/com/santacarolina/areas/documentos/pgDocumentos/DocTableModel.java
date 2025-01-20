@@ -72,7 +72,7 @@ public class DocTableModel implements CustomTableModel<DocumentoFiscal> {
             case 2 -> d.getPasta() != null ? d.getPasta().getNome() : null;
             case 3 -> d.getTipoDoc().getValue();
             case 4 -> d.getNumDoc();
-            case 5 -> d.getContato() != null ? d.getContato().getNome() : null;
+            case 5 -> d.getEmissor() != null ? d.getEmissor().getNome() : null;
             case 6 -> d.getValor();
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
         };

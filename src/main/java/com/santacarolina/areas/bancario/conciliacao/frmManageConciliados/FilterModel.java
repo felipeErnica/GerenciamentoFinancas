@@ -136,7 +136,7 @@ public class FilterModel implements ViewUpdater {
     private void filterEmissor() {
         filteredList = filteredList.stream()
             .filter(conciliacao -> conciliacao.getDuplicata() != null)
-            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getContato().getId() == emissor.getId())
+            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getEmissor().getId() == emissor.getId())
             .collect(Collectors.toList());
     }
 

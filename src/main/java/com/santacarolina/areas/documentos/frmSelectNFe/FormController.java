@@ -49,11 +49,11 @@ public class FormController implements Controller {
         int result = OptionDialog.showOptionDialog("O Emissor desta NFe não está registrado no sistema! " +
                 "Deseja adicioná-lo?","Novo Contato");
         if (result == JOptionPane.YES_OPTION) {
-            Contato emissor = model.getNfe().getContato();
+            Contato emissor = model.getNfe().getEmissor();
             ContatoForm.saveNew(emissor);
-            model.getNfe().setContato(emissor);
+            model.getNfe().setEmissor(emissor);
         } else {
-            model.getNfe().setContato(null);
+            model.getNfe().setEmissor(null);
         }
     }
 

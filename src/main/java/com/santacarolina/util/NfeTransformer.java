@@ -28,7 +28,7 @@ public class NfeTransformer {
             nfeDoc.setTipoDoc(nFeDTO.getTipoDoc());
             nfeDoc.setValor(nFeDTO.getValor());
             nfeDoc.setDataEmissao(nFeDTO.getDataEmissao());
-            nfeDoc.setContato(nFeDTO.getEmissor());
+            nfeDoc.setEmissor(nFeDTO.getEmissor());
             nfeDoc.setFluxoCaixa(nFeDTO.getFluxoCaixa());
             System.out.println(nfeDoc);
             nFeDTO.getProdutos().forEach(nfeDoc::addProduto);

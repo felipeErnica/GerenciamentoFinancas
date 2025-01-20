@@ -63,8 +63,8 @@ public class DupTableModel implements CustomTableModel<Duplicata> {
             }
             case 4 -> {
                 if (d.getDocumento() == null) yield null;
-                if (d.getDocumento().getContato() == null) yield null;
-                yield d.getDocumento().getContato().getNome();
+                if (d.getDocumento().getEmissor() == null) yield null;
+                yield d.getDocumento().getEmissor().getNome();
             }
             case 5 -> d.getValor();
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);

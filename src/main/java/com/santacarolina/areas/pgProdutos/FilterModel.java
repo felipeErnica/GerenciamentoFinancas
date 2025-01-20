@@ -94,8 +94,8 @@ public class FilterModel implements ViewUpdater {
     private void filterEmissor() {
         filteredList = filteredList.stream()
             .filter(prod -> prod.getDocumento() != null)
-            .filter(prod -> prod.getDocumento().getContato() != null)
-            .filter(prod -> prod.getDocumento().getContato().getNome().contains(emissor.toUpperCase()))
+            .filter(prod -> prod.getDocumento().getEmissor() != null)
+            .filter(prod -> prod.getDocumento().getEmissor().getNome().contains(emissor.toUpperCase()))
             .collect(Collectors.toList());
     }
 

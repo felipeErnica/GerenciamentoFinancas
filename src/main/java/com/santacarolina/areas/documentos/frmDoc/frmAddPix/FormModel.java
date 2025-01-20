@@ -54,7 +54,7 @@ public class FormModel implements ViewUpdater {
     }
 
     private void initEmpty(Duplicata dup) throws FetchFailException {
-        contato = dup.getDocumento().getContato();
+        contato = dup.getDocumento().getEmissor();
         if (contato == null) return;
         chaveList = new PixDAO().findByContato(contato);
         if (!chaveList.isEmpty()) {

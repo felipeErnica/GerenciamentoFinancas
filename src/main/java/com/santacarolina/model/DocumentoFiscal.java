@@ -19,7 +19,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private long id;
     private Long numDoc;
     private TipoDoc tipoDoc;
-    private Contato contato;
+    private Contato emissor;
     private long contatoId;
     private String caminhoDocumento;
     private PastaContabil pasta;
@@ -42,11 +42,11 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public boolean isExpense() { return fluxoCaixa == FluxoCaixa.DESPESA; }
     public boolean isIncome() { return fluxoCaixa == FluxoCaixa.RECEITA; }
 
-    public Contato getContato() {
+    public Contato getEmissor() {
         try {
-            if (contato == null) contato = new ContatoDAO().findById(contatoId).orElse(null);
+            if (emissor == null) emissor = new ContatoDAO().findById(contatoId).orElse(null);
         } catch (FetchFailException ignored) {}
-        return contato;
+        return emissor;
     }
 
     public PastaContabil getPasta() {
@@ -82,8 +82,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public void setDuplicatas(List<Duplicata> duplicatas) { this.duplicatas = duplicatas; }
     public void setProdutos(List<Produto> produtos) { this.produtos = produtos; }
 
-    public void setContato(Contato emissor) {
-        this.contato = emissor;
+    public void setEmissor(Contato emissor) {
+        this.emissor = emissor;
         this.contatoId = emissor != null ? emissor.getId() : 0;
     }
 
@@ -130,7 +130,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder(tipoDoc != null ? tipoDoc.toString() : "");
         if (numDoc != null) sb.append(" - Número: ").append(numDoc);
-        if (contato != null) sb.append(" - Emissor: ").append(contato);
+        if (emissor != null) sb.append(" - Emissor: ").append(emissor);
         if (dataEmissao != null) sb.append(" - Data: ").append(dataEmissao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         return sb.toString();
     }

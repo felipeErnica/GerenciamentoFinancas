@@ -69,8 +69,8 @@ public class ProdTableModel implements CustomTableModel<Produto> {
             }
             case 2 -> {
                 if (p.getDocumento() == null) yield null;
-                if (p.getDocumento().getContato() == null) yield null;
-                yield p.getDocumento().getContato().getNome();
+                if (p.getDocumento().getEmissor() == null) yield null;
+                yield p.getDocumento().getEmissor().getNome();
             }
             case 3 -> p.getClassificacao() != null ? p.getClassificacao().getNomeClassificacao(): null;
             case 4 -> p.getDescricao();

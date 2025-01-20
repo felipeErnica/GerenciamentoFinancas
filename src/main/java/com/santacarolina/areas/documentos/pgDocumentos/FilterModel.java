@@ -109,9 +109,9 @@ public class FilterModel implements ViewUpdater {
 
     private void filterEmissor() {
         filteredList = filteredList.stream()
-            .filter(doc -> doc.getContato() != null)
-            .filter(doc -> !StringUtils.isBlank(doc.getContato().getNome()))
-            .filter(doc -> doc.getContato().getNome().contains(emissor.toUpperCase()))
+            .filter(doc -> doc.getEmissor() != null)
+            .filter(doc -> !StringUtils.isBlank(doc.getEmissor().getNome()))
+            .filter(doc -> doc.getEmissor().getNome().contains(emissor.toUpperCase()))
             .collect(Collectors.toList());
     }
 

@@ -52,7 +52,7 @@ public class DocModel implements ViewUpdater {
 
     private void init() {
         fluxoCaixa = documentoFiscal.getFluxoCaixa();
-        emissor = documentoFiscal.getContato();
+        emissor = documentoFiscal.getEmissor();
         pastaContabil = documentoFiscal.getPasta();
         tipoDoc = documentoFiscal.getTipoDoc();
         emissionDate = documentoFiscal.getDataEmissao();
@@ -115,7 +115,7 @@ public class DocModel implements ViewUpdater {
 
     public void setEmissor(Contato emissor) {
         this.emissor = emissor;
-        documentoFiscal.setContato(emissor);
+        documentoFiscal.setEmissor(emissor);
     }
 
     public void setPastaContabil(PastaContabil pastaContabil) {
