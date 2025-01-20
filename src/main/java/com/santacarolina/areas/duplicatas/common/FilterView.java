@@ -87,11 +87,13 @@ public class FilterView implements PropertyChangeListener {
         switch (evt.getPropertyName()) { 
             case FilterModel.DATA_INICIO -> {
                 LocalDate date = (LocalDate) evt.getNewValue();
-                dataInicio.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                if (date == null) dataInicio.setText(null);
+                else dataInicio.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
             case FilterModel.DATA_FIM -> {
                 LocalDate date = (LocalDate) evt.getNewValue();
-                dataFim.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                if (date == null) dataFim.setText(null);
+                else dataFim.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
         }
     }
