@@ -70,7 +70,7 @@ public class DocTableModel implements CustomTableModel<DocumentoFiscal> {
             case 0 -> rowIndex + 1;
             case 1 -> d.getDataEmissao();
             case 2 -> d.getPasta() != null ? d.getPasta().getNome() : null;
-            case 3 -> d.getTipoDoc().getValue();
+            case 3 -> d.getTipoDoc() != null ? d.getTipoDoc().getValue() : null;
             case 4 -> d.getNumDoc();
             case 5 -> d.getEmissor() != null ? d.getEmissor().getNome() : null;
             case 6 -> d.getValor();

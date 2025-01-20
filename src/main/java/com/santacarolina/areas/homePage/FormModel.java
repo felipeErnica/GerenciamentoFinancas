@@ -164,6 +164,7 @@ public class FormModel implements ViewUpdater {
             double valorClassificacao = listProdutos.stream()
                 .mapToDouble(p -> p.getValorTotal())
                 .sum();
+            System.out.println("categoria-graph: " + classificacao.getNomeClassificacao() + " valor: " + valorClassificacao);
             ExpenseCategory ec = new ExpenseCategory(classificacao.getNomeClassificacao(), Math.abs(valorClassificacao)*-1);
             expenseCategoryList.add(ec);
         }
