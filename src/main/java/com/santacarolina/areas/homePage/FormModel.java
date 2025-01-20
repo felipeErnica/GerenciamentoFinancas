@@ -56,6 +56,7 @@ public class FormModel implements ViewUpdater {
             .filter(p -> p.getDuplicata().getDocumento().getPasta() != null)
             .collect(Collectors.toList());
         pf = new PropertyFirer(this);
+        unfilteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
         updateAllData();
     }
 
