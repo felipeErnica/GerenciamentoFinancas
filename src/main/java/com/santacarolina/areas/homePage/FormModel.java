@@ -56,7 +56,6 @@ public class FormModel implements ViewUpdater {
             .filter(p -> p.getDuplicata().getDocumento().getPasta() != null)
             .collect(Collectors.toList());
         pf = new PropertyFirer(this);
-        unfilteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
         updateAllData();
     }
 
@@ -114,6 +113,7 @@ public class FormModel implements ViewUpdater {
     //Método privado para construir os vetores de dados nos gráficos. Filtra a lista de acordo com as váriaveis definidas e retorna a lista
     //de vetores apropriada
     private void buildGraphs() {
+        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
         if (pastaContabil != null) filterPasta();
         if (dataInicio != null) filterInicio();
         if (dataFim != null) filterFim();
