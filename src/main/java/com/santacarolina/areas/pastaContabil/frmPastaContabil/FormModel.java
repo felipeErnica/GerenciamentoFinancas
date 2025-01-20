@@ -28,7 +28,7 @@ public class FormModel implements ViewUpdater {
     private void init() {
         nomePasta = pastaContabil.getNome();
         folderPath = pastaContabil.getCaminhoPasta();
-        contaBancaria = pastaContabil.getContaBancaria();
+        contaBancaria = pastaContabil.getConta();
     }
 
     public PastaContabil getPastaContabil() { return pastaContabil; }
@@ -50,7 +50,7 @@ public class FormModel implements ViewUpdater {
 
     public void setContaBancaria(ContaBancaria contaBancaria) {
         this.contaBancaria = contaBancaria;
-        pastaContabil.setContaBancaria(contaBancaria);
+        pastaContabil.setConta(contaBancaria);
     }
 
     @Override

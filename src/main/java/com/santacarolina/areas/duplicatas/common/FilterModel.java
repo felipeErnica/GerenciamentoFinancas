@@ -119,8 +119,8 @@ public class FilterModel implements ViewUpdater {
         filteredList = filteredList.stream()
             .filter(dup -> dup.getDocumento() != null)
             .filter(dup -> dup.getDocumento().getPasta() != null)
-            .filter(dup -> dup.getDocumento().getPasta().getContaBancaria() != null)
-            .filter(dup -> dup.getDocumento().getPasta().getContaBancaria().getId() == contaBancaria.getId())
+            .filter(dup -> dup.getDocumento().getPasta().getConta() != null)
+            .filter(dup -> dup.getDocumento().getPasta().getConta().getId() == contaBancaria.getId())
             .collect(Collectors.toList());
     }
 

@@ -60,8 +60,8 @@ public class DupTableModel implements CustomTableModel<Duplicata> {
             case 3 -> {
                 if (d.getDocumento() == null) yield null;
                 if (d.getDocumento().getPasta() == null) yield null;
-                if (d.getDocumento().getPasta().getContaBancaria() == null) yield null;
-                yield d.getDocumento().getPasta().getContaBancaria().getAbreviacaoConta();
+                if (d.getDocumento().getPasta().getConta() == null) yield null;
+                yield d.getDocumento().getPasta().getConta().getAbreviacaoConta();
             }
             case 4 -> {
                 if (d.getDocumento() == null) yield null;

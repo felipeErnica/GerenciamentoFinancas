@@ -11,18 +11,18 @@ public class PastaContabil implements Cloneable {
     private String nome;
     private String caminhoPasta;
     private long contaId;
-    private ContaBancaria contaBancaria;
+    private ContaBancaria conta;
 
     public long getId() { return id; }
     public String getNome() { return nome; }
     public String getCaminhoPasta() { return caminhoPasta; }
     public long getContaId() { return contaId; }
 
-    public ContaBancaria getContaBancaria() {
+    public ContaBancaria getConta() {
         try {
-            if (contaBancaria == null && contaId != 0) contaBancaria = contaDAO.findById(contaId).orElse(null);
+            if (conta == null && contaId != 0) conta = contaDAO.findById(contaId).orElse(null);
         } catch (FetchFailException ignored) {}
-        return contaBancaria;
+        return conta;
     }
 
     public void setId(long id) { this.id = id; }
@@ -30,8 +30,8 @@ public class PastaContabil implements Cloneable {
     public void setCaminhoPasta(String caminhoPasta) { this.caminhoPasta = caminhoPasta; }
     public void setContaId(long contaId) { this.contaId = contaId; }
 
-    public void setContaBancaria(ContaBancaria contaBancaria) {
-        this.contaBancaria = contaBancaria;
+    public void setConta(ContaBancaria contaBancaria) {
+        this.conta = contaBancaria;
         this.contaId = contaBancaria != null ? contaBancaria.getId() : 0;
     }
 

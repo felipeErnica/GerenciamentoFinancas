@@ -50,7 +50,7 @@ public class PastaTableModel implements CustomTableModel<PastaContabil> {
         return switch (columnIndex) {
             case 0 -> p.getNome();
             case 1 -> p.getCaminhoPasta();
-            case 2 -> p.getContaBancaria().toString();
+            case 2 -> p.getConta().toString();
             default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
         };
     }
