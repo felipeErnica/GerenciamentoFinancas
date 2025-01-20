@@ -21,7 +21,7 @@ public class ClassificacaoContabil implements Copiable<ClassificacaoContabil> {
 
     public CategoriaContabil getCategoria() {
         try {
-            if (categoriaId != 0) categoria = new CategoriaDAO().findById(categoriaId).orElse(null);
+            if (categoria == null && categoriaId != 0) categoria = new CategoriaDAO().findById(categoriaId).orElse(null);
         } catch (FetchFailException e) {}
         return categoria;
     }

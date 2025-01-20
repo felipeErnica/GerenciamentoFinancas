@@ -29,7 +29,7 @@ public class Extrato {
 
     public ContaBancaria getConta() {
         try {
-            if (conta == null) conta = new ContaDAO().findById(contaId).orElse(null);
+            if (conta == null && contaId != 0) conta = new ContaDAO().findById(contaId).orElse(null);
             return conta;
         } catch (FetchFailException e) {
             return conta;

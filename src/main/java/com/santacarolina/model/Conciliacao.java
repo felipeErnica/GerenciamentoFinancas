@@ -41,7 +41,7 @@ public class Conciliacao {
 
     public Extrato getExtrato() {
         try {
-            if (extrato == null) extrato = new ExtratoDAO().findById(extratoId).orElse(null);
+            if (extrato == null && extratoId != 0) extrato = new ExtratoDAO().findById(extratoId).orElse(null);
         } catch (FetchFailException ignored) {}
         return extrato; 
     }

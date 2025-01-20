@@ -28,7 +28,7 @@ public class Duplicata {
 
     public DocumentoFiscal getDocumento() {
         try {
-            if (documento == null) documento = new DocumentoDAO().findById(documentoId).orElse(null);
+            if (documento == null && documentoId != 0) documento = new DocumentoDAO().findById(documentoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return documento;

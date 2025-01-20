@@ -30,11 +30,6 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private List<Duplicata> duplicatas;
     private List<Produto> produtos;
 
-    public DocumentoFiscal() {
-        this.pastaId = pasta != null ? pasta.getId() : 0;
-        this.emissorId = emissor != null ? emissor.getId() : 0;
-    }
-
     public long getId() { return id; }
     public Long getNumDoc() { return numDoc; }
     public String getCaminhoDocumento() { return caminhoDocumento; }
@@ -49,14 +44,14 @@ public class DocumentoFiscal implements Cloneable, Serializable {
 
     public Contato getEmissor() {
         try {
-            if (emissor == null) emissor = new ContatoDAO().findById(emissorId).orElse(null);
+            if (emissor == null && emissorId != 0) emissor = new ContatoDAO().findById(emissorId).orElse(null);
         } catch (FetchFailException ignored) {}
         return emissor;
     }
 
     public PastaContabil getPasta() {
         try {
-            if (pasta == null) pasta = new PastaDAO().findById(pastaId).orElse(null);
+            if (pasta == null && pastaId != 0) pasta = new PastaDAO().findById(pastaId).orElse(null);
         } catch (FetchFailException ignored) {}
         return pasta;
     }

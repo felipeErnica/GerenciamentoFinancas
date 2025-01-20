@@ -25,7 +25,7 @@ public class DadoBancario implements Copiable<DadoBancario> {
 
     public Contato getContato() {
         try {
-            if (contato == null) this.contato = new ContatoDAO().findById(contatoId).orElse(null);
+            if (contato == null && contatoId != 0) this.contato = new ContatoDAO().findById(contatoId).orElse(null);
             return contato;
         } catch (FetchFailException e) {
             return contato;
@@ -34,7 +34,7 @@ public class DadoBancario implements Copiable<DadoBancario> {
 
     public Banco getBanco() {
         try {
-            if (banco == null) this.banco = new BancoDAO().findById(bancoId).orElse(null);
+            if (banco == null && bancoId != 0) this.banco = new BancoDAO().findById(bancoId).orElse(null);
             return banco;
         } catch (FetchFailException e) {
             return banco;

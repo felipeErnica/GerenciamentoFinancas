@@ -27,7 +27,7 @@ public class Produto implements Comparable<Produto> {
 
     public ClassificacaoContabil getClassificacao() {
         try {
-            if (classificacao == null) classificacao = new ClassificacaoDAO().findById(classificacaoId).orElse(null);
+            if (classificacao == null && classificacaoId != 0) classificacao = new ClassificacaoDAO().findById(classificacaoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return classificacao;
@@ -35,7 +35,7 @@ public class Produto implements Comparable<Produto> {
 
     public DocumentoFiscal getDocumento() {
         try {
-            if (documento == null) documento = new DocumentoDAO().findById(documentoId).orElse(null);
+            if (documento == null && documentoId != 0) documento = new DocumentoDAO().findById(documentoId).orElse(null);
         } catch (FetchFailException ignored) {
         }
         return documento;

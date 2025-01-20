@@ -28,7 +28,7 @@ public class ChavePix implements Cloneable {
 
     public Contato getContato() {
         try {
-            if (contato == null) this.contato = new ContatoDAO().findById(contatoId).orElse(null);
+            if (contato == null && contatoId != 0) this.contato = new ContatoDAO().findById(contatoId).orElse(null);
         } catch (FetchFailException ignored) {}
         return contato;
     }

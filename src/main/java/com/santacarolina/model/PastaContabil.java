@@ -20,7 +20,7 @@ public class PastaContabil implements Cloneable {
 
     public ContaBancaria getContaBancaria() {
         try {
-            if (contaBancaria == null) contaBancaria = contaDAO.findById(contaId).orElse(null);
+            if (contaBancaria == null && contaId != 0) contaBancaria = contaDAO.findById(contaId).orElse(null);
         } catch (FetchFailException ignored) {}
         return contaBancaria;
     }

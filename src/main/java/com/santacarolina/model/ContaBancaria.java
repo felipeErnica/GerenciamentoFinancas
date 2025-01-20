@@ -23,7 +23,7 @@ public class ContaBancaria implements Copiable<ContaBancaria> {
 
     public Banco getBanco() {
         try {
-            if (banco == null) this.banco = new BancoDAO().findById(bancoId).orElse(null);
+            if (banco == null && bancoId != 0) this.banco = new BancoDAO().findById(bancoId).orElse(null);
         } catch (FetchFailException ignored) {}
         return banco;
     }
