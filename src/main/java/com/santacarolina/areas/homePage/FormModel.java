@@ -61,7 +61,7 @@ public class FormModel implements ViewUpdater {
 
     private void updateAllData() throws FetchFailException {
         if (pastaContabil == null) mostValuablePasta(); 
-        if (dataInicio == null) dataInicio = LocalDate.of(LocalDate.now().getYear(), 1, 1);
+        if (dataInicio == null) dataInicio = LocalDate.now().minusYears(1);
         if (dataFim == null) dataFim = LocalDate.now();
         filteredList = unfilteredList;
     }
@@ -130,7 +130,6 @@ public class FormModel implements ViewUpdater {
             .filter(p -> p.getProduto().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
         System.out.println("filterPasta");
-        filteredList.forEach(pd -> System.out.println("data: " + pd.getDuplicata().getDataVencimento() + " Produto: " + pd.getProduto().getDescricao()));
     }
 
     private void filterFim() {
