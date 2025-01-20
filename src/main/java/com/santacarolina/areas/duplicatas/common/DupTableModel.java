@@ -22,8 +22,10 @@ public class DupTableModel implements CustomTableModel<Duplicata> {
     }
 
     public CustomTableModelImpl<Duplicata> getBaseModel() { return model; }
+
     @Override
     public int getRowCount() { return model.getRowCount(); }
+
     @Override
     public int getColumnCount() { return 6; }
 
