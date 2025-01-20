@@ -126,8 +126,8 @@ public class FilterModel implements ViewUpdater {
 
     private void filterInicio() {
         filteredList = filteredList.stream()
-            //.filter(dup -> dup.getDataVencimento() != null)
-            .filter(dup -> dup.getDataVencimento().isAfter(dataInicio.minusDays(1)))
+            .filter(dup -> dup.getDataVencimento() != null)
+            //.filter(dup -> dup.getDataVencimento().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
 
