@@ -40,7 +40,7 @@ public class MainView implements PropertyChangeListener {
 
         contentPane = new JPanel();
 
-        centerPane = new JPanel();
+        centerPane = new JPanel(new BorderLayout());
         centerPane.add(controlPane, BorderLayout.NORTH);
         centerPane.add(contentPane, BorderLayout.CENTER);
 
