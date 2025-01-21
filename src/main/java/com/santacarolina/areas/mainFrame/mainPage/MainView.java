@@ -59,9 +59,11 @@ public class MainView implements PropertyChangeListener {
     }
 
     public void paintControlPane() { 
-        MenuDecorator.paintPanel(controlPane);
+        //MenuDecorator.paintPanel(controlPane);
         minimizeButton.setBackground(controlPane.getBackground());
         closeButton.setBackground(controlPane.getBackground());
+        controlPane.revalidate();
+        controlPane.repaint();
     }
 
     public JFrame getFrame() { return frame; }
