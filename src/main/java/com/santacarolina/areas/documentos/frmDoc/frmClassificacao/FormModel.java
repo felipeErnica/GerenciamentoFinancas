@@ -21,6 +21,7 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
     private CustomTableModelImpl<ClassificacaoContabil> tableModel;
     private List<ClassificacaoContabil> unfilteredList;
     private List<ClassificacaoContabil> classificacaoList;
+
     private String[] columnNames = new String[] {
             "Número",
             "Classificacão"
@@ -56,13 +57,15 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
 
     private void triggerSearch() {
         this.classificacaoList = classificacaoList.stream()
-                .filter(c -> c.getNomeClassificacao().toUpperCase().contains(searchField.toUpperCase()))
-                .collect(Collectors.toList());
+            .filter(c -> !StringUtils.isBlank(c.getNomeClassificacao()))
+            .filter(c -> c.getNomeClassificacao().toUpperCase().contains(searchField.toUpperCase()))
+            .collect(Collectors.toList());
     }
 
     private void triggerCategoria() {
         this.classificacaoList = classificacaoList.stream()
-            .filter(c -> c.getCategoriaId() == categoriaContabil.getId())
+            .filter(c -> c.getCategoria() != null)
+            .filter(c -> c.getCategoria().getId() == categoriaContabil.getId())
             .collect(Collectors.toList());
     }
 
@@ -116,9 +119,6 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
 
     public void addRow(ClassificacaoContabil classificacaoContabil) { tableModel.addRow(classificacaoContabil); }
     public void removeRows(int[] rows) { tableModel.removeRows(rows); }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
+    public void setProduto(Produto produto) { this.produto = produto; }
 
 }
