@@ -60,6 +60,7 @@ public class MainView implements PropertyChangeListener {
 
     public void paintControlPane() { 
         controlPane.repaint();
+        controlPane.revalidate();
         minimizeButton.setBackground(controlPane.getBackground());
         closeButton.setBackground(controlPane.getBackground());
     }
