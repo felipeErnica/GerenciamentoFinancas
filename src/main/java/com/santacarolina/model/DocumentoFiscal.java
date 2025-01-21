@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.PastaDAO;
@@ -27,7 +28,11 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private double valor;
     private LocalDate dataEmissao;
     private FluxoCaixa fluxoCaixa;
+
+    @JsonIgnore
     private List<Duplicata> duplicatas;
+
+    @JsonIgnore
     private List<Produto> produtos;
 
     public long getId() { return id; }
