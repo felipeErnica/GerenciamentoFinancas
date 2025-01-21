@@ -40,7 +40,10 @@ public class FilterModel implements ViewUpdater {
         pf = new PropertyFirer(this);
         filteredList = new ArrayList<>(tableModel.getList());
 
-        if (filteredList.getFirst().isPaga()) {
+        if (filteredList.isEmpty()) {
+            dataInicio = null;
+            dataFim = null;
+        } else if (filteredList.getFirst().isPaga()) {
             dataInicio = filteredList.getLast().getDataVencimento();
             dataFim = filteredList.getFirst().getDataVencimento();
         } else {

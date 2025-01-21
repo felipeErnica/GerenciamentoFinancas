@@ -38,8 +38,10 @@ public class FilterModel implements ViewUpdater {
     public FilterModel(DocTableModel tableModel) {
         this.tableModel = tableModel;
         filteredList = new ArrayList<>(tableModel.getList());
-        dataInicio = filteredList.getLast().getDataEmissao();
-        dataFim = filteredList.getFirst().getDataEmissao();
+        if (!filteredList.isEmpty()) {
+            dataInicio = filteredList.getLast().getDataEmissao();
+            dataFim = filteredList.getFirst().getDataEmissao();
+        }
         pf = new PropertyFirer(this);
     }
 

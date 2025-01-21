@@ -38,7 +38,7 @@ public class FilterModel implements ViewUpdater {
         this.tableModel = model;
         filteredList = new ArrayList<>(model.getList());
         pf = new PropertyFirer(this);
-        updateData();
+        if (!filteredList.isEmpty()) updateData();
     }
 
     private void updateData() {
