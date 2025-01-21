@@ -81,7 +81,7 @@ public class ConciliadosTableModel implements CustomTableModel<Conciliacao> {
             case 2 -> conc.getExtrato().getConta().getNomeConta();
             case 3 -> conc.getExtrato().getCategoriaExtrato();
             case 4 -> conc.getExtrato().getDescricao();
-            case 5 -> conc.getExtrato().getDescricao();
+            case 5 -> conc.getExtrato().getValor();
             case 6 -> conc.getDuplicata() != null ? conc.getDuplicata().getDataVencimento() : null;
             case 7 -> conc.getDuplicata() != null ? conc.getDuplicata().getDocumento().getPasta().getNome(): null;
             case 8 -> conc.getDuplicata() != null ? conc.getDuplicata().getDocumento() : null;
