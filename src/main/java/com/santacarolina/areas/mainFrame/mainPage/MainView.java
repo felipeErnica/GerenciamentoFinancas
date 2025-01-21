@@ -22,6 +22,7 @@ public class MainView implements PropertyChangeListener {
     private JPanel centerPane;
     private SideMenu sideMenu;
     private JPanel controlPane;
+    private JPanel contentPane;
 
     private JButton closeButton;
 
@@ -88,16 +89,16 @@ public class MainView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(MainFrameModel.CENTER_PANEL)) {
-            pane.remove(centerPane);
+            centerPane.remove(contentPane);
             MainPaneView view = (MainPaneView) evt.getNewValue();
-            centerPane = view.getPane();
-            pane.add(centerPane, BorderLayout.CENTER);
+            contentPane = view.getPane();
+            centerPane.add(contentPane, BorderLayout.CENTER);
             frame.revalidate();
             view.formatColumns();
         } else if (evt.getPropertyName().equals(MainFrameModel.HOME_PAGE)) {
-            pane.remove(centerPane);
-            centerPane = HomePage.getMainPanel();
-            pane.add(centerPane, BorderLayout.CENTER);
+            centerPane.remove(contentPane);
+            contentPane = HomePage.getMainPanel();
+            centerPane.add(contentPane, BorderLayout.CENTER);
             frame.revalidate();
         }
     }

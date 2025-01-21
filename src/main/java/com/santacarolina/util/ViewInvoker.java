@@ -31,7 +31,7 @@ public class ViewInvoker {
         screenSize.width = screenSize.width;
         frame.setSize(screenSize);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setUndecorated(true);
         frame.setVisible(true);
     }
