@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.dao.PixDAO;
+import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.exceptions.FetchFailException;
 
@@ -13,7 +14,7 @@ import com.santacarolina.exceptions.FetchFailException;
 public class Duplicata {
 
     private long id;
-    private DocumentoFiscal documento;
+    private DocumentoDTO documento;
     private long documentoId;
     private int numDup;
     private LocalDate dataVencimento;
@@ -26,9 +27,13 @@ public class Duplicata {
     private ChavePix pix;
     private boolean paga;
 
-    public DocumentoFiscal getDocumento() {
+    public DocumentoDTO getDocumento() {
         try {
-            if (documento == null && documentoId != 0) documento = new DocumentoDAO().findById(documentoId).orElse(null);
+            if (documento == null && documentoId != 0) {
+                new DocumentoDAO().findById(documentoId)
+                    .ifPresentOrElse(doc -> documento = new DocumentoDTO(doc), 
+                        () -> documento = null);
+            } 
         } catch (FetchFailException ignored) { }
         return documento;
     }
@@ -59,7 +64,7 @@ public class Duplicata {
     public Long getPixId() { return pixId; }
 
     public void setDocumento(DocumentoFiscal documento) {
-        this.documento = documento;
+        this.documento = new DocumentoDTO(documento);
         this.documentoId = documento != null ? documento.getId() : 0;
     }
 

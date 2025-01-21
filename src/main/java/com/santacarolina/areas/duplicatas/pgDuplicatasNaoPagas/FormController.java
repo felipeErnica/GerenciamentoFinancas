@@ -17,6 +17,7 @@ import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
+import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.CustomErrorThrower;
 
@@ -53,7 +54,7 @@ public class FormController implements MainPaneController<Duplicata> {
             int row = view.getTable().rowAtPoint(e.getPoint());
             int modelRow = sorter.convertRowIndexToModel(row);
             Duplicata dup = model.getObject(modelRow);
-            DocForm.open(dup.getDocumento());
+            DocForm.open(new DocumentoFiscal(dup.getDocumento()));
         });
     }
 

@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.dao.ProdutoDAO;
+import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.enums.TipoDoc;
 import com.santacarolina.exceptions.FetchFailException;
@@ -29,11 +29,26 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private LocalDate dataEmissao;
     private FluxoCaixa fluxoCaixa;
 
-    @JsonIgnore
     private List<Duplicata> duplicatas;
-
-    @JsonIgnore
     private List<Produto> produtos;
+
+    public DocumentoFiscal() {}
+
+    public DocumentoFiscal(DocumentoDTO dto) {
+        this.id = dto.getId();
+        this.numDoc = dto.getNumDoc();
+        this.tipoDoc = dto.getTipoDoc();
+        this.emissor = dto.getEmissor();
+        this.emissorId = dto.getEmissor() != null ? dto.getEmissor().getId() : 0;
+        this.caminhoDocumento = dto.getCaminhoDocumento();
+        this.pasta = dto.getPasta();
+        this.pastaId = dto.getPasta() != null ? dto.getPasta().getId() : 0;
+        this.valor = dto.getValor();
+        this.dataEmissao = dto.getDataEmissao();
+        this.fluxoCaixa = dto.getFluxoCaixa();
+        this.duplicatas = getDuplicatas();
+        this.produtos = getProdutos();
+    }
 
     public long getId() { return id; }
     public Long getNumDoc() { return numDoc; }

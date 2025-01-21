@@ -6,6 +6,7 @@ import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.ProdutoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
+import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Produto;
 import com.santacarolina.ui.CurrencyCellRenderer;
 import com.santacarolina.ui.DateCellRenderer;
@@ -55,7 +56,7 @@ public class ProdController implements MainPaneController<Produto> {
         EventQueue.invokeLater(() -> {
             int row = view.getTable().rowAtPoint(e.getPoint());
             Produto prod = model.getObject(row);
-            DocForm.open(prod.getDocumento());
+            DocForm.open(new DocumentoFiscal(prod.getDocumento()));
         });
     }
 

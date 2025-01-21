@@ -2,13 +2,14 @@ package com.santacarolina.model;
 
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.dao.DocumentoDAO;
+import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 
 public class Produto implements Comparable<Produto> {
 
     private long id;
     private long documentoId;
-    private DocumentoFiscal documento;
+    private DocumentoDTO documento;
     private long classificacaoId;
     private ClassificacaoContabil classificacao;
     private String descricao;
@@ -33,9 +34,12 @@ public class Produto implements Comparable<Produto> {
         return classificacao;
     }
 
-    public DocumentoFiscal getDocumento() {
+    public DocumentoDTO getDocumento() {
         try {
-            if (documento == null && documentoId != 0) documento = new DocumentoDAO().findById(documentoId).orElse(null);
+            if (documento == null && documentoId != 0) {
+                new DocumentoDAO().findById(documentoId).ifPresentOrElse(doc -> documento = new DocumentoDTO(doc),
+                    () -> documento = null);
+            } 
         } catch (FetchFailException ignored) {
         }
         return documento;
@@ -47,7 +51,7 @@ public class Produto implements Comparable<Produto> {
     public void setValorUnit(double valorUnit) { this.valorUnit = valorUnit; }
 
     public void setDocumento(DocumentoFiscal documento) {
-        this.documento = documento;
+        this.documento = new DocumentoDTO(documento);
         this.documentoId = documento.getId();
     }
 
