@@ -35,9 +35,11 @@ public class MainView implements PropertyChangeListener {
 
         closeButton = new JButton(new FlatSVGIcon("icon/close_icon.svg"));
         MenuDecorator.paintChangeModeButton(closeButton);
+        closeButton.setOpaque(true);
 
         minimizeButton = new JButton(new FlatSVGIcon("icon/minimize_icon.svg"));
         MenuDecorator.paintChangeModeButton(minimizeButton);
+        minimizeButton.setOpaque(true);
 
         controlPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
         controlPane.add(closeButton);
@@ -104,6 +106,7 @@ public class MainView implements PropertyChangeListener {
             MainPaneView view = (MainPaneView) evt.getNewValue();
             contentPane = view.getPane();
             centerPane.add(contentPane, BorderLayout.CENTER);
+            controlPane.revalidate();
             centerPane.revalidate();
             frame.revalidate();
             view.formatColumns();
@@ -111,6 +114,7 @@ public class MainView implements PropertyChangeListener {
             centerPane.remove(contentPane);
             contentPane = HomePage.getMainPanel();
             centerPane.add(contentPane, BorderLayout.CENTER);
+            controlPane.revalidate();
             centerPane.revalidate();
             frame.revalidate();
         }
