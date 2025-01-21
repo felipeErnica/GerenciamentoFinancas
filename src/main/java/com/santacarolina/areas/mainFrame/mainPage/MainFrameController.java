@@ -1,6 +1,9 @@
 package com.santacarolina.areas.mainFrame.mainPage;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLaf;
@@ -47,6 +50,10 @@ public class MainFrameController implements Controller {
     }
 
     private void initComponents() {
+
+        view.getCloseButton().addActionListener(e -> closeButton_onClick());
+        view.getMinimizeButton().addActionListener(e -> minimizeButton_onClick());
+
         view.getChangeMode().addActionListener(e -> changeMode_onClick());
 
         view.getHomeButton().addActionListener(e -> homeButton_onClick());
@@ -81,6 +88,9 @@ public class MainFrameController implements Controller {
         view.getAddClassificacaoButton().addActionListener(e -> addClassificacaoButton_onClick());
         view.getManageClassificacaoButton().addActionListener(e -> manageClassificaoButton_onClick());
     }
+
+    private void minimizeButton_onClick() { view.getFrame().setExtendedState(JFrame.ICONIFIED); }
+    private void closeButton_onClick() { view.getFrame().dispatchEvent(new WindowEvent(view.getFrame(), WindowEvent.WINDOW_CLOSING)); }
 
     private void changeMode_onClick() {
         

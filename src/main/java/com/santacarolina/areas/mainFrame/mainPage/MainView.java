@@ -25,6 +25,7 @@ public class MainView implements PropertyChangeListener {
     private JPanel contentPane;
 
     private JButton closeButton;
+    private JButton minimizeButton;
 
     public MainView() { initComponents(); }
 
@@ -32,8 +33,11 @@ public class MainView implements PropertyChangeListener {
         frame = new JFrame("Gerenciamento de Finanças");
         frame.setIconImage(new FlatSVGIcon("icon/main_icon.svg").getImage());
 
-        closeButton = new JButton("fechar");
+        closeButton = new JButton(new FlatSVGIcon("icon/close_icon.svg"));
         MenuDecorator.paintButton(closeButton);
+
+        minimizeButton = new JButton(new FlatSVGIcon("icon/minimize_icon.svg"));
+        MenuDecorator.paintButton(minimizeButton);
 
         controlPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
         controlPane.add(closeButton);
@@ -54,6 +58,9 @@ public class MainView implements PropertyChangeListener {
     public JFrame getFrame() { return frame; }
     public SideMenu getSideMenu() { return sideMenu; }
     public JPanel getCenterPane() { return centerPane; }
+
+    public JButton getCloseButton() { return closeButton; }
+    public JButton getMinimizeButton() { return minimizeButton; }
 
     public JButton getChangeMode() { return sideMenu.getChangeMode(); }
     
