@@ -1,13 +1,19 @@
 package com.santacarolina.areas.mainFrame.mainPage;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import com.santacarolina.util.MenuDecorator;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.areas.homePage.HomePage;
 import com.santacarolina.areas.mainFrame.common.MainPaneView;
-
-import javax.swing.*;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class MainView implements PropertyChangeListener {
 
@@ -15,13 +21,25 @@ public class MainView implements PropertyChangeListener {
     private Container pane;
     private JPanel centerPane;
     private SideMenu sideMenu;
+    private JPanel controlPane;
+
+    private JButton closeButton;
 
     public MainView() { initComponents(); }
 
     private void initComponents() {
         frame = new JFrame("Gerenciamento de Finanças");
         frame.setIconImage(new FlatSVGIcon("icon/main_icon.svg").getImage());
+
+        closeButton = new JButton("fechar");
+        MenuDecorator.paintButton(closeButton);
+
+        controlPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+        controlPane.add(closeButton);
+
         centerPane = new JPanel();
+        centerPane.add(controlPane, BorderLayout.NORTH);
+
         sideMenu = new SideMenu();
         pane = frame.getContentPane();
         pane.setLayout(new BorderLayout());
