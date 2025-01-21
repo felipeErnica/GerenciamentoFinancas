@@ -71,11 +71,11 @@ public class PixTableModel implements CustomTableModel<ChavePix> {
                 yield c.getDado().getBanco().getNomeBanco();
             }
             case 4 -> {
-                if (c.getDado() != null) yield null;
+                if (c.getDado() == null) yield null;
                 yield c.getDado().getAgencia();
             }
             case 5 -> {
-                if (c.getDado() != null) yield null;
+                if (c.getDado() == null) yield null;
                 yield c.getDado().getNumeroConta();
             }
             default -> throw new IllegalStateException("Unexpected column value: " + columnIndex);

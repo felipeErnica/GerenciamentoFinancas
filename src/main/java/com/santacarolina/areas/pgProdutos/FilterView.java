@@ -2,6 +2,9 @@ package com.santacarolina.areas.pgProdutos;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -88,6 +91,18 @@ public class FilterView implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+            case FilterModel.DATA_FIM -> {
+                LocalDate date = (LocalDate) evt.getNewValue();
+                if (date == null) dataFim.setText(null);
+                else dataFim.setText(date.format(DateTimeFormatter.ofPattern("dd/mm/yyyy")));
+            }
+            case FilterModel.DATA_INICIO -> {
+                LocalDate date = (LocalDate) evt.getNewValue();
+                if (date == null) dataInicio.setText(null);
+                else dataInicio.setText(date.format(DateTimeFormatter.ofPattern("dd/mm/yyyy")));
+            }
+        }
     }
 
 }

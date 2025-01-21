@@ -58,28 +58,29 @@ public class FilterModel implements AbstractFilterModel {
 
     private void filterBanco() {
         filteredList = filteredList.stream()
-            .filter(dto -> dto.getBanco().getNomeBanco().contains(banco.toUpperCase()))
+            .filter(dado -> dado.getBanco() != null)
+            .filter(dado -> dado.getBanco().getNomeBanco().contains(banco.toUpperCase()))
             .collect(Collectors.toList());
     }
 
     private void filterConta() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getNumeroConta()))
-            .filter(dto -> dto.getNumeroConta().contains(numeroConta))
+            .filter(dado -> !StringUtils.isBlank(dado.getNumeroConta()))
+            .filter(dado -> dado.getNumeroConta().contains(numeroConta))
             .collect(Collectors.toList());
     }
 
     private void filterAgencia() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getAgencia()))
-            .filter(dto -> dto.getAgencia().contains(agencia))
+            .filter(dado -> !StringUtils.isBlank(dado.getAgencia()))
+            .filter(dado -> dado.getAgencia().contains(agencia))
             .collect(Collectors.toList());
     }
 
     private void filterNome() {
         filteredList = filteredList.stream()
-            .filter(dto -> !StringUtils.isBlank(dto.getContato().getNome()))
-            .filter(dto -> dto.getContato().getNome().contains(nome.toUpperCase()))
+            .filter(dado -> dado.getContato() != null)
+            .filter(dado -> dado.getContato().getNome().contains(nome.toUpperCase()))
             .collect(Collectors.toList());
     }
 
