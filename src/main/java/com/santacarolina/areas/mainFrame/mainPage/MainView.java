@@ -43,6 +43,8 @@ public class MainView implements PropertyChangeListener {
         controlPane.add(closeButton);
         controlPane.add(minimizeButton);
 
+        paintControlPane();
+
         contentPane = new JPanel();
 
         centerPane = new JPanel(new BorderLayout());
@@ -54,6 +56,12 @@ public class MainView implements PropertyChangeListener {
         pane.setLayout(new BorderLayout());
         pane.add(sideMenu.getPane(), BorderLayout.WEST);
         pane.add(centerPane, BorderLayout.CENTER);
+    }
+
+    public void paintControlPane() { 
+        controlPane.repaint();
+        minimizeButton.setBackground(controlPane.getBackground());
+        closeButton.setBackground(controlPane.getBackground());
     }
 
     public JFrame getFrame() { return frame; }

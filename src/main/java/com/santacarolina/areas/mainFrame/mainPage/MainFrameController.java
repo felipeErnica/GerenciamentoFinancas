@@ -104,6 +104,7 @@ public class MainFrameController implements Controller {
 
         MenuDecorator.setColors();
         AppIcon.setColors();
+        view.paintControlPane();
         view.getSideMenu().changeColors();
         view.getSideMenu().revalidate();
 
