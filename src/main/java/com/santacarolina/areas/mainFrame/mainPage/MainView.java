@@ -38,10 +38,11 @@ public class MainView implements PropertyChangeListener {
         controlPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
         controlPane.add(closeButton);
 
+        contentPane = new JPanel();
+
         centerPane = new JPanel();
         centerPane.add(controlPane, BorderLayout.NORTH);
-
-        contentPane = new JPanel();
+        centerPane.add(contentPane, BorderLayout.CENTER);
 
         sideMenu = new SideMenu();
         pane = frame.getContentPane();
