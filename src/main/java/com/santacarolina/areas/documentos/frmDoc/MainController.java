@@ -8,6 +8,8 @@ import com.santacarolina.areas.documentos.frmDoc.docPanel.DocumentoController;
 import com.santacarolina.areas.documentos.frmDoc.dupPanel.DupController;
 import com.santacarolina.areas.documentos.frmDoc.prodPanel.ProdController;
 import com.santacarolina.dao.DocumentoDAO;
+import com.santacarolina.dao.DuplicataDAO;
+import com.santacarolina.dao.ProdutoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.Controller;
@@ -33,6 +35,8 @@ public class MainController implements Controller {
         try {
             if (!DocValidator.validate(model)) return;
             new DocumentoDAO().save(model.getDocumentoFiscal());
+            new DuplicataDAO().saveAll(model.getDocumentoFiscal().getDuplicatas());
+            new ProdutoDAO().saveAll(model.getDocumentoFiscal().getProdutos());
             view.getDialog().dispose();
             DocForm.openNew();
         } catch (FetchFailException | SaveFailException e) {

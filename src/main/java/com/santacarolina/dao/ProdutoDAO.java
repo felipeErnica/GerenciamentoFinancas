@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Produto;
 import com.santacarolina.util.ApiRequest;
@@ -53,6 +54,15 @@ public class ProdutoDAO {
             return apiRequest.getListRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
+        }
+    }
+
+    public void saveAll(List<Produto> list) throws SaveFailException {
+        String query = MAPPING + "/batch";
+        try {
+            apiRequest.postListRequest(query, list);
+        } catch (IOException | URISyntaxException | InterruptedException e) {
+            throw new SaveFailException(e, logger);
         }
     }
 
