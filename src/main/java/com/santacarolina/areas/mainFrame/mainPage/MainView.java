@@ -96,12 +96,14 @@ public class MainView implements PropertyChangeListener {
             MainPaneView view = (MainPaneView) evt.getNewValue();
             contentPane = view.getPane();
             centerPane.add(contentPane, BorderLayout.CENTER);
+            centerPane.revalidate();
             frame.revalidate();
             view.formatColumns();
         } else if (evt.getPropertyName().equals(MainFrameModel.HOME_PAGE)) {
             centerPane.remove(contentPane);
             contentPane = HomePage.getMainPanel();
             centerPane.add(contentPane, BorderLayout.CENTER);
+            centerPane.revalidate();
             frame.revalidate();
         }
     }
