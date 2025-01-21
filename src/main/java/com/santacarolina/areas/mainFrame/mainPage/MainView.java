@@ -41,6 +41,8 @@ public class MainView implements PropertyChangeListener {
         centerPane = new JPanel();
         centerPane.add(controlPane, BorderLayout.NORTH);
 
+        contentPane = new JPanel();
+
         sideMenu = new SideMenu();
         pane = frame.getContentPane();
         pane.setLayout(new BorderLayout());
