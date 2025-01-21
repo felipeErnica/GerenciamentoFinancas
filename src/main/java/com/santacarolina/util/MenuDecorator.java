@@ -78,4 +78,9 @@ public class MenuDecorator {
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
+    public static void paintControlPanel(JPanel controlPane) {
+        controlPane.setBackground(GRAPH_BACKGROUND);
+        controlPane.setOpaque(true);
+    }
+
 }   
