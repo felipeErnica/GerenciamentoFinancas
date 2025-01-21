@@ -40,6 +40,7 @@ public class ManageControllerImpl<T> implements Controller {
     private void table_onDoubleClick(MouseEvent e) { childController.table_onDoubleClick(e); }
     private void addButton_onClick() { childController.addButton_onClick(); }
     
+    @SuppressWarnings("unchecked")
     private void deleteButton_onClick() { 
         int[] rows = view.getTable().getSelectedRows();
         if (rows.length == 0) return;

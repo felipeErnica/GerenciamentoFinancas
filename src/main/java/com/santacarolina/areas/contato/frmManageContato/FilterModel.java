@@ -90,6 +90,7 @@ public class FilterModel implements ViewUpdater {
 
     private void filterNome() {
         filteredList = filteredList.stream()
+            .filter(contato -> !StringUtils.isBlank(contato.getNome()))
             .filter(contato -> contato.getNome().contains(nome.toUpperCase()))
             .collect(Collectors.toList());
     }

@@ -113,6 +113,7 @@ public class FilterModel implements AbstractFilterModel, ViewUpdater {
     private void filterConta() {
         filteredList = filteredList.stream()
             .filter(pix -> pix.getDado() != null)
+            .filter(pix -> !StringUtils.isBlank(pix.getDado().getNumeroConta()))
             .filter(pix -> pix.getDado().getNumeroConta().contains(conta))
             .collect(Collectors.toList());
     }
@@ -120,12 +121,14 @@ public class FilterModel implements AbstractFilterModel, ViewUpdater {
     private void filterAgencia() {
         filteredList = filteredList.stream()
             .filter(pix -> pix.getDado() != null)
+            .filter(pix -> !StringUtils.isBlank(pix.getDado().getAgencia()))
             .filter(pix -> pix.getDado().getAgencia().contains(agencia))
             .collect(Collectors.toList());
     }
 
     private void filterChave() {
         filteredList = filteredList.stream()
+            .filter(pix -> !StringUtils.isBlank(pix.getChave()))
             .filter(pix -> pix.getChave().contains(chave))
             .collect(Collectors.toList());
     }
@@ -134,6 +137,7 @@ public class FilterModel implements AbstractFilterModel, ViewUpdater {
         filteredList = filteredList.stream()
             .filter(pix -> pix.getDado() != null)
             .filter(pix -> pix.getDado().getBanco() != null)
+            .filter(pix -> !StringUtils.isBlank(pix.getDado().getBanco().getNomeBanco()))
             .filter(pix -> pix.getDado().getBanco().getNomeBanco().contains(banco))
             .collect(Collectors.toList());
     }
@@ -141,6 +145,7 @@ public class FilterModel implements AbstractFilterModel, ViewUpdater {
     private void filterNome() {
         filteredList = filteredList.stream()
             .filter(pix -> pix.getContato() != null)
+            .filter(pix -> !StringUtils.isBlank(pix.getContato().getNome()))
             .filter(pix -> pix.getContato().getNome().contains(nome.toUpperCase()))
             .collect(Collectors.toList());
     }

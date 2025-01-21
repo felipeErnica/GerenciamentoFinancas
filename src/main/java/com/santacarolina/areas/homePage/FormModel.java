@@ -18,7 +18,6 @@ import com.santacarolina.dao.ProdutoDuplicataDAO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
-import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.model.Produto;
 import com.santacarolina.model.ProdutoDuplicata;
@@ -127,18 +126,25 @@ public class FormModel implements ViewUpdater {
 
     private void filterPasta() {
         filteredList = filteredList.stream()
+            .filter(p -> p.getProduto() != null)
+            .filter(p -> p.getProduto().getDocumento() != null)
+            .filter(p -> p.getProduto().getDocumento().getPasta() != null)
             .filter(p -> p.getProduto().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 
     private void filterFim() {
         filteredList = filteredList.stream()
+            .filter(p -> p.getDuplicata() != null)
+            .filter(p -> p.getDuplicata().getDataVencimento() != null)
             .filter(p -> p.getDuplicata().getDataVencimento().isBefore(dataFim))
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
+            .filter(p -> p.getDuplicata() != null)
+            .filter(p -> p.getDuplicata().getDataVencimento() != null)
             .filter(p -> p.getDuplicata().getDataVencimento().isAfter(dataInicio))
             .collect(Collectors.toList());
     }

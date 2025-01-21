@@ -51,6 +51,7 @@ public class FilterModel {
 
     private void filterCategoria() {
         filteredList = filteredList.stream()
+            .filter(categoria -> !StringUtils.isBlank(categoria.getNome()))
             .filter(categoria -> categoria.getNome().contains(nomeCategoria.toUpperCase()))
             .collect(Collectors.toList());
     }

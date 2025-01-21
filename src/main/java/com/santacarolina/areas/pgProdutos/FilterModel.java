@@ -95,6 +95,7 @@ public class FilterModel implements ViewUpdater {
         filteredList = filteredList.stream()
             .filter(prod -> prod.getDocumento() != null)
             .filter(prod -> prod.getDocumento().getEmissor() != null)
+            .filter(prod -> !StringUtils.isBlank(prod.getDocumento().getEmissor().getNome()))
             .filter(prod -> prod.getDocumento().getEmissor().getNome().contains(emissor.toUpperCase()))
             .collect(Collectors.toList());
     }
@@ -102,6 +103,7 @@ public class FilterModel implements ViewUpdater {
     private void filterTipo() {
         filteredList = filteredList.stream()
             .filter(prod -> prod.getClassificacao() != null)
+            .filter(prod -> !StringUtils.isBlank(prod.getClassificacao().getNomeClassificacao()))
             .filter(prod -> prod.getClassificacao().getNomeClassificacao().contains(tipoMercadoria.toUpperCase()))
             .collect(Collectors.toList());
     }

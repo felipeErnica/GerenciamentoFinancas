@@ -88,6 +88,7 @@ public class TableModel implements CustomTableModel<Banco> {
         }
 
         filteredList = filteredList.stream()
+            .filter(b -> !(StringUtils.isBlank(b.getNomeBanco()) && StringUtils.isBlank(b.getApelidoBanco())))
             .filter(b -> b.getNomeBanco().contains(filterSearch.toUpperCase()) || apelidoContainsFilter(b.getApelidoBanco()))
             .collect(Collectors.toList());
 

@@ -99,7 +99,8 @@ public class FilterModel implements ViewUpdater {
 
     private void filterPasta() {
         filteredList = filteredList.stream()
-            .filter(doc -> doc.getPastaId() == pastaContabil.getId())
+            .filter(doc -> doc.getPasta() != null)
+            .filter(doc -> doc.getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
 

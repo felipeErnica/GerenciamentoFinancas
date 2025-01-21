@@ -61,7 +61,7 @@ public class PixDAO {
             apiRequest.postRequest(MAPPING, c);
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new SaveFailException(e, logger);
-        } 
+        }
     }
 
     public void deleteById(long id) throws DeleteFailException {

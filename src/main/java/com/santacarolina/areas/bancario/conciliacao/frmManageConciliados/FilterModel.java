@@ -110,12 +110,16 @@ public class FilterModel implements ViewUpdater {
 
     private void filterFim() {
         filteredList = filteredList.stream()
+            .filter(conciliacao -> conciliacao.getExtrato() != null)
+            .filter(conciliacao -> conciliacao.getExtrato().getDataTransacao() != null)
             .filter(conciliacao -> conciliacao.getExtrato().getDataTransacao().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 
     private void filterInicio() {
         filteredList = filteredList.stream()
+            .filter(conciliacao -> conciliacao.getExtrato() != null)
+            .filter(conciliacao -> conciliacao.getExtrato().getDataTransacao() != null)
             .filter(conciliacao -> conciliacao.getExtrato().getDataTransacao().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
@@ -123,6 +127,8 @@ public class FilterModel implements ViewUpdater {
     private void filterPasta() {
         filteredList = filteredList.stream()
             .filter(conciliacao -> conciliacao.getDuplicata() != null)
+            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento() != null)
+            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getPasta() != null)
             .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getPasta().getId() == pastaContabil.getId())
             .collect(Collectors.toList());
     }
@@ -136,6 +142,8 @@ public class FilterModel implements ViewUpdater {
     private void filterEmissor() {
         filteredList = filteredList.stream()
             .filter(conciliacao -> conciliacao.getDuplicata() != null)
+            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento() != null)
+            .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getEmissor() != null)
             .filter(conciliacao -> conciliacao.getDuplicata().getDocumento().getEmissor().getId() == emissor.getId())
             .collect(Collectors.toList());
     }

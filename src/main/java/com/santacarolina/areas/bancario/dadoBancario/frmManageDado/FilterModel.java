@@ -59,6 +59,7 @@ public class FilterModel implements AbstractFilterModel {
     private void filterBanco() {
         filteredList = filteredList.stream()
             .filter(dado -> dado.getBanco() != null)
+            .filter(dado -> !StringUtils.isBlank(dado.getBanco().getNomeBanco()))
             .filter(dado -> dado.getBanco().getNomeBanco().contains(banco.toUpperCase()))
             .collect(Collectors.toList());
     }
@@ -80,6 +81,7 @@ public class FilterModel implements AbstractFilterModel {
     private void filterNome() {
         filteredList = filteredList.stream()
             .filter(dado -> dado.getContato() != null)
+            .filter(dado -> !StringUtils.isBlank(dado.getContato().getNome()))
             .filter(dado -> dado.getContato().getNome().contains(nome.toUpperCase()))
             .collect(Collectors.toList());
     }
