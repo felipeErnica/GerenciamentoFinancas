@@ -36,10 +36,8 @@ public class ContatoValidator {
             return false;
         }
 
-        if (nameExists(model))
-            return false;
-        if (model.isDocsEnabled() && docExists(model))
-            return false;
+        if (nameExists(model)) return false;
+        if (model.isDocsEnabled() && docExists(model)) return false;
 
         return true;
     }
@@ -47,98 +45,121 @@ public class ContatoValidator {
     private static boolean docExists(FormModel model) throws FetchFailException {
         ContatoDAO dao = new ContatoDAO();
 
-        if (cpfExists(model, dao) == DOC_NOT_REPLACED)
-            return true;
-        else if (cnpjExists(model, dao) == DOC_NOT_REPLACED)
-            return true;
-        else if (ieExists(model, dao) == DOC_NOT_REPLACED)
-            return true;
-        else
-            return false;
+        if (cpfExists(model, dao) == DOC_NOT_REPLACED) return true;
+        else if (cnpjExists(model, dao) == DOC_NOT_REPLACED) return true;
+        else if (ieExists(model, dao) == DOC_NOT_REPLACED) return true;
+        else return false;
     }
 
     private static int cpfExists(FormModel model, ContatoDAO dao) throws FetchFailException {
-        if (StringUtils.isBlank(model.getCpf()))
-            return DOC_NOT_REPLACED;
+        
+        if (StringUtils.isBlank(model.getCpf())) return DOC_NOT_FOUND;
+
         Optional<Contato> optional = dao.findByCpf(model.getContato().getCpf());
+
         if (optional.isPresent()) {
+
             Contato contato = optional.get();
-            if (contato.getId() == model.getContato().getId())
-                return DOC_NOT_FOUND;
+            
+            if (contato.getId() == model.getContato().getId()) return DOC_NOT_FOUND;
+
             if (model.getContato().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este CPF pertece a " + contato.getNome() + "!");
                 return DOC_NOT_REPLACED;
             }
+
             int result = OptionDialog.showReplaceDialog("Este CPF pertece a " + contato.getNome() + "!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getContato().setId(optional.get().getId());
                 return DOC_REPLACED;
             }
+
             return DOC_NOT_REPLACED;
         }
         return DOC_NOT_FOUND;
     }
 
     private static int cnpjExists(FormModel model, ContatoDAO dao) throws FetchFailException {
-        if (StringUtils.isBlank(model.getCnpj()))
-            return DOC_NOT_FOUND;
+
+        if (StringUtils.isBlank(model.getCnpj())) return DOC_NOT_FOUND;
+
         Optional<Contato> optional = dao.findByCnpj(model.getContato().getCnpj());
         if (optional.isPresent()) {
+            
             Contato contato = optional.get();
-            if (contato.getId() == model.getContato().getId())
-                return DOC_NOT_FOUND;
+
+            if (contato.getId() == model.getContato().getId()) return DOC_NOT_FOUND;
+            
             if (model.getContato().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este CNPJ pertece a " + contato.getNome() + "!");
                 return DOC_NOT_REPLACED;
             }
+            
             int result = OptionDialog.showReplaceDialog("Este CNPJ pertece a " + contato.getNome() + "!");
+            
             if (result == JOptionPane.YES_OPTION) {
                 model.getContato().setId(optional.get().getId());
-                return DOC_REPLACED;
+                return DOC_REPLACED; 
             }
+            
             return DOC_NOT_REPLACED;
         }
         return DOC_NOT_FOUND;
     }
 
     private static int ieExists(FormModel model, ContatoDAO dao) throws FetchFailException {
-        if (StringUtils.isBlank(model.getIe()))
-            return DOC_NOT_FOUND;
+
+        if (StringUtils.isBlank(model.getIe())) return DOC_NOT_FOUND;
+
         Optional<Contato> optional = dao.findByIe(model.getContato().getIe());
         if (optional.isPresent()) {
+            
             Contato contato = optional.get();
-            if (contato.getId() == model.getContato().getId())
-                return DOC_NOT_FOUND;
+
+            if (contato.getId() == model.getContato().getId()) return DOC_NOT_FOUND;
+            
             if (model.getContato().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este IE pertece a " + contato.getNome() + "!");
                 return DOC_NOT_REPLACED;
             }
+            
             int result = OptionDialog.showReplaceDialog("Este IE pertece a " + contato.getNome() + "!");
+        
             if (result == JOptionPane.YES_OPTION) {
                 model.getContato().setId(optional.get().getId());
                 return DOC_REPLACED;
             }
+
             return DOC_NOT_REPLACED;
+        
         }
         return DOC_NOT_FOUND;
     }
 
     private static boolean nameExists(FormModel model) throws FetchFailException {
+        
         Optional<Contato> optional = new ContatoDAO().findByNome(model.getName());
+
         if (optional.isPresent()) {
-            if (optional.get().getId() == model.getContato().getId())
-                return false;
+
+            if (optional.get().getId() == model.getContato().getId()) return false;
+
             if (model.getContato().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Já existe um contato com este nome!");
                 return true;
             }
+
             int result = OptionDialog.showReplaceDialog("Já existe um contato com este nome!");
+
             if (result == JOptionPane.YES_OPTION) {
                 model.getContato().setId(optional.get().getId());
                 return false;
             }
+
             return true;
+
         }
+
         return false;
     }
 
