@@ -51,6 +51,7 @@ public class PixValidator {
         }
 
         if (!pixFromDado.isPresent()) {
+            if (pixFromDado.get().getId() == model.getChavePix().getId()) return false;
             if (model.getChavePix().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Esta conta já possui uma chave Pix! Não é possível adicionar outra!");
                 return true;
@@ -68,6 +69,7 @@ public class PixValidator {
         Optional<ChavePix> optional = new PixDAO().findByChave(model.getChave());
         if (optional.isPresent()) {
             ChavePix chave = optional.get();
+            if (chave.getId() == model.getChavePix().getId()) return false;
             if (model.getChavePix().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este pix já existe e pertence a " + chave.getContato() + "!");
                 return true;
@@ -81,4 +83,5 @@ public class PixValidator {
         }
         return false;
     }
+
 }

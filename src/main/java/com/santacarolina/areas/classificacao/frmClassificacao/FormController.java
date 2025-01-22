@@ -53,6 +53,7 @@ public class FormController implements Controller {
             if (!ClassificacaoValidator.validate(model)) return;
             new ClassificacaoDAO().save(model.getClassificacao());
             OptionDialog.showSuccessSaveMessage();
+            view.getDialog().dispose();
         } catch (FetchFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
         }

@@ -34,7 +34,7 @@ public class MainController implements Controller {
             if (!DocValidator.validate(model)) return;
             new DocumentoDAO().save(model.getDocumentoFiscal());
             view.getDialog().dispose();
-            DocForm.openNew();
+            if (model.isNewDoc()) DocForm.openNew();
         } catch (FetchFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
         }

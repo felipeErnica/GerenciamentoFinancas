@@ -1,6 +1,17 @@
 package com.santacarolina.areas.documentos.frmImportNFe;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.jdesktop.swingx.combobox.ListComboBoxModel;
+
 import com.santacarolina.areas.documentos.frmSelectNFe.SelectNFeForm;
+import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.NFeException;
@@ -8,16 +19,10 @@ import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.PastaContabil;
-import com.santacarolina.util.*;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.jdesktop.swingx.combobox.ListComboBoxModel;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.santacarolina.util.NfeTransformer;
+import com.santacarolina.util.OptionDialog;
+import com.santacarolina.util.ValidatorViolations;
+import com.santacarolina.util.ViewInvoker;
 
 public class FormController implements Controller {
 
@@ -32,6 +37,7 @@ public class FormController implements Controller {
         init();
     }
 
+    @SuppressWarnings("unchecked")
     private void init() throws FetchFailException {
         view.getPastaContabilComboBox().setModel(new ListComboBoxModel<>(pastaDAO.findAll()));
         view.getPastaContabilComboBox().setSelectedItem(null);
@@ -67,14 +73,17 @@ public class FormController implements Controller {
 
     private List<DocumentoFiscal> importNfe(FileDialog fd) {
         List<String> failedFiles = new ArrayList<>();
+        List<String> nfeExists = new ArrayList<>();
         List<DocumentoFiscal> nfeList = new ArrayList<>();
+        DocumentoDAO dao = new DocumentoDAO();
         String[] strings = fd.getFileNames();
         for (String string : strings) {
             File nfe = new File(fd.getFilterPath() + "/" + string);
             try {
                 DocumentoFiscal nfeDoc = NfeTransformer.transformNFe(nfe);
                 nfeDoc.setPasta(model.getPastaContabil());
-                nfeList.add(nfeDoc);
+                if (dao.findEqualNota(nfeDoc).isPresent()) nfeExists.add(nfeDoc.printDoc());
+                else nfeList.add(nfeDoc);
             } catch (NFeException | FetchFailException | SaveFailException e) {
                 failedFiles.add(nfe.getAbsolutePath());
             }
@@ -82,6 +91,11 @@ public class FormController implements Controller {
         if (!failedFiles.isEmpty()) {
             StringBuffer sb = new StringBuffer("A importação falhou para as seguintes NFe's:\n");
             failedFiles.forEach(s -> sb.append(s).append("\n"));
+            OptionDialog.showErrorDialog(sb.toString(), "Falha na Importação!");
+        }
+        if (!nfeExists.isEmpty()) {
+            StringBuffer sb = new StringBuffer("As seguintes NFe's já exitem:\n");
+            nfeExists.forEach(s -> sb.append(s).append("\n"));
             OptionDialog.showErrorDialog(sb.toString(), "Falha na Importação!");
         }
         return nfeList;

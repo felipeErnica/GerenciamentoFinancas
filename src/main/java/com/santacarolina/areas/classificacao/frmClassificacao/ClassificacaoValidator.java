@@ -43,8 +43,9 @@ public class ClassificacaoValidator {
 
     private static boolean numeroExists(FormModel model) throws FetchFailException {
         Optional<ClassificacaoContabil> optional = new ClassificacaoDAO().findByNumero(model.getNumero());
-        if (optional.isPresent() && optional.get().getId() != model.getClassificacao().getId()) {
+        if (optional.isPresent()) {
             ClassificacaoContabil classificacao = optional.get();
+            if (classificacao.getId() == model.getClassificacao().getId()) return false;
             if (model.getClassificacao().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este número já pertence a classificação " + classificacao.getNomeClassificacao() + "!");
                 return true;
@@ -61,8 +62,9 @@ public class ClassificacaoValidator {
 
     private static boolean nomeExists(FormModel model) throws FetchFailException {
         Optional<ClassificacaoContabil> optional = new ClassificacaoDAO().findByNome(model.getNome());
-        if (optional.isPresent() && optional.get().getId() != model.getClassificacao().getId()) {
+        if (optional.isPresent()) {
             ClassificacaoContabil classificacao = optional.get();
+            if (classificacao.getId() == model.getClassificacao().getId()) return false;
             if (model.getClassificacao().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este nome já existe!");
                 return true;

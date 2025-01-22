@@ -64,6 +64,7 @@ public class FormController {
             if (!PastaContabilValidator.validate(model)) return;
             new PastaDAO().save(model.getPastaContabil());
             OptionDialog.showSuccessSaveMessage();
+            view.getDialog().dispose();
         } catch (FetchFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
         }

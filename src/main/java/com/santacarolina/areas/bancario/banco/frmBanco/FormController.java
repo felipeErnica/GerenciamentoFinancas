@@ -32,11 +32,11 @@ public class FormController implements Controller {
             if (!BancoValidator.validate(model)) return;
             new BancoDAO().save(model.getBanco());
             OptionDialog.showSuccessSaveMessage();
+            view.getDialog().dispose();
         } catch (SaveFailException | FetchFailException | DeleteFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }
-
 
     private void nomeBancoTextField_afterUpdate() { model.setNomeBanco(view.getNomeBancoTextField().getText()); }
     private void apelidoBancoTextField_afterUpdate() { model.setApelidoBanco(view.getApelidoBancoTextField().getText()); }

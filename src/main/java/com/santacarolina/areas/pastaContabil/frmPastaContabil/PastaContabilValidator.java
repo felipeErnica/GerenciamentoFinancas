@@ -35,8 +35,14 @@ public class PastaContabilValidator {
     //Verifica se há uma pasta com mesmo nome, se sim, oferece opção de substituir.
     private static boolean pastaExists(FormModel model) throws FetchFailException {
         Optional<PastaContabil> optionalPasta = new PastaDAO().findByNome(model.getNomePasta());
-        if (optionalPasta.isPresent() && optionalPasta.get().getId() != model.getPastaContabil().getId()) {
-            int result = OptionDialog.showReplaceDialog("Esta pasta já existe. Deseja substituir a existente por esta?");
+        if (optionalPasta.isPresent()) {
+            PastaContabil pastaContabil = optionalPasta.get();
+            if (pastaContabil.getId() == model.getPastaContabil().getId()) return false;
+            if (model.getPastaContabil().getId() != 0) {
+                ValidatorViolations.violateRecordExists("Esta pasta já existe!");
+                return true;
+            }
+            int result = OptionDialog.showReplaceDialog("Esta pasta já existe!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getPastaContabil().setId(optionalPasta.get().getId());
                 return false;

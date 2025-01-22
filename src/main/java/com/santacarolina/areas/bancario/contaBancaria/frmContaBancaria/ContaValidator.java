@@ -44,6 +44,7 @@ public class ContaValidator {
         Optional<ContaBancaria> optional = new ContaDAO().findEqual(model.getContaBancaria());
         if (optional.isPresent()) {
             ContaBancaria contaBancaria = optional.get();
+            if (contaBancaria.getId() == model.getContaBancaria().getId()) return false;
             if (model.getContaBancaria().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Já há uma conta com este dados!");
                 return true;

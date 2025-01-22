@@ -35,13 +35,11 @@ public class BancoValidator {
     private static boolean bancoExists(FormModel model) throws FetchFailException, DeleteFailException {
         Optional<Banco> optionalEqual = new BancoDAO().findByNome(model.getNomeBanco());
         if (optionalEqual.isPresent()) {
-            if (model.getBanco().getId() != 0) {
+            if (model.getBanco().getId() != 0 && optionalEqual.get().getId() != model.getBanco().getId()) {
                 ValidatorViolations.violateRecordExists("Já há um banco com este nome!");
                 return true;
             }
-            int result = OptionDialog.showOptionDialog(
-                    "Este banco já existe. Deseja substituí-lo por este?",
-                    "Banco já Existe!");
+            int result = OptionDialog.showReplaceDialog("Este banco já existe!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getBanco().setId(optionalEqual.get().getId());
                 return false;
@@ -55,13 +53,12 @@ public class BancoValidator {
         Optional<Banco> optionalEqual = new BancoDAO().findByApelido(model.getApelidoBanco());
         if (optionalEqual.isPresent()) {
             Banco banco = optionalEqual.get();
+            if (banco.getId() == model.getBanco().getId()) return false;
             if (model.getBanco().getId() != 0) {
                 ValidatorViolations.violateRecordExists("O banco " + banco.getNomeBanco() + " já utiliza este apelido!");
                 return true;
             }
-            int result = OptionDialog.showReplaceDialog(
-                    "O banco " + banco.getNomeBanco() + " já utiliza este apelido!\n"  +
-                    "Deseja substituir os dados existentes por este?");
+            int result = OptionDialog.showReplaceDialog("O banco " + banco.getNomeBanco() + " já utiliza este apelido!");
             if (result == JOptionPane.YES_OPTION) {
                 model.getBanco().setId(optionalEqual.get().getId());
                 return false;
@@ -70,4 +67,5 @@ public class BancoValidator {
         }
         return false;
     }
+
 }

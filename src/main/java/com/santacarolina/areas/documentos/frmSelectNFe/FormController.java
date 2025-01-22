@@ -42,7 +42,7 @@ public class FormController implements Controller {
         model.deleteNfe(nfe);
         view.getNfeComboBox().setSelectedItem(null);
         if (model.getNfeList().isEmpty()) view.getDialog().dispose();
-        DocForm.open(nfe);
+        DocForm.openNfe(nfe);
     }
 
     private void addContato() {
