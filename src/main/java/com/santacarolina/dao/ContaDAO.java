@@ -74,4 +74,13 @@ public class ContaDAO {
         }
     }
 
+    public Optional<ContaBancaria> findByApelido(String apelido) throws FetchFailException {
+        String query = MAPPING + "/apelido=" + apelido.replace(" ", "+");
+        try {
+            return apiRequest.getRequest(query);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new FetchFailException(e, logger);
+        }
+    }
+
 }

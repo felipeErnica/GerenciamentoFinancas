@@ -89,6 +89,7 @@ public class FormModel implements ViewUpdater {
             abreviacaoBuilder.append(" AG: ").append(agencia);
             abreviacaoBuilder.append(" CC: ").append(numeroConta);
             isUpdating = true;
+            contaBancaria.setAbreviacao(abreviacao);
             pf.firePropertyChange(ABREVIACAO, abreviacaoBuilder.toString());
             isUpdating = false;
         }

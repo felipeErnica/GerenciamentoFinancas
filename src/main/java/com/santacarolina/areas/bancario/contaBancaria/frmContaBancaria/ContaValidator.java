@@ -36,8 +36,30 @@ public class ContaValidator {
         }
 
         if (contaExiste(model)) return false;
+        if (apelidoExiste(model)) return false;
 
         return true;
+    }
+
+    private static boolean apelidoExiste(FormModel model) throws FetchFailException {
+        Optional<ContaBancaria> optional = new ContaDAO().findByApelido(model.getContaBancaria().getNomeConta());
+        if (optional.isPresent()) {
+            ContaBancaria contaBancaria = optional.get();
+            if (contaBancaria.getId() == model.getContaBancaria().getId()) return false;
+            if (model.getContaBancaria().getId() != 0) {
+                ValidatorViolations.violateRecordExists("A conta do banco " + contaBancaria.getBanco().getNomeBanco() + 
+                    " e número "+ contaBancaria.getNumeroConta() + "já possui este apelido!");
+                return true;
+            }
+            int result = OptionDialog.showReplaceDialog( "A conta do banco " + contaBancaria.getBanco().getNomeBanco() + 
+                    " e número "+ contaBancaria.getNumeroConta() + "já possui este apelido!"); 
+            if (result == JOptionPane.YES_OPTION) {
+                model.getContaBancaria().setId(contaBancaria.getId());
+                return false;
+            } 
+            return true;
+        }
+        return false;
     }
 
     private static boolean contaExiste(FormModel model) throws FetchFailException {
