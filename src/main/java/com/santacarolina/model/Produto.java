@@ -39,7 +39,9 @@ public class Produto implements Comparable<Produto> {
     public DocumentoFiscal getDocumento() {
         try {
             if (documento == null && documentoId != 0) documento = new DocumentoDAO().findById(documentoId).orElse(null);
-        } catch (FetchFailException ignored) {}
+        } catch (FetchFailException e) {
+            return null;
+        }
         return documento;
     }
 
