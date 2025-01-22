@@ -7,7 +7,7 @@ import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 
 
-@JsonInclude(value = Include.NON_NULL)
+@JsonInclude(value = Include.NON_EMPTY)
 public class Produto implements Comparable<Produto> {
 
     private long id;
