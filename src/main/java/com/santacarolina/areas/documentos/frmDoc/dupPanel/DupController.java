@@ -50,8 +50,12 @@ public class DupController {
 
     private void addDadoBancario_onClick() {
         EventQueue.invokeLater(() -> {
-            if (model.getTipoPagamento() == TipoPagamento.PIX) AddPixDup.open(model.getTableModel().getDuplicataList(), model.getDocumentoFiscal());
-            else if (model.getTipoPagamento() == TipoPagamento.TED) AddTedDup.open(model.getTableModel().getDuplicataList());
+            if (model.getTipoPagamento() == TipoPagamento.PIX){
+                AddPixDup.open(model.getTableModel().getDuplicataList(), model.getDocumentoFiscal());
+            } 
+            else if (model.getTipoPagamento() == TipoPagamento.TED) { 
+                AddTedDup.open(model.getTableModel().getDuplicataList(), model.getDocumentoFiscal());
+            }
         });
     }
 
