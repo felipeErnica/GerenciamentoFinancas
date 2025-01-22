@@ -52,7 +52,7 @@ public class Produto implements Comparable<Produto> {
 
     public void setDocumento(DocumentoFiscal documento) {
         this.documento = documento;
-        this.documentoId = documento.getId();
+        this.documentoId = documento != null ? documento.getId() : 0;
     }
 
     public void setClassificacao(ClassificacaoContabil classificacao) {
