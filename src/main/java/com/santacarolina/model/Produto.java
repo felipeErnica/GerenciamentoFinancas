@@ -2,14 +2,13 @@ package com.santacarolina.model;
 
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.dao.DocumentoDAO;
-import com.santacarolina.dto.DocumentoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 
 public class Produto implements Comparable<Produto> {
 
     private long id;
     private long documentoId;
-    private DocumentoDTO documento;
+    private DocumentoFiscal documento;
     private long classificacaoId;
     private ClassificacaoContabil classificacao;
     private String descricao;
@@ -29,19 +28,14 @@ public class Produto implements Comparable<Produto> {
     public ClassificacaoContabil getClassificacao() {
         try {
             if (classificacao == null && classificacaoId != 0) classificacao = new ClassificacaoDAO().findById(classificacaoId).orElse(null);
-        } catch (FetchFailException ignored) {
-        }
+        } catch (FetchFailException ignored) {}
         return classificacao;
     }
 
-    public DocumentoDTO getDocumento() {
+    public DocumentoFiscal getDocumento() {
         try {
-            if (documento == null && documentoId != 0) {
-                new DocumentoDAO().findById(documentoId).ifPresentOrElse(doc -> documento = new DocumentoDTO(doc),
-                    () -> documento = null);
-            } 
-        } catch (FetchFailException ignored) {
-        }
+            if (documento == null && documentoId != 0) documento = new DocumentoDAO().findById(documentoId).orElse(null);
+        } catch (FetchFailException ignored) {}
         return documento;
     }
 
@@ -51,7 +45,7 @@ public class Produto implements Comparable<Produto> {
     public void setValorUnit(double valorUnit) { this.valorUnit = valorUnit; }
 
     public void setDocumento(DocumentoFiscal documento) {
-        this.documento = new DocumentoDTO(documento);
+        this.documento = documento;
         this.documentoId = documento.getId();
     }
 

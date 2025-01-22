@@ -1,16 +1,16 @@
 package com.santacarolina.areas.documentos.frmDoc.frmAddTed;
 
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
 import com.santacarolina.dao.DadoDAO;
+import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
-import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.PropertyFirer;
-
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 public class FormModel implements ViewUpdater {
 
@@ -22,7 +22,7 @@ public class FormModel implements ViewUpdater {
     public static final String BANCO = "banco";
 
     private DadoBancario dado;
-    private List<Duplicata> duplicataList;
+    private List<DuplicataDTO> duplicataList;
     private DadoDAO dadoDAO;
 
     private boolean updating;
@@ -33,12 +33,12 @@ public class FormModel implements ViewUpdater {
     private String banco;
     private PropertyFirer pf;
 
-    public FormModel(List<Duplicata> duplicataList) throws FetchFailException {
+    public FormModel(List<DuplicataDTO> duplicataList) throws FetchFailException {
         this.duplicataList = duplicataList;
         dadoDAO = new DadoDAO();
         pf = new PropertyFirer(this);
         if (!duplicataList.isEmpty()) {
-            Duplicata dup = duplicataList.get(0);
+            DuplicataDTO dup = duplicataList.get(0);
             dado = dup.getDado();
             if (dado != null) {
                 init();
@@ -51,7 +51,7 @@ public class FormModel implements ViewUpdater {
         }
     }
 
-    private void initEmpty(Duplicata dup) throws FetchFailException {
+    private void initEmpty(DuplicataDTO dup) throws FetchFailException {
         contato = dup.getDocumento().getEmissor();
         if (contato == null) return;
         dadoList = dadoDAO.findByContato(contato);
@@ -86,7 +86,7 @@ public class FormModel implements ViewUpdater {
     }
 
     public DadoBancario getDado() { return dado; }
-    public List<Duplicata> getDuplicataList() { return duplicataList; }
+    public List<DuplicataDTO> getDuplicataList() { return duplicataList; }
 
     public void setContato(Contato contato) {
         if (updating) return;

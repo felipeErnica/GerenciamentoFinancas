@@ -1,23 +1,23 @@
 package com.santacarolina.areas.pgProdutos;
 
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
+
 import com.santacarolina.areas.documentos.frmDoc.DocForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.ProdutoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
-import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Produto;
 import com.santacarolina.ui.CurrencyCellRenderer;
 import com.santacarolina.ui.DateCellRenderer;
 import com.santacarolina.util.CustomErrorThrower;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.List;
 
 public class ProdController implements MainPaneController<Produto> {
 
@@ -56,7 +56,7 @@ public class ProdController implements MainPaneController<Produto> {
         EventQueue.invokeLater(() -> {
             int row = view.getTable().rowAtPoint(e.getPoint());
             Produto prod = model.getObject(row);
-            DocForm.open(new DocumentoFiscal(prod.getDocumento()));
+            DocForm.open(prod.getDocumento());
         });
     }
 

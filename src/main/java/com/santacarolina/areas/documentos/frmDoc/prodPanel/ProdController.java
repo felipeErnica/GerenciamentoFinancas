@@ -9,10 +9,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.documentos.frmDoc.frmClassificacao.FrmClassificacao;
+import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.interfaces.EditTableController;
 import com.santacarolina.interfaces.OnResize;
-import com.santacarolina.model.Produto;
 import com.santacarolina.util.EditTableControllerImpl;
 
 public class ProdController implements EditTableController {
@@ -52,7 +52,7 @@ public class ProdController implements EditTableController {
         int column = view.getTable().columnAtPoint(point);
         int row = view.getTable().rowAtPoint(point);
         if (column == 0) {
-            Produto produto = tableModel.getObject(row);
+            ProdutoDTO produto = tableModel.getObject(row);
             FrmClassificacao.open(produto);
         }
     }

@@ -1,21 +1,21 @@
 package com.santacarolina.model.nfe;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.santacarolina.dao.ContatoDAO;
+import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.enums.TipoDoc;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.model.Contato;
-import com.santacarolina.model.Duplicata;
-import com.santacarolina.model.Produto;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(namespace = "http://www.portalfiscal.inf.br/nfe", localName = "nfeProc")
@@ -37,11 +37,11 @@ public class NFeDTO {
     public TipoDoc getTipoDoc() { return TipoDoc.NFE; }
     public FluxoCaixa getFluxoCaixa() { return FluxoCaixa.DESPESA; }
 
-    public List<Produto> getProdutos() {
-        List<Produto> produtos = new ArrayList<>();
+    public List<ProdutoDTO> getProdutos() {
+        List<ProdutoDTO> produtos = new ArrayList<>();
         List<Det> detList = nFe.getInfNFe().getDetList();
         for (Det det : detList) {
-            Produto prod = new Produto();
+            ProdutoDTO prod = new ProdutoDTO();
             prod.setDescricao(det.getProd().getxProd());
             prod.setQuantidade(det.getProd().getqCom());
             prod.setUnd(det.getProd().getuCom());
@@ -51,19 +51,19 @@ public class NFeDTO {
         return produtos;
     }
 
-    public List<Duplicata> getDuplicatas() {
-        List<Duplicata> duplicataList = new ArrayList<>();
+    public List<DuplicataDTO> getDuplicatas() {
+        List<DuplicataDTO> duplicataList = new ArrayList<>();
 
         if (nFe.getInfNFe().getCobr() != null && nFe.getInfNFe().getCobr().dupList() != null) {
             List<Dup> dupList = nFe.getInfNFe().getCobr().dupList();
             for (Dup dup : dupList) {
-                Duplicata duplicata = new Duplicata();
+                DuplicataDTO duplicata = new DuplicataDTO();
                 duplicata.setDataVencimento(LocalDate.parse(dup.dVenc()));
                 duplicata.setValor(dup.vDup());
                 duplicataList.add(duplicata);
             }
         } else {
-            Duplicata duplicata = new Duplicata();
+            DuplicataDTO duplicata = new DuplicataDTO();
             System.out.println(nFe.getInfNFe().getPag().getvPag());
             duplicata.setValor(nFe.getInfNFe().getPag().getvPag());
             duplicata.setDataVencimento(getDataEmissao());

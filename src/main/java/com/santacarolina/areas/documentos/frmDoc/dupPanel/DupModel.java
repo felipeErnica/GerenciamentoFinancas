@@ -1,13 +1,13 @@
 package com.santacarolina.areas.documentos.frmDoc.dupPanel;
 
+import java.beans.PropertyChangeListener;
+
+import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.DocumentoFiscal;
-import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.PropertyFirer;
 import com.santacarolina.util.StringConversor;
-
-import java.beans.PropertyChangeListener;
 
 public class DupModel implements ViewUpdater {
 
@@ -28,9 +28,9 @@ public class DupModel implements ViewUpdater {
 
     public DuplicataTableModel getTableModel() { return tableModel; }
     public TipoPagamento getTipoPagamento() { return tipoPagamento; }
-    public Duplicata getObject(int rowIndex) { return tableModel.getObject(rowIndex); }
+    public DuplicataDTO getObject(int rowIndex) { return tableModel.getObject(rowIndex); }
 
-    public void addRow(Duplicata d) {
+    public void addRow(DuplicataDTO d) {
         d.setTipoPagamento(tipoPagamento);
         tableModel.addRow(d);
     }

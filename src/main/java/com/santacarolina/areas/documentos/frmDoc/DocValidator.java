@@ -9,11 +9,11 @@ import com.santacarolina.areas.documentos.frmDoc.docPanel.DocModel;
 import com.santacarolina.areas.documentos.frmDoc.dupPanel.DupModel;
 import com.santacarolina.areas.documentos.frmDoc.prodPanel.ProdutoTableModel;
 import com.santacarolina.dao.DocumentoDAO;
+import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.enums.TipoDoc;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.DocumentoFiscal;
-import com.santacarolina.model.Duplicata;
-import com.santacarolina.model.Produto;
 import com.santacarolina.util.ValidatorViolations;
 
 public class DocValidator {
@@ -89,13 +89,13 @@ public class DocValidator {
             ValidatorViolations.violateEmptyFields("Tipo de Pagamento");
             return false;
         }
-        List<Duplicata> list = model.getTableModel().getDuplicataList();
+        List<DuplicataDTO> list = model.getTableModel().getDuplicataList();
         if (list.isEmpty()) {
             ValidatorViolations.violateEmptyList("Duplicatas");
             return false;
         }
         for (int i = 0; i < list.size(); i++) {
-            Duplicata d = list.get(i);
+            DuplicataDTO d = list.get(i);
             if (d.getValor() == 0) {
                 ValidatorViolations.violateEmptyFieldList("Valor", "Duplicatas", i + 1);
                 return false;
@@ -108,13 +108,13 @@ public class DocValidator {
     }
 
     private static boolean validateProd(ProdutoTableModel model) {
-        List<Produto> list = model.getProdutoList();
+        List<ProdutoDTO> list = model.getProdutoList();
         if (list.isEmpty()) {
             ValidatorViolations.violateEmptyList("Produtos");
             return false;
         }
         for (int i = 0; i < list.size(); i++) {
-            Produto p = list.get(i);
+            ProdutoDTO p = list.get(i);
             if (p.getClassificacao() == null) {
                 ValidatorViolations.violateEmptyFieldList("Classificação", "Produtos", i + 1);
                 return false;

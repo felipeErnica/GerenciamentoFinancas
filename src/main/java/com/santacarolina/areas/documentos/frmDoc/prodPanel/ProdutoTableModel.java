@@ -1,27 +1,28 @@
 package com.santacarolina.areas.documentos.frmDoc.prodPanel;
 
+import java.text.ParseException;
+import java.util.List;
+import java.util.Optional;
+
+import javax.swing.JOptionPane;
+
 import com.santacarolina.dao.ClassificacaoDAO;
+import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.EditTableModel;
 import com.santacarolina.model.ClassificacaoContabil;
 import com.santacarolina.model.DocumentoFiscal;
-import com.santacarolina.model.Produto;
 import com.santacarolina.ui.CustomTableModelImpl;
 import com.santacarolina.util.StringConversor;
 
-import javax.swing.*;
-import java.text.ParseException;
-import java.util.List;
-import java.util.Optional;
-
-public class ProdutoTableModel implements EditTableModel<Produto> {
+public class ProdutoTableModel implements EditTableModel<ProdutoDTO> {
 
     private ProdModel formModel;
 
-    private CustomTableModelImpl<Produto> tableModel;
+    private CustomTableModelImpl<ProdutoDTO> tableModel;
     private DocumentoFiscal documentoFiscal;
-    private List<Produto> produtoList;
+    private List<ProdutoDTO> produtoList;
 
     public ProdutoTableModel(DocumentoFiscal documentoFiscal, ProdModel formModel) {
         produtoList = documentoFiscal.getProdutoList();
@@ -39,10 +40,10 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
             "Valor Total"
     };
 
-    public List<Produto> getProdutoList() { return produtoList; }
+    public List<ProdutoDTO> getProdutoList() { return produtoList; }
 
     @Override
-    public CustomTableModelImpl<Produto> getBaseModel() { return tableModel; }
+    public CustomTableModelImpl<ProdutoDTO> getBaseModel() { return tableModel; }
 
     @Override
     public int getRowCount() { return produtoList.size(); }
@@ -58,7 +59,7 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Produto p = produtoList.get(rowIndex);
+        ProdutoDTO p = produtoList.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> p.getClassificacao() != null ? p.getClassificacao().getNumeroIdentificacao() : "";
             case 1 -> p.getDescricao();
@@ -81,7 +82,7 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Produto p = produtoList.get(rowIndex);
+        ProdutoDTO p = produtoList.get(rowIndex);
         String value = aValue != null ? String.valueOf(aValue) : "";
         switch (columnIndex) {
             case 0 -> {
@@ -111,7 +112,7 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
         }
     }
 
-    private void findClassificacao(String aValue, Produto p) {
+    private void findClassificacao(String aValue, ProdutoDTO p) {
         try {
             ClassificacaoDAO controller = new ClassificacaoDAO();
             Optional<ClassificacaoContabil> optional = controller.findByNumero(aValue);
@@ -122,17 +123,16 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
         }
     }
 
-    public Produto getObject(int rowIndex) { return produtoList.get(rowIndex); }
+    public ProdutoDTO getObject(int rowIndex) { return produtoList.get(rowIndex); }
 
-    public void addRow(Produto produto) {
+    public void addRow(ProdutoDTO produto) {
         tableModel.addRow(produto);
         fireTableDataChanged();
     }
 
     @Override
     public void addNewRow() {
-        Produto p = new Produto();
-        p.setDocumento(documentoFiscal);
+        ProdutoDTO p = new ProdutoDTO();
         addRow(p);
     }
 

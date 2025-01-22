@@ -3,10 +3,12 @@ package com.santacarolina.dao;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
@@ -22,10 +24,12 @@ public class ProdutoDAO {
 
     public ProdutoDAO() { this.apiRequest = new ApiRequest<>(Produto.class); }
 
-    public List<Produto> findByDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
+    public List<ProdutoDTO> findByDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING  + "/documento=" + documentoFiscal.getId();
         try {
-            return apiRequest.getListRequest(query);
+            return apiRequest.getListRequest(query).stream()
+                .map(prod -> new ProdutoDTO(prod))
+                .collect(Collectors.toList());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }

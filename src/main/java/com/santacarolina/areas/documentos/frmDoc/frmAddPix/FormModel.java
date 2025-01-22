@@ -1,17 +1,17 @@
 package com.santacarolina.areas.documentos.frmDoc.frmAddPix;
 
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
 import com.santacarolina.dao.PixDAO;
+import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
-import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.PropertyFirer;
-
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 public class FormModel implements ViewUpdater {
 
@@ -25,7 +25,7 @@ public class FormModel implements ViewUpdater {
     public static final String CONTA = "conta";
 
     private ChavePix chave;
-    private List<Duplicata> duplicataList;
+    private List<DuplicataDTO> duplicataList;
 
     private boolean updating;
     private Contato contato;
@@ -37,23 +37,23 @@ public class FormModel implements ViewUpdater {
     private String conta;
     private PropertyFirer pf;
 
-    public FormModel(List<Duplicata> list) throws FetchFailException {
+    public FormModel(List<DuplicataDTO> list) throws FetchFailException {
         this.duplicataList = list;
         pf = new PropertyFirer(this);
         if (!list.isEmpty()) {
-            Duplicata dup = list.get(0);
+            DuplicataDTO dup = list.get(0);
             chave = dup.getPix();
             if (chave != null) {
                 init();
             } else {
-                if (dup.getDado() != null) chave = new PixDAO().findByDadoId(dup.getDadoId()).orElse(null);
+                if (dup.getDado() != null) chave = new PixDAO().findByDadoId(dup.getDado().getId()).orElse(null);
                 if (chave != null) init();
                 else initEmpty(dup);
             }
         }
     }
 
-    private void initEmpty(Duplicata dup) throws FetchFailException {
+    private void initEmpty(DuplicataDTO dup) throws FetchFailException {
         contato = dup.getDocumento().getEmissor();
         if (contato == null) return;
         chaveList = new PixDAO().findByContato(contato);
@@ -101,7 +101,7 @@ public class FormModel implements ViewUpdater {
     }
 
     public ChavePix getChave() { return chave; }
-    public List<Duplicata> getDuplicataList() { return duplicataList; }
+    public List<DuplicataDTO> getDuplicataList() { return duplicataList; }
 
     public void setContato(Contato contato) {
         if (updating) return;

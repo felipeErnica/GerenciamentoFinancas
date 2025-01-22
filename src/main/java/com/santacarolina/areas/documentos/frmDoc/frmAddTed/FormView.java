@@ -1,18 +1,26 @@
 package com.santacarolina.areas.documentos.frmDoc.frmAddTed;
 
+import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
 import com.santacarolina.ui.AddView;
 import com.santacarolina.util.AppIcon;
-import net.miginfocom.swing.MigLayout;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import javax.swing.*;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
+import net.miginfocom.swing.MigLayout;
 
 public class FormView implements PropertyChangeListener {
 
@@ -98,6 +106,7 @@ public class FormView implements PropertyChangeListener {
     public JComboBox<DadoBancario> getContaComboBox() { return contaComboBox; }
 
     @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case FormModel.CONTATO -> contatoComboBox.setSelectedItem(evt.getNewValue());

@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
@@ -33,10 +35,12 @@ public class DuplicataDAO {
         } 
     }
 
-    public List<Duplicata> findByDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
+    public List<DuplicataDTO> findByDoc(DocumentoFiscal documentoFiscal) throws FetchFailException {
         String query = MAPPING  + "/documento=" + documentoFiscal.getId();
         try {
-            return apiRequest.getListRequest(query);
+            return apiRequest.getListRequest(query).stream()
+                .map(dup -> new DuplicataDTO(dup))
+                .collect(Collectors.toList());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
         }

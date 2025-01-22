@@ -1,14 +1,14 @@
 package com.santacarolina.areas.documentos.frmDoc.frmAddPix;
 
-import com.santacarolina.exceptions.FetchFailException;
-import com.santacarolina.model.Duplicata;
-import com.santacarolina.util.CustomErrorThrower;
-
 import java.util.List;
+
+import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.util.CustomErrorThrower;
 
 public class AddPixDup {
 
-    public static void open(List<Duplicata> list) {
+    public static void open(List<DuplicataDTO> list) {
         try {
             FormView view = new FormView();
             FormModel model = new FormModel(list);

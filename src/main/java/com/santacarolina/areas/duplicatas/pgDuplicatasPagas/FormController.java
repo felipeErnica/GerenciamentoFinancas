@@ -48,7 +48,7 @@ public class FormController implements MainPaneController<Duplicata> {
         EventQueue.invokeLater(() -> {
             int row = view.getTable().rowAtPoint(e.getPoint());
             Duplicata dup = model.getObject(row);
-            DocForm.open(new DocumentoFiscal(dup.getDocumento()));
+            DocForm.open(dup.getDocumento());
         });
     }
 

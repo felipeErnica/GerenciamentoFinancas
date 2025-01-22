@@ -10,7 +10,8 @@ import com.santacarolina.dao.ContatoDAO;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.dao.ProdutoDAO;
-import com.santacarolina.dto.DocumentoDTO;
+import com.santacarolina.dto.DuplicataDTO;
+import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.enums.TipoDoc;
 import com.santacarolina.exceptions.FetchFailException;
@@ -29,26 +30,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private LocalDate dataEmissao;
     private FluxoCaixa fluxoCaixa;
 
-    private List<Duplicata> duplicataList;
-    private List<Produto> produtoList;
-
-    public DocumentoFiscal() {}
-
-    public DocumentoFiscal(DocumentoDTO dto) {
-        this.id = dto.getId();
-        this.numDoc = dto.getNumDoc();
-        this.tipoDoc = dto.getTipoDoc();
-        this.emissor = dto.getEmissor();
-        this.emissorId = dto.getEmissor() != null ? dto.getEmissor().getId() : 0;
-        this.caminhoDocumento = dto.getCaminhoDocumento();
-        this.pasta = dto.getPasta();
-        this.pastaId = dto.getPasta() != null ? dto.getPasta().getId() : 0;
-        this.valor = dto.getValor();
-        this.dataEmissao = dto.getDataEmissao();
-        this.fluxoCaixa = dto.getFluxoCaixa();
-        this.duplicataList = getDuplicataList();
-        this.produtoList = getProdutoList();
-    }
+    private List<DuplicataDTO> duplicataList;
+    private List<ProdutoDTO> produtoList;
 
     public long getId() { return id; }
     public Long getNumDoc() { return numDoc; }
@@ -76,14 +59,14 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         return pasta;
     }
 
-    public List<Duplicata> getDuplicataList() {
+    public List<DuplicataDTO> getDuplicataList() {
         try {
             if (duplicataList == null) duplicataList = new DuplicataDAO().findByDoc(this);
         } catch (FetchFailException ignored) {}
         return duplicataList;
     }
 
-    public List<Produto> getProdutoList() {
+    public List<ProdutoDTO> getProdutoList() {
         try {
             if (produtoList == null) produtoList = new ProdutoDAO().findByDoc(this);
         } catch (FetchFailException ignored) {}
@@ -99,8 +82,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public void setEmissorId(Long emissorId) { this.emissorId = emissorId; }
     public void setPastaId(Long pastaId) { this.pastaId = pastaId; }
     public void setFluxoCaixa(FluxoCaixa fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
-    public void setDuplicataList(List<Duplicata> duplicatas) { this.duplicataList = duplicatas; }
-    public void setProdutoList(List<Produto> produtos) { this.produtoList = produtos; }
+    public void setDuplicataList(List<DuplicataDTO> duplicatas) { this.duplicataList = duplicatas; }
+    public void setProdutoList(List<ProdutoDTO> produtos) { this.produtoList = produtos; }
 
     public void setEmissor(Contato emissor) {
         this.emissor = emissor;
@@ -112,15 +95,14 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         pastaId = pastaContabil != null ? pastaContabil.getId() : 0;
     }
 
-    public void addProduto(Produto produto){
+    public void addProduto(ProdutoDTO produto){
         if (produtoList == null) produtoList = new ArrayList<>();
-        produto.setDocumento(this);
         if (isExpense()) produto.setValorUnit(Math.abs(produto.getValorUnit())*-1);
         else produto.setValorUnit(Math.abs(produto.getValorUnit()));
         produtoList.add(produto);
     }
 
-    public void addDuplicata(Duplicata dup) {
+    public void addDuplicata(DuplicataDTO dup) {
         if (duplicataList == null) duplicataList = new ArrayList<>();
         dup.setDocumento(this);
         if (isExpense()) dup.setValor(Math.abs(dup.getValor())*-1);

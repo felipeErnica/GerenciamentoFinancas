@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.santacarolina.dao.ClassificacaoDAO;
+import com.santacarolina.dto.ProdutoDTO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.CustomTableModel;
 import com.santacarolina.model.CategoriaContabil;
 import com.santacarolina.model.ClassificacaoContabil;
-import com.santacarolina.model.Produto;
 import com.santacarolina.ui.CustomTableModelImpl;
 
 public class FormModel implements CustomTableModel<ClassificacaoContabil> {
 
-    private Produto produto;
+    private ProdutoDTO produto;
     private CategoriaContabil categoriaContabil;
     private String searchField;
     private CustomTableModelImpl<ClassificacaoContabil> tableModel;
@@ -27,7 +27,7 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
             "Classificacão"
     };
 
-    public FormModel(Produto produto) throws FetchFailException {
+    public FormModel(ProdutoDTO produto) throws FetchFailException {
         classificacaoList = new ClassificacaoDAO().findAll();
         unfilteredList = classificacaoList;
         tableModel = new CustomTableModelImpl<>(this, classificacaoList);
@@ -119,6 +119,6 @@ public class FormModel implements CustomTableModel<ClassificacaoContabil> {
 
     public void addRow(ClassificacaoContabil classificacaoContabil) { tableModel.addRow(classificacaoContabil); }
     public void removeRows(int[] rows) { tableModel.removeRows(rows); }
-    public void setProduto(Produto produto) { this.produto = produto; }
+    public void setProduto(ProdutoDTO produto) { this.produto = produto; }
 
 }

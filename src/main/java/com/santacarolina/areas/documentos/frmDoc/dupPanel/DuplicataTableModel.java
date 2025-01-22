@@ -5,18 +5,18 @@ import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.EditTableModel;
 import com.santacarolina.model.DocumentoFiscal;
-import com.santacarolina.model.Duplicata;
 import com.santacarolina.ui.CustomTableModelImpl;
 import com.santacarolina.util.StringConversor;
 
-public class DuplicataTableModel implements EditTableModel<Duplicata> {
+public class DuplicataTableModel implements EditTableModel<DuplicataDTO> {
 
-    private CustomTableModelImpl<Duplicata> tableModel;
-    private List<Duplicata> duplicataList;
+    private CustomTableModelImpl<DuplicataDTO> tableModel;
+    private List<DuplicataDTO> duplicataList;
     private DocumentoFiscal documentoFiscal;
     private DupModel formModel;
     private TipoPagamento tipoPagamento;
@@ -45,7 +45,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
     };
 
     @Override
-    public CustomTableModelImpl<Duplicata> getBaseModel() { return tableModel; }
+    public CustomTableModelImpl<DuplicataDTO> getBaseModel() { return tableModel; }
 
     @Override
     public int getRowCount() { return duplicataList.size(); }
@@ -67,7 +67,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Duplicata d = duplicataList.get(rowIndex);
+        DuplicataDTO d = duplicataList.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> d.getNumDup();
             case 1 -> documentoFiscal.getPasta() == null ? "" : documentoFiscal.getPasta().getConta();
@@ -92,7 +92,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Duplicata d = duplicataList.get(rowIndex);
+        DuplicataDTO d = duplicataList.get(rowIndex);
         String value = String.valueOf(aValue);
 
         switch (columnIndex) {
@@ -118,10 +118,10 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
     }
 
     @Override
-    public Duplicata getObject(int rowIndex) { return duplicataList.get(rowIndex); }
-    public List<Duplicata> getDuplicataList() { return duplicataList; }
+    public DuplicataDTO getObject(int rowIndex) { return duplicataList.get(rowIndex); }
+    public List<DuplicataDTO> getDuplicataList() { return duplicataList; }
 
-    public void addRow(Duplicata d) {
+    public void addRow(DuplicataDTO d) {
         tableModel.addRow(d);
         d.setNumDup(duplicataList.indexOf(d) + 1);
         fireTableDataChanged();
@@ -129,7 +129,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
 
     @Override
     public void addNewRow() {
-        Duplicata d = new Duplicata();
+        DuplicataDTO d = new DuplicataDTO();
         d.setTipoPagamento(tipoPagamento);
         d.setDocumento(documentoFiscal);
         addRow(d);

@@ -10,10 +10,10 @@ import javax.swing.table.TableColumnModel;
 
 import com.santacarolina.areas.documentos.frmDoc.frmAddPix.AddPixDup;
 import com.santacarolina.areas.documentos.frmDoc.frmAddTed.AddTedDup;
+import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.interfaces.OnResize;
-import com.santacarolina.model.Duplicata;
 import com.santacarolina.util.FileManager;
 
 public class DupController {
@@ -67,7 +67,7 @@ public class DupController {
         int column = view.getTable().columnAtPoint(point);
         int row = view.getTable().rowAtPoint(point);
         if (column == 5 && model.getTipoPagamento() == TipoPagamento.BOLETO) {
-            Duplicata dup = model.getObject(row);
+            DuplicataDTO dup = model.getObject(row);
             if (dup.getBoletoCaminho() == null || dup.getBoletoCaminho().isEmpty()) {
                 String path = FileManager.getFile().orElse("");
                 dup.setBoletoCaminho(path);
