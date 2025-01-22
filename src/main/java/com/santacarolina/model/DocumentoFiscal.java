@@ -167,7 +167,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         sb.append(", dataEmissao=").append(dataEmissao);
         sb.append(", fluxoCaixa=").append(fluxoCaixa);
         sb.append(",duplicataList=[");
-        if (duplicataList != null) duplicatastaList.forEach(d -> sb.append(d.toString()));
+        if (duplicataList != null) duplicataList.forEach(d -> sb.append(d.toString()));
         sb.append("]");
         sb.append(", Produtos=[");
         if (produtoList != null) produtoList.forEach(sb::append);
