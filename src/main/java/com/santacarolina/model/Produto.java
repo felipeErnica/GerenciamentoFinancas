@@ -6,14 +6,13 @@ import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 
+
+@JsonInclude(value = Include.NON_NULL)
 public class Produto implements Comparable<Produto> {
 
     private long id;
     private long documentoId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private DocumentoFiscal documento;
-
     private long classificacaoId;
     private ClassificacaoContabil classificacao;
     private String descricao;
