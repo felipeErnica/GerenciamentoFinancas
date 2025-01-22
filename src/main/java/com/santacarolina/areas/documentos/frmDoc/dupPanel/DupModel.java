@@ -18,6 +18,7 @@ public class DupModel implements ViewUpdater {
     private TipoPagamento tipoPagamento;
     private DuplicataTableModel tableModel;
     private String valorTotal;
+    private DocumentoFiscal documentoFiscal;
     private PropertyFirer pf;
 
     public DupModel(DocumentoFiscal d) {
@@ -29,6 +30,7 @@ public class DupModel implements ViewUpdater {
     public DuplicataTableModel getTableModel() { return tableModel; }
     public TipoPagamento getTipoPagamento() { return tipoPagamento; }
     public DuplicataDTO getObject(int rowIndex) { return tableModel.getObject(rowIndex); }
+    public DocumentoFiscal getDocumentoFiscal() { return documentoFiscal; }
 
     public void addRow(DuplicataDTO d) {
         d.setTipoPagamento(tipoPagamento);

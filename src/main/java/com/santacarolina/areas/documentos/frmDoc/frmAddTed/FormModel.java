@@ -10,6 +10,7 @@ import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.model.Contato;
 import com.santacarolina.model.DadoBancario;
+import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.util.PropertyFirer;
 
 public class FormModel implements ViewUpdater {
@@ -33,7 +34,7 @@ public class FormModel implements ViewUpdater {
     private String banco;
     private PropertyFirer pf;
 
-    public FormModel(List<DuplicataDTO> duplicataList) throws FetchFailException {
+    public FormModel(List<DuplicataDTO> duplicataList, DocumentoFiscal documento) throws FetchFailException {
         this.duplicataList = duplicataList;
         dadoDAO = new DadoDAO();
         pf = new PropertyFirer(this);
@@ -46,13 +47,13 @@ public class FormModel implements ViewUpdater {
                 ChavePix pix = dup.getPix();
                 dado = pix != null ? pix.getDado() : null;
                 if (dado != null) init();
-                else initEmpty(dup);
+                else initEmpty(dup, documento);
             }
         }
     }
 
-    private void initEmpty(DuplicataDTO dup) throws FetchFailException {
-        contato = dup.getDocumento().getEmissor();
+    private void initEmpty(DuplicataDTO dup, DocumentoFiscal documento) throws FetchFailException {
+        contato = documento.getEmissor();
         if (contato == null) return;
         dadoList = dadoDAO.findByContato(contato);
         if (!dadoList.isEmpty()) {

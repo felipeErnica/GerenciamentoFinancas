@@ -33,57 +33,129 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private List<DuplicataDTO> duplicataList;
     private List<ProdutoDTO> produtoList;
 
-    public long getId() { return id; }
-    public Long getNumDoc() { return numDoc; }
-    public String getCaminhoDocumento() { return caminhoDocumento; }
-    public double getValor() { return this.valor; }
-    public LocalDate getDataEmissao() { return dataEmissao; }
-    public TipoDoc getTipoDoc() { return tipoDoc; }
-    public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
-    public long getEmissorId() { return emissorId; }
-    public long getPastaId() { return pastaId; }
-    public boolean isExpense() { return fluxoCaixa == FluxoCaixa.DESPESA; }
-    public boolean isIncome() { return fluxoCaixa == FluxoCaixa.RECEITA; }
+    public long getId() {
+        return id;
+    }
+
+    public Long getNumDoc() {
+        return numDoc;
+    }
+
+    public String getCaminhoDocumento() {
+        return caminhoDocumento;
+    }
+
+    public double getValor() {
+        return this.valor;
+    }
+
+    public LocalDate getDataEmissao() {
+        return dataEmissao;
+    }
+
+    public TipoDoc getTipoDoc() {
+        return tipoDoc;
+    }
+
+    public FluxoCaixa getFluxoCaixa() {
+        return fluxoCaixa;
+    }
+
+    public long getEmissorId() {
+        return emissorId;
+    }
+
+    public long getPastaId() {
+        return pastaId;
+    }
+
+    public boolean isExpense() {
+        return fluxoCaixa == FluxoCaixa.DESPESA;
+    }
+
+    public boolean isIncome() {
+        return fluxoCaixa == FluxoCaixa.RECEITA;
+    }
 
     public Contato getEmissor() {
         try {
-            if (emissor == null && emissorId != 0) emissor = new ContatoDAO().findById(emissorId).orElse(null);
-        } catch (FetchFailException ignored) {}
+            if (emissor == null && emissorId != 0)
+                emissor = new ContatoDAO().findById(emissorId).orElse(null);
+        } catch (FetchFailException ignored) {
+        }
         return emissor;
     }
 
     public PastaContabil getPasta() {
         try {
-            if (pasta == null && pastaId != 0) pasta = new PastaDAO().findById(pastaId).orElse(null);
-        } catch (FetchFailException ignored) {}
+            if (pasta == null && pastaId != 0)
+                pasta = new PastaDAO().findById(pastaId).orElse(null);
+        } catch (FetchFailException ignored) {
+        }
         return pasta;
     }
 
     public List<DuplicataDTO> getDuplicataList() {
         try {
-            if (duplicataList == null) duplicataList = new DuplicataDAO().findByDoc(this);
-        } catch (FetchFailException ignored) {}
+            if (duplicataList == null)
+                duplicataList = new DuplicataDAO().findByDoc(this);
+        } catch (FetchFailException ignored) {
+        }
         return duplicataList;
     }
 
     public List<ProdutoDTO> getProdutoList() {
         try {
-            if (produtoList == null) produtoList = new ProdutoDAO().findByDoc(this);
-        } catch (FetchFailException ignored) {}
+            if (produtoList == null)
+                produtoList = new ProdutoDAO().findByDoc(this);
+        } catch (FetchFailException ignored) {
+        }
         return produtoList;
     }
 
-    public void setId(long id) { this.id = id; }
-    public void setNumDoc(Long numDoc) { this.numDoc = numDoc; }
-    public void setTipoDoc(TipoDoc tipoDoc) { this.tipoDoc = tipoDoc; }
-    public void setCaminhoDocumento(String caminho) { this.caminhoDocumento = caminho; }
-    public void setValor(double valor) { this.valor = valor; }
-    public void setDataEmissao(LocalDate dataEmissao) { this.dataEmissao = dataEmissao; }
-    public void setEmissorId(Long emissorId) { this.emissorId = emissorId; }
-    public void setPastaId(Long pastaId) { this.pastaId = pastaId; }
-    public void setFluxoCaixa(FluxoCaixa fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
-    public void setDuplicataList(List<DuplicataDTO> duplicatas) { this.duplicataList = duplicatas; }
-    public void setProdutoList(List<ProdutoDTO> produtos) { this.produtoList = produtos; }
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setNumDoc(Long numDoc) {
+        this.numDoc = numDoc;
+    }
+
+    public void setTipoDoc(TipoDoc tipoDoc) {
+        this.tipoDoc = tipoDoc;
+    }
+
+    public void setCaminhoDocumento(String caminho) {
+        this.caminhoDocumento = caminho;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public void setDataEmissao(LocalDate dataEmissao) {
+        this.dataEmissao = dataEmissao;
+    }
+
+    public void setEmissorId(Long emissorId) {
+        this.emissorId = emissorId;
+    }
+
+    public void setPastaId(Long pastaId) {
+        this.pastaId = pastaId;
+    }
+
+    public void setFluxoCaixa(FluxoCaixa fluxoCaixa) {
+        this.fluxoCaixa = fluxoCaixa;
+    }
+
+    public void setDuplicataList(List<DuplicataDTO> duplicatas) {
+        this.duplicataList = duplicatas;
+    }
+
+    public void setProdutoList(List<ProdutoDTO> produtos) {
+        this.produtoList = produtos;
+    }
 
     public void setEmissor(Contato emissor) {
         this.emissor = emissor;
@@ -95,18 +167,23 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         pastaId = pastaContabil != null ? pastaContabil.getId() : 0;
     }
 
-    public void addProduto(ProdutoDTO produto){
-        if (produtoList == null) produtoList = new ArrayList<>();
-        if (isExpense()) produto.setValorUnit(Math.abs(produto.getValorUnit())*-1);
-        else produto.setValorUnit(Math.abs(produto.getValorUnit()));
+    public void addProduto(ProdutoDTO produto) {
+        if (produtoList == null)
+            produtoList = new ArrayList<>();
+        if (isExpense())
+            produto.setValorUnit(Math.abs(produto.getValorUnit()) * -1);
+        else
+            produto.setValorUnit(Math.abs(produto.getValorUnit()));
         produtoList.add(produto);
     }
 
     public void addDuplicata(DuplicataDTO dup) {
-        if (duplicataList == null) duplicataList = new ArrayList<>();
-        dup.setDocumento(this);
-        if (isExpense()) dup.setValor(Math.abs(dup.getValor())*-1);
-        else dup.setValor(Math.abs(dup.getValor()));
+        if (duplicataList == null)
+            duplicataList = new ArrayList<>();
+        if (isExpense())
+            dup.setValor(Math.abs(dup.getValor()) * -1);
+        else
+            dup.setValor(Math.abs(dup.getValor()));
         duplicataList.add(dup);
         dup.setNumDup(duplicataList.size());
     }
@@ -131,9 +208,12 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(tipoDoc != null ? tipoDoc.toString() : "");
-        if (numDoc != null) sb.append(" - Número: ").append(numDoc);
-        if (emissor != null) sb.append(" - Emissor: ").append(emissor);
-        if (dataEmissao != null) sb.append(" - Data: ").append(dataEmissao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        if (numDoc != null)
+            sb.append(" - Número: ").append(numDoc);
+        if (emissor != null)
+            sb.append(" - Emissor: ").append(emissor);
+        if (dataEmissao != null)
+            sb.append(" - Data: ").append(dataEmissao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         return sb.toString();
     }
 
@@ -149,10 +229,12 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         sb.append(", dataEmissao=").append(dataEmissao);
         sb.append(", fluxoCaixa=").append(fluxoCaixa);
         sb.append(",duplicataList=[");
-        if (duplicataList != null) duplicataList.forEach(d -> sb.append(d.toString()));
+        if (duplicataList != null)
+            duplicataList.forEach(d -> sb.append(d.toString()));
         sb.append("]");
         sb.append(", Produtos=[");
-        if (produtoList != null) produtoList.forEach(sb::append);
+        if (produtoList != null)
+            produtoList.forEach(sb::append);
         sb.append("]");
         sb.append('}');
         return sb.toString();

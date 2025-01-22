@@ -131,7 +131,6 @@ public class DuplicataTableModel implements EditTableModel<DuplicataDTO> {
     public void addNewRow() {
         DuplicataDTO d = new DuplicataDTO();
         d.setTipoPagamento(tipoPagamento);
-        d.setDocumento(documentoFiscal);
         addRow(d);
     }
 
