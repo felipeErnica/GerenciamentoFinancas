@@ -34,10 +34,10 @@ public class MainView implements PropertyChangeListener {
         frame.setIconImage(new FlatSVGIcon("icon/main_icon.svg").getImage());
 
         closeButton = new JButton(new FlatSVGIcon("icon/close_icon.svg"));
-        MenuDecorator.paintChangeModeButton(closeButton);
+        MenuDecorator.paintControlButton(closeButton);
 
         minimizeButton = new JButton(new FlatSVGIcon("icon/minimize_icon.svg"));
-        MenuDecorator.paintChangeModeButton(minimizeButton);
+        MenuDecorator.paintControlButton(minimizeButton);
 
         controlPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
         controlPane.add(closeButton);
@@ -60,8 +60,8 @@ public class MainView implements PropertyChangeListener {
 
     public void paintControlPane() { 
         MenuDecorator.paintControlPanel(controlPane);
-        minimizeButton.setBackground(controlPane.getBackground());
-        closeButton.setBackground(controlPane.getBackground());
+        MenuDecorator.paintControlButton(closeButton);
+        MenuDecorator.paintControlButton(minimizeButton);
     }
 
     public JFrame getFrame() { return frame; }

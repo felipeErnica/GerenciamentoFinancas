@@ -68,7 +68,6 @@ public class MenuDecorator {
 
     public static void paintChangeModeButton(JButton button) {
         button.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-        button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setBackground(MENU_BACKGROUND);
         button.setForeground(MENU_FOREGROUND);
         button.setHorizontalAlignment(SwingConstants.CENTER);
@@ -77,6 +76,18 @@ public class MenuDecorator {
         button.setFocusPainted(false);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
+
+    public static void paintControlButton(JButton button) {
+        button.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+        button.setBackground(GRAPH_BACKGROUND);
+        button.setForeground(MENU_FOREGROUND);
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        button.setPreferredSize(new Dimension(20,20));
+        button.setOpaque(true);
+        button.setFocusPainted(false);
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
 
     public static void paintControlPanel(JPanel controlPane) {
         controlPane.setBackground(GRAPH_BACKGROUND);
