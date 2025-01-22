@@ -82,7 +82,7 @@ public class MenuDecorator {
         button.setBackground(GRAPH_BACKGROUND);
         button.setForeground(MENU_FOREGROUND);
         button.setHorizontalAlignment(SwingConstants.CENTER);
-        button.setPreferredSize(new Dimension(20,20));
+        button.setPreferredSize(new Dimension(30,30));
         button.setOpaque(true);
         button.setFocusPainted(false);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
