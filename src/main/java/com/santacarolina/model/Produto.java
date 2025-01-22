@@ -11,7 +11,7 @@ public class Produto implements Comparable<Produto> {
     private long id;
     private long documentoId;
 
-    @JsonInclude(value = Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private DocumentoFiscal documento;
 
     private long classificacaoId;
