@@ -56,8 +56,7 @@ public class ApiRequest<T> {
                 .GET()
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 200 && response.statusCode() != 404)
-            throw new InterruptedException("Server Error: " + response.statusCode());
+        if (response.statusCode() != 200 && response.statusCode() != 404) throw new InterruptedException("Server Error: " + response.statusCode());
         String json = response.body();
         logger.info("Response: " + response.statusCode());
         return mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, tClass));

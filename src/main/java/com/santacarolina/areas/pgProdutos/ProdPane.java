@@ -14,7 +14,7 @@ public class ProdPane implements Opener {
 
     public ProdView open() {
         try {
-            this.view = new ProdView();
+            view = new ProdView();
             model = new ProdTableModel(new ProdutoDAO().findAll());
             controller = new ProdController(view, model);
             return view;

@@ -39,6 +39,7 @@ public class ProdutoDAO {
         try {
             return apiRequest.getListRequest(MAPPING);
         } catch (URISyntaxException | IOException | InterruptedException e) {
+            System.out.println("ERROOOOOOOOOOOOOOOOOOOOOOOOOO");
             throw new FetchFailException(e, logger);
         }
     }
