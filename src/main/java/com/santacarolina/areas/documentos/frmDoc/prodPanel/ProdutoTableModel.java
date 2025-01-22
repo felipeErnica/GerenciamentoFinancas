@@ -24,7 +24,7 @@ public class ProdutoTableModel implements EditTableModel<Produto> {
     private List<Produto> produtoList;
 
     public ProdutoTableModel(DocumentoFiscal documentoFiscal, ProdModel formModel) {
-        produtoList = documentoFiscal.getProdutos();
+        produtoList = documentoFiscal.getProdutoList();
         this.documentoFiscal = documentoFiscal;
         tableModel = new CustomTableModelImpl<>(this, produtoList);
         this.formModel = formModel;

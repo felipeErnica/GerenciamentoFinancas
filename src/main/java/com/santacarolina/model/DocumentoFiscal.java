@@ -29,8 +29,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private LocalDate dataEmissao;
     private FluxoCaixa fluxoCaixa;
 
-    private List<Duplicata> duplicatas;
-    private List<Produto> produtos;
+    private List<Duplicata> duplicataList;
+    private List<Produto> produtoList;
 
     public DocumentoFiscal() {}
 
@@ -46,8 +46,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         this.valor = dto.getValor();
         this.dataEmissao = dto.getDataEmissao();
         this.fluxoCaixa = dto.getFluxoCaixa();
-        this.duplicatas = getDuplicatas();
-        this.produtos = getProdutos();
+        this.duplicataList = getDuplicataList();
+        this.produtoList = getProdutoList();
     }
 
     public long getId() { return id; }
@@ -76,18 +76,18 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         return pasta;
     }
 
-    public List<Duplicata> getDuplicatas() {
+    public List<Duplicata> getDuplicataList() {
         try {
-            if (duplicatas == null) duplicatas = new DuplicataDAO().findByDoc(this);
+            if (duplicataList == null) duplicataList = new DuplicataDAO().findByDoc(this);
         } catch (FetchFailException ignored) {}
-        return duplicatas;
+        return duplicataList;
     }
 
-    public List<Produto> getProdutos() {
+    public List<Produto> getProdutoList() {
         try {
-            if (produtos == null) produtos = new ProdutoDAO().findByDoc(this);
+            if (produtoList == null) produtoList = new ProdutoDAO().findByDoc(this);
         } catch (FetchFailException ignored) {}
-        return produtos;
+        return produtoList;
     }
 
     public void setId(long id) { this.id = id; }
@@ -99,8 +99,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public void setEmissorId(Long emissorId) { this.emissorId = emissorId; }
     public void setPastaId(Long pastaId) { this.pastaId = pastaId; }
     public void setFluxoCaixa(FluxoCaixa fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
-    public void setDuplicatas(List<Duplicata> duplicatas) { this.duplicatas = duplicatas; }
-    public void setProdutos(List<Produto> produtos) { this.produtos = produtos; }
+    public void setDuplicataList(List<Duplicata> duplicatas) { this.duplicataList = duplicatas; }
+    public void setProdutoList(List<Produto> produtos) { this.produtoList = produtos; }
 
     public void setEmissor(Contato emissor) {
         this.emissor = emissor;
@@ -113,20 +113,20 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     }
 
     public void addProduto(Produto produto){
-        if (produtos == null) produtos = new ArrayList<>();
+        if (produtoList == null) produtoList = new ArrayList<>();
         produto.setDocumento(this);
         if (isExpense()) produto.setValorUnit(Math.abs(produto.getValorUnit())*-1);
         else produto.setValorUnit(Math.abs(produto.getValorUnit()));
-        produtos.add(produto);
+        produtoList.add(produto);
     }
 
     public void addDuplicata(Duplicata dup) {
-        if (duplicatas == null) duplicatas = new ArrayList<>();
+        if (duplicataList == null) duplicataList = new ArrayList<>();
         dup.setDocumento(this);
         if (isExpense()) dup.setValor(Math.abs(dup.getValor())*-1);
         else dup.setValor(Math.abs(dup.getValor()));
-        duplicatas.add(dup);
-        dup.setNumDup(duplicatas.size());
+        duplicataList.add(dup);
+        dup.setNumDup(duplicataList.size());
     }
 
     @Override
@@ -141,8 +141,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         clone.setNumDoc(numDoc);
         clone.setPastaId(pastaId);
         clone.setTipoDoc(tipoDoc);
-        clone.setDuplicatas(duplicatas);
-        clone.setProdutos(produtos);
+        clone.setDuplicataList(duplicataList);
+        clone.setProdutoList(produtoList);
         return clone;
     }
 
@@ -167,10 +167,10 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         sb.append(", dataEmissao=").append(dataEmissao);
         sb.append(", fluxoCaixa=").append(fluxoCaixa);
         sb.append(",duplicataList=[");
-        if (duplicatas != null) duplicatas.forEach(d -> sb.append(d.toString()));
+        if (duplicataList != null) duplicatastaList.forEach(d -> sb.append(d.toString()));
         sb.append("]");
         sb.append(", Produtos=[");
-        if (produtos != null) produtos.forEach(sb::append);
+        if (produtoList != null) produtoList.forEach(sb::append);
         sb.append("]");
         sb.append('}');
         return sb.toString();

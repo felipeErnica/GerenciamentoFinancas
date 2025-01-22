@@ -22,7 +22,7 @@ public class DuplicataTableModel implements EditTableModel<Duplicata> {
     private TipoPagamento tipoPagamento;
 
     public DuplicataTableModel(DocumentoFiscal documentoFiscal, DupModel formModel) {
-        this.duplicataList = documentoFiscal.getDuplicatas();
+        this.duplicataList = documentoFiscal.getDuplicataList();
         this.tableModel = new CustomTableModelImpl<>(this, duplicataList);
         this.documentoFiscal = documentoFiscal;
         this.formModel = formModel;

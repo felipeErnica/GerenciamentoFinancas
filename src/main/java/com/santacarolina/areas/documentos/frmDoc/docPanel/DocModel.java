@@ -104,11 +104,11 @@ public class DocModel implements ViewUpdater {
         documentoFiscal.setFluxoCaixa(fluxoCaixa);
         triggerDocValue(docValue);
         if (fluxoCaixa == FluxoCaixa.DESPESA) {
-            documentoFiscal.getDuplicatas().forEach(d -> d.setValor(Math.abs(d.getValor())*-1));
-            documentoFiscal.getProdutos().forEach(d -> d.setValorUnit(Math.abs(d.getValorUnit())*-1));
+            documentoFiscal.getDuplicataList().forEach(d -> d.setValor(Math.abs(d.getValor())*-1));
+            documentoFiscal.getProdutoList().forEach(d -> d.setValorUnit(Math.abs(d.getValorUnit())*-1));
         } else {
-            documentoFiscal.getDuplicatas().forEach(d -> d.setValor(Math.abs(d.getValor())));
-            documentoFiscal.getProdutos().forEach(d -> d.setValorUnit(Math.abs(d.getValorUnit())));
+            documentoFiscal.getDuplicataList().forEach(d -> d.setValor(Math.abs(d.getValor())));
+            documentoFiscal.getProdutoList().forEach(d -> d.setValorUnit(Math.abs(d.getValorUnit())));
         }
         isUpdating = false;
     }
