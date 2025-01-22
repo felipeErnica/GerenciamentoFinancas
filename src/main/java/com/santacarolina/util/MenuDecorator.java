@@ -80,7 +80,7 @@ public class MenuDecorator {
     public static void paintControlButton(JButton button) {
         button.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
         button.setBackground(GRAPH_BACKGROUND);
-        button.setForeground(MENU_FOREGROUND);
+        button.setForeground(GRAPH_FOREGROUND);
         button.setHorizontalAlignment(SwingConstants.CENTER);
         button.setPreferredSize(new Dimension(30,30));
         button.setOpaque(true);
