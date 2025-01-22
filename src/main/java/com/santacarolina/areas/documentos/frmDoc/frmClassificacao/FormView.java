@@ -50,10 +50,10 @@ public class FormView {
                 "[][grow, fill]",
                 "[][][grow, fill]"));
 
-        dialog.add(categoriaLabel);
-        dialog.add(categoriaComboBox, "wrap");
         dialog.add(searchLabel);
         dialog.add(searchField, "wrap");
+        dialog.add(categoriaLabel);
+        dialog.add(categoriaComboBox, "wrap");
         dialog.add(scrollPane, "span");
     }
 

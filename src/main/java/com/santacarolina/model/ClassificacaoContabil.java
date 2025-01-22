@@ -12,7 +12,7 @@ public class ClassificacaoContabil implements Copiable<ClassificacaoContabil> {
     private String numeroIdentificacao;
     private String nomeClassificacao;
 
-    public ClassificacaoContabil() { }
+    public ClassificacaoContabil() {}
 
     public long getId() { return id; }
     public String getNomeClassificacao() { return nomeClassificacao; }

@@ -13,10 +13,11 @@ import com.santacarolina.areas.documentos.frmDoc.frmAddTed.AddTedDup;
 import com.santacarolina.dto.DuplicataDTO;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.DoubleClickListener;
+import com.santacarolina.interfaces.EditTableController;
 import com.santacarolina.interfaces.OnResize;
 import com.santacarolina.util.FileManager;
 
-public class DupController {
+public class DupController implements EditTableController {
 
     private DupView view;
     private DupModel model;
@@ -79,5 +80,8 @@ public class DupController {
             else FileManager.openFile(dup.getBoletoCaminho());
         }
     }
+
+    @Override
+    public void addNewRow() { model.addNewRow(); }
 
 }
