@@ -7,14 +7,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.model.ChavePix;
 import com.santacarolina.model.DadoBancario;
-import com.santacarolina.model.DocumentoFiscal;
 import com.santacarolina.model.Duplicata;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DuplicataDTO {
 
     private long id;
-    private DocumentoFiscal documento;
     private int numDup;
     private LocalDate dataVencimento;
     private TipoPagamento tipoPagamento;
@@ -28,7 +26,6 @@ public class DuplicataDTO {
 
     public DuplicataDTO(Duplicata duplicata) {
         this.id = duplicata.getId();
-        this.documento = duplicata.getDocumento();
         this.numDup = duplicata.getNumDup();
         this.dataVencimento = duplicata.getDataVencimento();
         this.tipoPagamento = duplicata.getTipoPagamento();
@@ -47,7 +44,6 @@ public class DuplicataDTO {
     public double getValor() { return valor; }
     public String getBoletoCaminho() { return boletoCaminho; }
     public boolean isPaga() { return paga; }
-    public DocumentoFiscal getDocumento() { return documento; }
     public DadoBancario getDado() { return dado; }
     public ChavePix getPix() { return pix; }
 
@@ -57,7 +53,6 @@ public class DuplicataDTO {
     public void setValor(double valor) { this.valor = valor; }
     public void setBoletoCaminho(String boletoCaminho) { this.boletoCaminho = boletoCaminho; }
     public void setPaga(boolean payed) { paga = payed; }
-    public void setDocumento(DocumentoFiscal documento) { this.documento = documento; }
     public void setDado(DadoBancario dadoBancario) { this.dado = dadoBancario; }
     public void setPix(ChavePix pix) { this.pix = pix; }
 
