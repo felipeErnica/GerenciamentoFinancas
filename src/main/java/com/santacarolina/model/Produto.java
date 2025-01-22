@@ -1,16 +1,19 @@
 package com.santacarolina.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Produto implements Comparable<Produto> {
 
     private long id;
     private long documentoId;
+
+    @JsonInclude(value = Include.NON_NULL)
     private DocumentoFiscal documento;
+
     private long classificacaoId;
     private ClassificacaoContabil classificacao;
     private String descricao;
