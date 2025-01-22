@@ -1,9 +1,11 @@
 package com.santacarolina.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santacarolina.dao.ClassificacaoDAO;
 import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.exceptions.FetchFailException;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Produto implements Comparable<Produto> {
 
     private long id;
