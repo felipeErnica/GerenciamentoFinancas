@@ -15,6 +15,7 @@ import com.santacarolina.enums.TipoPagamento;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.interfaces.EditTableController;
 import com.santacarolina.interfaces.OnResize;
+import com.santacarolina.util.EditTableControllerImpl;
 import com.santacarolina.util.FileManager;
 
 public class DupController implements EditTableController {
@@ -25,6 +26,7 @@ public class DupController implements EditTableController {
     public DupController(DupView view, DupModel model) {
         this.view = view;
         this.model = model;
+        new EditTableControllerImpl(view.getEditTablePanel(), model.getTableModel());
         model.addPropertyChangeListener(view);
         init();
     }
