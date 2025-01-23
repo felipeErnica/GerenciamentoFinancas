@@ -14,12 +14,13 @@ public class FormModel implements ViewUpdater {
 
     public static final String NOME = "nome";
     public static final String NUMERO = "numero";
+    public static final String NUMERO_INVALIDO = "numeroInvalido";
     public static final String CATEGORIA = "categoriaContabil";
 
     public ClassificacaoContabil classificacao;
 
     private String nome;
-    private String numero;
+    private long numero;
     private CategoriaContabil categoriaContabil;
 
     private PropertyFirer pf;
@@ -36,9 +37,15 @@ public class FormModel implements ViewUpdater {
         pf.firePropertyChange(NOME, this.nome);
     }
 
-    public void setNumero(String numero) { 
-        this.numero = numero; 
-        classificacao.setNumeroIdentificacao(numero);
+    public void setNumero(String numeroDigitado) { 
+        try {
+            long numero = Long.parseLong(numeroDigitado);
+            this.numero = numero; 
+            classificacao.setNumeroIdentificacao(numero);
+            pf.firePropertyChange(NUMERO_INVALIDO, false);
+        } catch (NumberFormatException e) {
+            pf.firePropertyChange(NUMERO_INVALIDO, true);
+        }
     }
 
     public void setCategoriaContabil(CategoriaContabil categoriaContabil) {
@@ -65,6 +72,6 @@ public class FormModel implements ViewUpdater {
     public ClassificacaoContabil getClassificacao() { return classificacao; }
     public CategoriaContabil getCategoriaContabil() { return categoriaContabil; }
     public String getNome() { return nome; }
-    public String getNumero() { return numero; }
+    public long getNumero() { return numero; }
 
 }

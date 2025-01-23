@@ -22,7 +22,7 @@ public class ClassificacaoValidator {
         if (StringUtils.isBlank(model.getNome())) {
             ValidatorViolations.violateEmptyFields("nome");
             return false;
-        } else if (StringUtils.isBlank(model.getNumero())) {
+        } else if (model.getNumero() == 0) {
             ValidatorViolations.violateEmptyFields("número");
             return false;
         } else if (model.getCategoriaContabil() == null) {
@@ -80,7 +80,8 @@ public class ClassificacaoValidator {
     }
 
     private static boolean numeroInvalid(FormModel model) {
-        if (!model.getNumero().startsWith(model.getCategoriaContabil().getNumeroCategoria())) return true;
+        String numeroString = Long.toString(model.getNumero());
+        if (!numeroString.startsWith(model.getCategoriaContabil().getNumeroCategoria())) return true;
         else return false;
     }
     

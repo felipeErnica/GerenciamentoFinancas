@@ -45,7 +45,10 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoCo
     public String getColumnName(int columnIndex) { return columnNames[columnIndex]; }
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) { return String.class; }
+    public Class<?> getColumnClass(int columnIndex) {
+        if (columnIndex == 3) return Long.class;
+        else return String.class; 
+    }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }

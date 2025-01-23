@@ -9,14 +9,14 @@ public class ClassificacaoContabil implements Copiable<ClassificacaoContabil> {
     private long id;
     private CategoriaContabil categoria;
     private long categoriaId;
-    private String numeroIdentificacao;
+    private long numeroIdentificacao;
     private String nomeClassificacao;
 
     public ClassificacaoContabil() {}
 
     public long getId() { return id; }
     public String getNomeClassificacao() { return nomeClassificacao; }
-    public String getNumeroIdentificacao() { return numeroIdentificacao; }
+    public long getNumeroIdentificacao() { return numeroIdentificacao; }
     public long getCategoriaId() { return categoriaId; }
 
     public CategoriaContabil getCategoria() {
@@ -27,7 +27,7 @@ public class ClassificacaoContabil implements Copiable<ClassificacaoContabil> {
     }
 
     public void setId(long id) { this.id = id; }
-    public void setNumeroIdentificacao(String numeroIdentificacao) { this.numeroIdentificacao = numeroIdentificacao; }
+    public void setNumeroIdentificacao(long numeroIdentificacao) { this.numeroIdentificacao = numeroIdentificacao; }
     public void setNomeClassificacao(String nomeClassificacao) { this.nomeClassificacao = nomeClassificacao; }
     public void setCategoriaId(long categoriaId) { this.categoriaId = categoriaId; }
 
@@ -37,7 +37,7 @@ public class ClassificacaoContabil implements Copiable<ClassificacaoContabil> {
     }
 
     @Override
-    public String toString() { return numeroIdentificacao; }
+    public String toString() { return Long.toString(numeroIdentificacao) + " - " + nomeClassificacao; }
 
     @Override
     public ClassificacaoContabil generateCopy() {

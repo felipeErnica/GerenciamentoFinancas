@@ -86,7 +86,7 @@ public class ProdutoTableModel implements EditTableModel<ProdutoDTO> {
         String value = aValue != null ? String.valueOf(aValue) : "";
         switch (columnIndex) {
             case 0 -> {
-                if (value != null) findClassificacao(value, p);
+                if (value != null) findClassificacao((Long) aValue, p);
                 else p.setClassificacao(null);
             }
             case 1 ->  p.setDescricao(value.toUpperCase());
@@ -112,7 +112,7 @@ public class ProdutoTableModel implements EditTableModel<ProdutoDTO> {
         }
     }
 
-    private void findClassificacao(String aValue, ProdutoDTO p) {
+    private void findClassificacao(long aValue, ProdutoDTO p) {
         try {
             ClassificacaoDAO controller = new ClassificacaoDAO();
             Optional<ClassificacaoContabil> optional = controller.findByNumero(aValue);

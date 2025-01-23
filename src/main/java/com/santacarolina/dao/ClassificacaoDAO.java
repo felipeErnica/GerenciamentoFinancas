@@ -30,7 +30,7 @@ public class ClassificacaoDAO {
         }
     }
 
-    public Optional<ClassificacaoContabil> findByNumero(String numero) throws FetchFailException {
+    public Optional<ClassificacaoContabil> findByNumero(long numero) throws FetchFailException {
         try {
             return apiRequest.getRequest(MAPPING + "/numeroIdentificacao=" + numero);
         } catch (URISyntaxException | IOException | InterruptedException e) {
