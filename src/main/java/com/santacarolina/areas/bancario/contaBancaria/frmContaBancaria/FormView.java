@@ -89,6 +89,7 @@ public class FormView implements PropertyChangeListener {
     public JTextField getApelidoContaTextField() { return apelidoContaTextField; }
     public JTextField getAbreviacaoText() { return abreviacaoText; }
     public JButton getAddConta() { return addConta; }
+    public JButton getAddBanco() { return addBanco; }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

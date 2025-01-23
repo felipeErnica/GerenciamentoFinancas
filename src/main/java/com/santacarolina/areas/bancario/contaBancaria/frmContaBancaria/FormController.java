@@ -1,7 +1,10 @@
 package com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria;
 
+import java.awt.EventQueue;
+
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
+import com.santacarolina.areas.bancario.banco.frmBanco.BancoForm;
 import com.santacarolina.dao.BancoDAO;
 import com.santacarolina.dao.ContaDAO;
 import com.santacarolina.exceptions.FetchFailException;
@@ -33,6 +36,18 @@ public class FormController implements Controller {
         view.getApelidoContaTextField().addFocusListener((AfterUpdateListener) e -> apelidoContaTextField_afterUpdate());
         view.getAbreviacaoText().addFocusListener((AfterUpdateListener) e -> abreviacaoText_afterUpdate());
         view.getAddConta().addActionListener(e -> addConta_onClick());
+        view.getAddBanco().addActionListener(e -> addBanco_onClick());
+    }
+
+    private void addBanco_onClick() {
+        EventQueue.invokeLater(() -> {
+            BancoForm.openNew();
+            try {
+                view.getBancoComboBox().setModel(new ListComboBoxModel<>(new BancoDAO().findAll()));
+            } catch (FetchFailException e) {
+                CustomErrorThrower.throwError(e);
+            }
+        });
     }
 
     private void bancoComboBox_afterUpdate() {
