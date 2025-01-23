@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.santacarolina.dao.PixDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.model.ChavePix;
-import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;
 
@@ -42,7 +41,7 @@ public class PixValidator {
     private static boolean contaPossuiPix(FormModel model) throws FetchFailException {
         if (model.getDadoBancario() == null) return false;
         Optional<ChavePix> optional = new PixDAO().findByDadoId(model.getDadoBancario().getId());
-        if (!optional.isPresent()) {
+        if (optional.isPresent()) {
             ChavePix chave = optional.get();
             if (chave.getId() == model.getChavePix().getId()) return false;
             if (model.getChavePix().getId() != 0) {
