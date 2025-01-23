@@ -27,7 +27,7 @@ public class PastaContabilValidator {
             return false;
         } else if (caminhoNaoExiste(model.getFolderPath())) {
             OptionDialog.showErrorDialog("O caminho especificado não existe!", "Caminho Inválido");
-
+            return false;
         } else if (model.getContaBancaria() == null) {
             ValidatorViolations.violateEmptyFields("Conta Bancária");
             return false;
