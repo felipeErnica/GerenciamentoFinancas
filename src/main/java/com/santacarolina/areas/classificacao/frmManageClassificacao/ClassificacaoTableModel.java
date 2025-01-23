@@ -46,7 +46,7 @@ public class ClassificacaoTableModel implements CustomTableModel<ClassificacaoCo
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == 3) return Long.class;
+        if (columnIndex == 2) return Long.class;
         else return String.class; 
     }
 

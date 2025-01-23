@@ -82,7 +82,7 @@ public class FormView implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case FormModel.NOME -> nomeTextField.setText((String) evt.getNewValue());
-            case FormModel.NUMERO-> numeroTextField.setText((String) evt.getNewValue());
+            case FormModel.NUMERO-> numeroTextField.setText(Long.toString((Long) evt.getNewValue()));
             case FormModel.CATEGORIA -> categoriaContabilComboBox.setSelectedItem(evt.getNewValue());
             case FormModel.NUMERO_INVALIDO -> {
                 boolean numeroInvalido = (Boolean) evt.getNewValue();
