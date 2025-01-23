@@ -1,7 +1,9 @@
 package com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.model.Banco;
+import com.santacarolina.ui.ActionSVGButton;
 import com.santacarolina.ui.AddView;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -20,6 +22,7 @@ public class FormView implements PropertyChangeListener {
     private JTextField numeroContaTextField;
     private JTextField apelidoContaTextField;
     private JTextField abreviacaoText;
+    private JButton addBanco;
     private JButton addConta;
 
     public FormView(String dialogTitle, String buttonText) {
@@ -57,13 +60,16 @@ public class FormView implements PropertyChangeListener {
         abreviacaoText.putClientProperty(FlatClientProperties.SELECT_ALL_ON_FOCUS_POLICY, "always");
         abreviacaoLabel.setLabelFor(abreviacaoText);
 
+        addBanco = new ActionSVGButton("Adicionar Novo Banco", new FlatSVGIcon("icon/add_icon.svg"));
+
         JPanel centerPane = new JPanel(new MigLayout("insets 20",
-                "[][][grow, fill]",
+                "[][grow, fill][]",
                 "[]20[][][]"
         ));
 
         centerPane.add(bancoLabel);
-        centerPane.add(bancoComboBox, "span, wrap, wmax 400");
+        centerPane.add(bancoComboBox, "grow, wrap, wmax 400");
+        centerPane.add(addBanco, "wrap");
         centerPane.add(agenciaLabel, "skip");
         centerPane.add(agenciaTextField, "wrap");
         centerPane.add(numeroLabel,"skip");

@@ -91,7 +91,7 @@ public class FilterModel implements ViewUpdater {
         if (pastaContabil != null) filterPasta();
         if (tipoDoc != null) filterTipo();
         if (!StringUtils.isBlank(emissor)) filterEmissor();
-        if (numDoc != null) filterNumDoc();
+        if (!StringUtils.isBlank(numDoc)) filterNumDoc();
         if (dataInicio != null) filterInicio();
         if (dataFim != null) filterFim();
         tableModel.getBaseModel().setList(filteredList);

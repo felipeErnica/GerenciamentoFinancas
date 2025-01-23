@@ -82,7 +82,7 @@ public class FormController implements Controller {
             try {
                 DocumentoFiscal nfeDoc = NfeTransformer.transformNFe(nfe);
                 nfeDoc.setPasta(model.getPastaContabil());
-                if (dao.findEqualNota(nfeDoc).isPresent()) nfeExists.add(nfeDoc.printDoc());
+                if (dao.findEqualNota(nfeDoc).isPresent()) nfeExists.add(nfeDoc.toString());
                 else nfeList.add(nfeDoc);
             } catch (NFeException | FetchFailException | SaveFailException e) {
                 failedFiles.add(nfe.getAbsolutePath());
