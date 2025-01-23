@@ -40,8 +40,7 @@ public class FormView implements ManageView {
     public ActionSVGButton getDeleteButton() { return baseView.getDeleteButton(); }
 
     @Override
-    public void formatColumns() {
-    }
+    public void formatColumns() {}
 
     public FilterView getFilterView() { return filterView; }
 

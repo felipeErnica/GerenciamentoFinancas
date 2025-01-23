@@ -5,6 +5,9 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.RowSorter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import com.santacarolina.areas.classificacao.frmClassificacao.ClassificacacaoForm;
 import com.santacarolina.dao.ClassificacaoDAO;
@@ -37,10 +40,15 @@ public class FormController implements ManageController<ClassificacaoContabil> {
 
     private void init() {
         view.getTable().setModel(tableModel.getBaseModel());
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        view.getTable().getColumnModel().getColumn(2).setCellRenderer(renderer);
     }
 
     @Override
-    public void showView() { ViewInvoker.showMaximizedView(view.getDialog()); }
+    public void showView() {
+        ViewInvoker.showMaximizedView(view.getDialog());
+    }
 
     @Override
     public void table_onDoubleClick(MouseEvent e) {
@@ -58,7 +66,7 @@ public class FormController implements ManageController<ClassificacaoContabil> {
     }
 
     @Override
-    public void addButton_onClick() { 
+    public void addButton_onClick() {
         EventQueue.invokeLater(() -> {
             try {
                 ClassificacacaoForm.openNew();
@@ -77,5 +85,5 @@ public class FormController implements ManageController<ClassificacaoContabil> {
             CustomErrorThrower.throwError(e);
         }
     }
-    
+
 }
