@@ -11,11 +11,12 @@ public class FormModel implements ViewUpdater {
 
     public static final String FLUXO = "fluxo";
     public static final String NUMERO = "numero";
+    public static final String NUMERO_INVALIDO = "numeroInvalido";
     public static final String NOME = "nome";
 
     private CategoriaContabil categoriaContabil;
     private FluxoCaixa fluxoCaixa;
-    private String numeroEtiqueta;
+    private Long numeroEtiqueta;
     private String nomeCategoria;
     
     private boolean isUpdating;
@@ -34,7 +35,17 @@ public class FormModel implements ViewUpdater {
     }
 
     public void setFluxoCaixa(FluxoCaixa fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
-    public void setNumeroEtiqueta(String numeroEtiqueta) { this.numeroEtiqueta = numeroEtiqueta; }
+
+    public void setNumeroEtiqueta(String numeroString) {
+        try {
+            Long numeroEtiqueta = Long.parseLong(numeroString);
+            this.numeroEtiqueta = numeroEtiqueta; 
+            pf.firePropertyChange(NUMERO_INVALIDO, false);   
+        } catch (NumberFormatException e) {
+            this.numeroEtiqueta = null;
+            pf.firePropertyChange(NUMERO_INVALIDO, true);
+        }
+    }
 
     public void setNomeCategoria(String nomeCategoria) {
         if (isUpdating) return;
@@ -52,7 +63,7 @@ public class FormModel implements ViewUpdater {
         return categoriaContabil; 
     }
     public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
-    public String getNumeroEtiqueta() { return numeroEtiqueta; }
+    public Long getNumeroEtiqueta() { return numeroEtiqueta; }
     public String getNomeCategoria() { return nomeCategoria; }
 
     @Override

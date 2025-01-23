@@ -28,7 +28,7 @@ public class ClassificacaoValidator {
         } else if (model.getCategoriaContabil() == null) {
             ValidatorViolations.violateEmptyFields("Categoria Contábil");
             return false;
-        } else if (numeroInvalid(model)) {
+        } else if (numeroInvalido(model)) {
             OptionDialog.showErrorDialog("O número da classificação deve começar com o número da categoria!", "Formato Inválido!");
             return false;
         } else if (numeroExists(model)) {
@@ -79,10 +79,10 @@ public class ClassificacaoValidator {
         return false;
     }
 
-    private static boolean numeroInvalid(FormModel model) {
-        String numeroString = Long.toString(model.getNumero());
-        if (!numeroString.startsWith(model.getCategoriaContabil().getNumeroCategoria())) return true;
-        else return false;
+    private static boolean numeroInvalido(FormModel model) {
+        String numeroClassificacao = Long.toString(model.getNumero());
+        String numeroCategoria = model.getCategoriaContabil().getNumeroCategoria().toString();
+        return !numeroClassificacao.startsWith(numeroCategoria);
     }
     
 }

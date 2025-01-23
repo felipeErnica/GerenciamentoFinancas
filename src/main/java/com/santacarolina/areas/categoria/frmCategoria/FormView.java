@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.combobox.EnumComboBoxModel;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.ui.AddView;
 
@@ -65,9 +66,18 @@ public class FormView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-            case FormModel.NUMERO -> numeroTextField.setText((String) evt.getNewValue());
+            case FormModel.NUMERO -> numeroTextField.setText(Long.toString((Long) evt.getNewValue()));
             case FormModel.FLUXO -> fluxoCaixaComboBox.setSelectedItem((FluxoCaixa) evt.getNewValue());
             case FormModel.NOME -> nomeTextField.setText((String) evt.getNewValue());
+            case FormModel.NUMERO_INVALIDO -> {
+                boolean numeroInvalido = (boolean) evt.getNewValue();
+                if (numeroInvalido) {
+                    numeroTextField.setText(null);
+                    numeroTextField.putClientProperty(FlatClientProperties.OUTLINE, "error");
+                } else {
+                    numeroTextField.putClientProperty(FlatClientProperties.OUTLINE, null);
+                }
+            }
         }
     }
 

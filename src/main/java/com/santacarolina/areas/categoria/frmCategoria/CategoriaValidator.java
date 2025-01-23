@@ -21,7 +21,7 @@ public class CategoriaValidator {
         if (model.getFluxoCaixa() == null) {
             ValidatorViolations.violateEmptyFields("Fluxo de Caixa");
             return false;
-        } else if (StringUtils.isBlank(model.getNumeroEtiqueta())) {
+        } else if (model.getNumeroEtiqueta() == null) {
             ValidatorViolations.violateEmptyFields("Número da Etiqueta");
             return false;
         } else if (StringUtils.isBlank(model.getNomeCategoria())) {
@@ -78,7 +78,9 @@ public class CategoriaValidator {
     }
 
     private static boolean numeroValido(FormModel model) { 
-        return model.getNumeroEtiqueta().startsWith(Integer.toString(model.getFluxoCaixa().getValue() + 1)); 
+        String numeroEtiqueta = model.getNumeroEtiqueta().toString();
+        String numeroFluxoCaixa = Integer.toString(model.getFluxoCaixa().getValue() + 1);
+        return numeroEtiqueta.startsWith(numeroFluxoCaixa); 
     }
     
 }

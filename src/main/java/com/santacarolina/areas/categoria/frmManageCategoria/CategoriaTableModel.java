@@ -40,7 +40,10 @@ public class CategoriaTableModel implements CustomTableModel<CategoriaContabil> 
     public String getColumnName(int columnIndex) { return columnNames[columnIndex]; }
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) { return String.class; }
+    public Class<?> getColumnClass(int columnIndex) {
+        if (columnIndex == 1) return Long.class;
+        else return String.class; 
+    }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }

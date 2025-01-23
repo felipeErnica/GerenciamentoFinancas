@@ -40,7 +40,7 @@ public class CategoriaDAO {
         }
     }
 
-    public Optional<CategoriaContabil> findByNumero(String numero) throws FetchFailException {
+    public Optional<CategoriaContabil> findByNumero(Long numero) throws FetchFailException {
         String query = MAPPING + "/numero=" + numero;
         try {
             return apiRequest.getRequest(query);
