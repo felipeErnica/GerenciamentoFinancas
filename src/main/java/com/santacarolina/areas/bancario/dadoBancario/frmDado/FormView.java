@@ -60,17 +60,17 @@ public class FormView implements PropertyChangeListener {
 
         centerPanel.setLayout(new MigLayout("insets 25",
                 "[right][fill, grow][grow]",
-                "[][]20[][]20[][]"
+                "[][]20[][]"
         ));
 
         centerPanel.add(contatoLabel);
         centerPanel.add(contactComboBox,"span, wrap");
         centerPanel.add(bancoLabel);
         centerPanel.add(bankComboBox, "span, wrap");
-        centerPanel.add(contaLabel);
-        centerPanel.add(contaTextField, "wrap");
         centerPanel.add(agenciaLabel);
         centerPanel.add(agencyTextField, "wrap");
+        centerPanel.add(contaLabel);
+        centerPanel.add(contaTextField);
     }
 
     public JDialog getDialog() { return dialog; }
