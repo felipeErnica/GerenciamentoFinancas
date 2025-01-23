@@ -53,6 +53,7 @@ public class PixValidator {
                 model.getChavePix().setId(optional.get().getId());
                 return false;
             }
+            return true;
         }
         return false;
     }
