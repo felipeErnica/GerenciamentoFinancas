@@ -57,7 +57,6 @@ public class FormView implements PropertyChangeListener {
 
         selectPathButton = new JButton(new FlatFileChooserNewFolderIcon());
         pathTextField = new JTextField();
-        pathTextField.setEditable(false);
         pathTextField.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_COMPONENT, selectPathButton);
         JLabel pathLabel = new JLabel("Caminho da Pasta:");
         pathLabel.setLabelFor(pathTextField);

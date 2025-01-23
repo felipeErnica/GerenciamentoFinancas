@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
+import com.santacarolina.areas.bancario.contaBancaria.frmContaBancaria.ContaForm;
 import com.santacarolina.dao.ContaDAO;
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
@@ -35,6 +36,19 @@ public class FormController {
         view.getFolderTextField().addFocusListener((AfterUpdateListener) e -> folderTextField_afterUpdate());
         view.getAddFolder().addActionListener(e -> addFolder_onClick());
         view.getBankAccountComboBox().addActionListener(e -> contaBancaria_onAction());
+        view.getAddAccount().addActionListener(e -> addAccount_onClick());
+    }
+
+    private void addAccount_onClick() {
+        EventQueue.invokeLater(() -> {
+            ContaForm.openNew();
+            try {
+                view.getBankAccountComboBox().setModel(new ListComboBoxModel<>(new ContaDAO().findAll()));
+                view.getBankAccountComboBox().setSelectedItem(null);
+            } catch (FetchFailException e) {
+                CustomErrorThrower.throwError(e);
+            }
+        });
     }
 
     private void contaBancaria_onAction() {
