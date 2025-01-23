@@ -33,6 +33,7 @@ public class SideMenu {
     private JButton dupPagaButton;
     private JButton dupNaoPagaButton;
     private JButton prodButton;
+    private JButton relatorioButton;
 
     private SubMenuImpl infoBancoSubMenu;
     private JButton addBanco;
@@ -83,6 +84,8 @@ public class SideMenu {
         docMenu.addButton(dupPagaButton);
         prodButton = new JButton("Produtos e Serviços", AppIcon.paintIcon(new FlatSVGIcon("icon/produtos_icon.svg")));
         docMenu.addButton(prodButton);
+        relatorioButton = new JButton("Gerar Relatório", AppIcon.paintIcon(new FlatSVGIcon("icon/categoria_icon.svg")));
+        docMenu.addButton(relatorioButton);
         listSubMenus.add(docMenu);
 
         infoBancoSubMenu = new SubMenuImpl(this, "Informações Bancárias");
@@ -187,6 +190,7 @@ public class SideMenu {
     public JButton getDupPagaButton() { return dupPagaButton; }
     public JButton getDupNaoPagaButton() { return dupNaoPagaButton; }
     public JButton getProdButton() { return prodButton; }
+    public JButton getRelatorioButton() { return relatorioButton; }
 
     public JButton getAddBanco() { return addBanco; }
     public JButton getManageBancos() { return manageBancos; }

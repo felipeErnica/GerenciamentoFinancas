@@ -33,6 +33,7 @@ import com.santacarolina.areas.duplicatas.pgDuplicatasPagas.DupPagaPane;
 import com.santacarolina.areas.pastaContabil.frmManagePasta.ManagePastaForm;
 import com.santacarolina.areas.pastaContabil.frmPastaContabil.PastaContabilForm;
 import com.santacarolina.areas.pgProdutos.ProdPane;
+import com.santacarolina.areas.relatorio.RelatorioForm;
 import com.santacarolina.interfaces.Controller;
 import com.santacarolina.util.AppIcon;
 import com.santacarolina.util.MenuDecorator;
@@ -64,6 +65,7 @@ public class MainFrameController implements Controller {
         view.getDupPagaButton().addActionListener(e -> dupPagaButton_onClick());
         view.getDupNaoPagaButton().addActionListener(e -> dupNaoPagaButton_onClick());
         view.getProdButton().addActionListener(e -> prodButton_onClick());
+        view.getRelatorioButton().addActionListener(e -> relatorioButton_onClick());
 
         view.getAddBanco().addActionListener(e -> addBanco_onClick());
         view.getManageBancos().addActionListener(e -> manageBancos_onClick());
@@ -119,6 +121,7 @@ public class MainFrameController implements Controller {
     private void prodButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new ProdPane())); }
     private void dupPagaButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DupPagaPane())); }
     private void dupNaoPagaButton_onClick() { EventQueue.invokeLater(() -> model.setCenterPanel(new DupNaoPagaPane())); }
+    private void relatorioButton_onClick() { EventQueue.invokeLater(RelatorioForm::open); }
 
     private void manageBancos_onClick() { EventQueue.invokeLater(ManageBancoForm::open); }
     private void addBanco_onClick() { EventQueue.invokeLater(BancoForm::openNew); }
