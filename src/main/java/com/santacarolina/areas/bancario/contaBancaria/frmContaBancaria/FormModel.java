@@ -78,6 +78,7 @@ public class FormModel implements ViewUpdater {
     public void setAbreviacao(String abreviacao) {
         this.abreviacao = abreviacao.toUpperCase();
         contaBancaria.setAbreviacao(this.abreviacao);
+        pf.firePropertyChange(ABREVIACAO, this.abreviacao);
     }
 
     private void triggerAbreviacao() {
