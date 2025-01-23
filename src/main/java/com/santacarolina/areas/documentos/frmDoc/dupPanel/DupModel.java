@@ -21,9 +21,9 @@ public class DupModel implements ViewUpdater {
     private DocumentoFiscal documentoFiscal;
     private PropertyFirer pf;
 
-    public DupModel(DocumentoFiscal d) {
-        if (!d.getDuplicataList().isEmpty()) tipoPagamento = d.getDuplicataList().get(0).getTipoPagamento();
-        this.tableModel = new DuplicataTableModel(d, this);
+    public DupModel(DocumentoFiscal doc) {
+        if (!doc.getDuplicataList().isEmpty()) tipoPagamento = doc.getDuplicataList().get(0).getTipoPagamento();
+        this.tableModel = new DuplicataTableModel(doc, this);
         pf = new PropertyFirer(this);
     }
 
