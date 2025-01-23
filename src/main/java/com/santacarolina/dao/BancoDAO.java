@@ -63,7 +63,7 @@ public class BancoDAO {
     }
 
     public Optional<Banco> findByApelido(String apelidoBanco) throws FetchFailException {
-        String query = MAPPING + "/apelido=" + apelidoBanco;
+        String query = MAPPING + "/apelido=" + apelidoBanco.replace(" ", "+");
         try {
             return apiRequest.getRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
