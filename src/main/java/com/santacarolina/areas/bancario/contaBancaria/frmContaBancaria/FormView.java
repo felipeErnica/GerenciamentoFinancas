@@ -68,7 +68,7 @@ public class FormView implements PropertyChangeListener {
         ));
 
         centerPane.add(bancoLabel);
-        centerPane.add(bancoComboBox, "span, wmax 400");
+        centerPane.add(bancoComboBox, "span 2, wmax 400");
         centerPane.add(addBanco, "wrap");
         centerPane.add(agenciaLabel, "skip");
         centerPane.add(agenciaTextField, "wrap");
