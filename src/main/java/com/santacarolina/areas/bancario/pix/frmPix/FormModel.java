@@ -191,23 +191,24 @@ public class FormModel implements ViewUpdater {
         this.chavePix.setDado(d);
         if (d != null) {
             this.banco = d.getBanco().getNomeBanco();
+            ChavePix chaveDado;
             try {
-                chavePix = new PixDAO().findByDadoId(d.getId()).orElse(null);
+                chaveDado = new PixDAO().findByDadoId(d.getId()).orElse(null);
             } catch (FetchFailException e) {
-                chavePix = null;
+                chaveDado = null;
             }
-            triggerChavePix();
+            triggerChavePix(chaveDado);
         }
         else {
             this.banco = "";
-            triggerChavePix();
+            triggerChavePix(null);
         }
     }
 
-    private void triggerChavePix() {
-        if (chavePix != null) {
-            triggerTipoPix(chavePix.getTipoPix());
-            triggerChave(chavePix.getChave());
+    private void triggerChavePix(ChavePix chaveDado) {
+        if (chaveDado != null) {
+            triggerTipoPix(chaveDado.getTipoPix());
+            triggerChave(chaveDado.getChave());
         } else {
             triggerTipoPix(null);
             triggerChave("");
