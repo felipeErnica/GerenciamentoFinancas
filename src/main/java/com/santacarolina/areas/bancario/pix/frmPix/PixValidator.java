@@ -39,26 +39,19 @@ public class PixValidator {
     
     }
 
-    private static boolean contaPossuiPix(FormModel model) {
-        if (model.getDadoBancario() != null) return false;
-        
-        Optional<ChavePix> pixFromDado;
-        try {
-            pixFromDado = new PixDAO().findByDadoId(model.getDadoBancario().getId());
-        } catch (FetchFailException e) {
-            CustomErrorThrower.throwError(e);
-            return true;
-        }
-
-        if (!pixFromDado.isPresent()) {
-            if (pixFromDado.get().getId() == model.getChavePix().getId()) return false;
+    private static boolean contaPossuiPix(FormModel model) throws FetchFailException {
+        if (model.getDadoBancario() == null) return false;
+        Optional<ChavePix> optional = new PixDAO().findByDadoId(model.getDadoBancario().getId());
+        if (!optional.isPresent()) {
+            ChavePix chave = optional.get();
+            if (chave.getId() == model.getChavePix().getId()) return false;
             if (model.getChavePix().getId() != 0) {
-                ValidatorViolations.violateRecordExists("Esta conta já possui uma chave Pix! Não é possível adicionar outra!");
+                ValidatorViolations.violateRecordExists("A conta selecionada já possui uma chave Pix! Não é possível adicionar outra!");
                 return true;
             }
-            int result = OptionDialog.showReplaceDialog("Esta conta possuí uma chave registrada!");
+            int result = OptionDialog.showReplaceDialog("A conta  selecionada já possuí uma chave registrada!");
             if (result == JOptionPane.YES_OPTION) {
-                model.getChavePix().setId(pixFromDado.get().getId());
+                model.getChavePix().setId(optional.get().getId());
                 return false;
             }
         }
