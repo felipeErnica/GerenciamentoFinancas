@@ -63,12 +63,12 @@ public class FormView implements PropertyChangeListener {
         addBanco = new ActionSVGButton("Adicionar Novo Banco", new FlatSVGIcon("icon/add_icon.svg"));
 
         JPanel centerPane = new JPanel(new MigLayout("insets 20",
-                "[][grow, fill][]",
+                "[][][grow, fill][]",
                 "[]20[][][]"
         ));
 
         centerPane.add(bancoLabel);
-        centerPane.add(bancoComboBox, "grow, wmax 400");
+        centerPane.add(bancoComboBox, "span, wmax 400");
         centerPane.add(addBanco, "wrap");
         centerPane.add(agenciaLabel, "skip");
         centerPane.add(agenciaTextField, "wrap");
