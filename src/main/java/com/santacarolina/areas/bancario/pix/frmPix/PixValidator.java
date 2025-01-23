@@ -66,7 +66,7 @@ public class PixValidator {
     }
 
     private static boolean chaveExiste(FormModel model) throws FetchFailException {
-        Optional<ChavePix> optional = new PixDAO().findByChave(model.getChave());
+        Optional<ChavePix> optional = new PixDAO().findByChave(model.getChavePix().getChave());
         if (optional.isPresent()) {
             ChavePix chave = optional.get();
             if (chave.getId() == model.getChavePix().getId()) return false;
