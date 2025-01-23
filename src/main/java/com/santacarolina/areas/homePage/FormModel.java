@@ -137,7 +137,7 @@ public class FormModel implements ViewUpdater {
         filteredList = filteredList.stream()
             .filter(p -> p.getDuplicata() != null)
             .filter(p -> p.getDuplicata().getDataVencimento() != null)
-            .filter(p -> p.getDuplicata().getDataVencimento().isBefore(dataFim))
+            .filter(p -> p.getDuplicata().getDataVencimento().isBefore(dataFim.plusDays(1)))
             .collect(Collectors.toList());
     }
 
@@ -145,7 +145,7 @@ public class FormModel implements ViewUpdater {
         filteredList = filteredList.stream()
             .filter(p -> p.getDuplicata() != null)
             .filter(p -> p.getDuplicata().getDataVencimento() != null)
-            .filter(p -> p.getDuplicata().getDataVencimento().isAfter(dataInicio))
+            .filter(p -> p.getDuplicata().getDataVencimento().isAfter(dataInicio.minusDays(1)))
             .collect(Collectors.toList());
     }
 
