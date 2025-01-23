@@ -33,7 +33,7 @@ public class FormController {
     private void init() throws FetchFailException {
         view.getBankAccountComboBox().setModel(new ListComboBoxModel<>(new ContaDAO().findAll()));
         view.getSelectPathButton().addActionListener (e -> selectPathButton_onClick());
-        view.getPathTextField().addActionListener(e -> pathTextField_onClick());       
+        view.getPathTextField().addFocusListener((AfterUpdateListener) e -> pathTextField_onClick());       
         view.getFolderTextField().addFocusListener((AfterUpdateListener) e -> folderTextField_afterUpdate());
         view.getAddFolder().addActionListener(e -> addFolder_onClick());
         view.getBankAccountComboBox().addActionListener(e -> contaBancaria_onAction());
