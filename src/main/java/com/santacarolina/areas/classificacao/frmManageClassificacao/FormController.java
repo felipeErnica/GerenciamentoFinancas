@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.RowSorter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import com.santacarolina.areas.classificacao.frmClassificacao.ClassificacacaoForm;
 import com.santacarolina.dao.ClassificacaoDAO;
