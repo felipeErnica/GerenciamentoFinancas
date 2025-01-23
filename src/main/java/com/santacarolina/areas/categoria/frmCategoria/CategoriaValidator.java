@@ -27,6 +27,9 @@ public class CategoriaValidator {
         } else if (StringUtils.isBlank(model.getNomeCategoria())) {
             ValidatorViolations.violateEmptyFields("Nome da Categoria");
             return false;
+        } else if (model.getNomeCategoria().contains("/")) {
+            OptionDialog.showErrorDialog("O nome não pode conter o símbolo /", "Nome inválido");
+            return false;
         } else if (!numeroValido(model)) {
             OptionDialog.showErrorDialog("O Número da Etiqueta deve ser começar com o Número do Fluxo de Caixa correspondente!", "Número inválido");
             return false;
@@ -41,7 +44,7 @@ public class CategoriaValidator {
     private static boolean nomeExiste(FormModel model) throws FetchFailException {
         Optional<CategoriaContabil> optional = new CategoriaDAO().findByNome(model.getNomeCategoria());
         if (optional.isPresent()) {
-            if (optional.get().getId() == model.getCategoriaContabil().getId())
+            if (optional.get().getId() == model.getCategoriaContabil().getId()) return false;
             if (model.getCategoriaContabil().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Esta categoria já existe!");
                 return true;
@@ -59,7 +62,7 @@ public class CategoriaValidator {
     private static boolean numeroExiste(FormModel model) throws FetchFailException {
         Optional<CategoriaContabil> optional = new CategoriaDAO().findByNumero(model.getNumeroEtiqueta());
         if (optional.isPresent()) {
-            if (optional.get().getId() == model.getCategoriaContabil().getId())
+            if (optional.get().getId() == model.getCategoriaContabil().getId()) return false;
             if (model.getCategoriaContabil().getId() != 0) {
                 ValidatorViolations.violateRecordExists("Este número já existe e pertence a categoria " + optional.get().getNome() + "!");
                 return true;
