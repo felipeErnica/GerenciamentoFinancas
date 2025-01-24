@@ -162,6 +162,7 @@ public class FormModel implements ViewUpdater {
 
         Map<String, List<Produto>> map = filteredList.stream()
             .map(pd -> pd.getProduto())
+            .filter(p -> p.getClassificacao().getCategoria().getFluxoCaixa() == FluxoCaixa.DESPESA)
             .collect(Collectors.groupingBy(p -> p.getClassificacao().getNomeClassificacao()));
 
         //Soma toda as entradas de uma mesma classificacao e adiciona a uma lista que mapeia a classificacao a um valor.
