@@ -11,41 +11,40 @@ public class DupTableModel implements CustomTableModel<Duplicata> {
 
     public final static String TABLE = "table";
 
-    private CustomTableModelImpl<Duplicata> model;
+    private CustomTableModelImpl<Duplicata> baseModel;
     private List<Duplicata> list;
     private FilterModel filterModel;
 
+    private String[] columnNames = {
+        "Nº da Parcela",
+        "Data de Vencimento",
+        "Forma de Pagamento",
+        "Conta Bancária",
+        "Fornecedor",
+        "Valor",
+    };
+
     public DupTableModel(List<Duplicata> duplicataList) {
         this.list = duplicataList;
-        this.model = new CustomTableModelImpl<>(this, duplicataList);
+        this.baseModel = new CustomTableModelImpl<>(this, duplicataList);
         filterModel = new FilterModel(this);
     }
 
-    public CustomTableModelImpl<Duplicata> getBaseModel() { return model; }
+    public CustomTableModelImpl<Duplicata> getBaseModel() { return baseModel; }
 
     @Override
-    public int getRowCount() { return model.getRowCount(); }
+    public int getRowCount() { return baseModel.getRowCount(); }
 
     @Override
-    public int getColumnCount() { return 6; }
+    public int getColumnCount() { return columnNames.length; }
 
     public void setList(List<Duplicata> list) {
         this.list = list;
-        model.setList(list);
+        baseModel.setList(list);
     }
 
     @Override
-    public String getColumnName(int column) {
-        return switch (column) {
-            case 0 -> "Nº da Parcela";
-            case 1 -> "Data de Vencimento";
-            case 2 -> "Forma de Pagamento";
-            case 3 -> "Conta Bancária";
-            case 4 -> "Fornecedor";
-            case 5 -> "Valor";
-            default -> throw new IllegalStateException("Unexpected value: " + column);
-        };
-    }
+    public String getColumnName(int column) { return columnNames[column]; }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
@@ -77,7 +76,7 @@ public class DupTableModel implements CustomTableModel<Duplicata> {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
 
     @Override
-    public Duplicata getObject(int rowIndex) { return model.getObject(rowIndex); }
+    public Duplicata getObject(int rowIndex) { return baseModel.getObject(rowIndex); }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {

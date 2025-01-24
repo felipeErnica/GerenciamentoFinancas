@@ -22,6 +22,7 @@ public class DuplicataRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel c = (JLabel) cellRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        row = table.convertRowIndexToModel(row);
         Duplicata dup = model.getObject(row);
         switch (column) {
             case 1 -> {

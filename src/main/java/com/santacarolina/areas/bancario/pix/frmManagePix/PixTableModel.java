@@ -15,12 +15,12 @@ public class PixTableModel implements CustomTableModel<ChavePix> {
     private List<ChavePix> list;
 
     private String[] columnNames = {
-            "Nome do Contato",
-            "Tipo Pix",
-            "Chave Pix",
-            "Banco",
-            "Agência",
-            "Número da Conta",
+        "Nome do Contato",
+        "Tipo Pix",
+        "Chave Pix",
+        "Banco",
+        "Agência",
+        "Número da Conta",
     };
    
     public PixTableModel() throws FetchFailException {

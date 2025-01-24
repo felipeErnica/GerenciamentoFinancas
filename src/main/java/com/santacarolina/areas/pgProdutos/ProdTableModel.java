@@ -13,6 +13,18 @@ public class ProdTableModel implements CustomTableModel<Produto> {
     private List<Produto> list;
     private FilterModel filterModel;
 
+    private String[] columnNames = {
+        "Data de Emissão",
+        "Pasta Contábil",
+        "Emitente",
+        "Tipo de Mercadoria",
+        "Descrição",
+        "Unidade",
+        "Quantidade",
+        "Valor Unitário",
+        "Valor Total"
+    };
+
     public ProdTableModel (List<Produto> produtoList) {
         this.baseModel = new CustomTableModelImpl<>(this, produtoList);
         this.list = produtoList;
@@ -26,23 +38,10 @@ public class ProdTableModel implements CustomTableModel<Produto> {
     public int getRowCount() { return baseModel.getRowCount(); }
 
     @Override
-    public int getColumnCount() { return 9; }
+    public int getColumnCount() { return columnNames.length; }
 
     @Override
-    public String getColumnName(int columnIndex) {
-        return switch (columnIndex) {
-            case 0 -> "Data de Emissão";
-            case 1 -> "Pasta Contábil";
-            case 2 -> "Emitente";
-            case 3 -> "Tipo de Mercadoria";
-            case 4 -> "Descrição";
-            case 5 -> "Unidade";
-            case 6 -> "Quantidade";
-            case 7 -> "Valor Unitário";
-            case 8 -> "Valor Total";
-            default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
-        };
-    }
+    public String getColumnName(int columnIndex) { return columnNames[columnIndex]; }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {

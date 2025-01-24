@@ -15,6 +15,13 @@ public class ContatoTableModel implements CustomTableModel<Contato> {
     private List<Contato> contatoList;
     private FilterModel filterModel;
 
+    private String[] columnNames = {
+        "Nome do Contato",
+        "CPF",
+        "CNPJ",
+        "IE"
+    };
+
     public ContatoTableModel(List<Contato> contatoList) {
         this.contatoList = contatoList; 
         baseModel = new CustomTableModelImpl<>(this, contatoList);
@@ -28,18 +35,10 @@ public class ContatoTableModel implements CustomTableModel<Contato> {
     public int getRowCount() { return contatoList.size(); }
 
     @Override
-    public String getColumnName(final int column) {
-        return switch (column) {
-            case 0 -> "Nome do Contato";
-            case 1 -> "CPF";
-            case 2 -> "CNPJ";
-            case 3 -> "IE";
-            default -> throw new IllegalStateException("Unexpected value: " + column);
-        };
-    }
+    public String getColumnName(final int column) { return columnNames[column]; }
 
     @Override
-    public int getColumnCount() { return 4; }
+    public int getColumnCount() { return columnNames.length; }
 
     @Override
     public boolean isCellEditable(final int rowIndex, final int columnIndex) { return false; }

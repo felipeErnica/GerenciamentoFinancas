@@ -20,6 +20,14 @@ public class ExtratoConciliacaoTableModel implements CustomTableModel<Extrato> {
     private List<Extrato> extratoList;
     private CustomTableModelImpl<Extrato> model;
 
+    private String[] columnNames = {
+        "Data da Transação",
+        "Conta Bancária",
+        "Categoria Bancária",
+        "Descrição",
+        "Valor",
+    };
+
     public ExtratoConciliacaoTableModel(List<Extrato> extratoList) {
         this.extratoList = extratoList;
         this.model = new CustomTableModelImpl<>(this, extratoList);
@@ -35,7 +43,7 @@ public class ExtratoConciliacaoTableModel implements CustomTableModel<Extrato> {
     public CustomTableModelImpl<Extrato> getBaseModel() { return model; }
 
     public int getRowCount() { return extratoList.size(); }
-    public int getColumnCount() { return 5; }
+    public int getColumnCount() { return columnNames.length; }
     public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
     public Extrato getObject(int rowIndex) { return extratoList.get(rowIndex); }
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) { }
@@ -46,16 +54,7 @@ public class ExtratoConciliacaoTableModel implements CustomTableModel<Extrato> {
         model.setList(list);
     }
 
-    public String getColumnName(int columnIndex) {
-        return switch (columnIndex) {
-            case 0 -> "Data da Transação";
-            case 1 -> "Conta Bancária";
-            case 2 -> "Categoria Bancária";
-            case 3 -> "Descrição";
-            case 4 -> "Valor";
-            default -> throw new IllegalStateException("Unexpected value: " + columnIndex);
-        };
-    }
+    public String getColumnName(int columnIndex) { return columnNames[columnIndex]; }
 
     public Class<?> getColumnClass(int columnIndex) {
         return switch (columnIndex) {
