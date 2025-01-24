@@ -5,9 +5,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -31,16 +37,37 @@ public class ExportExcel {
         "Valor Total"
     };
 
-    public static void exportToExcel(List<ProdutoDuplicata> listaRelatorio) throws IOException {
+    public static void exportToExcel(FormModel model) throws IOException {
+        List<ProdutoDuplicata> listaRelatorio = model.getListaFiltrada();
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet();
+        Sheet sheet = workbook.createSheet("Produtos e Serviços");
 
         Row header = sheet.createRow(0);
+
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        headerStyle.setAlignment(HorizontalAlignment.CENTER);
+        headerStyle.setBorderTop(BorderStyle.THIN);
+        headerStyle.setBorderLeft(BorderStyle.THIN);
+        headerStyle.setBorderRight(BorderStyle.THIN);
+        headerStyle.setBorderBottom(BorderStyle.THIN);
         
         for (int coluna = 0; coluna < nomeColunas.length; coluna++) {
             Cell cell = header.createCell(coluna);
             cell.setCellValue(nomeColunas[coluna]);
+            cell.setCellStyle(headerStyle);
         }
+
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setBorderTop(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+
+        CellStyle currencyStyle = workbook.createCellStyle();
+        currencyStyle.cloneStyleFrom(cellStyle);
+        currencyStyle.setAlignment(HorizontalAlignment.LEFT);
 
         for (int linha = 0; linha < listaRelatorio.size(); linha++) {
             ProdutoDuplicata produtoDuplicata = listaRelatorio.get(linha);
@@ -69,14 +96,33 @@ public class ExportExcel {
             quant.setCellValue(produtoDuplicata.getProduto().getQuantidade());
             valorUnit.setCellValue(produtoDuplicata.getProduto().getValorUnit());
             valorTotal.setCellValue(produtoDuplicata.getProduto().getValorTotal());
+
+            data.setCellStyle(cellStyle);
+            pasta.setCellStyle(cellStyle);
+            fluxo.setCellStyle(cellStyle);
+            classificacao.setCellStyle(cellStyle);
+            numDup.setCellStyle(cellStyle);
+            emissor.setCellStyle(cellStyle);
+            descricao.setCellStyle(cellStyle);
+            und.setCellStyle(cellStyle);
+            quant.setCellStyle(cellStyle);
+            valorUnit.setCellStyle(currencyStyle);
+            valorTotal.setCellStyle(currencyStyle);
         }
 
-        Path caminho = Paths.get("C:/Users/Fazenda/Downloads/teste.xlsx");
+        Locale localizacaoPt = Locale.of("pt", "BR");
+        String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
+        String mesFinal = model.getDataFim().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataFim().getYear();
+        String nomeArquivo = "RELATÓRIO " + mesInicial + " - " + mesFinal + ".xslx"; 
+
+        String caminhoString = "C:/Users/Fazenda/Downloads/" + nomeArquivo; 
+        Path caminho = Paths.get(caminhoString);
         Files.deleteIfExists(caminho);
 
         FileOutputStream excelFile = new FileOutputStream(caminho.toString());
         workbook.write(excelFile);
         workbook.close();
+        excelFile.close();
     }
 
 }

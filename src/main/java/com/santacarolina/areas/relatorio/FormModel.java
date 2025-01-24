@@ -1,6 +1,7 @@
 package com.santacarolina.areas.relatorio;
 
 import java.beans.PropertyChangeListener;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,17 +15,28 @@ import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.model.ProdutoDuplicata;
 import com.santacarolina.util.PropertyFirer;
+import com.santacarolina.util.StringConversor;
 
 public class FormModel implements ViewUpdater {
+
+    public final static String DATA_FIM = "dataFim";
+    public final static String DATA_FIM_INVALIDA = "dataFimInvalida";
+    public final static String DATA_INICIO = "dataInicio";
+    public final static String DATA_INICIO_INVALIDO = "dataInicioInvalido";
 
     private LocalDate dataFim;
     private LocalDate dataInicio;
     private Map<Long, PastaContabil> mapaPasta;
+    private String caminho;
 
     private List<ProdutoDuplicata> listaSemFiltro;
     private PropertyFirer pf;
 
     public FormModel(List<ProdutoDuplicata> listaSemFiltro) {
+        LocalDate dataHoje = LocalDate.now();
+        dataInicio = LocalDate.of(dataHoje.getYear(), dataHoje.getMonth(), 1);
+        dataFim = LocalDate.of(dataHoje.getYear(), dataHoje.getMonth().plus(1), 1).minusDays(1);
+
         this.listaSemFiltro = listaSemFiltro;
         try {
             mapaPasta = new PastaDAO().findAll().stream()
@@ -35,12 +47,36 @@ public class FormModel implements ViewUpdater {
 
     public LocalDate getDataFim() { return dataFim; }
     public LocalDate getDataInicio() { return dataInicio; }
+    public String getCaminho() { return caminho; }
     public Map<Long, PastaContabil> getMapaPasta() { return mapaPasta; }
     public List<ProdutoDuplicata> getListaSemFiltro() { return listaSemFiltro; }
 
-    public void setDataFim(String dataFim) { this.dataFim = LocalDate.parse(dataFim); }
-    public void setDataInicio(String dataInicio) { this.dataInicio = LocalDate.parse(dataInicio); }
+    public void setDataFim(String dataFim) {
+        try {
+            this.dataFim = StringConversor.transformDate(dataFim);
+            pf.firePropertyChange(DATA_FIM, this.dataFim);
+            pf.firePropertyChange(DATA_FIM_INVALIDA, false);
+        } catch (DateTimeException e) {
+            this.dataFim = null;
+            pf.firePropertyChange(DATA_FIM, null);
+            pf.firePropertyChange(DATA_FIM_INVALIDA, true);
+        }
+    }
+    
+    public void setDataInicio(String dataInicio) {
+        try {
+            this.dataInicio = StringConversor.transformDate(dataInicio);
+            pf.firePropertyChange(DATA_INICIO, this.dataInicio);
+            pf.firePropertyChange(DATA_INICIO_INVALIDO, false);
+        } catch (DateTimeException e) {
+            this.dataInicio = null;
+            pf.firePropertyChange(DATA_INICIO, null);
+            pf.firePropertyChange(DATA_INICIO_INVALIDO, true);
+        }
+    }
+
     public void setMapaPasta(Map<Long, PastaContabil> listaPasta) { this.mapaPasta = listaPasta; }
+    public void setCaminho(String caminho) { this.caminho = caminho; }
 
     public List<ProdutoDuplicata> getListaFiltrada() {
         List<ProdutoDuplicata> listaDataFiltrada = new ArrayList<>();
@@ -69,8 +105,6 @@ public class FormModel implements ViewUpdater {
     public void addPropertyChangeListener(PropertyChangeListener listener) { pf.addPropertyChangeListener(listener); }
 
     @Override
-    public void fireInitialChanges() {
-        // TODO Auto-generated method stub
-    }
+    public void fireInitialChanges() {}
 
 }

@@ -21,28 +21,33 @@ public class FormController implements Controller {
     public FormController(FormView view, FormModel model) throws FetchFailException {
         this.view = view;
         this.model = model;
-        view.getRelatorioButton().addActionListener(e -> relatorioButton_onClick());
-        view.getDataFim().addFocusListener((AfterUpdateListener) e -> dataFim_onLostFocus());
-        view.getDataInicio().addFocusListener((AfterUpdateListener) e -> dataInicio_onLostFocus());
         model.addPropertyChangeListener(view);
         init();
     }
 
+    private void init() throws FetchFailException {
+        PastaCellRenderer cellRenderer = new PastaCellRenderer();
+        view.getListaPasta().setCellRenderer(cellRenderer);
+
+        view.getListaPasta().setModel(new ListComboBoxModel<>(new PastaDAO().findAll()));
+        view.getRelatorioButton().addActionListener(e -> relatorioButton_onClick());
+        view.getDataFim().addFocusListener((AfterUpdateListener) e -> dataFim_onLostFocus());
+        view.getDataInicio().addFocusListener((AfterUpdateListener) e -> dataInicio_onLostFocus());
+        view.getCaminho().addFocusListener((AfterUpdateListener) e -> caminho_onLostFocus());
+    }
+
+    private void caminho_onLostFocus() { model.setCaminho(view.getCaminho().getText()); }
     private void dataFim_onLostFocus() { model.setDataFim(view.getDataFim().getText()); }
     private void dataInicio_onLostFocus() { model.setDataInicio(view.getDataInicio().getText()); }
 
     private void relatorioButton_onClick() {
         EventQueue.invokeLater(() -> {
             try {
-                ExportExcel.exportToExcel(model.getListaFiltrada());
+                ExportExcel.exportToExcel(model);
             } catch (IOException e) {
                 OptionDialog.showErrorDialog("Não foi possível exportar o relatório", "ERRO: Exportação de Relatório");
             }
         });
-    }
-
-    private void init() throws FetchFailException {
-        view.getListaPasta().setModel(new ListComboBoxModel<>(new PastaDAO().findAll()));
     }
 
     @Override
