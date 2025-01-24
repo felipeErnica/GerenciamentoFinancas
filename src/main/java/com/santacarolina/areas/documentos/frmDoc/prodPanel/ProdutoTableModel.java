@@ -72,13 +72,7 @@ public class ProdutoTableModel implements EditTableModel<ProdutoDTO> {
     }
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        return switch (columnIndex) {
-            case 0, 1, 2, 4, 5 -> String.class;
-            case 3 -> Double.class;
-            default -> throw new IndexOutOfBoundsException();
-        };
-    }
+    public Class<?> getColumnClass(int columnIndex) { return String.class; }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
