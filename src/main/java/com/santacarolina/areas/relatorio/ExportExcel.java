@@ -9,7 +9,6 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -47,8 +46,8 @@ public class ExportExcel {
         Row header = sheet.createRow(0);
         
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        headerStyle.setFillPattern(FillPatternType.NO_FILL);
+        headerStyle.setFillBackgroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         headerStyle.setAlignment(HorizontalAlignment.CENTER);
         headerStyle.setBorderTop(BorderStyle.THIN);
         headerStyle.setBorderLeft(BorderStyle.THIN);
