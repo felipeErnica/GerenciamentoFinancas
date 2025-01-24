@@ -52,7 +52,7 @@ dependencies {
     implementation("com.webcohesion.ofx4j:ofx4j:1.38")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
     implementation("org.knowm.xchart:xchart:3.8.8")
-    implementation("org.apache.poi:poi:5.4.0")
+    implementation("org.apache.poi:poi-ooxml:5.4.0")
 }
 
 application {

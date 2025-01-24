@@ -2,13 +2,16 @@ package com.santacarolina.areas.relatorio;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.santacarolina.model.ProdutoDuplicata;
 
@@ -29,7 +32,7 @@ public class ExportExcel {
     };
 
     public static void exportToExcel(List<ProdutoDuplicata> listaRelatorio) throws IOException {
-        Workbook workbook = new HSSFWorkbook(); 
+        Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
         Row header = sheet.createRow(0);
@@ -68,7 +71,10 @@ public class ExportExcel {
             valorTotal.setCellValue(produtoDuplicata.getProduto().getValorTotal());
         }
 
-        FileOutputStream excelFile = new FileOutputStream("C:/Users/Fazenda/Downloads/teste.xlsx");
+        Path caminho = Paths.get("C:/Users/Fazenda/Downloads/teste.xlsx");
+        Files.deleteIfExists(caminho);
+
+        FileOutputStream excelFile = new FileOutputStream(caminho.toString());
         workbook.write(excelFile);
         workbook.close();
     }
