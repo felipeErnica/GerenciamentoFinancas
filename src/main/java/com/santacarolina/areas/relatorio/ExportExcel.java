@@ -9,9 +9,11 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,9 +45,10 @@ public class ExportExcel {
         Sheet sheet = workbook.createSheet("Produtos e Serviços");
 
         Row header = sheet.createRow(0);
-
+        
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillBackgroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        headerStyle.setFillBackgroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         headerStyle.setAlignment(HorizontalAlignment.CENTER);
         headerStyle.setBorderTop(BorderStyle.THIN);
         headerStyle.setBorderLeft(BorderStyle.THIN);
@@ -74,7 +77,7 @@ public class ExportExcel {
         CellStyle currencyStyle = workbook.createCellStyle();
         currencyStyle.cloneStyleFrom(cellStyle);
         currencyStyle.setAlignment(HorizontalAlignment.LEFT);
-        currencyStyle.setDataFormat((short) 5);
+        currencyStyle.setDataFormat((short) 7);
 
         for (int linha = 0; linha < listaRelatorio.size(); linha++) {
             ProdutoDuplicata produtoDuplicata = listaRelatorio.get(linha);
