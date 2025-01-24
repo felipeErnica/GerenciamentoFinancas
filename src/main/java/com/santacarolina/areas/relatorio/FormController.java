@@ -16,8 +16,13 @@ public class FormController implements Controller {
     public FormController(FormView view, FormModel model) throws FetchFailException {
         this.view = view;
         this.model = model;
+        view.getRelatorioButton().addActionListener(e -> relatorioButton_onClick());
         model.addPropertyChangeListener(view);
         init();
+    }
+
+    private void relatorioButton_onClick() {
+         
     }
 
     private void init() throws FetchFailException {
@@ -25,8 +30,6 @@ public class FormController implements Controller {
     }
 
     @Override
-    public void showView() {
-        ViewInvoker.showView(view.getDialog());
-    }
+    public void showView() { ViewInvoker.showView(view.getDialog()); }
     
 }
