@@ -257,7 +257,7 @@ public class FormModel implements ViewUpdater {
                 listDate.add(date);
                 double monthValues = rawList.stream()
                         .filter(d -> d.getDuplicata().getDataVencimento().getYear() == year)
-                        .filter(d -> d.getDuplicata().getDataVencimento().getMonth() == month)
+                        .filter(d -> d.getDuplicata().getDataVencimento().getMonth().equals(month))
                         .mapToDouble(p -> p.getProduto().getValorTotal())
                         .sum();
                 listValues.add(monthValues);
