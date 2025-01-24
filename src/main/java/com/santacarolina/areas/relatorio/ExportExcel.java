@@ -9,6 +9,7 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.poi.openxml4j.opc.PackagePart;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -18,6 +19,9 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFPivotTable;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.santacarolina.model.ProdutoDuplicata;
@@ -81,7 +85,32 @@ public class ExportExcel {
         currencyStyle.setDataFormat((short) 7);
 
         for (int linha = 0; linha < listaRelatorio.size(); linha++) {
-            ProdutoDuplicata produtoDuplicata = listaRelatorio.get(linha);
+            preencheLinhas(linha, listaRelatorio.get(linha), sheet, cellStyle, dataStyle, currencyStyle);
+        }
+
+        for (int coluna = 0; coluna < nomeColunas.length; coluna++) sheet.autoSizeColumn(coluna);
+
+        Locale localizacaoPt = Locale.of("pt", "BR");
+        String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
+        String mesFinal = model.getDataFim().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataFim().getYear();
+        String nomeArquivo = "RELATÓRIO " + mesInicial.toUpperCase() + " - " + mesFinal.toUpperCase() + ".xlsx"; 
+
+        String caminhoString = model.getCaminho() + "/" + nomeArquivo; 
+        Path caminho = Paths.get(caminhoString);
+        Files.deleteIfExists(caminho);
+
+        FileOutputStream excelFile = new FileOutputStream(caminho.toString());
+        workbook.write(excelFile);
+        workbook.close();
+        excelFile.close();
+    }
+
+    private static void preencheLinhas(int linha, ProdutoDuplicata produtoDuplicata, Sheet sheet, CellStyle... style) {
+
+            CellStyle cellStyle = style[0];
+            CellStyle dataStyle = style[1];
+            CellStyle currencyStyle = style[2];
+
             Row row = sheet.createRow(linha + 1);
             
             Cell data = row.createCell(0);
@@ -119,23 +148,6 @@ public class ExportExcel {
             quant.setCellStyle(cellStyle);
             valorUnit.setCellStyle(currencyStyle);
             valorTotal.setCellStyle(currencyStyle);
-        }
-
-        for (int coluna = 0; coluna < nomeColunas.length; coluna++) sheet.autoSizeColumn(coluna);
-
-        Locale localizacaoPt = Locale.of("pt", "BR");
-        String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
-        String mesFinal = model.getDataFim().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataFim().getYear();
-        String nomeArquivo = "RELATÓRIO " + mesInicial.toUpperCase() + " - " + mesFinal.toUpperCase() + ".xlsx"; 
-
-        String caminhoString = model.getCaminho() + "/" + nomeArquivo; 
-        Path caminho = Paths.get(caminhoString);
-        Files.deleteIfExists(caminho);
-
-        FileOutputStream excelFile = new FileOutputStream(caminho.toString());
-        workbook.write(excelFile);
-        workbook.close();
-        excelFile.close();
     }
 
 }
