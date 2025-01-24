@@ -3,6 +3,8 @@ package com.santacarolina.areas.relatorio;
 import java.awt.EventQueue;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
 import com.santacarolina.dao.PastaDAO;
@@ -44,6 +46,10 @@ public class FormController implements Controller {
         EventQueue.invokeLater(() -> {
             try {
                 ExportExcel.exportToExcel(model);
+                JOptionPane.showMessageDialog(null, "Relatório gerado com sucesso em " + model.getCaminho(), 
+                    "SUCESSO - Exportação de Relatório", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                view.getDialog().dispose();
             } catch (IOException e) {
                 OptionDialog.showErrorDialog("Não foi possível exportar o relatório", "ERRO: Exportação de Relatório");
             }

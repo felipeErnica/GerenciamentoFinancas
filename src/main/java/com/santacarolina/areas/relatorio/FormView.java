@@ -35,6 +35,7 @@ public class FormView implements PropertyChangeListener {
     public FormView() {
         baseView = new AddView();
         dialog = baseView.getDialog();
+        dialog.setTitle("Gerar Relatório");
         relatorioButton = baseView.getAddButton();
         relatorioButton.setText("Gerar Relatório");
         centerPanel = baseView.getCenterPanel();

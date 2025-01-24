@@ -47,7 +47,7 @@ public class ExportExcel {
         Row header = sheet.createRow(0);
         
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillBackgroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+        headerStyle.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         headerStyle.setAlignment(HorizontalAlignment.CENTER);
         headerStyle.setBorderTop(BorderStyle.THIN);
