@@ -45,7 +45,7 @@ public class ExportExcel {
         Row header = sheet.createRow(0);
 
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        headerStyle.setFillBackgroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
         headerStyle.setAlignment(HorizontalAlignment.CENTER);
         headerStyle.setBorderTop(BorderStyle.THIN);
         headerStyle.setBorderLeft(BorderStyle.THIN);
@@ -64,10 +64,17 @@ public class ExportExcel {
         cellStyle.setBorderLeft(BorderStyle.THIN);
         cellStyle.setBorderRight(BorderStyle.THIN);
         cellStyle.setBorderBottom(BorderStyle.THIN);
+        
+        short dataFormat = workbook.getCreationHelper().createDataFormat().getFormat("dd/mm/yyyy");
+
+        CellStyle dataStyle = workbook.createCellStyle();
+        dataStyle.cloneStyleFrom(cellStyle);
+        dataStyle.setDataFormat(dataFormat);
 
         CellStyle currencyStyle = workbook.createCellStyle();
         currencyStyle.cloneStyleFrom(cellStyle);
         currencyStyle.setAlignment(HorizontalAlignment.LEFT);
+        currencyStyle.setDataFormat((short) 5);
 
         for (int linha = 0; linha < listaRelatorio.size(); linha++) {
             ProdutoDuplicata produtoDuplicata = listaRelatorio.get(linha);
@@ -97,7 +104,7 @@ public class ExportExcel {
             valorUnit.setCellValue(produtoDuplicata.getProduto().getValorUnit());
             valorTotal.setCellValue(produtoDuplicata.getProduto().getValorTotal());
 
-            data.setCellStyle(cellStyle);
+            data.setCellStyle(dataStyle);
             pasta.setCellStyle(cellStyle);
             fluxo.setCellStyle(cellStyle);
             classificacao.setCellStyle(cellStyle);
@@ -113,7 +120,7 @@ public class ExportExcel {
         Locale localizacaoPt = Locale.of("pt", "BR");
         String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
         String mesFinal = model.getDataFim().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataFim().getYear();
-        String nomeArquivo = "RELATÓRIO " + mesInicial + " - " + mesFinal + ".xslx"; 
+        String nomeArquivo = "RELATÓRIO " + mesInicial.toUpperCase() + " - " + mesFinal.toUpperCase() + ".xslx"; 
 
         String caminhoString = model.getCaminho() + "/" + nomeArquivo; 
         Path caminho = Paths.get(caminhoString);

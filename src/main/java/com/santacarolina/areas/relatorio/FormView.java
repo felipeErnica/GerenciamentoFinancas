@@ -88,10 +88,12 @@ public class FormView implements PropertyChangeListener {
         switch (evt.getPropertyName()) {
             case FormModel.DATA_INICIO -> {
                 LocalDate data = (LocalDate) evt.getNewValue();
+                if (data == null) return;
                 dataInicio.setText(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
             case FormModel.DATA_FIM -> {
                 LocalDate data = (LocalDate) evt.getNewValue();
+                if (data == null) return;
                 dataFim.setText(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
             case FormModel.DATA_INICIO_INVALIDO -> {
