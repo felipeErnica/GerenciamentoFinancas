@@ -120,7 +120,7 @@ public class ExportExcel {
         Locale localizacaoPt = Locale.of("pt", "BR");
         String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
         String mesFinal = model.getDataFim().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataFim().getYear();
-        String nomeArquivo = "RELATÓRIO " + mesInicial.toUpperCase() + " - " + mesFinal.toUpperCase() + ".xslx"; 
+        String nomeArquivo = "RELATÓRIO " + mesInicial.toUpperCase() + " - " + mesFinal.toUpperCase() + ".xlsx"; 
 
         String caminhoString = model.getCaminho() + "/" + nomeArquivo; 
         Path caminho = Paths.get(caminhoString);
