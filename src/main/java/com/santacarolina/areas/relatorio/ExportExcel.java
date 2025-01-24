@@ -46,7 +46,7 @@ public class ExportExcel {
         Row header = sheet.createRow(0);
         
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillBackgroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        headerStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
         headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         headerStyle.setAlignment(HorizontalAlignment.CENTER);
         headerStyle.setBorderTop(BorderStyle.THIN);
@@ -54,6 +54,8 @@ public class ExportExcel {
         headerStyle.setBorderRight(BorderStyle.THIN);
         headerStyle.setBorderBottom(BorderStyle.THIN);
         
+        sheet.createFreezePane(0, 1, 0, 1);
+
         for (int coluna = 0; coluna < nomeColunas.length; coluna++) {
             Cell cell = header.createCell(coluna);
             cell.setCellValue(nomeColunas[coluna]);
@@ -118,6 +120,8 @@ public class ExportExcel {
             valorUnit.setCellStyle(currencyStyle);
             valorTotal.setCellStyle(currencyStyle);
         }
+
+        for (int coluna = 0; coluna < nomeColunas.length; coluna++) sheet.autoSizeColumn(coluna);
 
         Locale localizacaoPt = Locale.of("pt", "BR");
         String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
