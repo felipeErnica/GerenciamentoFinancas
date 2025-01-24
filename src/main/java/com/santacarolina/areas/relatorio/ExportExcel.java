@@ -115,7 +115,7 @@ public class ExportExcel {
         String mesFinal = model.getDataFim().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataFim().getYear();
         String nomeArquivo = "RELATÓRIO " + mesInicial + " - " + mesFinal + ".xslx"; 
 
-        String caminhoString = "C:/Users/Fazenda/Downloads/" + nomeArquivo; 
+        String caminhoString = model.getCaminho() + "/" + nomeArquivo; 
         Path caminho = Paths.get(caminhoString);
         Files.deleteIfExists(caminho);
 
