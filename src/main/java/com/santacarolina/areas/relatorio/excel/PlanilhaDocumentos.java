@@ -33,7 +33,10 @@ public class PlanilhaDocumentos {
     public static void criaPlanilha(Workbook workbook, List<ProdutoDuplicata> listaRelatorio) {
         
         Map<Long, DocumentoFiscal> mapDocumento = listaRelatorio.stream()
-            .collect(Collectors.toMap(prodDup -> prodDup.getProduto().getDocumento().getId(), prodDup -> prodDup.getProduto().getDocumento()));
+            .sorted(Comparator.comparing(prodDup -> prodDup.getProduto().getDocumento().getDataEmissao()))
+            .collect(Collectors.toMap(prodDup -> prodDup.getProduto().getDocumento().getId(), 
+                prodDup -> prodDup.getProduto().getDocumento(),
+                (doc, equal) -> doc));
 
         Sheet sheet = workbook.createSheet("Documentos Fiscais");
 
