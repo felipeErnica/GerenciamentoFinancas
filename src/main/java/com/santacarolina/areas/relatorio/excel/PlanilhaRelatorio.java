@@ -92,7 +92,8 @@ public class PlanilhaRelatorio {
                                 .sum();
                             String nomeColuna = mes.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano;
                             int colunaClassificacao = mapaColuna.get(nomeColuna);
-                            System.out.println(colunaClassificacao + " - " + nomeColuna + ":" + classificacao + " - " + somaMes);
+                            System.out.println(colunaClassificacao + " - " + nomeColuna + " - pasta: "
+                                + pasta + " - "+ classificacao + " - " + somaMes);
                             Cell cellValor = linhaClassificacao.createCell(colunaClassificacao);
                             cellValor.setCellValue(somaMes);
                         }
