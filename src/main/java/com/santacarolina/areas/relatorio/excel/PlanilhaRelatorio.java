@@ -243,6 +243,7 @@ public class PlanilhaRelatorio {
         
         for (int i = 1; i <= mapaColuna.size(); i++) {
             Cell cell = linhaValores.getCell(i);
+            if (cell == null) cell = linhaValores.createCell(i);
             cell.setCellStyle(style);
         }
 
