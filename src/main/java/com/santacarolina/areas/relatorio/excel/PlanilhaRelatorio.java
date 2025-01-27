@@ -124,6 +124,13 @@ public class PlanilhaRelatorio {
             criaLinhaTotal(listaPasta, pasta);
         }
 
+        linha++;
+        Row linhaTotal = sheet.createRow(linha);
+        Cell celulaTotal = linhaTotal.createCell(0);
+        celulaTotal.setCellValue("Total Geral");
+        celulaTotal.setCellStyle(totalStyle);
+        preencheValores(listaRelatorio, linhaTotal, totalStyle);
+
         for (int coluna = 0; coluna <= mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
 
         PropertyTemplate bordasLinhas = new PropertyTemplate();
@@ -231,9 +238,14 @@ public class PlanilhaRelatorio {
                 int colunaClassificacao = mapaColuna.get(nomeColuna);
                 Cell cellValor = linhaValores.createCell(colunaClassificacao);
                 cellValor.setCellValue(StringConversor.getCurrency(somaMes));
-                cellValor.setCellStyle(style);
             }
         }
+        
+        for (int i = 1; i <= mapaColuna.size(); i++) {
+            Cell cell = linhaValores.getCell(i);
+            cell.setCellStyle(style);
+        }
+
     }
 
     private static void criaLinhaTotal(List<ProdutoDuplicata> listaValores, String nome) {
