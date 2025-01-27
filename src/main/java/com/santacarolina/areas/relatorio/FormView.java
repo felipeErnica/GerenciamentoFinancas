@@ -118,6 +118,7 @@ public class FormView implements PropertyChangeListener {
                 else
                     dataFim.putClientProperty(FlatClientProperties.OUTLINE, null);
             }
+            case FormModel.CAMINHO -> caminho.setText((String) evt.getNewValue());
         }
     }
 

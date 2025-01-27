@@ -23,6 +23,7 @@ public class FormModel implements ViewUpdater {
     public final static String DATA_FIM_INVALIDA = "dataFimInvalida";
     public final static String DATA_INICIO = "dataInicio";
     public final static String DATA_INICIO_INVALIDO = "dataInicioInvalido";
+    public static final String CAMINHO = "caminho";
 
     private LocalDate dataFim;
     private LocalDate dataInicio;
@@ -77,6 +78,11 @@ public class FormModel implements ViewUpdater {
 
     public void setMapaPasta(Map<Long, PastaContabil> listaPasta) { this.mapaPasta = listaPasta; }
     public void setCaminho(String caminho) { this.caminho = caminho; }
+
+    public void selecionaCaminho(String caminho) {
+        setCaminho(caminho); 
+        pf.firePropertyChange(CAMINHO, caminho);
+    }
 
     public List<ProdutoDuplicata> getListaFiltrada() {
         List<ProdutoDuplicata> listaDataFiltrada = new ArrayList<>();

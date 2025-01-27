@@ -49,7 +49,7 @@ public class FormController implements Controller {
             Shell shell = new Shell(display);
             DirectoryDialog directoryDialog = new DirectoryDialog(shell);
             directoryDialog.setText("Selecionar Pasta");
-            directoryDialog.openDialog().ifPresent(p -> model.setCaminho(p));
+            directoryDialog.openDialog().ifPresent(p -> model.selecionaCaminho(p));
             shell.close();
             display.close();
         });
