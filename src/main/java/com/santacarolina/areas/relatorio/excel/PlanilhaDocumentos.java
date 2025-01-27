@@ -33,10 +33,13 @@ public class PlanilhaDocumentos {
     public static void criaPlanilha(Workbook workbook, List<ProdutoDuplicata> listaRelatorio) {
         
         Map<Long, DocumentoFiscal> mapDocumento = listaRelatorio.stream()
-            .sorted(Comparator.comparing(prodDup -> prodDup.getProduto().getDocumento().getDataEmissao()))
             .collect(Collectors.toMap(prodDup -> prodDup.getProduto().getDocumento().getId(), 
                 prodDup -> prodDup.getProduto().getDocumento(),
                 (doc, equal) -> doc));
+
+        List<DocumentoFiscal> listaDocumentos = mapDocumento.values().stream()
+            .sorted(Comparator.comparing(doc -> doc.getDataEmissao()))
+            .toList();
 
         Sheet sheet = workbook.createSheet("Documentos Fiscais");
 
@@ -79,8 +82,8 @@ public class PlanilhaDocumentos {
 
         int linha = 1;
 
-        for (long id : mapDocumento.keySet()) {
-            preencheLinhas(linha, mapDocumento.get(id), sheet, cellStyle, dataStyle, currencyStyle);
+        for (DocumentoFiscal documentoFiscal : listaDocumentos) {
+            preencheLinhas(linha, documentoFiscal, sheet, cellStyle, dataStyle, currencyStyle);
             linha++;
         }
 
