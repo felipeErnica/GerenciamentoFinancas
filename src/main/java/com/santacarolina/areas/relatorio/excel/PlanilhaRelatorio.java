@@ -76,22 +76,11 @@ public class PlanilhaRelatorio {
         }
 
         PropertyTemplate bordasCabecalho = new PropertyTemplate();
-        bordasCabecalho.drawBorders(new CellRangeAddress(0, 0, 0, mapaColuna.keySet().size()), 
+        bordasCabecalho.drawBorders(new CellRangeAddress(0, 0, 0, mapaColuna.size()), 
             BorderStyle.THIN, 
             BorderExtent.OUTSIDE);
         bordasCabecalho.applyBorders(sheet);
 
-        PropertyTemplate bordasLinhas = new PropertyTemplate();
-        bordasLinhas.drawBorders(new CellRangeAddress(1, linha, 0, mapaColuna.keySet().size()),
-            BorderStyle.THIN, 
-            BorderExtent.INSIDE_VERTICAL);
-        bordasLinhas.applyBorders(sheet);
-
-        PropertyTemplate bordaPrimeiraColuna = new PropertyTemplate();
-        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha, 0, 0),
-            BorderStyle.THIN, 
-            BorderExtent.OUTSIDE);
-        bordaPrimeiraColuna.applyBorders(sheet);
     }
 
     private static void criaLinhasPasta() {
@@ -124,8 +113,19 @@ public class PlanilhaRelatorio {
             criaLinhasFluxo(listaPasta);
         }
 
-        for (int coluna = 0; coluna > mapaColuna.keySet().size(); coluna++) sheet.autoSizeColumn(coluna);
+        for (int coluna = 0; coluna > mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
 
+        PropertyTemplate bordasLinhas = new PropertyTemplate();
+        bordasLinhas.drawBorders(new CellRangeAddress(1, linha, 0, mapaColuna.keySet().size()),
+            BorderStyle.THIN, 
+            BorderExtent.INSIDE_VERTICAL);
+        bordasLinhas.applyBorders(sheet);
+
+        PropertyTemplate bordaPrimeiraColuna = new PropertyTemplate();
+        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha, 0, 0),
+            BorderStyle.THIN, 
+            BorderExtent.OUTSIDE);
+        bordaPrimeiraColuna.applyBorders(sheet);
     }
 
     private static void criaLinhasFluxo(List<ProdutoDuplicata> listaPasta) {
