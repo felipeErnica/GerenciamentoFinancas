@@ -87,10 +87,6 @@ public class PlanilhaRelatorio {
                             .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
                         for (Month mes : mapaPorMes.keySet()) {
                             List<ProdutoDuplicata> listaMes = mapaPorMes.getOrDefault(mes, Collections.emptyList());
-                            System.out.println("Pasta :" + pasta + "Classificacação: " + classificacao +"\n");
-                            listaMes.forEach(prodDup -> System.out.println("Pasta: " + pasta + " Classificacao: " + classificacao
-                                + "Data: " + prodDup.getDuplicata().getDataVencimento().toString() + 
-                                " Valor: " + prodDup.getProduto().getValorTotal()));
                             double somaMes = listaMes.stream()
                                 .mapToDouble(prodDup -> prodDup.getProduto().getValorTotal())
                                 .sum();
