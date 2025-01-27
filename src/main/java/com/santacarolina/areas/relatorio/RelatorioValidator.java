@@ -4,6 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.santacarolina.util.OptionDialog;
 import com.santacarolina.util.ValidatorViolations;
 
@@ -16,7 +18,7 @@ public class RelatorioValidator {
         } else if (model.getDataInicio() == null) {
             ValidatorViolations.violateEmptyFields("Data Inicio");
             return false;
-        } else if (model.getCaminho() == null) {
+        } else if (StringUtils.isBlank(model.getCaminho())) {
             ValidatorViolations.violateEmptyFields("Caminho");
             return false;
         } else if (caminhoInvalido(model.getCaminho())) {

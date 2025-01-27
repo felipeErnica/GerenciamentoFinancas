@@ -57,7 +57,7 @@ public class FormView implements PropertyChangeListener {
         JLabel caminhoLabel = new JLabel("Selecionar caminho:");
         caminhoButton = new JButton(new FlatFileChooserNewFolderIcon());
         caminho = new JTextField();
-        caminho.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_ICON, caminhoButton);
+        caminho.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_COMPONENT, caminhoButton);
         caminhoLabel.setLabelFor(caminho);
 
         JLabel listaPastaLabel = new JLabel("Selecionar Pasta");
