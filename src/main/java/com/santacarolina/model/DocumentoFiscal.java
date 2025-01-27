@@ -179,8 +179,8 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     @Override
     public boolean equals(Object obj) {
         DocumentoFiscal equal = (DocumentoFiscal) obj;
-        if (equal == this) return true;
         System.out.println(this.id == equal.getId());
+        if (equal == this) return true;
         return equal.getId() == this.id;
     }
 
