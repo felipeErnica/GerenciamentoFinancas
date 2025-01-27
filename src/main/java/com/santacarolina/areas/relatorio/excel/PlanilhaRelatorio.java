@@ -55,6 +55,7 @@ public class PlanilhaRelatorio {
 
     private static void criaPlanilha() {
         sheet = workbook.createSheet("Relatório de Caixa");
+        sheet.createFreezePane(0, 1, 0, 1);
         criaColunas();
         criaLinhasPasta();
     }
@@ -63,13 +64,18 @@ public class PlanilhaRelatorio {
         int coluna = 1;
 
         Row linhaMes = sheet.createRow(0);
-        linhaMes.setHeight((short) 500);
+        linhaMes.setHeight((short) 600);
         Map<Integer, List<ProdutoDuplicata>> mapaPorAno = listaRelatorio.stream()
             .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
+
+        Font font = workbook.createFont();
+        font.setBold(true);
 
         CellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE1.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFont(font);
 
         for (int ano : mapaPorAno.keySet()) {
             List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
@@ -88,7 +94,7 @@ public class PlanilhaRelatorio {
 
         PropertyTemplate bordasCabecalho = new PropertyTemplate();
         bordasCabecalho.drawBorders(new CellRangeAddress(0, 0, 0, mapaColuna.size()), 
-            BorderStyle.THIN, 
+            BorderStyle.MEDIUM, 
             BorderExtent.OUTSIDE);
         bordasCabecalho.applyBorders(sheet);
 
