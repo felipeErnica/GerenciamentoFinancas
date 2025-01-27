@@ -84,7 +84,7 @@ public class PlanilhaRelatorio {
 
     private static void criaLinhasPasta() {
         Map<String, List<ProdutoDuplicata>> mapaPorPasta = listaRelatorio.stream()
-        .collect(Collectors.groupingBy(prod -> prod.getDuplicata().getDocumento().getPasta().getNome()));
+            .collect(Collectors.groupingBy(prod -> prod.getDuplicata().getDocumento().getPasta().getNome()));
 
         int linha = 1;
 
@@ -108,6 +108,7 @@ public class PlanilhaRelatorio {
                 BorderExtent.OUTSIDE);
             pt.applyBorders(sheet);
             linha++;
+            System.out.println(linha + " - " + pasta);
             criaLinhasFluxo(listaPasta, linha);
         }
 
@@ -117,7 +118,7 @@ public class PlanilhaRelatorio {
 
     private static void criaLinhasFluxo(List<ProdutoDuplicata> listaPasta, int linha) {
         Map<FluxoCaixa, List<ProdutoDuplicata>> mapaPorFluxo = listaPasta.stream()
-        .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getCategoria().getFluxoCaixa()));
+            .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getCategoria().getFluxoCaixa()));
 
         List<FluxoCaixa> setFluxo = mapaPorFluxo.keySet().stream()
             .sorted(Comparator.comparing(fluxo -> fluxo.getValue()))
@@ -138,6 +139,7 @@ public class PlanilhaRelatorio {
                 BorderStyle.THIN, 
                 BorderExtent.OUTSIDE);
             pt.applyBorders(sheet);
+            System.out.println(linha + " - " + nomeFluxo);
             linha++;
             criarLinhasClassificacao(listaFluxo, linha);
        }
@@ -158,6 +160,7 @@ public class PlanilhaRelatorio {
                 BorderStyle.THIN, 
                 BorderExtent.OUTSIDE);
             pt.applyBorders(sheet);
+            System.out.println(linha + " - " + classificacao);
             preencheValores(listaClassificacao, linha, linhaClassificacao);
             linha++;
         }
@@ -187,7 +190,8 @@ public class PlanilhaRelatorio {
         for (int ano : mapaAno.keySet()) {
             List<ProdutoDuplicata> listaAno = mapaAno.getOrDefault(ano, Collections.emptyList());
             Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
-            .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
+                .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
+
             for (Month mes : mapaPorMes.keySet()) {
                 List<ProdutoDuplicata> listaMes = mapaPorMes.getOrDefault(mes, Collections.emptyList());
                 double somaMes = listaMes.stream()
