@@ -36,7 +36,8 @@ public class PlanilhaRelatorio {
 
             for (Month month : mapaPorMes.keySet()) {
                 Cell cellMes = linhaMes.createCell(coluna);
-                cellMes.setCellValue(month.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + " - " + ano);
+                coluna++;
+                cellMes.setCellValue(month.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano);
             }
         }
 
