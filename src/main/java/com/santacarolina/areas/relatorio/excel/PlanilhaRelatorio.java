@@ -82,7 +82,7 @@ public class PlanilhaRelatorio {
                         .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
                     for (int ano : mapaAno.keySet()) {
-                        List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
+                        List<ProdutoDuplicata> listaAno = mapaAno.getOrDefault(ano, Collections.emptyList());
                         Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
                             .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
                         for (Month mes : mapaPorMes.keySet()) {
