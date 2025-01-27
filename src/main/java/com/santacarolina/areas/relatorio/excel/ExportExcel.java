@@ -27,7 +27,7 @@ public class ExportExcel {
             .sorted(Comparator.comparing(prodDup -> prodDup.getDuplicata().getDataVencimento()))
             .collect(Collectors.toList());
 
-        PlanilhaRelatorio.criaPlanilha(workbook, listaRelatorio);
+        PlanilhaRelatorio.main(workbook, listaRelatorio);
         PlanilhaProdutos.criaPlanilha(workbook, listaRelatorio);
 
         Locale localizacaoPt = Locale.of("pt", "BR");
