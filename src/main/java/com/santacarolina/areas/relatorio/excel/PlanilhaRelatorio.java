@@ -111,6 +111,13 @@ public class PlanilhaRelatorio {
 
             linha++;
             criaLinhasFluxo(listaPasta);
+
+            linha++;
+            Row linhaTotal = sheet.createRow(linha);
+            Cell celulaTotal = linhaTotal.createCell(0);
+            celulaTotal.setCellValue("Total - " + pasta);
+            preencheValores(listaPasta, linhaTotal);
+            linha=+2;
         }
 
         for (int coluna = 0; coluna <= mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
@@ -153,14 +160,22 @@ public class PlanilhaRelatorio {
             Row linhaFluxo = sheet.createRow(linha);
             Cell cellFluxo = linhaFluxo.createCell(0);
             cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 8));
+            cellFluxo.setCellStyle(style);
 
-            for (int coluna = 0; coluna <= mapaPorFluxo.size(); coluna++) {
+            for (int coluna = 1; coluna <= mapaColuna.size(); coluna++) {
                 Cell celulaColorida = linhaFluxo.createCell(coluna);
                 celulaColorida.setCellStyle(style);
             }
 
             linha++;
             criarLinhasClassificacao(listaFluxo);
+
+            linha++;
+            Row linhaTotal = sheet.createRow(linha);
+            Cell celulaTotal = linhaTotal.createCell(0);
+            celulaTotal.setCellValue("Total - " + nomeFluxo);
+            preencheValores(listaFluxo, linhaTotal);
+            linha=+2;
        }
 
      }
