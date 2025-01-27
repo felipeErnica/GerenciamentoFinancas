@@ -39,6 +39,9 @@ public class PlanilhaRelatorio {
             Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
                 .sorted(Comparator.comparing(prodDup -> prodDup.getDuplicata().getDataVencimento()))
                 .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
+            
+            listaAno.forEach(prodDup -> System.out.println(prodDup.getDuplicata().getDataVencimento().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault())));
+
 
             for (Month month : mapaPorMes.keySet()) {
                 Cell cellMes = linhaMes.createCell(coluna);
