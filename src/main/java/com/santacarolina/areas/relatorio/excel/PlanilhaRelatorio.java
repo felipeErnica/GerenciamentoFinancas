@@ -1,7 +1,10 @@
 package com.santacarolina.areas.relatorio.excel;
 
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,23 @@ public class PlanilhaRelatorio {
     public static void criaPlanilha(Workbook workbook, List<ProdutoDuplicata> listaRelatorio) {
 
         Sheet sheet = workbook.createSheet("Relatório de Caixa");
+        
+        int coluna = 1;
+
+        Row linhaMes = sheet.createRow(0);
+        Map<Integer, List<ProdutoDuplicata>> mapaPorAno = listaRelatorio.stream()
+            .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
+
+        for (int ano : mapaPorAno.keySet()) {
+            List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
+            Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
+                .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
+
+            for (Month month : mapaPorMes.keySet()) {
+                Cell cellMes = linhaMes.createCell(coluna);
+                cellMes.setCellValue(month.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + " - " + ano);
+            }
+        }
 
         Map<String, List<ProdutoDuplicata>> mapaPorPasta = listaRelatorio.stream()
             .collect(Collectors.groupingBy(prod -> prod.getDuplicata().getDocumento().getPasta().getNome()));
@@ -40,7 +60,7 @@ public class PlanilhaRelatorio {
                 Row linhaFluxo = sheet.createRow(linha);
                 linha++;
                 Cell cellFluxo = linhaFluxo.createCell(0);
-                cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 4));
+                cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 8));
 
                 Map<String, List<ProdutoDuplicata>> mapaPorClassificacao = listaFluxo.stream()
                     .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getNomeClassificacao()));
@@ -49,7 +69,7 @@ public class PlanilhaRelatorio {
                     Row linhaClassificacao = sheet.createRow(linha);
                     linha++;
                     Cell cellClassificacao = linhaClassificacao.createCell(0);
-                    cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, classificacao.length() + 8));
+                    cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, classificacao.length() + 16));
                 }
             }
 
