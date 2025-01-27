@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
 import com.santacarolina.areas.relatorio.excel.ExportExcel;
@@ -32,11 +35,24 @@ public class FormController implements Controller {
         PastaCellRenderer cellRenderer = new PastaCellRenderer();
         view.getListaPasta().setCellRenderer(cellRenderer);
 
+        view.getCaminhoButton().addActionListener(e -> caminhoButton_onClick());
         view.getListaPasta().setModel(new ListComboBoxModel<>(new PastaDAO().findAll()));
         view.getRelatorioButton().addActionListener(e -> relatorioButton_onClick());
         view.getDataFim().addFocusListener((AfterUpdateListener) e -> dataFim_onLostFocus());
         view.getDataInicio().addFocusListener((AfterUpdateListener) e -> dataInicio_onLostFocus());
         view.getCaminho().addFocusListener((AfterUpdateListener) e -> caminho_onLostFocus());
+    }
+
+    private void caminhoButton_onClick() {
+        EventQueue.invokeLater(() -> {
+            Display display = new Display();
+            Shell shell = new Shell(display);
+            DirectoryDialog directoryDialog = new DirectoryDialog(shell);
+            directoryDialog.setText("Selecionar Pasta");
+            directoryDialog.openDialog().ifPresent(p -> model.setCaminho(p));
+            shell.close();
+            display.close();
+        });
     }
 
     private void caminho_onLostFocus() { model.setCaminho(view.getCaminho().getText()); }
@@ -46,6 +62,7 @@ public class FormController implements Controller {
     private void relatorioButton_onClick() {
         EventQueue.invokeLater(() -> {
             try {
+                if (!RelatorioValidator.validate(model)) return;
                 ExportExcel.exportToExcel(model);
                 JOptionPane.showMessageDialog(null, "Relatório gerado com sucesso em " + model.getCaminho() + "!", 
                     "SUCESSO - Exportação de Relatório", 
