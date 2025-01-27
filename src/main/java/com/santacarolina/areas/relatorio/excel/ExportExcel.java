@@ -29,6 +29,7 @@ public class ExportExcel {
 
         PlanilhaRelatorio.main(workbook, listaRelatorio);
         PlanilhaProdutos.criaPlanilha(workbook, listaRelatorio);
+        PlanilhaDocumentos.criaPlanilha(workbook, listaRelatorio);
 
         Locale localizacaoPt = Locale.of("pt", "BR");
         String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
