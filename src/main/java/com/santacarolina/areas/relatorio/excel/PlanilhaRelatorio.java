@@ -75,12 +75,23 @@ public class PlanilhaRelatorio {
             }
         }
 
-        PropertyTemplate propertyTemplate = new PropertyTemplate();
-        propertyTemplate.drawBorders(new CellRangeAddress(0, 0, 0, mapaColuna.keySet().size()), 
+        PropertyTemplate bordasCabecalho = new PropertyTemplate();
+        bordasCabecalho.drawBorders(new CellRangeAddress(0, 0, 0, mapaColuna.keySet().size()), 
             BorderStyle.THIN, 
             BorderExtent.OUTSIDE);
-        propertyTemplate.applyBorders(sheet);
+        bordasCabecalho.applyBorders(sheet);
 
+        PropertyTemplate bordasLinhas = new PropertyTemplate();
+        bordasLinhas.drawBorders(new CellRangeAddress(1, linha, 0, mapaColuna.keySet().size()),
+            BorderStyle.THIN, 
+            BorderExtent.INSIDE_VERTICAL);
+        bordasLinhas.applyBorders(sheet);
+
+        PropertyTemplate bordaPrimeiraColuna = new PropertyTemplate();
+        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha, 0, 0),
+            BorderStyle.THIN, 
+            BorderExtent.OUTSIDE);
+        bordaPrimeiraColuna.applyBorders(sheet);
     }
 
     private static void criaLinhasPasta() {
@@ -93,7 +104,7 @@ public class PlanilhaRelatorio {
         font.setBold(true);
 
         CellStyle style = workbook.createCellStyle();
-        style.setFillForegroundColor(IndexedColors.SKY_BLUE.getIndex());
+        style.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setFont(font);
 
@@ -103,13 +114,13 @@ public class PlanilhaRelatorio {
             Cell cellPasta = linhaPasta.createCell(0);
             cellPasta.setCellValue(pasta);
             cellPasta.setCellStyle(style);
-            PropertyTemplate pt = new PropertyTemplate();
-            pt.drawBorders(new CellRangeAddress(linha, linha, 0, mapaColuna.keySet().size()), 
-                BorderStyle.THIN, 
-                BorderExtent.OUTSIDE);
-            pt.applyBorders(sheet);
+
+            for (int coluna = 1; coluna > mapaColuna.size(); coluna++) {
+                Cell celulaPintada = linhaPasta.createCell(coluna);
+                celulaPintada.setCellStyle(style);
+            }
+
             linha++;
-            System.out.println(linha + " - " + pasta);
             criaLinhasFluxo(listaPasta);
         }
 
@@ -135,12 +146,6 @@ public class PlanilhaRelatorio {
             Row linhaFluxo = sheet.createRow(linha);
             Cell cellFluxo = linhaFluxo.createCell(0);
             cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 8));
-            PropertyTemplate pt = new PropertyTemplate();
-            pt.drawBorders(new CellRangeAddress(linha, linha, 0, mapaColuna.keySet().size()), 
-                BorderStyle.THIN, 
-                BorderExtent.OUTSIDE);
-            pt.applyBorders(sheet);
-            System.out.println(linha + " - " + nomeFluxo);
             linha++;
             criarLinhasClassificacao(listaFluxo);
        }
@@ -156,12 +161,6 @@ public class PlanilhaRelatorio {
             Cell cellClassificacao = linhaClassificacao.createCell(0);
             cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, classificacao.length() + 16));
             List<ProdutoDuplicata> listaClassificacao = mapaPorClassificacao.getOrDefault(classificacao, Collections.emptyList());
-            PropertyTemplate pt = new PropertyTemplate();
-            pt.drawBorders(new CellRangeAddress(linha, linha, 0, mapaColuna.keySet().size()), 
-                BorderStyle.THIN, 
-                BorderExtent.OUTSIDE);
-            pt.applyBorders(sheet);
-            System.out.println(linha + " - " + classificacao);
             preencheValores(listaClassificacao, linhaClassificacao);
             linha++;
         }
