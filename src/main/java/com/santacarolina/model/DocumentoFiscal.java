@@ -33,49 +33,17 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     private List<DuplicataDTO> duplicataList;
     private List<ProdutoDTO> produtoList;
 
-    public long getId() {
-        return id;
-    }
-
-    public Long getNumDoc() {
-        return numDoc;
-    }
-
-    public String getCaminhoDocumento() {
-        return caminhoDocumento;
-    }
-
-    public double getValor() {
-        return this.valor;
-    }
-
-    public LocalDate getDataEmissao() {
-        return dataEmissao;
-    }
-
-    public TipoDoc getTipoDoc() {
-        return tipoDoc;
-    }
-
-    public FluxoCaixa getFluxoCaixa() {
-        return fluxoCaixa;
-    }
-
-    public long getEmissorId() {
-        return emissorId;
-    }
-
-    public long getPastaId() {
-        return pastaId;
-    }
-
-    public boolean isExpense() {
-        return fluxoCaixa == FluxoCaixa.DESPESA;
-    }
-
-    public boolean isIncome() {
-        return fluxoCaixa == FluxoCaixa.RECEITA;
-    }
+    public long getId() { return id; }
+    public Long getNumDoc() { return numDoc; }
+    public String getCaminhoDocumento() { return caminhoDocumento; }
+    public double getValor() { return this.valor; }
+    public LocalDate getDataEmissao() { return dataEmissao; }
+    public TipoDoc getTipoDoc() { return tipoDoc; }
+    public FluxoCaixa getFluxoCaixa() { return fluxoCaixa; }
+    public long getEmissorId() { return emissorId; }
+    public long getPastaId() { return pastaId; }
+    public boolean isExpense() { return fluxoCaixa == FluxoCaixa.DESPESA; }
+    public boolean isIncome() { return fluxoCaixa == FluxoCaixa.RECEITA; }
 
     public Contato getEmissor() {
         try {
@@ -113,49 +81,17 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         return produtoList;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setNumDoc(Long numDoc) {
-        this.numDoc = numDoc;
-    }
-
-    public void setTipoDoc(TipoDoc tipoDoc) {
-        this.tipoDoc = tipoDoc;
-    }
-
-    public void setCaminhoDocumento(String caminho) {
-        this.caminhoDocumento = caminho;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public void setDataEmissao(LocalDate dataEmissao) {
-        this.dataEmissao = dataEmissao;
-    }
-
-    public void setEmissorId(Long emissorId) {
-        this.emissorId = emissorId;
-    }
-
-    public void setPastaId(Long pastaId) {
-        this.pastaId = pastaId;
-    }
-
-    public void setFluxoCaixa(FluxoCaixa fluxoCaixa) {
-        this.fluxoCaixa = fluxoCaixa;
-    }
-
-    public void setDuplicataList(List<DuplicataDTO> duplicatas) {
-        this.duplicataList = duplicatas;
-    }
-
-    public void setProdutoList(List<ProdutoDTO> produtos) {
-        this.produtoList = produtos;
-    }
+    public void setId(long id) { this.id = id; }
+    public void setNumDoc(Long numDoc) { this.numDoc = numDoc; }
+    public void setTipoDoc(TipoDoc tipoDoc) { this.tipoDoc = tipoDoc; }
+    public void setCaminhoDocumento(String caminho) { this.caminhoDocumento = caminho; }
+    public void setValor(double valor) { this.valor = valor; }
+    public void setDataEmissao(LocalDate dataEmissao) { this.dataEmissao = dataEmissao; }
+    public void setEmissorId(Long emissorId) { this.emissorId = emissorId; }
+    public void setPastaId(Long pastaId) { this.pastaId = pastaId; }
+    public void setFluxoCaixa(FluxoCaixa fluxoCaixa) { this.fluxoCaixa = fluxoCaixa; }
+    public void setDuplicataList(List<DuplicataDTO> duplicatas) { this.duplicataList = duplicatas; }
+    public void setProdutoList(List<ProdutoDTO> produtos) { this.produtoList = produtos; }
 
     public void setEmissor(Contato emissor) {
         this.emissor = emissor;
@@ -238,6 +174,12 @@ public class DocumentoFiscal implements Cloneable, Serializable {
         sb.append("]");
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        DocumentoFiscal equal = (DocumentoFiscal) obj;
+        return equal.getId() == this.id;
     }
 
 }
