@@ -63,8 +63,9 @@ public class PlanilhaRelatorio {
         int coluna = 1;
 
         Row linhaMes = sheet.createRow(0);
+        linhaMes.setHeight((short) 30);
         Map<Integer, List<ProdutoDuplicata>> mapaPorAno = listaRelatorio.stream()
-        .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
+            .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
         CellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE1.getIndex());
@@ -73,7 +74,7 @@ public class PlanilhaRelatorio {
         for (int ano : mapaPorAno.keySet()) {
             List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
             Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
-            .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
+                .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
 
             for (Month month : mapaPorMes.keySet().stream().sorted().toList()) {
                 Cell cellMes = linhaMes.createCell(coluna);
@@ -134,18 +135,18 @@ public class PlanilhaRelatorio {
         for (int coluna = 0; coluna <= mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
 
         PropertyTemplate bordasLinhas = new PropertyTemplate();
-        bordasLinhas.drawBorders(new CellRangeAddress(1, linha - 1, 0, mapaColuna.size()),
+        bordasLinhas.drawBorders(new CellRangeAddress(1, linha, 0, mapaColuna.size()),
             BorderStyle.THIN, 
             BorderExtent.INSIDE_HORIZONTAL);
 
         PropertyTemplate bordaPrimeiraColuna = new PropertyTemplate();
-        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha - 1, 0, 0),
-            BorderStyle.THIN, 
+        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha, 0, 0),
+            BorderStyle.MEDIUM, 
             BorderExtent.OUTSIDE);
 
         PropertyTemplate bordaContorno = new PropertyTemplate();
-        bordaContorno.drawBorders(new CellRangeAddress(1, linha - 1, 0, mapaColuna.size()),
-            BorderStyle.THIN, 
+        bordaContorno.drawBorders(new CellRangeAddress(1, linha, 0, mapaColuna.size()),
+            BorderStyle.MEDIUM, 
             BorderExtent.OUTSIDE);
 
         bordasLinhas.applyBorders(sheet);
@@ -160,10 +161,14 @@ public class PlanilhaRelatorio {
         List<FluxoCaixa> setFluxo = mapaPorFluxo.keySet().stream()
             .sorted(Comparator.comparing(fluxo -> fluxo.getValue()))
             .toList();
+
+        Font fontCell = workbook.createFont();
+        fontCell.setBold(true);
         
         CellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setFont(fontCell);
 
         CellStyle commonStyle = workbook.createCellStyle();
         commonStyle.setAlignment(HorizontalAlignment.LEFT);
@@ -179,12 +184,10 @@ public class PlanilhaRelatorio {
 
             if (fluxo == FluxoCaixa.RECEITA) {
                 font.setColor(IndexedColors.LIGHT_BLUE.getIndex());
-
                 valorStyle.cloneStyleFrom(commonStyle);
                 valorStyle.setFont(font);
             } else {
                 font.setColor(IndexedColors.RED.getIndex());
-
                 valorStyle.cloneStyleFrom(commonStyle);
                 valorStyle.setFont(font);
             }
@@ -252,6 +255,14 @@ public class PlanilhaRelatorio {
     }
 
     private static void criaLinhaTotal(List<ProdutoDuplicata> listaValores, String nome) {
+
+        //Pinta linha em branco
+        Row linhaBranco = sheet.createRow(linha);
+        for (int i = 0; i < mapaColuna.size(); i++) {
+            Cell cellBranco = linhaBranco.createCell(i);
+            cellBranco.setCellStyle(totalStyle);
+        }
+
         linha++;
         Row linhaTotal = sheet.createRow(linha);
         Cell celulaTotal = linhaTotal.createCell(0);
