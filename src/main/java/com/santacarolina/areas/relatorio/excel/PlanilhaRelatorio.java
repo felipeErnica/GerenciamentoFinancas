@@ -3,6 +3,7 @@ package com.santacarolina.areas.relatorio.excel;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.santacarolina.enums.FluxoCaixa;
 import com.santacarolina.model.ProdutoDuplicata;
+import com.santacarolina.util.StringConversor;
 
 public class PlanilhaRelatorio {
 
@@ -35,6 +37,7 @@ public class PlanilhaRelatorio {
         for (int ano : mapaPorAno.keySet()) {
             List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
             Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
+                .sorted(Comparator.comparing(prodDup -> prodDup.getDuplicata().getDataVencimento()))
                 .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
 
             for (Month month : mapaPorMes.keySet()) {
@@ -93,7 +96,7 @@ public class PlanilhaRelatorio {
                             String nomeColuna = mes.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano;
                             int colunaClassificacao = mapaColuna.get(nomeColuna);
                             Cell cellValor = linhaClassificacao.createCell(colunaClassificacao);
-                            cellValor.setCellValue(somaMes);
+                            cellValor.setCellValue(StringConversor.getCurrency(somaMes));
                         }
                     }
 

@@ -27,8 +27,8 @@ public class ExportExcel {
             .sorted(Comparator.comparing(prodDup -> prodDup.getDuplicata().getDataVencimento()))
             .collect(Collectors.toList());
 
-        PlanilhaProdutos.criaPlanilha(workbook, listaRelatorio);
         PlanilhaRelatorio.criaPlanilha(workbook, listaRelatorio);
+        PlanilhaProdutos.criaPlanilha(workbook, listaRelatorio);
 
         Locale localizacaoPt = Locale.of("pt", "BR");
         String mesInicial = model.getDataInicio().getMonth().getDisplayName(TextStyle.SHORT, localizacaoPt) + " " + model.getDataInicio().getYear();
