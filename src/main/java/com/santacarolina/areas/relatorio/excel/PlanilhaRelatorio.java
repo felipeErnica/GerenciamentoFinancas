@@ -35,6 +35,7 @@ public class PlanilhaRelatorio {
     private static Sheet sheet;
     private static Map<String, Integer> mapaColuna = new HashMap<>();
     private static Workbook workbook;
+    private static int linha;
 
     public static void main(Workbook workbook, List<ProdutoDuplicata> listaRelatorio) {
         PlanilhaRelatorio.workbook = workbook;
@@ -86,7 +87,7 @@ public class PlanilhaRelatorio {
         Map<String, List<ProdutoDuplicata>> mapaPorPasta = listaRelatorio.stream()
             .collect(Collectors.groupingBy(prod -> prod.getDuplicata().getDocumento().getPasta().getNome()));
 
-        int linha = 1;
+        linha = 1;
 
         Font font = workbook.createFont();
         font.setBold(true);
@@ -109,14 +110,14 @@ public class PlanilhaRelatorio {
             pt.applyBorders(sheet);
             linha++;
             System.out.println(linha + " - " + pasta);
-            criaLinhasFluxo(listaPasta, linha);
+            criaLinhasFluxo(listaPasta);
         }
 
         for (int coluna = 0; coluna > mapaColuna.keySet().size(); coluna++) sheet.autoSizeColumn(coluna);
 
     }
 
-    private static void criaLinhasFluxo(List<ProdutoDuplicata> listaPasta, int linha) {
+    private static void criaLinhasFluxo(List<ProdutoDuplicata> listaPasta) {
         Map<FluxoCaixa, List<ProdutoDuplicata>> mapaPorFluxo = listaPasta.stream()
             .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getCategoria().getFluxoCaixa()));
 
@@ -141,12 +142,12 @@ public class PlanilhaRelatorio {
             pt.applyBorders(sheet);
             System.out.println(linha + " - " + nomeFluxo);
             linha++;
-            criarLinhasClassificacao(listaFluxo, linha);
+            criarLinhasClassificacao(listaFluxo);
        }
 
      }
 
-    private static void criarLinhasClassificacao(List<ProdutoDuplicata> listaFluxo, int linha) {
+    private static void criarLinhasClassificacao(List<ProdutoDuplicata> listaFluxo) {
         Map<String, List<ProdutoDuplicata>> mapaPorClassificacao = listaFluxo.stream()
         .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getNomeClassificacao()));
 
@@ -161,12 +162,12 @@ public class PlanilhaRelatorio {
                 BorderExtent.OUTSIDE);
             pt.applyBorders(sheet);
             System.out.println(linha + " - " + classificacao);
-            preencheValores(listaClassificacao, linha, linhaClassificacao);
+            preencheValores(listaClassificacao, linhaClassificacao);
             linha++;
         }
      }
 
-    private static void preencheValores(List<ProdutoDuplicata> listaClassificacao, int linha, Row linhaClassificacao) {
+    private static void preencheValores(List<ProdutoDuplicata> listaClassificacao, Row linhaClassificacao) {
         Map<Integer,List<ProdutoDuplicata>> mapaAno = listaClassificacao.stream()
         .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
