@@ -43,7 +43,6 @@ public class PlanilhaRelatorio {
     }
 
     private static void criaPlanilha() {
-
         sheet = workbook.createSheet("Relatório de Caixa");
         criaColunas();
         criaLinhasPasta();
@@ -57,7 +56,7 @@ public class PlanilhaRelatorio {
         .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
         CellStyle style = workbook.createCellStyle();
-        style.setFillForegroundColor(IndexedColors.AQUA.getIndex());
+        style.setFillForegroundColor(IndexedColors.SKY_BLUE.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         for (int ano : mapaPorAno.keySet()) {
@@ -100,7 +99,6 @@ public class PlanilhaRelatorio {
         for (String pasta : mapaPorPasta.keySet()) {
             List<ProdutoDuplicata> listaPasta = mapaPorPasta.getOrDefault(pasta, Collections.emptyList());
             Row linhaPasta = sheet.createRow(linha);
-            linha++;
             Cell cellPasta = linhaPasta.createCell(0);
             cellPasta.setCellValue(pasta);
             cellPasta.setCellStyle(style);
@@ -109,8 +107,12 @@ public class PlanilhaRelatorio {
                 BorderStyle.THIN, 
                 BorderExtent.OUTSIDE);
             pt.applyBorders(sheet);
+            linha++;
             criaLinhasFluxo(listaPasta, linha);
-       }
+        }
+
+        for (int coluna = 0; coluna > mapaColuna.keySet().size(); coluna++) sheet.autoSizeColumn(coluna);
+
     }
 
     private static void criaLinhasFluxo(List<ProdutoDuplicata> listaPasta, int linha) {
@@ -129,7 +131,6 @@ public class PlanilhaRelatorio {
             List<ProdutoDuplicata> listaFluxo = mapaPorFluxo.getOrDefault(fluxo, Collections.emptyList());
             String nomeFluxo = fluxo == FluxoCaixa.DESPESA ? "DESPESA" : "RECEITA";
             Row linhaFluxo = sheet.createRow(linha);
-            linha++;
             Cell cellFluxo = linhaFluxo.createCell(0);
             cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 8));
             PropertyTemplate pt = new PropertyTemplate();
@@ -137,6 +138,7 @@ public class PlanilhaRelatorio {
                 BorderStyle.THIN, 
                 BorderExtent.OUTSIDE);
             pt.applyBorders(sheet);
+            linha++;
             criarLinhasClassificacao(listaFluxo, linha);
        }
 
@@ -148,7 +150,6 @@ public class PlanilhaRelatorio {
 
         for (String classificacao : mapaPorClassificacao.keySet()) {
             Row linhaClassificacao = sheet.createRow(linha);
-            linha++;
             Cell cellClassificacao = linhaClassificacao.createCell(0);
             cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, classificacao.length() + 16));
             List<ProdutoDuplicata> listaClassificacao = mapaPorClassificacao.getOrDefault(classificacao, Collections.emptyList());
@@ -158,6 +159,7 @@ public class PlanilhaRelatorio {
                 BorderExtent.OUTSIDE);
             pt.applyBorders(sheet);
             preencheValores(listaClassificacao, linha, linhaClassificacao);
+            linha++;
         }
      }
 
