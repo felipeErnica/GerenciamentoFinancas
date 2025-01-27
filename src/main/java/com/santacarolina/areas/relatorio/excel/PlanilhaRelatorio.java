@@ -93,7 +93,7 @@ public class PlanilhaRelatorio {
         font.setBold(true);
 
         CellStyle style = workbook.createCellStyle();
-        style.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+        style.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setFont(font);
 
@@ -104,7 +104,7 @@ public class PlanilhaRelatorio {
             cellPasta.setCellValue(pasta);
             cellPasta.setCellStyle(style);
 
-            for (int coluna = 1; coluna > mapaColuna.size(); coluna++) {
+            for (int coluna = 1; coluna <= mapaColuna.size(); coluna++) {
                 Cell celulaPintada = linhaPasta.createCell(coluna);
                 celulaPintada.setCellStyle(style);
             }
@@ -113,19 +113,26 @@ public class PlanilhaRelatorio {
             criaLinhasFluxo(listaPasta);
         }
 
-        for (int coluna = 0; coluna > mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
+        for (int coluna = 0; coluna <= mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
 
         PropertyTemplate bordasLinhas = new PropertyTemplate();
-        bordasLinhas.drawBorders(new CellRangeAddress(1, linha, 0, mapaColuna.keySet().size()),
+        bordasLinhas.drawBorders(new CellRangeAddress(1, linha - 1, 0, mapaColuna.size()),
             BorderStyle.THIN, 
             BorderExtent.INSIDE_VERTICAL);
-        bordasLinhas.applyBorders(sheet);
 
         PropertyTemplate bordaPrimeiraColuna = new PropertyTemplate();
-        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha, 0, 0),
+        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha - 1, 0, 0),
             BorderStyle.THIN, 
             BorderExtent.OUTSIDE);
+
+        PropertyTemplate bordaContorno = new PropertyTemplate();
+        bordaContorno.drawBorders(new CellRangeAddress(1, linha - 1, 0, mapaColuna.size()),
+            BorderStyle.THIN, 
+            BorderExtent.OUTSIDE);
+
+        bordasLinhas.applyBorders(sheet);
         bordaPrimeiraColuna.applyBorders(sheet);
+        bordaContorno.applyBorders(sheet);
     }
 
     private static void criaLinhasFluxo(List<ProdutoDuplicata> listaPasta) {
