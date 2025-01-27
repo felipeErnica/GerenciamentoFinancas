@@ -39,7 +39,7 @@ public class PlanilhaRelatorio {
                 String nomeFluxo = fluxo == FluxoCaixa.DESPESA ? "DESPESA" : "RECEITA"; Row linhaFluxo = sheet.createRow(linha);
                 linha++;
                 Cell cellFluxo = linhaFluxo.createCell(0);
-                cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, 2));
+                cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 2));
 
                 Map<String, List<ProdutoDuplicata>> mapaPorClassificacao = listaFluxo.stream()
                     .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getNomeClassificacao()));
@@ -48,7 +48,7 @@ public class PlanilhaRelatorio {
                     Row linhaClassificacao = sheet.createRow(linha);
                     linha++;
                     Cell cellClassificacao = linhaClassificacao.createCell(0);
-                    cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, 4));
+                    cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, nomeFluxo.length() + 4));
                 }
             }
 
