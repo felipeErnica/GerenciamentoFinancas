@@ -47,6 +47,8 @@ public class PlanilhaRelatorio {
 
         totalStyle = workbook.createCellStyle();
         totalStyle.setFont(font);
+        totalStyle.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
+        totalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         criaPlanilha();
     }
@@ -119,13 +121,7 @@ public class PlanilhaRelatorio {
 
             linha++;
             criaLinhasFluxo(listaPasta);
-
-            linha++;
-            Row linhaTotal = sheet.createRow(linha);
-            Cell celulaTotal = linhaTotal.createCell(0);
-            celulaTotal.setCellValue("Total - " + pasta);
-            preencheValores(listaPasta, linhaTotal, totalStyle);
-            linha+=2;
+            criaLinhaTotal(listaPasta, pasta);
         }
 
         for (int coluna = 0; coluna <= mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
@@ -172,7 +168,7 @@ public class PlanilhaRelatorio {
             Font font = workbook.createFont();
             CellStyle valorStyle = workbook.createCellStyle();
 
-            if (fluxo == FluxoCaixa.DESPESA) {
+            if (fluxo == FluxoCaixa.RECEITA) {
                 font.setColor(IndexedColors.LIGHT_BLUE.getIndex());
 
                 valorStyle.cloneStyleFrom(commonStyle);
@@ -196,13 +192,8 @@ public class PlanilhaRelatorio {
 
             linha++;
             criarLinhasClassificacao(listaFluxo, valorStyle);
+            criaLinhaTotal(listaFluxo, nomeFluxo);
 
-            linha++;
-            Row linhaTotal = sheet.createRow(linha);
-            Cell celulaTotal = linhaTotal.createCell(0);
-            celulaTotal.setCellValue("Total - " + nomeFluxo);
-            preencheValores(listaFluxo, linhaTotal, totalStyle);
-            linha+=2;
        }
 
      }
@@ -245,4 +236,13 @@ public class PlanilhaRelatorio {
         }
     }
 
+    private static void criaLinhaTotal(List<ProdutoDuplicata> listaValores, String nome) {
+        linha++;
+        Row linhaTotal = sheet.createRow(linha);
+        Cell celulaTotal = linhaTotal.createCell(0);
+        celulaTotal.setCellValue("Total - " + nome);
+        celulaTotal.setCellStyle(totalStyle);
+        preencheValores(listaValores, linhaTotal, totalStyle);
+        linha++;
+    }
 }
