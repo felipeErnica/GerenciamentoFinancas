@@ -1,6 +1,7 @@
 package com.santacarolina.areas.relatorio.excel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -34,7 +35,7 @@ public class PlanilhaDocumentos {
         List<DocumentoFiscal> listaDocumentos = listaRelatorio.stream()
             .map(prodDup -> prodDup.getProduto().getDocumento())
             .distinct()
-            .toList();
+            .collect(Collectors.toList());
 
         Sheet sheet = workbook.createSheet("Documentos Fiscais");
 
