@@ -117,7 +117,7 @@ public class PlanilhaRelatorio {
             Cell celulaTotal = linhaTotal.createCell(0);
             celulaTotal.setCellValue("Total - " + pasta);
             preencheValores(listaPasta, linhaTotal);
-            linha=+2;
+            linha+=2;
         }
 
         for (int coluna = 0; coluna <= mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
@@ -175,7 +175,7 @@ public class PlanilhaRelatorio {
             Cell celulaTotal = linhaTotal.createCell(0);
             celulaTotal.setCellValue("Total - " + nomeFluxo);
             preencheValores(listaFluxo, linhaTotal);
-            linha=+2;
+            linha+=2;
        }
 
      }
