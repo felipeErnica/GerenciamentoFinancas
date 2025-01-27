@@ -102,7 +102,7 @@ public class PlanilhaDocumentos {
         data.setCellValue(doc.getDataEmissao());
         pasta.setCellValue(doc.getPasta().getNome());
         tipoDoc.setCellValue(doc.getTipoDoc().toString());
-        numDoc.setCellValue(doc.getNumDoc());
+        numDoc.setCellValue(doc.getNumDoc() != null ? doc.getNumDoc() : null);
         fluxo.setCellValue(doc.getFluxoCaixa().toString());
         emissor.setCellValue(doc.getEmissor().getNome());
         valor.setCellValue(doc.getValor());
