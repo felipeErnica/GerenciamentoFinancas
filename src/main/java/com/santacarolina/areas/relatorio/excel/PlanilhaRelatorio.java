@@ -42,11 +42,7 @@ public class PlanilhaRelatorio {
         PlanilhaRelatorio.workbook = workbook;
         PlanilhaRelatorio.listaRelatorio = listaRelatorio;
         
-        Font font = workbook.createFont();
-        font.setBold(true);
-
         totalStyle = workbook.createCellStyle();
-        totalStyle.setFont(font);
         totalStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
         totalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
@@ -131,10 +127,17 @@ public class PlanilhaRelatorio {
             criaLinhaTotal(listaPasta, pasta);
         }
 
+        Font fontTotal = workbook.createFont();
+        fontTotal.setBold(true);
+
+        CellStyle styleTotalGeral = workbook.createCellStyle();
+        styleTotalGeral.cloneStyleFrom(totalStyle);
+        styleTotalGeral.setFont(fontTotal);
+
         Row linhaTotal = sheet.createRow(linha);
         Cell celulaTotal = linhaTotal.createCell(0);
         celulaTotal.setCellValue("Total Geral");
-        celulaTotal.setCellStyle(totalStyle);
+        celulaTotal.setCellStyle(styleTotalGeral);
         preencheValores(listaRelatorio, linhaTotal, totalStyle);
 
         for (int coluna = 0; coluna <= mapaColuna.size(); coluna++) sheet.autoSizeColumn(coluna);
@@ -262,11 +265,18 @@ public class PlanilhaRelatorio {
             cellBranco.setCellStyle(totalStyle);
         }
 
+        Font font = workbook.createFont();
+        font.setBold(true);
+
+        CellStyle style = workbook.createCellStyle();
+        style.cloneStyleFrom(totalStyle);
+        style.setFont(font);
+
         linha++;
         Row linhaTotal = sheet.createRow(linha);
         Cell celulaTotal = linhaTotal.createCell(0);
         celulaTotal.setCellValue("Total - " + nome);
-        celulaTotal.setCellStyle(totalStyle);
+        celulaTotal.setCellStyle(style);
         preencheValores(listaValores, linhaTotal, totalStyle);
         linha++;
     }
