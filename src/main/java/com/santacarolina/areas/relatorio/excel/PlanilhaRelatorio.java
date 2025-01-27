@@ -47,7 +47,7 @@ public class PlanilhaRelatorio {
 
         totalStyle = workbook.createCellStyle();
         totalStyle.setFont(font);
-        totalStyle.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
+        totalStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
         totalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         criaPlanilha();
@@ -167,6 +167,8 @@ public class PlanilhaRelatorio {
 
         CellStyle commonStyle = workbook.createCellStyle();
         commonStyle.setAlignment(HorizontalAlignment.LEFT);
+        commonStyle.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
+        commonStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         for (FluxoCaixa fluxo : setFluxo) {
             List<ProdutoDuplicata> listaFluxo = mapaPorFluxo.getOrDefault(fluxo, Collections.emptyList());
