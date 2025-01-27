@@ -1,5 +1,6 @@
 package com.santacarolina.areas.relatorio.excel;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,6 @@ public class PlanilhaDocumentos {
         "Tipo de Documento",
         "Núm. do Documento",
         "Fluxo de Caixa",
-        "Classificação Contábil",
         "Emitente",
         "Valor do Documento"
     };
@@ -33,7 +33,8 @@ public class PlanilhaDocumentos {
     public static void criaPlanilha(Workbook workbook, List<ProdutoDuplicata> listaRelatorio) {
         
         List<DocumentoFiscal> listaDocumentos = listaRelatorio.stream()
-            .map(prodDup -> prodDup.getProduto().getDocumento())
+            .map(prodDup -> prodDup.getProduto().getDocumento()) 
+            .sorted(Comparator.comparing(doc -> doc.getDataEmissao()))
             .distinct()
             .collect(Collectors.toList());
 
