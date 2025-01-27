@@ -180,7 +180,7 @@ public class DocumentoFiscal implements Cloneable, Serializable {
     public boolean equals(Object obj) {
         DocumentoFiscal equal = (DocumentoFiscal) obj;
         if (equal == this) return true;
-        System.out.println(this.id == equal.getId);
+        System.out.println(this.id == equal.getId());
         return equal.getId() == this.id;
     }
 
