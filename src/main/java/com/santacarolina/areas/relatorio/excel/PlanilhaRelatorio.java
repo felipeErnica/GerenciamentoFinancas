@@ -3,6 +3,7 @@ package com.santacarolina.areas.relatorio.excel;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class PlanilhaRelatorio {
         Map<Integer, List<ProdutoDuplicata>> mapaPorAno = listaRelatorio.stream()
             .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
+        Map<String, Integer> mapaColuna = new HashMap<>();
+
         for (int ano : mapaPorAno.keySet()) {
             List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
             Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
@@ -36,8 +39,10 @@ public class PlanilhaRelatorio {
 
             for (Month month : mapaPorMes.keySet()) {
                 Cell cellMes = linhaMes.createCell(coluna);
+                String nomeColuna = month.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano;
+                cellMes.setCellValue(nomeColuna);
+                mapaColuna.put(nomeColuna, coluna);
                 coluna++;
-                cellMes.setCellValue(month.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano);
             }
         }
 
@@ -71,6 +76,27 @@ public class PlanilhaRelatorio {
                     linha++;
                     Cell cellClassificacao = linhaClassificacao.createCell(0);
                     cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, classificacao.length() + 16));
+                    
+                    List<ProdutoDuplicata> listaClassificacao = mapaPorClassificacao.getOrDefault(classificacao, Collections.emptyList());
+                    Map<Integer,List<ProdutoDuplicata>> mapaAno = listaClassificacao.stream()
+                        .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
+
+                    for (int ano : mapaAno.keySet()) {
+                        List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
+                        Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
+                            .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
+                        for (Month mes : mapaPorMes.keySet()) {
+                            List<ProdutoDuplicata> listaMes = mapaPorMes.getOrDefault(mes, Collections.emptyList());
+                            double somaMes = listaMes.stream()
+                                .mapToDouble(prodDup -> prodDup.getProduto().getValorTotal())
+                                .sum();
+                            String nomeColuna = mes.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano;
+                            int colunaClassificacao = mapaColuna.get(nomeColuna);
+                            Cell cellValor = linhaClassificacao.createCell(colunaClassificacao);
+                            cellValor.setCellValue(somaMes);
+                        }
+                    }
+
                 }
             }
 
