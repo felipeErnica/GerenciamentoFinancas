@@ -36,10 +36,18 @@ public class PlanilhaRelatorio {
     private static Map<String, Integer> mapaColuna = new HashMap<>();
     private static Workbook workbook;
     private static int linha;
+    private static CellStyle totalStyle;
 
     public static void main(Workbook workbook, List<ProdutoDuplicata> listaRelatorio) {
         PlanilhaRelatorio.workbook = workbook;
         PlanilhaRelatorio.listaRelatorio = listaRelatorio;
+        
+        Font font = workbook.createFont();
+        font.setBold(true);
+
+        totalStyle = workbook.createCellStyle();
+        totalStyle.setFont(font);
+
         criaPlanilha();
     }
 
@@ -116,7 +124,7 @@ public class PlanilhaRelatorio {
             Row linhaTotal = sheet.createRow(linha);
             Cell celulaTotal = linhaTotal.createCell(0);
             celulaTotal.setCellValue("Total - " + pasta);
-            preencheValores(listaPasta, linhaTotal);
+            preencheValores(listaPasta, linhaTotal, totalStyle);
             linha+=2;
         }
 
@@ -154,9 +162,28 @@ public class PlanilhaRelatorio {
         style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
+        CellStyle commonStyle = workbook.createCellStyle();
+        commonStyle.setAlignment(HorizontalAlignment.LEFT);
+
         for (FluxoCaixa fluxo : setFluxo) {
             List<ProdutoDuplicata> listaFluxo = mapaPorFluxo.getOrDefault(fluxo, Collections.emptyList());
             String nomeFluxo = fluxo == FluxoCaixa.DESPESA ? "DESPESA" : "RECEITA";
+            
+            Font font = workbook.createFont();
+            CellStyle valorStyle = workbook.createCellStyle();
+
+            if (fluxo == FluxoCaixa.DESPESA) {
+                font.setColor(IndexedColors.LIGHT_BLUE.getIndex());
+
+                valorStyle.cloneStyleFrom(commonStyle);
+                valorStyle.setFont(font);
+            } else {
+                font.setColor(IndexedColors.RED.getIndex());
+
+                valorStyle.cloneStyleFrom(commonStyle);
+                valorStyle.setFont(font);
+            }
+
             Row linhaFluxo = sheet.createRow(linha);
             Cell cellFluxo = linhaFluxo.createCell(0);
             cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 8));
@@ -165,55 +192,38 @@ public class PlanilhaRelatorio {
             for (int coluna = 1; coluna <= mapaColuna.size(); coluna++) {
                 Cell celulaColorida = linhaFluxo.createCell(coluna);
                 celulaColorida.setCellStyle(style);
-            }
+            } 
 
             linha++;
-            criarLinhasClassificacao(listaFluxo);
+            criarLinhasClassificacao(listaFluxo, valorStyle);
 
             linha++;
             Row linhaTotal = sheet.createRow(linha);
             Cell celulaTotal = linhaTotal.createCell(0);
             celulaTotal.setCellValue("Total - " + nomeFluxo);
-            preencheValores(listaFluxo, linhaTotal);
+            preencheValores(listaFluxo, linhaTotal, totalStyle);
             linha+=2;
        }
 
      }
 
-    private static void criarLinhasClassificacao(List<ProdutoDuplicata> listaFluxo) {
+    private static void criarLinhasClassificacao(List<ProdutoDuplicata> listaFluxo, CellStyle valorStyle) {
         Map<String, List<ProdutoDuplicata>> mapaPorClassificacao = listaFluxo.stream()
-        .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getNomeClassificacao()));
+            .collect(Collectors.groupingBy(prod -> prod.getProduto().getClassificacao().getNomeClassificacao()));
 
         for (String classificacao : mapaPorClassificacao.keySet()) {
             Row linhaClassificacao = sheet.createRow(linha);
             Cell cellClassificacao = linhaClassificacao.createCell(0);
             cellClassificacao.setCellValue(StringUtils.leftPad(classificacao, classificacao.length() + 16));
             List<ProdutoDuplicata> listaClassificacao = mapaPorClassificacao.getOrDefault(classificacao, Collections.emptyList());
-            preencheValores(listaClassificacao, linhaClassificacao);
+            preencheValores(listaClassificacao, linhaClassificacao, valorStyle);
             linha++;
         }
      }
 
-    private static void preencheValores(List<ProdutoDuplicata> listaClassificacao, Row linhaClassificacao) {
-        Map<Integer,List<ProdutoDuplicata>> mapaAno = listaClassificacao.stream()
-        .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
-
-        Font receitaFont = workbook.createFont();
-        receitaFont.setColor(IndexedColors.LIGHT_BLUE.getIndex());
-
-        Font despesaFont = workbook.createFont();
-        despesaFont.setColor(IndexedColors.RED.getIndex());
-
-        CellStyle commonStyle = workbook.createCellStyle();
-        commonStyle.setAlignment(HorizontalAlignment.LEFT);
-
-        CellStyle receitaStyle = workbook.createCellStyle();
-        receitaStyle.cloneStyleFrom(commonStyle);
-        receitaStyle.setFont(receitaFont);
-
-        CellStyle despesaStyle = workbook.createCellStyle();
-        despesaStyle.cloneStyleFrom(commonStyle);
-        despesaStyle.setFont(despesaFont);
+    private static void preencheValores(List<ProdutoDuplicata> listaValores, Row linhaValores, CellStyle style) {
+        Map<Integer,List<ProdutoDuplicata>> mapaAno = listaValores.stream()
+            .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
         for (int ano : mapaAno.keySet()) {
             List<ProdutoDuplicata> listaAno = mapaAno.getOrDefault(ano, Collections.emptyList());
@@ -228,15 +238,9 @@ public class PlanilhaRelatorio {
 
                 String nomeColuna = mes.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano;
                 int colunaClassificacao = mapaColuna.get(nomeColuna);
-                Cell cellValor = linhaClassificacao.createCell(colunaClassificacao);
+                Cell cellValor = linhaValores.createCell(colunaClassificacao);
                 cellValor.setCellValue(StringConversor.getCurrency(somaMes));
-
-                if (listaMes.get(0).getProduto().getClassificacao().getCategoria().getFluxoCaixa() == FluxoCaixa.DESPESA) {
-                    cellValor.setCellStyle(despesaStyle);
-                } else {
-                    cellValor.setCellStyle(receitaStyle);
-                }
-
+                cellValor.setCellStyle(style);
             }
         }
     }
