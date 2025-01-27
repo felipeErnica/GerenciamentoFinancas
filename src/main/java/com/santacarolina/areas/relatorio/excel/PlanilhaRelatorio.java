@@ -2,6 +2,7 @@ package com.santacarolina.areas.relatorio.excel;
 
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -37,13 +38,9 @@ public class PlanilhaRelatorio {
         for (int ano : mapaPorAno.keySet()) {
             List<ProdutoDuplicata> listaAno = mapaPorAno.getOrDefault(ano, Collections.emptyList());
             Map<Month, List<ProdutoDuplicata>> mapaPorMes = listaAno.stream()
-                .sorted(Comparator.comparing(prodDup -> prodDup.getDuplicata().getDataVencimento()))
                 .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getMonth()));
-            
-            listaAno.forEach(prodDup -> System.out.println(prodDup.getDuplicata().getDataVencimento().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault())));
 
-
-            for (Month month : mapaPorMes.keySet()) {
+            for (Month month : mapaPorMes.keySet().stream().sorted().toList()) {
                 Cell cellMes = linhaMes.createCell(coluna);
                 String nomeColuna = month.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "BR")) + "  " + ano;
                 cellMes.setCellValue(nomeColuna);
