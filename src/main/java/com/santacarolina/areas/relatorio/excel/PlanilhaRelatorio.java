@@ -63,7 +63,7 @@ public class PlanilhaRelatorio {
         int coluna = 1;
 
         Row linhaMes = sheet.createRow(0);
-        linhaMes.setHeight((short) 30);
+        linhaMes.setHeight((short) 500);
         Map<Integer, List<ProdutoDuplicata>> mapaPorAno = listaRelatorio.stream()
             .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
@@ -125,7 +125,6 @@ public class PlanilhaRelatorio {
             criaLinhaTotal(listaPasta, pasta);
         }
 
-        linha++;
         Row linhaTotal = sheet.createRow(linha);
         Cell celulaTotal = linhaTotal.createCell(0);
         celulaTotal.setCellValue("Total Geral");
@@ -139,18 +138,12 @@ public class PlanilhaRelatorio {
             BorderStyle.THIN, 
             BorderExtent.INSIDE_HORIZONTAL);
 
-        PropertyTemplate bordaPrimeiraColuna = new PropertyTemplate();
-        bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha, 0, 0),
-            BorderStyle.MEDIUM, 
-            BorderExtent.OUTSIDE);
-
         PropertyTemplate bordaContorno = new PropertyTemplate();
         bordaContorno.drawBorders(new CellRangeAddress(1, linha, 0, mapaColuna.size()),
             BorderStyle.MEDIUM, 
             BorderExtent.OUTSIDE);
 
         bordasLinhas.applyBorders(sheet);
-        bordaPrimeiraColuna.applyBorders(sheet);
         bordaContorno.applyBorders(sheet);
     }
 
