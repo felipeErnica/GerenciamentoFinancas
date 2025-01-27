@@ -57,7 +57,7 @@ public class PlanilhaRelatorio {
         .collect(Collectors.groupingBy(prodDup -> prodDup.getDuplicata().getDataVencimento().getYear()));
 
         CellStyle style = workbook.createCellStyle();
-        style.setFillForegroundColor(IndexedColors.SKY_BLUE.getIndex());
+        style.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE1.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         for (int ano : mapaPorAno.keySet()) {
@@ -118,7 +118,7 @@ public class PlanilhaRelatorio {
         PropertyTemplate bordasLinhas = new PropertyTemplate();
         bordasLinhas.drawBorders(new CellRangeAddress(1, linha - 1, 0, mapaColuna.size()),
             BorderStyle.THIN, 
-            BorderExtent.INSIDE_VERTICAL);
+            BorderExtent.INSIDE_HORIZONTAL);
 
         PropertyTemplate bordaPrimeiraColuna = new PropertyTemplate();
         bordaPrimeiraColuna.drawBorders(new CellRangeAddress(1, linha - 1, 0, 0),
@@ -144,7 +144,7 @@ public class PlanilhaRelatorio {
             .toList();
         
         CellStyle style = workbook.createCellStyle();
-        style.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         for (FluxoCaixa fluxo : setFluxo) {
@@ -153,6 +153,12 @@ public class PlanilhaRelatorio {
             Row linhaFluxo = sheet.createRow(linha);
             Cell cellFluxo = linhaFluxo.createCell(0);
             cellFluxo.setCellValue(StringUtils.leftPad(nomeFluxo, nomeFluxo.length() + 8));
+
+            for (int coluna = 0; coluna <= mapaPorFluxo.size(); coluna++) {
+                Cell celulaColorida = linhaFluxo.createCell(coluna);
+                celulaColorida.setCellStyle(style);
+            }
+
             linha++;
             criarLinhasClassificacao(listaFluxo);
        }
