@@ -2,6 +2,7 @@ package com.santacarolina.areas.relatorio.excel;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -19,7 +20,6 @@ import com.santacarolina.model.ProdutoDuplicata;
 
 public class PlanilhaDocumentos {
 
-
     private static String[] nomeColunas = {
         "Data de Emissão",
         "Pasta Contábil",
@@ -32,11 +32,8 @@ public class PlanilhaDocumentos {
 
     public static void criaPlanilha(Workbook workbook, List<ProdutoDuplicata> listaRelatorio) {
         
-        List<DocumentoFiscal> listaDocumentos = listaRelatorio.stream()
-            .map(prodDup -> prodDup.getProduto().getDocumento()) 
-            .sorted(Comparator.comparing(doc -> doc.getDataEmissao()))
-            .distinct()
-            .collect(Collectors.toList());
+        Map<Long, DocumentoFiscal> mapDocumento = listaRelatorio.stream()
+            .collect(Collectors.toMap(prodDup -> prodDup.getProduto().getDocumento().getId(), prodDup -> prodDup.getProduto().getDocumento()));
 
         Sheet sheet = workbook.createSheet("Documentos Fiscais");
 
@@ -77,8 +74,11 @@ public class PlanilhaDocumentos {
         currencyStyle.setAlignment(HorizontalAlignment.LEFT);
         currencyStyle.setDataFormat((short) 7);
 
-        for (int linha = 0; linha < listaDocumentos.size(); linha++) {
-            preencheLinhas(linha, listaDocumentos.get(linha), sheet, cellStyle, dataStyle, currencyStyle);
+        int linha = 1;
+
+        for (long id : mapDocumento.keySet()) {
+            preencheLinhas(linha, mapDocumento.get(id), sheet, cellStyle, dataStyle, currencyStyle);
+            linha++;
         }
 
         for (int coluna = 0; coluna < nomeColunas.length; coluna++) sheet.autoSizeColumn(coluna);
@@ -86,12 +86,11 @@ public class PlanilhaDocumentos {
     }
 
     private static void preencheLinhas(int linha, DocumentoFiscal doc, Sheet sheet, CellStyle... style) {
-
         CellStyle cellStyle = style[0];
         CellStyle dataStyle = style[1];
         CellStyle currencyStyle = style[2];
 
-        Row row = sheet.createRow(linha + 1);
+        Row row = sheet.createRow(linha);
 
         Cell data = row.createCell(0);
         Cell pasta = row.createCell(1);
