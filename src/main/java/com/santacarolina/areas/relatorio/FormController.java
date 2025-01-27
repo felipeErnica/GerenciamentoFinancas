@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
+import com.santacarolina.areas.relatorio.excel.ExportExcel;
 import com.santacarolina.dao.PastaDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.AfterUpdateListener;
