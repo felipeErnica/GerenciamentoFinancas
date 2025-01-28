@@ -12,9 +12,11 @@ import com.santacarolina.areas.duplicatas.common.DupView;
 import com.santacarolina.areas.duplicatas.common.FilterController;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
+import com.santacarolina.dao.ConciliacaoDAO;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
+import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
 import com.santacarolina.model.Conciliacao;
@@ -59,15 +61,16 @@ public class FormController implements MainPaneController<Duplicata> {
     public void deleteBatch(List<Duplicata> list) {
         try {
             for (Duplicata duplicata : list) {
-                if (duplicata.getListConciliacao() != null) mudaExtratos(duplicata.getListConciliacao());
+                if (duplicata.isPaga()) mudaExtratos(duplicata.getId());
             }
             new DuplicataDAO().deleteAll(list);
-        } catch (DeleteFailException | SaveFailException e) {
+        } catch (DeleteFailException | SaveFailException | FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }
 
-    private void mudaExtratos(List<Conciliacao> listConciliacao) throws SaveFailException {
+    private void mudaExtratos(long id) throws SaveFailException, FetchFailException {
+        List<Conciliacao> listConciliacao = new ConciliacaoDAO().findByDuplicata(id);
         for (Conciliacao conciliacao : listConciliacao) {
             Extrato extrato = conciliacao.getExtrato();
             extrato.setConciliado(false);

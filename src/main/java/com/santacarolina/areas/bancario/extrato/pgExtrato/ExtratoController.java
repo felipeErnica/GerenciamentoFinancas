@@ -16,6 +16,7 @@ import org.jdesktop.swingx.combobox.ListComboBoxModel;
 import com.santacarolina.areas.bancario.extrato.frmAddExtrato.AddExtratoForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
+import com.santacarolina.dao.ConciliacaoDAO;
 import com.santacarolina.dao.ContaDAO;
 import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.ExtratoDAO;
@@ -120,16 +121,17 @@ public class ExtratoController implements MainPaneController<Extrato> {
         try {
 
             for (Extrato extrato : list) {
-                if (extrato.getConciliacaoList() != null) mudaDuplicatas(extrato.getConciliacaoList());
+                if (extrato.isConciliado()) mudaDuplicatas(extrato);
             }
 
             new ExtratoDAO().deleteAll(list);
-        } catch (DeleteFailException | SaveFailException e) {
+        } catch (DeleteFailException | SaveFailException | FetchFailException e) {
             CustomErrorThrower.throwError(e);
         }
     }
 
-    private void mudaDuplicatas(List<Conciliacao> conciliacaoList) throws SaveFailException {
+    private void mudaDuplicatas(Extrato extrato) throws SaveFailException, FetchFailException {
+        List<Conciliacao> conciliacaoList = new ConciliacaoDAO().findByExtrato(extrato.getId());
         for (Conciliacao conciliacao : conciliacaoList) {
             Duplicata duplicata = conciliacao.getDuplicata();
             duplicata.setPaga(false);
