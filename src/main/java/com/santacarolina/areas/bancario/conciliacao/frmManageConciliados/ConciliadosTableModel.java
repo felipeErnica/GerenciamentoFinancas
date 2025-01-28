@@ -56,9 +56,8 @@ public class ConciliadosTableModel implements CustomTableModel<Conciliacao> {
             case 2 -> String.class;
             case 3 -> String.class;
             case 4 -> String.class;
-            case 5 -> String.class;
-            case 6 -> Double.class; 
-            case 7 -> Double.class;
+            case 5 -> Double.class; 
+            case 6 -> Double.class;
             default -> throw new IllegalArgumentException("Unexpected value: " + columnIndex);
         };
     }
