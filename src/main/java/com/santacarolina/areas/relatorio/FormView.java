@@ -62,7 +62,7 @@ public class FormView implements PropertyChangeListener {
 
         JLabel listaPastaLabel = new JLabel("Selecionar Pasta");
         listaPasta = new JList<>();
-        listaPasta.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listaPasta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listaPastaLabel.setLabelFor(listaPasta);
 
         centerPanel.setLayout(new MigLayout("insets 10",
