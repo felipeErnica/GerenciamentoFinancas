@@ -33,7 +33,6 @@ public class ConciliacaoRenderer implements TableCellRenderer {
                 c.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 c.setHorizontalAlignment(SwingConstants.CENTER);
             }
-            case 1 -> c.setHorizontalAlignment(SwingConstants.CENTER);
             case 2 -> c.setHorizontalAlignment(SwingConstants.CENTER);
             case 5 -> c.setText(StringConversor.getCurrency((double) value));
             case 6 -> c.setText(StringConversor.getCurrency((double) value));
