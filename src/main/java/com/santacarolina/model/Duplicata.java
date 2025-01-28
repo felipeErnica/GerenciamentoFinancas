@@ -1,8 +1,10 @@
 package com.santacarolina.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.santacarolina.dao.ConciliacaoDAO;
 import com.santacarolina.dao.DadoDAO;
 import com.santacarolina.dao.DocumentoDAO;
 import com.santacarolina.dao.PixDAO;
@@ -25,6 +27,8 @@ public class Duplicata {
     private Long pixId;
     private ChavePix pix;
     private boolean paga;
+
+    private List<Conciliacao> listConciliacao;
 
     public DocumentoFiscal getDocumento() {
         try {
@@ -57,6 +61,17 @@ public class Duplicata {
     public Long getDocumentoId() { return documentoId; }
     public Long getDadoId() { return dadoId; }
     public Long getPixId() { return pixId; }
+
+    public List<Conciliacao> getListConciliacao() {
+        if (listConciliacao == null) {
+            try {
+                listConciliacao = new ConciliacaoDAO().findByDuplicata(id);
+            } catch (FetchFailException e) {
+                listConciliacao = null;
+            }
+        }
+        return listConciliacao; 
+    }
 
     public void setDocumento(DocumentoFiscal documento) {
         this.documento = documento;

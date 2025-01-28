@@ -17,11 +17,15 @@ import com.santacarolina.areas.bancario.extrato.frmAddExtrato.AddExtratoForm;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.ContaDAO;
+import com.santacarolina.dao.DuplicataDAO;
 import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.OFXTransformerException;
+import com.santacarolina.exceptions.SaveFailException;
+import com.santacarolina.model.Conciliacao;
 import com.santacarolina.model.ContaBancaria;
+import com.santacarolina.model.Duplicata;
 import com.santacarolina.model.Extrato;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ValidatorViolations;
@@ -114,9 +118,22 @@ public class ExtratoController implements MainPaneController<Extrato> {
     @Override
     public void deleteBatch(List<Extrato> list) {
         try {
+
+            for (Extrato extrato : list) {
+                if (extrato.getConciliacaoList() != null) mudaDuplicatas(extrato.getConciliacaoList());
+            }
+
             new ExtratoDAO().deleteAll(list);
-        } catch (DeleteFailException e) {
+        } catch (DeleteFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
+        }
+    }
+
+    private void mudaDuplicatas(List<Conciliacao> conciliacaoList) throws SaveFailException {
+        for (Conciliacao conciliacao : conciliacaoList) {
+            Duplicata duplicata = conciliacao.getDuplicata();
+            duplicata.setPaga(false);
+            new DuplicataDAO().save(duplicata);
         }
     }
 

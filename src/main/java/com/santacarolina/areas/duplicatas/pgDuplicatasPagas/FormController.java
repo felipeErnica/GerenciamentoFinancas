@@ -13,10 +13,13 @@ import com.santacarolina.areas.duplicatas.common.FilterController;
 import com.santacarolina.areas.mainFrame.common.MainPaneController;
 import com.santacarolina.areas.mainFrame.common.MainPaneControllerImpl;
 import com.santacarolina.dao.DuplicataDAO;
+import com.santacarolina.dao.ExtratoDAO;
 import com.santacarolina.exceptions.DeleteFailException;
+import com.santacarolina.exceptions.SaveFailException;
 import com.santacarolina.interfaces.DoubleClickListener;
-import com.santacarolina.model.DocumentoFiscal;
+import com.santacarolina.model.Conciliacao;
 import com.santacarolina.model.Duplicata;
+import com.santacarolina.model.Extrato;
 import com.santacarolina.util.CustomErrorThrower;
 
 public class FormController implements MainPaneController<Duplicata> {
@@ -55,9 +58,20 @@ public class FormController implements MainPaneController<Duplicata> {
     @Override
     public void deleteBatch(List<Duplicata> list) {
         try {
+            for (Duplicata duplicata : list) {
+                if (duplicata.getListConciliacao() != null) mudaExtratos(duplicata.getListConciliacao());
+            }
             new DuplicataDAO().deleteAll(list);
-        } catch (DeleteFailException e) {
+        } catch (DeleteFailException | SaveFailException e) {
             CustomErrorThrower.throwError(e);
+        }
+    }
+
+    private void mudaExtratos(List<Conciliacao> listConciliacao) throws SaveFailException {
+        for (Conciliacao conciliacao : listConciliacao) {
+            Extrato extrato = conciliacao.getExtrato();
+            extrato.setConciliado(false);
+            new ExtratoDAO().save(extrato);
         }
     }
 
