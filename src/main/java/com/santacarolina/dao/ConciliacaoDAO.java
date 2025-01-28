@@ -30,7 +30,7 @@ public class ConciliacaoDAO {
     } 
 
     public List<Conciliacao> findByExtrato(long extratoId) throws FetchFailException {
-        String query = MAPPING + "/extrato=" + extratoId;
+        String query = MAPPING + "/extrato/" + extratoId;
         try {
             return apiRequest.getListRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -39,7 +39,7 @@ public class ConciliacaoDAO {
     }
 
     public List<Conciliacao> findByDuplicata(long duplicataId) throws FetchFailException {
-        String query = MAPPING + "/duplicata=" + duplicataId;
+        String query = MAPPING + "/duplicata/" + duplicataId;
         try {
             return apiRequest.getListRequest(query);
         } catch (URISyntaxException | IOException | InterruptedException e) {
