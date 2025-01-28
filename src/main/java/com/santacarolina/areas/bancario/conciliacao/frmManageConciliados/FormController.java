@@ -47,7 +47,6 @@ public class FormController implements ManageController<Conciliacao> {
         columnModel.getColumn(4).setCellRenderer(cellRenderer);
         columnModel.getColumn(5).setCellRenderer(cellRenderer);
         columnModel.getColumn(6).setCellRenderer(cellRenderer);
-        columnModel.getColumn(7).setCellRenderer(cellRenderer);
     }
 
     @Override

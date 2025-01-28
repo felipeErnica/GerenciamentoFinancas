@@ -35,8 +35,8 @@ public class ConciliacaoRenderer implements TableCellRenderer {
             }
             case 1 -> c.setHorizontalAlignment(SwingConstants.CENTER);
             case 2 -> c.setHorizontalAlignment(SwingConstants.CENTER);
+            case 5 -> c.setText(StringConversor.getCurrency((double) value));
             case 6 -> c.setText(StringConversor.getCurrency((double) value));
-            case 7 -> c.setText(StringConversor.getCurrency((double) value));
         };
         return c;
     }

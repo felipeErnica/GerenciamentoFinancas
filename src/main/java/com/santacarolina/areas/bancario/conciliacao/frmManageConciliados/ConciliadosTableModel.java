@@ -20,7 +20,6 @@ public class ConciliadosTableModel implements CustomTableModel<Conciliacao> {
 
     private String[] columnNames = {
         "Data da Transação",
-        "Pasta Contábil",
         "Emissor",
         "Conta Bancária",
         "Categoria Bancária",
