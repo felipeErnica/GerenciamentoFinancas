@@ -73,20 +73,14 @@ public class ConciliadosTableModel implements CustomTableModel<Conciliacao> {
             case 1 -> {
                 if (conc.getDuplicata() == null) yield null;
                 if (conc.getDuplicata().getDocumento() == null) yield null;
-                if (conc.getDuplicata().getDocumento().getPasta() == null) yield null;
-                yield conc.getDuplicata().getDocumento().getPasta().getNome();
-            }
-            case 2 -> {
-                if (conc.getDuplicata() == null) yield null;
-                if (conc.getDuplicata().getDocumento() == null) yield null;
                 if (conc.getDuplicata().getDocumento().getEmissor() == null) yield null;
                 yield conc.getDuplicata().getDocumento().getEmissor().getNome();
             }
-            case 3 -> conc.getExtrato().getConta().getAbreviacaoConta();
-            case 4 -> conc.getExtrato().getCategoriaExtrato();
-            case 5 -> conc.getExtrato().getDescricao();
-            case 6 -> conc.getExtrato().getValor();
-            case 7 -> conc.getDuplicata() != null ? conc.getDuplicata().getValor() : 0;
+            case 2 -> conc.getExtrato().getConta().getAbreviacaoConta();
+            case 3 -> conc.getExtrato().getCategoriaExtrato();
+            case 4 -> conc.getExtrato().getDescricao();
+            case 5 -> conc.getExtrato().getValor();
+            case 6 -> conc.getDuplicata() != null ? conc.getDuplicata().getValor() : 0;
             default -> throw new IllegalArgumentException("Unexpected value: " + columnIndex);
         };
     }
