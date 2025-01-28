@@ -11,7 +11,6 @@ import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
-import com.santacarolina.enums.TipoMovimento;
 import com.santacarolina.util.StringConversor;
 
 /**
@@ -21,9 +20,7 @@ public class ConciliacaoRenderer implements TableCellRenderer {
 
     private DefaultTableRenderer baseRenderer;
 
-    public ConciliacaoRenderer() {
-        baseRenderer = new DefaultTableRenderer();
-    }
+    public ConciliacaoRenderer() { baseRenderer = new DefaultTableRenderer(); }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
@@ -32,24 +29,14 @@ public class ConciliacaoRenderer implements TableCellRenderer {
         if (value == null) return c;
         switch (column) {
             case 0 -> {
-                TipoMovimento tipoMovimento = (TipoMovimento) value;
-                c.setText(tipoMovimento.getValue());
-                c.setHorizontalAlignment(SwingConstants.CENTER);
-            } 
-            case 1 -> {
                 LocalDate date = (LocalDate) value;
                 c.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 c.setHorizontalAlignment(SwingConstants.CENTER);
             }
+            case 1 -> c.setHorizontalAlignment(SwingConstants.CENTER);
             case 2 -> c.setHorizontalAlignment(SwingConstants.CENTER);
-            case 5 -> c.setText(StringConversor.getCurrency((double) value));
-            case 6 -> {
-                LocalDate data = (LocalDate) value;
-                c.setText(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-                c.setHorizontalAlignment(SwingConstants.CENTER);
-            } 
-            case 7 -> c.setHorizontalAlignment(SwingConstants.CENTER);
-            case 9 -> c.setText(StringConversor.getCurrency((double) value));
+            case 6 -> c.setText(StringConversor.getCurrency((double) value));
+            case 7 -> c.setText(StringConversor.getCurrency((double) value));
         };
         return c;
     }
