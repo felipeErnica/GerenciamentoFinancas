@@ -26,7 +26,7 @@ public class FormController implements Controller {
     }
 
     private void loginButton_onClick() {
-        model.setPassword(view.getPasswordField().getPassword().toString());
+        model.setPassword(new String(view.getPasswordField().getPassword()));
         model.setUsername(view.getUsernameField().getText());
 
         if (!LoginValidator.validate(model)) return;
