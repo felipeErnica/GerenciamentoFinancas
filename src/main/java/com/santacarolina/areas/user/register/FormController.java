@@ -3,10 +3,12 @@ package com.santacarolina.areas.user.register;
 import com.santacarolina.dao.UserDAO;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.exceptions.SaveFailException;
+import com.santacarolina.interfaces.Controller;
 import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.OptionDialog;
+import com.santacarolina.util.ViewInvoker;
 
-public class FormController {
+public class FormController implements Controller {
 
     private FormView view;
     private FormModel model;
@@ -35,6 +37,9 @@ public class FormController {
             CustomErrorThrower.throwError(e);
         }
     }
+
+    @Override
+    public void showView() { ViewInvoker.showView(view.getDialog()); }
 
     
 }

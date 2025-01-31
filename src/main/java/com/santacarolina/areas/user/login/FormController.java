@@ -1,6 +1,8 @@
 package com.santacarolina.areas.user.login;
 
+import java.awt.EventQueue;
 import com.santacarolina.areas.mainFrame.mainPage.MainFrame;
+import com.santacarolina.areas.user.register.RegisterForm;
 import com.santacarolina.dao.UserDAO;
 import com.santacarolina.exceptions.AuthenticationException;
 import com.santacarolina.exceptions.FetchFailException;
@@ -23,6 +25,13 @@ public class FormController implements Controller {
 
     private void init() {
         view.getLoginButton().addActionListener(e -> loginButton_onClick());
+        view.getCreateUserButton().addActionListener(e -> createUser_onClick());
+    }
+
+    private void createUser_onClick() {
+        EventQueue.invokeLater(() -> {
+            RegisterForm.open();
+        });       
     }
 
     private void loginButton_onClick() {
