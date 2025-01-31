@@ -19,7 +19,7 @@ import com.santacarolina.model.User;
 
 public class ApiAuthentication {
 
-    private static final Logger logger = LogManager.getLogger(ApiRequest.class);
+    private static final Logger logger = LogManager.getLogger();
 
     private final HttpClient client = HttpClient.newBuilder().build();
     private HttpResponse<String> response;
@@ -64,7 +64,7 @@ public class ApiAuthentication {
             .header("Content-Type", "application/json")
             .POST(bodyPublisher)
             .build();
-       response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         int statusCode = response.statusCode();
         logger.info("Register Response: " + statusCode + "\n");
