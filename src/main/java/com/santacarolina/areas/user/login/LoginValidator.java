@@ -1,4 +1,4 @@
-package com.santacarolina.areas.login;
+package com.santacarolina.areas.user.login;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,4 +1,4 @@
-package com.santacarolina.areas.login;
+package com.santacarolina.areas.user.register;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,22 +16,23 @@ public class FormView {
     private AddView addView;
     private JDialog dialog;
     private JPanel centerPanel;
-    private JButton loginButton;
+    private JButton regiserButton;
 
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
 
     public FormView() {
         addView = new AddView();
         dialog = addView.getDialog();
-        loginButton = addView.getAddButton();
+        regiserButton = addView.getAddButton();
         centerPanel = addView.getCenterPanel();
         init();
     }
 
     private void init() {
-        dialog.setTitle("Autenticação de usuário");
-        loginButton.setText("Entrar");
+        dialog.setTitle("Registro de usuário");
+        regiserButton.setText("Criar Usuário");
 
         JLabel usernameLabel = new JLabel("Nome de usuário: ");
         usernameField = new JTextField();
@@ -41,21 +42,28 @@ public class FormView {
         passwordField = new JPasswordField();
         passwordLabel.setLabelFor(passwordField);
 
+        JLabel confirmPasswordLabel = new JLabel("Confirmar senha: ");
+        confirmPasswordField = new JPasswordField();
+        confirmPasswordLabel.setLabelFor(confirmPasswordField);
+
         centerPanel.setLayout(new MigLayout("insets 15",
                 "[][grow, fill]",
-                "[][]"));
+                "[][][]"));
 
         centerPanel.add(usernameLabel);
         centerPanel.add(usernameField, "wrap");
         centerPanel.add(passwordLabel);
-        centerPanel.add(passwordField);
+        centerPanel.add(passwordField, "wrap");
+        centerPanel.add(confirmPasswordLabel);
+        centerPanel.add(confirmPasswordField);
     }
 
     public AddView getAddView() { return addView; }
     public JDialog getDialog() { return dialog; }
     public JPanel getCenterPanel() { return centerPanel; }
-    public JButton getLoginButton() { return loginButton; }
+    public JButton getRegiserButton() { return regiserButton; }
     public JTextField getUsernameField() { return usernameField; }
     public JPasswordField getPasswordField() { return passwordField; }
-
+    public JPasswordField getConfirmPasswordField() { return confirmPasswordField; }
+    
 }

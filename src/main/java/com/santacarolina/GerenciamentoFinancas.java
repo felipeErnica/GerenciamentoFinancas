@@ -8,7 +8,7 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import com.santacarolina.areas.login.LoginForm;
+import com.santacarolina.areas.user.login.LoginForm;
 
 public class GerenciamentoFinancas {
 

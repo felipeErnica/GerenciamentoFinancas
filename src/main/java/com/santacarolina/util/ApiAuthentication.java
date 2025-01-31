@@ -32,8 +32,8 @@ public class ApiAuthentication {
 
     public Optional<AuthToken> loginUser(User user) throws URISyntaxException, IOException, InterruptedException, AuthenticationException {
         String userJson = mapper.writeValueAsString(user);
-
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(userJson);
+
         HttpRequest request = HttpRequest.newBuilder()
             .uri(new URI(ApiRequest.URL_BACKEND + "/user/login"))
             .header("Content-Type", "application/json")
@@ -55,5 +55,33 @@ public class ApiAuthentication {
         }
     }
 
+    public void registerUser(User user) throws AuthenticationException, IOException, InterruptedException, URISyntaxException {
+        String userJson = mapper.writeValueAsString(user);
+        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(userJson);
+
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(ApiRequest.URL_BACKEND + "/user/register"))
+            .header("Content-Type", "application/json")
+            .POST(bodyPublisher)
+            .build();
+       response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        int statusCode = response.statusCode();
+        logger.info("Register Response: " + statusCode + "\n");
+
+        if (statusCode == 403) throw new AuthenticationException();
+    }
+
+    public Optional<User> getRequest(String username) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(ApiRequest.URL_BACKEND + "/user/username/" + username))
+            .header("Content-Type", "application/json")
+            .GET()
+            .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String json = response.body();
+        User user = mapper.readValue(json, User.class);
+        return Optional.ofNullable(user);
+    }
 
 }

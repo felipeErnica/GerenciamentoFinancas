@@ -1,7 +1,7 @@
-package com.santacarolina.areas.login;
+package com.santacarolina.areas.user.login;
 
 import com.santacarolina.areas.mainFrame.mainPage.MainFrame;
-import com.santacarolina.dao.AuthenticationDAO;
+import com.santacarolina.dao.UserDAO;
 import com.santacarolina.exceptions.AuthenticationException;
 import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Controller;
@@ -32,7 +32,7 @@ public class FormController implements Controller {
         if (!LoginValidator.validate(model)) return;
         
         try {
-            AuthToken authToken = new AuthenticationDAO().login(model.getUser()).get();
+            AuthToken authToken = new UserDAO().login(model.getUser()).get();
             ApiRequest.setAuthenticationToken(authToken.token());
             view.getDialog().dispose();
             MainFrame.open();

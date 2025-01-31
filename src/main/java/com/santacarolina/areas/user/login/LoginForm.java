@@ -1,4 +1,4 @@
-package com.santacarolina.areas.login;
+package com.santacarolina.areas.user.login;
 
 public class LoginForm {
 
