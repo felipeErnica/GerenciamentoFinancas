@@ -23,7 +23,12 @@ public class ApiAuthentication {
 
     private final HttpClient client = HttpClient.newBuilder().build();
     private HttpResponse<String> response;
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper;
+
+    public ApiAuthentication() {
+        this.mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+    }
 
     public Optional<AuthToken> loginUser(User user) throws URISyntaxException, IOException, InterruptedException, AuthenticationException {
         String userJson = mapper.writeValueAsString(user);

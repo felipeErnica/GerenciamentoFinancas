@@ -42,7 +42,7 @@ public class FormView {
         passwordLabel.setLabelFor(passwordField);
 
         centerPanel.setLayout(new MigLayout("insets 15",
-                "[][]",
+                "[][grow, fill]",
                 "[][]"));
 
         centerPanel.add(usernameLabel);
