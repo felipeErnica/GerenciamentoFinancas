@@ -51,28 +51,11 @@ public class FormView {
         centerPanel.add(passwordField);
     }
 
-    public AddView getAddView() {
-        return addView;
-    }
-
-    public JDialog getDialog() {
-        return dialog;
-    }
-
-    public JPanel getCenterPanel() {
-        return centerPanel;
-    }
-
-    public JButton getLoginButton() {
-        return loginButton;
-    }
-
-    public JTextField getUsernameField() {
-        return usernameField;
-    }
-
-    public JPasswordField getPasswordField() {
-        return passwordField;
-    }
+    public AddView getAddView() { return addView; }
+    public JDialog getDialog() { return dialog; }
+    public JPanel getCenterPanel() { return centerPanel; }
+    public JButton getLoginButton() { return loginButton; }
+    public JTextField getUsernameField() { return usernameField; }
+    public JPasswordField getPasswordField() { return passwordField; }
 
 }

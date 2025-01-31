@@ -16,12 +16,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApiRequest<T> {
 
+    public static final String URL_BACKEND = "http://localhost:5005";
+
     private static String authenticationToken;
 
     private static final Logger logger = LogManager.getLogger(ApiRequest.class);
 
     private final ObjectMapper mapper;
-    private final String URL_BACKEND = "http://localhost:5005";
     private final HttpClient client = HttpClient.newBuilder().build();
     private HttpResponse<String> response;
     private HttpRequest.Builder requestBuilder = HttpRequest.newBuilder().header("Authorization", "Bearer " + authenticationToken);

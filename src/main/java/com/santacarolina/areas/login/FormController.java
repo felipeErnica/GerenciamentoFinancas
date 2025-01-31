@@ -1,7 +1,13 @@
 package com.santacarolina.areas.login;
 
-import com.github.weisj.jsvg.nodes.View;
+import com.santacarolina.areas.mainFrame.mainPage.MainFrame;
+import com.santacarolina.dao.AuthenticationDAO;
+import com.santacarolina.exceptions.AuthenticationException;
+import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.Controller;
+import com.santacarolina.model.AuthToken;
+import com.santacarolina.util.ApiRequest;
+import com.santacarolina.util.CustomErrorThrower;
 import com.santacarolina.util.ViewInvoker;
 
 public class FormController implements Controller {
@@ -22,7 +28,16 @@ public class FormController implements Controller {
     private void loginButton_onClick() {
         model.setPassword(view.getPasswordField().getPassword().toString());
         model.setUsername(view.getUsernameField().getText());
+
         if (!LoginValidator.validate(model)) return;
+        
+        try {
+            AuthToken authToken = new AuthenticationDAO().login(model.getUser()).get();
+            ApiRequest.setAuthenticationToken(authToken.token());
+            MainFrame.open();
+        } catch (FetchFailException | AuthenticationException e) {
+            CustomErrorThrower.throwError(e);
+        }
         
     }
 

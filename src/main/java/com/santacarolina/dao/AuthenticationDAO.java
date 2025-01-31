@@ -7,22 +7,22 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.santacarolina.exceptions.AuthenticationException;
 import com.santacarolina.exceptions.FetchFailException;
+import com.santacarolina.model.AuthToken;
 import com.santacarolina.model.User;
-import com.santacarolina.util.ApiRequest;
+import com.santacarolina.util.ApiAuthentication;
 
-public class UserDAO {
-    
+public class AuthenticationDAO {
+
     private Logger logger = LogManager.getLogger();
-    private ApiRequest<User> apiRequest = new ApiRequest<>(User.class);
+    private final ApiAuthentication authentication = new ApiAuthentication();
     
-    public Optional<User> findByUsername(String username) throws FetchFailException {
-        String query = "user/username/" + username;
+    public Optional<AuthToken> login(User user) throws FetchFailException, AuthenticationException {
         try {
-            return apiRequest.getRequest(query);
+            return authentication.loginUser(user);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new FetchFailException(e, logger);
-        }
+        } 
     }
-
 }

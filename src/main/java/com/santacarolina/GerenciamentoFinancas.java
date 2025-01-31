@@ -8,7 +8,7 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import com.santacarolina.areas.mainFrame.mainPage.MainFrame;
+import com.santacarolina.areas.login.LoginForm;
 
 public class GerenciamentoFinancas {
 
@@ -16,7 +16,7 @@ public class GerenciamentoFinancas {
 
     private void runApp() {
         setStyle();
-        new MainFrame();
+        LoginForm.open();
     }
 
     public static void setStyle() {
