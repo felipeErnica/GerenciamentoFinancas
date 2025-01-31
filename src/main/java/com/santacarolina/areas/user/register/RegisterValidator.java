@@ -17,7 +17,7 @@ public class RegisterValidator {
         } else if (StringUtils.isBlank(model.getUsername())) {
             ValidatorViolations.violateEmptyFields("nome de usuário");
             return false;
-        } else if (model.getPassword().equals(model.getConfirmPassword())) {
+        } else if (!model.getPassword().equals(model.getConfirmPassword())) {
             JOptionPane.showMessageDialog(null, 
                 "As senhas registradas não são iguais!", 
                 "ERRO - Senhas diferentes!", 
