@@ -36,6 +36,7 @@ public class ApiAuthentication {
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(userJson);
         HttpRequest request = HttpRequest.newBuilder()
             .uri(new URI(ApiRequest.URL_BACKEND + "/user/login"))
+            .header("Content-Type", "application/json")
             .POST(bodyPublisher)
             .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
