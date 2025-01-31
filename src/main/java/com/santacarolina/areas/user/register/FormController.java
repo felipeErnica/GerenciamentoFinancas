@@ -40,6 +40,5 @@ public class FormController implements Controller {
 
     @Override
     public void showView() { ViewInvoker.showView(view.getDialog()); }
-
     
 }
