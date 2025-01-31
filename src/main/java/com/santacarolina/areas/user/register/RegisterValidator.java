@@ -21,7 +21,7 @@ public class RegisterValidator {
             JOptionPane.showMessageDialog(null, 
                 "As senhas registradas não são iguais!", 
                 "ERRO - Senhas diferentes!", 
-                JOptionPane.ERROR
+                JOptionPane.ERROR_MESSAGE
             );
             return false;
         }
