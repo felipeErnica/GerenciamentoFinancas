@@ -56,6 +56,7 @@ public class ApiAuthentication {
     }
 
     public void registerUser(User user) throws AuthenticationException, IOException, InterruptedException, URISyntaxException {
+        System.out.println("nome :" + user.getUsername() + " senha: " + user.getPassword());
         String userJson = mapper.writeValueAsString(user);
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(userJson);
 
