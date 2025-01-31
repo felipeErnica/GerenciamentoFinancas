@@ -19,7 +19,7 @@ import com.santacarolina.model.User;
 
 public class ApiAuthentication {
 
-    private static final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger();
 
     private final HttpClient client = HttpClient.newBuilder().build();
     private HttpResponse<String> response;
@@ -81,8 +81,13 @@ public class ApiAuthentication {
             .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String json = response.body();
-        User user = mapper.readValue(json, User.class);
-        return Optional.ofNullable(user);
+
+        if (StringUtils.isBlank(json)) {
+            return Optional.empty();
+        } else {
+            User user = mapper.readValue(json, User.class);
+            return Optional.ofNullable(user);
+        }
     }
 
 }
