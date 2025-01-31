@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.santacarolina.ui.AddView;
+import com.santacarolina.util.AppIcon;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -42,10 +44,10 @@ public class FormView {
         passwordField = new JPasswordField();
         passwordLabel.setLabelFor(passwordField);
 
-        createUserButton = new JButton("Criar Novo Usuário");
+        createUserButton = new JButton("Criar Novo Usuário", AppIcon.paintIcon(new FlatSVGIcon("icon/add_icon.svg")));
 
         centerPanel.setLayout(new MigLayout("insets 15",
-                "[][grow, fill][]",
+                "[][grow, fill][fill]",
                 "[][]"));
 
         centerPanel.add(usernameLabel);
