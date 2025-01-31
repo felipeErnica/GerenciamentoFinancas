@@ -43,7 +43,7 @@ public class ApiAuthentication {
         String tokenJson = response.body();
 
         int statusCode = response.statusCode();
-        logger.info("Resposta Autenticação: " + statusCode + "\n");
+        logger.info("Authentication Response: " + statusCode + "\n");
 
         if (statusCode == 403) throw new AuthenticationException();
 

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.santacarolina.dao.PastaDAO;
-import com.santacarolina.exceptions.FetchFailException;
 import com.santacarolina.interfaces.ViewUpdater;
 import com.santacarolina.model.PastaContabil;
 import com.santacarolina.model.ProdutoDuplicata;
@@ -39,10 +37,6 @@ public class FormModel implements ViewUpdater {
         dataFim = LocalDate.of(dataHoje.getYear(), dataHoje.getMonth().plus(1), 1).minusDays(1);
 
         this.listaSemFiltro = listaSemFiltro;
-        try {
-            mapaPasta = new PastaDAO().findAll().stream()
-                .collect(Collectors.toMap(pasta -> pasta.getId(), pasta -> pasta));
-        } catch (FetchFailException e) {}
         pf = new PropertyFirer(this);
     }
 
@@ -76,7 +70,11 @@ public class FormModel implements ViewUpdater {
         }
     }
 
-    public void setMapaPasta(Map<Long, PastaContabil> listaPasta) { this.mapaPasta = listaPasta; }
+    public void setMapaPasta(List<PastaContabil> listaPasta) {
+        mapaPasta = listaPasta.stream()
+            .collect(Collectors.toMap(pasta -> pasta.getId(), pasta -> pasta));
+    }
+
     public void setCaminho(String caminho) { this.caminho = caminho; }
 
     public void selecionaCaminho(String caminho) {

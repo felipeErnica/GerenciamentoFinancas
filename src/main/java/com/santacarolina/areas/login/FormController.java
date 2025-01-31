@@ -34,6 +34,7 @@ public class FormController implements Controller {
         try {
             AuthToken authToken = new AuthenticationDAO().login(model.getUser()).get();
             ApiRequest.setAuthenticationToken(authToken.token());
+            view.getDialog().dispose();
             MainFrame.open();
         } catch (FetchFailException | AuthenticationException e) {
             CustomErrorThrower.throwError(e);
