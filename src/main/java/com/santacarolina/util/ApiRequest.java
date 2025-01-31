@@ -16,13 +16,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApiRequest<T> {
 
+    private static String authenticationToken;
+
     private static final Logger logger = LogManager.getLogger(ApiRequest.class);
 
     private final ObjectMapper mapper;
     private final String URL_BACKEND = "http://localhost:5005";
     private final HttpClient client = HttpClient.newBuilder().build();
     private HttpResponse<String> response;
-    private HttpRequest request;
+    private HttpRequest.Builder requestBuilder = HttpRequest.newBuilder().header("Authorization", "Bearer " + authenticationToken);
     private Class<T> tClass;
 
     public ApiRequest(Class<T> tClass) {
@@ -32,9 +34,8 @@ public class ApiRequest<T> {
     }
 
     public Optional<T> getRequest(String queryString) throws URISyntaxException, IOException, InterruptedException {
-        logger.info("Enviando query: " + URL_BACKEND + queryString);
-        request = HttpRequest.newBuilder()
-                .uri(new URI(URL_BACKEND + queryString))
+        logger.info("Enviando query: " + URL_BACKEND + queryString + "\n");
+        HttpRequest request = requestBuilder.uri(new URI(URL_BACKEND + queryString))
                 .GET()
                 .build();
 
@@ -42,7 +43,7 @@ public class ApiRequest<T> {
         if (response.statusCode() != 200 && response.statusCode() != 404)
             throw new InterruptedException("Server Error: " + response.statusCode());
         String json = response.body();
-        logger.info("Response: " + response.statusCode());
+        logger.info("Response: " + response.statusCode() + "\n");
         if (json.isEmpty())
             return Optional.empty();
         else
@@ -50,43 +51,42 @@ public class ApiRequest<T> {
     }
 
     public List<T> getListRequest(String queryString) throws URISyntaxException, IOException, InterruptedException {
-        logger.info("Enviando query: " + URL_BACKEND + queryString);
-        request = HttpRequest.newBuilder()
-                .uri(new URI(URL_BACKEND + queryString))
+        logger.info("Enviando query: " + URL_BACKEND + queryString + "\n");
+        HttpRequest request = requestBuilder.uri(new URI(URL_BACKEND + queryString))
                 .GET()
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200 && response.statusCode() != 404) throw new InterruptedException("Server Error: " + response.statusCode());
         String json = response.body();
-        logger.info("Response: " + response.statusCode());
+        logger.info("Response: " + response.statusCode() + "\n");
         return mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, tClass));
     }
 
     public void postRequest(String queryString, T t) throws IOException, URISyntaxException, InterruptedException {
         String json = mapper.writeValueAsString(t);
-        logger.info("Enviando Objeto: " + json);
+        logger.info("Enviando query: " + URL_BACKEND + queryString + "\n");
+        logger.info("Enviando Objeto: " + json + "\n");
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(json);
-        request = HttpRequest.newBuilder()
-                .uri(new URI(URL_BACKEND + queryString))
+        HttpRequest request = requestBuilder.uri(new URI(URL_BACKEND + queryString))
                 .header("Content-Type", "application/json")
                 .POST(bodyPublisher)
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response POST: " + response.statusCode());
+        logger.info("Response POST: " + response.statusCode() + "\n");
     }
 
     public T postRequestWithResponse(String queryString, T t)
             throws InterruptedException, IOException, URISyntaxException {
         String json = mapper.writeValueAsString(t);
-        logger.info("Enviando Objeto: " + json);
+        logger.info("Enviando query: " + URL_BACKEND + queryString + "\n");
+        logger.info("Enviando Objeto: " + json + "\n");
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(json);
-        request = HttpRequest.newBuilder()
-                .uri(new URI(URL_BACKEND + queryString))
+        HttpRequest request = requestBuilder.uri(new URI(URL_BACKEND + queryString))
                 .header("Content-Type", "application/json")
                 .POST(bodyPublisher)
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response POST: " + response.statusCode());
+        logger.info("Response POST: " + response.statusCode() + "\n");
         if (response.statusCode() != 200)
             throw new InterruptedException("Server Error: " + response.statusCode());
         return mapper.readValue(response.body(), tClass);
@@ -95,29 +95,30 @@ public class ApiRequest<T> {
     public void postListRequest(String queryString, List<T> list)
             throws IOException, URISyntaxException, InterruptedException {
         String json = mapper.writeValueAsString(list);
-        logger.info("Enviando Batch: " + json);
+        logger.info("Enviando query: " + URL_BACKEND + queryString + "\n");
+        logger.info("Enviando Batch: " + json + "\n");
         HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(json);
-        request = HttpRequest.newBuilder()
-                .uri(new URI(URL_BACKEND + queryString))
+        HttpRequest request = requestBuilder.uri(new URI(URL_BACKEND + queryString))
                 .header("Content-Type", "application/json")
                 .POST(bodyPublisher)
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response Batch: " + response.statusCode());
+        logger.info("Response POST: " + response.statusCode() + "\n");
         if (response.statusCode() != 200)
             throw new InterruptedException("Server Error: " + response.statusCode());
     }
 
     public void deleteRequest(String query) throws URISyntaxException, IOException, InterruptedException {
-        logger.info("Delete Request: " + URL_BACKEND + query);
-        request = HttpRequest.newBuilder()
-                .uri(new URI(URL_BACKEND + query))
+        logger.info("Enviando query: " + URL_BACKEND + query + "\n");
+        HttpRequest request = requestBuilder.uri(new URI(URL_BACKEND + query))
                 .DELETE()
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.info("Response Delete: " + response.statusCode());
+        logger.info("Response Delete: " + response.statusCode() + "\n");
         if (response.statusCode() != 200)
             throw new InterruptedException("Server Error: " + response.statusCode());
     }
 
+    public static String getAuthenticationToken() { return authenticationToken; }
+    public static void setAuthenticationToken(String authenticationToken) { ApiRequest.authenticationToken = authenticationToken; }
 }
